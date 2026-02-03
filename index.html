@@ -6,7 +6,7 @@
 <title>Gokurakugai Discord Server</title>
 
 <style>
-:root {
+:root{
   --ink:#141414;
   --paper:#f5f1e8;
   --red:#8c1d18;
@@ -17,41 +17,43 @@
 *{box-sizing:border-box;font-family:"Segoe UI",system-ui,sans-serif}
 body{margin:0;background:var(--paper);color:#222}
 
-/* ===== HEADER ===== */
+/* HEADER */
 .header{
   position:relative;height:320px;
-  background:url("assets/images/header-bg.jpg") center/cover no-repeat;
+  background:url("assets/images/header-bg.jpg") center/cover no-repeat
 }
-.header::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.65)}
+.header::after{
+  content:"";position:absolute;inset:0;background:rgba(0,0,0,.65)
+}
 .header-content{
   position:relative;z-index:2;height:100%;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
   color:#fff;text-align:center
 }
-.header img{width:90px;margin-bottom:12px}
+.header img{width:90px;margin-bottom:10px}
 .header h1{
   font-size:2.2rem;letter-spacing:2px;
   border-bottom:2px solid var(--gold);padding-bottom:6px
 }
 
-/* ===== COUNTDOWN ===== */
+/* COUNTDOWN */
 .countdown{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:12px;padding:14px;background:#111;color:var(--gold);text-align:center
+  gap:12px;padding:16px;background:#111;color:var(--gold);text-align:center
 }
-.count-box{border:1px solid var(--gold);padding:8px}
-.count-box span{display:block;font-size:1.2rem;color:#fff;margin-top:4px}
+.count-box{border:1px solid var(--gold);padding:10px}
+.count-box span{display:block;font-size:1.25rem;color:#fff;margin-top:6px}
 
-/* ===== TABS ===== */
-.tabs{display:flex;flex-wrap:wrap;justify-content:center;background:var(--ink)}
+/* TABS */
+.tabs{display:flex;justify-content:center;flex-wrap:wrap;background:var(--ink)}
 .tab{
-  padding:12px 16px;cursor:pointer;color:#bbb;
+  padding:14px 18px;cursor:pointer;color:#bbb;
   border-bottom:3px solid transparent
 }
 .tab.active{color:var(--gold);border-color:var(--gold)}
 
-/* ===== SECTIONS ===== */
-.section{display:none;max-width:1100px;margin:auto;padding:34px 20px}
+/* SECTIONS */
+.section{display:none;max-width:1100px;margin:auto;padding:36px 20px}
 .section.active{display:block}
 .section h2{
   color:var(--red);border-left:5px solid var(--gold);
@@ -59,74 +61,73 @@ body{margin:0;background:var(--paper);color:#222}
 }
 .section h3{margin-top:24px}
 
-/* ===== ABOUT ===== */
+/* ABOUT */
 .split{display:grid;grid-template-columns:1fr;gap:36px}
 @media(min-width:900px){.split{grid-template-columns:1fr 1fr}}
 .series-image{
-  float:right;width:180px;margin:0 0 10px 20px;border:1px solid var(--gold)
+  float:right;width:180px;margin:0 0 12px 20px;
+  border:1px solid var(--gold)
 }
 
-/* ===== TABLE ===== */
+/* TABLE */
 table{width:100%;border-collapse:collapse;margin-top:12px}
 td{padding:8px;border-bottom:1px solid var(--line)}
 
-/* ===== SMALL LINK BUTTONS ===== */
-.link-buttons{display:grid;gap:6px;margin-top:10px}
+/* COMPACT LINK BUTTONS */
+.link-buttons{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:14px
+}
 .link-btn{
-  display:inline-block;
   padding:6px 10px;
-  font-size:.9rem;
+  font-size:.85rem;
   border:1px solid var(--gold);
   color:var(--red);
   text-decoration:none;
   background:transparent;
-  transition:.2s
+  transition:.25s
 }
-.link-btn:hover{background:rgba(201,162,77,.12)}
+.link-btn:hover{
+  background:rgba(201,162,77,.15);
+}
 
-/* ===== RULES ===== */
+/* RULES */
 .rule{
-  border:1px solid var(--line);padding:12px;margin-bottom:10px;
-  background:#fff;cursor:pointer
+  border:1px solid var(--line);
+  padding:12px;margin-bottom:10px;background:#fff;cursor:pointer
 }
 .rule p{display:none;margin-top:8px}
 .rule:hover{background:#f9f6ee}
 
-/* ===== STAFF ===== */
+/* STAFF */
 .staff-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px
 }
-.staff-grid .staff-card:nth-child(4){
-  grid-column:1 / span 1
-}
+.staff-grid .staff-card:nth-child(4),
 .staff-grid .staff-card:nth-child(5){
-  grid-column:2 / span 1
+  grid-column:span 1
 }
 @media(max-width:900px){
   .staff-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 }
-
 .staff-card{
-  position:relative;height:250px;
-  border:1px solid var(--gold);background:#fff;overflow:hidden
+  position:relative;height:260px;
+  border:1px solid var(--gold);
+  background:#fff;overflow:hidden
 }
 .staff-front{
   height:100%;display:flex;flex-direction:column;
   justify-content:center;align-items:center
 }
-.staff-front img{width:85px;border-radius:50%;margin-bottom:10px}
+.staff-front img{width:90px;border-radius:50%;margin-bottom:8px}
 .staff-overlay{
-  position:absolute;inset:0;
-  background:rgba(20,20,20,.96);color:#eee;
-  padding:14px;overflow-y:auto;
+  position:absolute;inset:0;background:rgba(20,20,20,.95);
+  color:#eee;padding:14px;overflow-y:auto;
   opacity:0;transition:.3s
 }
 .staff-overlay strong{color:var(--gold)}
 .staff-card:hover .staff-overlay{opacity:1}
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer{text-align:center;padding:20px;font-size:.8rem;color:#666}
 </style>
 </head>
@@ -179,12 +180,12 @@ as well as Discord’s Terms of Service and Guidelines.
 </p>
 
 <div class="link-buttons">
-<a class="link-btn" href="https://x.com/gokurakugainews" target="_blank">X (Twitter)</a>
+<a class="link-btn" href="https://x.com/gokurakugainews" target="_blank">X</a>
 <a class="link-btn" href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">Instagram</a>
 <a class="link-btn" href="https://www.threads.com/@gokurakugaiwiki" target="_blank">Threads</a>
 <a class="link-btn" href="https://bsky.app/profile/gokurakugai.bsky.social" target="_blank">Bluesky</a>
-<a class="link-btn" href="https://www.facebook.com/gokurakugai" target="_blank">Facebook Page</a>
-<a class="link-btn" href="https://www.facebook.com/groups/gokurakugai" target="_blank">Facebook Group</a>
+<a class="link-btn" href="https://www.facebook.com/gokurakugai" target="_blank">Facebook</a>
+<a class="link-btn" href="https://www.facebook.com/groups/gokurakugai" target="_blank">FB Group</a>
 <a class="link-btn" href="https://www.reddit.com/r/Saragi/" target="_blank">Reddit</a>
 </div>
 </div>
@@ -193,6 +194,7 @@ as well as Discord’s Terms of Service and Guidelines.
 <h2>About the Series</h2>
 <img src="assets/images/series-cover.jpg" class="series-image">
 
+<h3>Series Information</h3>
 <table>
 <tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
 <tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
@@ -211,13 +213,13 @@ All the while, the evil spirits who live in the shadows bring out a different si
 </em></p>
 
 <div class="link-buttons">
-<a class="link-btn" href="https://jumpsq.shueisha.co.jp/sqrise/2020winter/gokuraku.html" target="_blank">Jump SQ.RISE One-shot</a>
-<a class="link-btn" href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank">Jump SQ Official</a>
-<a class="link-btn" href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank">VIZ Media</a>
+<a class="link-btn" href="https://jumpsq.shueisha.co.jp/sqrise/2020winter/gokuraku.html" target="_blank">One-shot</a>
+<a class="link-btn" href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank">Jump SQ</a>
+<a class="link-btn" href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank">VIZ</a>
 <a class="link-btn" href="https://mangaplus.shueisha.co.jp/titles/100230" target="_blank">MANGA Plus</a>
-<a class="link-btn" href="https://www.instagram.com/yuto__sano" target="_blank">Yuto Sano Instagram</a>
+<a class="link-btn" href="https://www.instagram.com/yuto__sano" target="_blank">Yuto Sano IG</a>
 <a class="link-btn" href="https://x.com/Yuto___Sano" target="_blank">Yuto Sano X</a>
-<a class="link-btn" href="https://x.com/gokurakugaiinfo" target="_blank">Gokurakugai Info</a>
+<a class="link-btn" href="https://x.com/gokurakugaiinfo" target="_blank">Info</a>
 </div>
 </div>
 
@@ -240,12 +242,22 @@ All the while, the evil spirits who live in the shadows bring out a different si
 <div class="section" id="staff">
 <h2>About the Staff</h2>
 <div class="staff-grid">
-<!-- repeat staff-card 5x -->
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff1.jpg"><h4>Name 1</h4></div><div class="staff-overlay"><strong>Role</strong><p>Description</p></div></div>
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff2.jpg"><h4>Name 2</h4></div><div class="staff-overlay"><strong>Role</strong><p>Description</p></div></div>
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff3.jpg"><h4>Name 3</h4></div><div class="staff-overlay"><strong>Role</strong><p>Description</p></div></div>
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff4.jpg"><h4>Name 4</h4></div><div class="staff-overlay"><strong>Role</strong><p>Description</p></div></div>
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff5.jpg"><h4>Name 5</h4></div><div class="staff-overlay"><strong>Role</strong><p>Description</p></div></div>
+
+<div class="staff-card"><div class="staff-front"><img src="assets/images/staff1.jpg"><h4>Name 1</h4></div>
+<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
+
+<div class="staff-card"><div class="staff-front"><img src="assets/images/staff2.jpg"><h4>Name 2</h4></div>
+<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
+
+<div class="staff-card"><div class="staff-front"><img src="assets/images/staff3.jpg"><h4>Name 3</h4></div>
+<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
+
+<div class="staff-card"><div class="staff-front"><img src="assets/images/staff4.jpg"><h4>Name 4</h4></div>
+<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
+
+<div class="staff-card"><div class="staff-front"><img src="assets/images/staff5.jpg"><h4>Name 5</h4></div>
+<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
+
 </div>
 </div>
 
@@ -255,7 +267,7 @@ All the while, the evil spirits who live in the shadows bring out a different si
 <div class="link-buttons">
 <a class="link-btn" href="#">Discord</a>
 <a class="link-btn" href="#">Twitter</a>
-<a class="link-btn" href="#">Manga Platforms</a>
+<a class="link-btn" href="#">Manga</a>
 </div>
 </div>
 
@@ -263,23 +275,23 @@ All the while, the evil spirits who live in the shadows bring out a different si
 
 <script>
 /* Tabs */
-document.querySelectorAll(".tab").forEach(tab=>{
-  tab.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById(tab.dataset.tab).classList.add("active");
+    t.classList.add("active");
+    document.getElementById(t.dataset.tab).classList.add("active");
   };
 });
 
 /* Rules */
-const rulesList=document.getElementById("rulesList");
+const rl=document.getElementById("rulesList");
 for(let i=1;i<=20;i++){
-  const r=document.createElement("div");
-  r.className="rule";
-  r.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  r.onclick=()=>{const p=r.querySelector("p");p.style.display=p.style.display==="block"?"none":"block"};
-  rulesList.appendChild(r);
+  const d=document.createElement("div");
+  d.className="rule";
+  d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
+  d.onclick=()=>{const p=d.querySelector("p");p.style.display=p.style.display==="block"?"none":"block";}
+  rl.appendChild(d);
 }
 
 /* Countdown JST */
@@ -288,18 +300,20 @@ const events=[
   ["v6jp","2026-02-04T00:00:00+09:00"],
   ["v5en","2026-04-07T00:00:00+09:00"]
 ];
-setInterval(()=>{
+function tick(){
+  const now=new Date();
   events.forEach(e=>{
     const el=document.getElementById(e[0]);
-    const diff=new Date(e[1])-new Date();
+    const diff=new Date(e[1])-now;
     if(diff<=0){el.textContent="Released";return;}
-    const d=Math.floor(diff/86400000),
-          h=Math.floor(diff%86400000/3600000),
-          m=Math.floor(diff%3600000/60000),
-          s=Math.floor(diff%60000/1000);
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor(diff%86400000/3600000);
+    const m=Math.floor(diff%3600000/60000);
+    const s=Math.floor(diff%60000/1000);
     el.textContent=`${d}d ${h}h ${m}m ${s}s`;
   });
-},1000);
+}
+setInterval(tick,1000);tick();
 </script>
 
 </body>
