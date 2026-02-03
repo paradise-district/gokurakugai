@@ -2,210 +2,145 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Server Extended Rules</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Optional Google Font for Chinese-style elegance -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --ink-black: #1c1c1c;
-      --paper: #f5f1e8;
-      --vermillion: #9b1c1c;
-      --gold: #c9a24d;
-      --shadow: rgba(0, 0, 0, 0.15);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Noto Serif SC", serif;
-      background: linear-gradient(180deg, #efe9dd, #e5dccb);
-      color: var(--ink-black);
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 40px;
-      background: var(--paper);
-      border: 2px solid var(--gold);
-      box-shadow: 0 20px 40px var(--shadow);
-    }
-
-    /* Header */
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-      border-bottom: 2px solid var(--gold);
-      padding-bottom: 20px;
-    }
-
-    .header h1 {
-      font-size: 2.6rem;
-      letter-spacing: 2px;
-      color: var(--vermillion);
-      margin: 0;
-    }
-
-    .header p {
-      margin-top: 10px;
-      font-size: 0.95rem;
-      opacity: 0.8;
-    }
-
-    /* Rules */
-    .rules {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .rule {
-      border: 1px solid #ddd3b8;
-      background: #fbf8f1;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .rule:hover {
-      border-color: var(--gold);
-      box-shadow: 0 8px 18px var(--shadow);
-    }
-
-    .rule-header {
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      font-size: 1.05rem;
-    }
-
-    .rule-header span {
-      color: var(--vermillion);
-    }
-
-    .rule-content {
-      max-height: 0;
-      padding: 0 20px;
-      overflow: hidden;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-
-    .rule.active .rule-content {
-      max-height: 300px;
-      padding: 16px 20px 20px;
-      opacity: 1;
-    }
-
-    .rule-icon {
-      font-size: 1.2rem;
-      transition: transform 0.3s ease;
-    }
-
-    .rule.active .rule-icon {
-      transform: rotate(90deg);
-    }
-
-    /* Footer */
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.85rem;
-      opacity: 0.7;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .container {
-        margin: 20px;
-        padding: 25px;
-      }
-
-      .header h1 {
-        font-size: 2rem;
-      }
-    }
-  </style>
+  <title>Gokurakugai Discord Server</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>服务器扩展规则</h1>
-      <p>Extended Server Rules · 请仔细阅读</p>
-    </div>
 
-    <div class="rules">
-      <!-- RULE TEMPLATE -->
-      <!-- Duplicate and edit content freely -->
+<!-- HEADER -->
+<header class="hero">
+  <img src="assets/images/header.jpg" class="hero-bg" alt="">
+  <div class="hero-overlay"></div>
 
-      <div class="rule">
-        <div class="rule-header">
-          <span>Rule #1</span>
-          <div class="rule-icon">▶</div>
-        </div>
-        <div class="rule-content">
-          Respect all members. Harassment, discrimination, or targeted hostility is not tolerated.
-        </div>
-      </div>
+  <div class="hero-content">
+    <img src="assets/images/logo.png" class="logo" alt="Server Logo">
+    <h1>Gokurakugai Discord Server</h1>
+    <p>極楽街 • Paradise District</p>
+  </div>
+</header>
 
-      <div class="rule">
-        <div class="rule-header">
-          <span>Rule #2</span>
-          <div class="rule-icon">▶</div>
-        </div>
-        <div class="rule-content">
-          No NSFW, explicit, or disturbing content outside designated channels.
-        </div>
-      </div>
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab active" data-tab="about">About</button>
+  <button class="tab" data-tab="rules">Rules</button>
+  <button class="tab" data-tab="info">Server Info</button>
+  <button class="tab" data-tab="staff">Staff</button>
+  <button class="tab" data-tab="links">Community</button>
+</nav>
 
-      <div class="rule">
-        <div class="rule-header">
-          <span>Rule #3</span>
-          <div class="rule-icon">▶</div>
-        </div>
-        <div class="rule-content">
-          Do not spam messages, emojis, mentions, or links.
-        </div>
-      </div>
+<!-- CONTENT -->
+<main>
 
-      <!-- Continue up to Rule #20 -->
-      <!-- You can copy-paste this block and just change numbers & text -->
+<!-- ABOUT -->
+<section class="tab-content active" id="about">
 
-      <!-- Example filler -->
-      <div class="rule">
-        <div class="rule-header">
-          <span>Rule #20</span>
-          <div class="rule-icon">▶</div>
-        </div>
-        <div class="rule-content">
-          Staff decisions are final. If you have concerns, appeal respectfully via proper channels.
-        </div>
-      </div>
-    </div>
+  <div class="banner">About Our Server</div>
 
-    <div class="footer">
-      © Your Discord Server · Rules last updated 2026
+  <p>
+    We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga
+    written and illustrated by <strong>Yuto Sano</strong>.
+    Originally introduced as a one-shot titled
+    <strong>Gokurakugai Sanbandori No Ken</strong> in
+    <em>Jump SQ.RISE Winter 2020</em>, the series officially began serialization on July 4, 2022.
+  </p>
+
+  <p>
+    By joining our Discord server, you agree to our server rules and Discord’s Terms of Service.
+  </p>
+
+  <div class="links">
+    <a href="https://x.com/gokurakugainews">Twitter</a>
+    <a href="https://www.instagram.com/gokurakugaiwiki/">Instagram</a>
+    <a href="https://www.reddit.com/r/Saragi/">Reddit</a>
+  </div>
+
+  <div class="banner">Series Information</div>
+
+  <div class="series-box">
+    <img src="assets/images/gokurakugai-cover.jpg" class="series-thumb">
+
+    <div>
+      <pre>
+Title:        Gokurakugai (極楽街)
+Magazine:     Jump SQ. Rise
+Publisher:    SHUEISHA
+Schedule:     Monthly
+Original Run: Jan 27, 2020 (One-shot)
+              July 4, 2022 (Official)
+      </pre>
+
+      <p class="synopsis">
+        <em>
+        A bright working-class district hides a darker truth. Tao and Alma work as troubleshooters,
+        dealing with disappearances, twisted creatures, and spirits lurking in the shadows.
+        </em>
+      </p>
     </div>
   </div>
 
-  <script>
-    document.querySelectorAll(".rule").forEach(rule => {
-      rule.addEventListener("click", () => {
-        rule.classList.toggle("active");
-      });
-    });
-  </script>
+</section>
+
+<!-- RULES -->
+<section class="tab-content" id="rules">
+
+  <div class="banner">Server Rules</div>
+
+  <div class="rules">
+    <!-- Repeat up to 20 -->
+    <div class="rule">
+      <h3>Rule 1</h3>
+      <p>Be respectful to all members.</p>
+    </div>
+    <div class="rule">
+      <h3>Rule 2</h3>
+      <p>No harassment, hate speech, or threats.</p>
+    </div>
+    <div class="rule">
+      <h3>Rule 3</h3>
+      <p>No spoilers without proper tags.</p>
+    </div>
+    <!-- add Rule 4–20 -->
+  </div>
+
+</section>
+
+<!-- SERVER INFO -->
+<section class="tab-content" id="info">
+
+  <div class="banner">Release Countdown</div>
+
+  <div class="countdown-grid">
+    <div class="countdown-card">
+      <img src="assets/images/chapter-cover.jpg">
+      <span>Next Chapter</span>
+    </div>
+    <div class="countdown-card">
+      <img src="assets/images/volume-cover.jpg">
+      <span>Next Volume</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- STAFF -->
+<section class="tab-content" id="staff">
+  <div class="banner">Staff Team</div>
+  <p>Admins, moderators, and contributors.</p>
+</section>
+
+<!-- COMMUNITY -->
+<section class="tab-content" id="links">
+  <div class="banner">Community Links</div>
+  <div class="links">
+    <a href="#">Discord</a>
+    <a href="#">Wiki</a>
+    <a href="#">MangaPlus</a>
+  </div>
+</section>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
