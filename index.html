@@ -2,198 +2,207 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Discord Server Extended Rules</title>
+  <title>Server Extended Rules</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Optional Google Font for Chinese-style elegance -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* --------------------
-       Base Theme
-    -------------------- */
     :root {
-      --ink-red: #8b1e1e;
-      --dark-red: #5a1212;
-      --paper: #f6f1e7;
-      --ink-black: #1a1a1a;
-      --border-gold: #c9a44c;
+      --ink-black: #1c1c1c;
+      --paper: #f5f1e8;
+      --vermillion: #9b1c1c;
+      --gold: #c9a24d;
+      --shadow: rgba(0, 0, 0, 0.15);
     }
 
     * {
       box-sizing: border-box;
-      font-family: "Noto Serif", "Times New Roman", serif;
     }
 
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #faf7f0, #eae2d3);
+      padding: 0;
+      font-family: "Noto Serif SC", serif;
+      background: linear-gradient(180deg, #efe9dd, #e5dccb);
       color: var(--ink-black);
-      display: flex;
-      justify-content: center;
-      padding: 60px 20px;
     }
 
     .container {
-      width: 100%;
-      max-width: 820px;
-      background: var(--paper);
-      border: 2px solid var(--border-gold);
+      max-width: 900px;
+      margin: 60px auto;
       padding: 40px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      background: var(--paper);
+      border: 2px solid var(--gold);
+      box-shadow: 0 20px 40px var(--shadow);
     }
 
-    /* --------------------
-       Header
-    -------------------- */
-    header {
+    /* Header */
+    .header {
       text-align: center;
       margin-bottom: 40px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 20px;
     }
 
-    header h1 {
-      margin: 0;
-      color: var(--ink-red);
-      font-size: 2.5rem;
+    .header h1 {
+      font-size: 2.6rem;
       letter-spacing: 2px;
+      color: var(--vermillion);
+      margin: 0;
     }
 
-    header p {
+    .header p {
       margin-top: 10px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       opacity: 0.8;
     }
 
-    /* --------------------
-       Rules
-    -------------------- */
+    /* Rules */
+    .rules {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
     .rule {
-      border-top: 1px solid rgba(0,0,0,0.15);
-    }
-
-    .rule:last-child {
-      border-bottom: 1px solid rgba(0,0,0,0.15);
-    }
-
-    .rule-title {
+      border: 1px solid #ddd3b8;
+      background: #fbf8f1;
+      transition: all 0.25s ease;
       cursor: pointer;
-      padding: 18px 10px;
+      overflow: hidden;
+    }
+
+    .rule:hover {
+      border-color: var(--gold);
+      box-shadow: 0 8px 18px var(--shadow);
+    }
+
+    .rule-header {
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.3s ease;
+      font-weight: 600;
+      font-size: 1.05rem;
     }
 
-    .rule-title:hover {
-      background: rgba(139, 30, 30, 0.05);
-    }
-
-    .rule-title span {
-      font-weight: bold;
-      color: var(--ink-red);
-    }
-
-    .rule-title .icon {
-      font-size: 1.2rem;
-      transition: transform 0.3s ease;
+    .rule-header span {
+      color: var(--vermillion);
     }
 
     .rule-content {
       max-height: 0;
+      padding: 0 20px;
       overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.3s ease;
-      padding: 0 10px;
       font-size: 0.95rem;
       line-height: 1.6;
+      opacity: 0;
+      transition: all 0.3s ease;
     }
 
     .rule.active .rule-content {
       max-height: 300px;
-      padding: 10px 10px 20px;
+      padding: 16px 20px 20px;
+      opacity: 1;
     }
 
-    .rule.active .icon {
-      transform: rotate(45deg);
+    .rule-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
     }
 
-    /* --------------------
-       Footer
-    -------------------- */
-    footer {
+    .rule.active .rule-icon {
+      transform: rotate(90deg);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 40px;
       text-align: center;
-      margin-top: 30px;
       font-size: 0.85rem;
       opacity: 0.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 25px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <header>
-      <h1>Extended Server Rules</h1>
-      <p>Read carefully. Harmony is mandatory.</p>
-    </header>
-
-    <!-- Rules -->
-    <div id="rules">
-
-      <!-- Repeatable Rule Block -->
-      <!-- Rule 1 -->
-      <div class="rule">
-        <div class="rule-title">
-          <span>Rule #1 — Respect All Members</span>
-          <div class="icon">＋</div>
-        </div>
-        <div class="rule-content">
-          Treat everyone with respect. Harassment, hate speech, or targeted abuse is not tolerated under any circumstance.
-        </div>
-      </div>
-
-      <!-- Rule 2 -->
-      <div class="rule">
-        <div class="rule-title">
-          <span>Rule #2 — No NSFW Content</span>
-          <div class="icon">＋</div>
-        </div>
-        <div class="rule-content">
-          Keep all content safe for work. This includes images, links, text, usernames, and profile pictures.
-        </div>
-      </div>
-
-      <!-- Rule 3 -->
-      <div class="rule">
-        <div class="rule-title">
-          <span>Rule #3 — Follow Discord TOS</span>
-          <div class="icon">＋</div>
-        </div>
-        <div class="rule-content">
-          Any behavior that violates Discord’s Terms of Service or Community Guidelines is strictly forbidden.
-        </div>
-      </div>
-
-      <!-- Duplicate up to Rule 20 -->
-      <!-- Example template -->
-      <!--
-      <div class="rule">
-        <div class="rule-title">
-          <span>Rule #X — Title Here</span>
-          <div class="icon">＋</div>
-        </div>
-        <div class="rule-content">
-          Rule explanation here.
-        </div>
-      </div>
-      -->
-
+    <div class="header">
+      <h1>服务器扩展规则</h1>
+      <p>Extended Server Rules · 请仔细阅读</p>
     </div>
 
-    <footer>
-      © Your Discord Server — Order, Balance, Respect
-    </footer>
+    <div class="rules">
+      <!-- RULE TEMPLATE -->
+      <!-- Duplicate and edit content freely -->
+
+      <div class="rule">
+        <div class="rule-header">
+          <span>Rule #1</span>
+          <div class="rule-icon">▶</div>
+        </div>
+        <div class="rule-content">
+          Respect all members. Harassment, discrimination, or targeted hostility is not tolerated.
+        </div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-header">
+          <span>Rule #2</span>
+          <div class="rule-icon">▶</div>
+        </div>
+        <div class="rule-content">
+          No NSFW, explicit, or disturbing content outside designated channels.
+        </div>
+      </div>
+
+      <div class="rule">
+        <div class="rule-header">
+          <span>Rule #3</span>
+          <div class="rule-icon">▶</div>
+        </div>
+        <div class="rule-content">
+          Do not spam messages, emojis, mentions, or links.
+        </div>
+      </div>
+
+      <!-- Continue up to Rule #20 -->
+      <!-- You can copy-paste this block and just change numbers & text -->
+
+      <!-- Example filler -->
+      <div class="rule">
+        <div class="rule-header">
+          <span>Rule #20</span>
+          <div class="rule-icon">▶</div>
+        </div>
+        <div class="rule-content">
+          Staff decisions are final. If you have concerns, appeal respectfully via proper channels.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      © Your Discord Server · Rules last updated 2026
+    </div>
   </div>
 
   <script>
-    const rules = document.querySelectorAll(".rule");
-
-    rules.forEach(rule => {
-      rule.querySelector(".rule-title").addEventListener("click", () => {
+    document.querySelectorAll(".rule").forEach(rule => {
+      rule.addEventListener("click", () => {
         rule.classList.toggle("active");
       });
     });
