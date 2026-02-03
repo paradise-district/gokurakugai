@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Gokurakugai Discord Server</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* =======================
+/* =========================
    GLOBAL THEME
-======================= */
+========================= */
 :root {
-  --bg-main: #0f0f12;
-  --bg-panel: #16161b;
-  --accent: #c0392b;
-  --accent-soft: #8e2b1f;
-  --gold: #d4af37;
-  --text-main: #eaeaea;
-  --text-muted: #b0b0b0;
-  --border-ornate: rgba(212,175,55,0.4);
+  --ink: #0f0f0f;
+  --paper: #f7f4ee;
+  --crimson: #8c1d18;
+  --gold: #c9a24d;
+  --jade: #2f6f64;
+  --border: rgba(201,162,77,0.4);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: "Segoe UI", "Noto Serif SC", serif;
-  background: var(--bg-main);
-  color: var(--text-main);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Noto Serif", "Songti SC", serif;
+  line-height: 1.6;
 }
 
-/* =======================
+/* =========================
    HEADER
-======================= */
+========================= */
 .header {
   position: relative;
-  height: 280px;
-  background: url("assets/header-bg.jpg") center / cover no-repeat;
+  height: 320px;
+  background: url("assets/header-bg.jpg") center/cover no-repeat;
 }
 
 .header::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.6);
 }
 
 .header-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   height: 100%;
   display: flex;
   align-items: center;
@@ -54,133 +57,163 @@ body {
 }
 
 .header-content img {
-  height: 90px;
+  width: 110px;
+  height: 110px;
 }
 
-.header-content h1 {
-  font-size: 2.5rem;
+.header-title {
+  font-size: 2.6rem;
   letter-spacing: 2px;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 6px;
 }
 
-/* =======================
-   COUNTDOWN BAR
-======================= */
-.countdown-bar {
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--border-ornate);
-  padding: 10px;
+/* =========================
+   COUNTDOWN STRIP
+========================= */
+.countdown-strip {
   display: flex;
+  gap: 14px;
+  padding: 16px;
   justify-content: center;
-  gap: 20px;
+  background: #141414;
+  border-bottom: 1px solid var(--border);
 }
 
-.release-item {
+.countdown-item {
   position: relative;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
   cursor: pointer;
-  color: var(--gold);
 }
 
-.release-item img {
-  display: none;
+.countdown-item:hover img {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.countdown-item img {
   position: absolute;
-  top: 30px;
+  top: 110%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  border: 1px solid var(--border-ornate);
+  transform: translate(-50%, 10px);
+  width: 140px;
+  opacity: 0;
+  transition: 0.3s;
+  border: 1px solid var(--gold);
 }
 
-.release-item:hover img {
-  display: block;
-}
-
-/* =======================
+/* =========================
    TABS
-======================= */
+========================= */
 .tabs {
   display: flex;
   justify-content: center;
-  background: #111;
-  border-bottom: 1px solid var(--border-ornate);
+  gap: 18px;
+  padding: 18px;
+  background: #101010;
 }
 
 .tab {
-  padding: 14px 22px;
   cursor: pointer;
-  color: var(--text-muted);
+  padding: 6px 14px;
+  border-bottom: 2px solid transparent;
 }
 
 .tab.active {
+  border-color: var(--gold);
   color: var(--gold);
-  border-bottom: 2px solid var(--gold);
 }
 
-/* =======================
-   CONTENT
-======================= */
-.content {
+.section {
   display: none;
   padding: 40px;
 }
 
-.content.active {
+.section.active {
   display: block;
 }
 
-.section-banner {
-  border-left: 5px solid var(--gold);
-  padding-left: 15px;
+/* =========================
+   BANNERS
+========================= */
+.banner {
   margin-bottom: 20px;
+  padding: 12px 18px;
+  border-left: 4px solid var(--gold);
+  background: rgba(201,162,77,0.08);
+  font-size: 1.4rem;
 }
 
-/* =======================
-   ABOUT SERIES
-======================= */
-.series-wrapper {
-  display: flex;
-  gap: 30px;
+/* =========================
+   ABOUT SPLIT
+========================= */
+.about-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.links a {
+  display: inline-block;
+  margin-right: 14px;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   SERIES INFO
+========================= */
+.series-box {
+  position: relative;
 }
 
 .series-thumb {
-  width: 220px;
   float: right;
-  border: 1px solid var(--border-ornate);
+  width: 180px;
+  margin-left: 20px;
+  border: 1px solid var(--gold);
 }
 
-.info-table {
-  border-collapse: collapse;
+table {
   width: 100%;
+  border-collapse: collapse;
   margin: 20px 0;
 }
 
-.info-table td {
-  border: 1px solid var(--border-ornate);
-  padding: 8px 12px;
+td {
+  border-bottom: 1px solid var(--border);
+  padding: 8px;
 }
 
-/* =======================
+/* =========================
    RULES
-======================= */
+========================= */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+  gap: 12px;
+}
+
 .rule {
-  border: 1px solid var(--border-ornate);
-  padding: 12px;
-  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  padding: 10px;
   cursor: pointer;
 }
 
 .rule-content {
   display: none;
   margin-top: 8px;
-  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
-.rule.open .rule-content {
-  display: block;
-}
-
-/* =======================
+/* =========================
    STAFF
-======================= */
+========================= */
 .staff-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
@@ -188,33 +221,25 @@ body {
 }
 
 .staff-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-ornate);
-  padding: 15px;
+  border: 1px solid var(--border);
+  padding: 16px;
   text-align: center;
-  transition: transform 0.2s;
-}
-
-.staff-card:hover {
-  transform: translateY(-5px);
 }
 
 .staff-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 
-/* =======================
-   LINKS
-======================= */
-a {
+/* =========================
+   COMMUNITY
+========================= */
+.community-links a {
+  display: block;
+  margin-bottom: 10px;
   color: var(--gold);
   text-decoration: none;
-}
-
-a:hover {
-  color: var(--accent);
 }
 </style>
 </head>
@@ -224,42 +249,58 @@ a:hover {
 <!-- HEADER -->
 <div class="header">
   <div class="header-content">
-    <img src="assets/logo.png" alt="Server Logo">
-    <h1>Gokurakugai Discord Server</h1>
+    <img src="assets/server-logo.png" alt="Server Logo">
+    <div class="header-title">Gokurakugai Discord Server</div>
   </div>
 </div>
 
 <!-- COUNTDOWN -->
-<div class="countdown-bar">
-  <div class="release-item">
-    Chapter Release (JP)
-    <img src="assets/covers/chapter.jpg">
+<div class="countdown-strip">
+  <div class="countdown-item">
+    Chapter (JP)
+    <img src="assets/chapter-jp.jpg">
   </div>
-  <div class="release-item">
-    Volume Release (EN)
-    <img src="assets/covers/volume.jpg">
+  <div class="countdown-item">
+    Chapter (EN)
+    <img src="assets/chapter-en.jpg">
+  </div>
+  <div class="countdown-item">
+    Volume Release
+    <img src="assets/volume.jpg">
   </div>
 </div>
 
 <!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="openTab(0)">About Our Server</div>
-  <div class="tab" onclick="openTab(1)">Server Rules</div>
-  <div class="tab" onclick="openTab(2)">Server Info</div>
-  <div class="tab" onclick="openTab(3)">About the Staff</div>
-  <div class="tab" onclick="openTab(4)">Community Links</div>
+  <div class="tab active" data-tab="about">About</div>
+  <div class="tab" data-tab="rules">Rules</div>
+  <div class="tab" data-tab="info">Server Info</div>
+  <div class="tab" data-tab="staff">Staff</div>
+  <div class="tab" data-tab="community">Community</div>
 </div>
 
 <!-- ABOUT -->
-<div class="content active">
-  <div class="section-banner"><h2>About Our Server</h2></div>
-  <p>PASTE PROVIDED SERVER DESCRIPTION TEXT HERE (DO NOT EDIT)</p>
+<div class="section active" id="about">
+  <div class="about-split">
 
-  <div class="section-banner"><h2>About the Series</h2></div>
-
-  <div class="series-wrapper">
     <div>
-      <table class="info-table">
+      <div class="banner">About Our Server</div>
+      <p>
+        <!-- PASTE EXACT SERVER DESCRIPTION HERE -->
+      </p>
+
+      <div class="links">
+        <!-- OFFICIAL SERVER LINKS -->
+        <a href="#">Discord Invite</a>
+        <a href="#">Twitter</a>
+      </div>
+    </div>
+
+    <div class="series-box">
+      <div class="banner">About the Series</div>
+      <img class="series-thumb" src="assets/series-cover.jpg">
+
+      <table>
         <tr><td>Title</td><td></td></tr>
         <tr><td>Magazine</td><td></td></tr>
         <tr><td>Publisher</td><td></td></tr>
@@ -267,60 +308,78 @@ a:hover {
         <tr><td>Original Run</td><td></td></tr>
       </table>
 
-      <p>Gokurakugai, a bright and bustling working class district with a hidden dark side. In this area without order, Tao and Alma work as troubleshooters for hire. Their missions involve helping a young boy find his lost friend, a person who dissapears without a trace, and disfigured animal corpses. All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!</p>
+      <p>
+        <!-- OFFICIAL SYNOPSIS (UNCHANGED) -->
+      </p>
+
+      <div class="links">
+        <a href="#">Official Site</a>
+        <a href="#">Publisher</a>
+      </div>
     </div>
 
-    <img class="series-thumb" src="assets/series-cover.jpg">
   </div>
 </div>
 
 <!-- RULES -->
-<div class="content">
-  <h2>Server Rules</h2>
-  <!-- Repeat up to 20 -->
-  <div class="rule" onclick="this.classList.toggle('open')">
-    <strong>Rule #1</strong>
-    <div class="rule-content">Full rule text here</div>
-  </div>
-</div>
-
-<!-- INFO -->
-<div class="content">
-  <h2>Server Info</h2>
-  <p>Placeholder section.</p>
-</div>
-
-<!-- STAFF -->
-<div class="content">
-  <h2>About the Staff</h2>
-  <div class="staff-grid">
-    <div class="staff-card">
-      <img src="assets/staff/example.jpg">
-      <h3>Name</h3>
-      <p>Role</p>
-      <p>Short description</p>
+<div class="section" id="rules">
+  <div class="banner">Server Rules</div>
+  <div class="rules-grid">
+    <!-- DUPLICATE UP TO 20 -->
+    <div class="rule">
+      Rule #1
+      <div class="rule-content">Full rule text here.</div>
     </div>
   </div>
 </div>
 
-<!-- LINKS -->
-<div class="content">
-  <h2>Community Links</h2>
-  <ul>
-    <li><a href="#">Discord</a></li>
-    <li><a href="#">Official Website</a></li>
-  </ul>
+<!-- INFO -->
+<div class="section" id="info">
+  <div class="banner">Server Info</div>
+  <p>Coming soon.</p>
+</div>
+
+<!-- STAFF -->
+<div class="section" id="staff">
+  <div class="banner">About the Staff</div>
+  <div class="staff-grid">
+    <div class="staff-card">
+      <img src="assets/staff1.jpg">
+      <h4>Name</h4>
+      <p>Role</p>
+      <p>Short description.</p>
+    </div>
+  </div>
+</div>
+
+<!-- COMMUNITY -->
+<div class="section" id="community">
+  <div class="banner">Community Links</div>
+  <div class="community-links">
+    <a href="#">Discord</a>
+    <a href="#">Twitter</a>
+    <a href="#">Reddit</a>
+  </div>
 </div>
 
 <script>
-function openTab(index) {
-  document.querySelectorAll(".tab").forEach((t,i)=> {
-    t.classList.toggle("active", i === index);
-  });
-  document.querySelectorAll(".content").forEach((c,i)=> {
-    c.classList.toggle("active", i === index);
-  });
-}
+/* TABS */
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  };
+});
+
+/* RULE TOGGLE */
+document.querySelectorAll(".rule").forEach(rule => {
+  rule.onclick = () => {
+    const c = rule.querySelector(".rule-content");
+    c.style.display = c.style.display === "block" ? "none" : "block";
+  };
+});
 </script>
 
 </body>
