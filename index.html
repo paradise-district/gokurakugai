@@ -22,9 +22,7 @@ body{margin:0;background:var(--paper);color:#222}
   position:relative;height:320px;
   background:url("assets/images/header-bg.jpg") center/cover no-repeat
 }
-.header::after{
-  content:"";position:absolute;inset:0;background:rgba(0,0,0,.65)
-}
+.header::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.65)}
 .header-content{
   position:relative;z-index:2;height:100%;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
@@ -73,21 +71,55 @@ body{margin:0;background:var(--paper);color:#222}
 table{width:100%;border-collapse:collapse;margin-top:12px}
 td{padding:8px;border-bottom:1px solid var(--line)}
 
-/* COMPACT LINK BUTTONS */
-.link-buttons{
-  display:flex;flex-wrap:wrap;gap:8px;margin-top:14px
+/* === CODEPEN-STYLE BUTTONS === */
+.button-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
 }
-.link-btn{
-  padding:6px 10px;
+
+.draw-btn{
+  position:relative;
+  padding:6px 12px;
   font-size:.85rem;
-  border:1px solid var(--gold);
   color:var(--red);
   text-decoration:none;
-  background:transparent;
-  transition:.25s
+  letter-spacing:.5px;
 }
-.link-btn:hover{
-  background:rgba(201,162,77,.15);
+
+.draw-btn::before,
+.draw-btn::after{
+  content:"";
+  position:absolute;
+  width:0;height:0;
+  border:1px solid transparent;
+}
+
+.draw-btn::before{
+  bottom:0;right:0;
+}
+
+.draw-btn::after{
+  top:0;left:0;
+}
+
+.draw-btn:hover::before{
+  width:100%;height:100%;
+  border-bottom-color:var(--gold);
+  border-left-color:var(--gold);
+  transition:
+    width .2s ease-out,
+    height .2s ease-out .2s;
+}
+
+.draw-btn:hover::after{
+  width:100%;height:100%;
+  border-top-color:var(--gold);
+  border-right-color:var(--gold);
+  transition:
+    width .2s ease-out .4s,
+    height .2s ease-out .6s;
 }
 
 /* RULES */
@@ -101,10 +133,6 @@ td{padding:8px;border-bottom:1px solid var(--line)}
 /* STAFF */
 .staff-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:20px
-}
-.staff-grid .staff-card:nth-child(4),
-.staff-grid .staff-card:nth-child(5){
-  grid-column:span 1
 }
 @media(max-width:900px){
   .staff-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
@@ -164,29 +192,17 @@ footer{text-align:center;padding:20px;font-size:.8rem;color:#666}
 
 <div>
 <h2>About Our Server</h2>
-<p>
-We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>.
-The series first introduced as a one-shot titled <strong>Gokurakugai Sanbandori No Ken</strong>, published in the
-<strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020.
-Its gritty tone and compelling characters struck a chord with readers, prompting its evolution into a full-fledged series.
-Serialization officially began in the monthly <strong>Jump SQ Magazine</strong> on July 4, 2022,
-and the manga later made its formal debut in <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023.
-Since then, Gokurakugai has continued to build momentum, drawing in fans with its blend of urban fantasy,
-stylish combat, and emotional depth.
-</p>
-<p>
-By being a member of our discord server, you indicate that you have read and accepted our server rules,
-as well as Discord’s Terms of Service and Guidelines.
-</p>
+<p>We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>. The series first introduced as a one-shot titled <strong>Gokurakugai Sanbandori No Ken</strong>, published in the <strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020. Its gritty tone and compelling characters struck a chord with readers, prompting its evolution into a full-fledged series. Serialization officially began in the monthly <strong>Jump SQ Magazine</strong> on July 4, 2022, and the manga later made its formal debut in <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023. Since then, Gokurakugai has continued to build momentum, drawing in fans with its blend of urban fantasy, stylish combat, and emotional depth.</p>
+<p>By being a member of our discord server, you indicate that you have read and accepted our server rules, as well as Discord’s Terms of Service and Guidelines.</p>
 
-<div class="link-buttons">
-<a class="link-btn" href="https://x.com/gokurakugainews" target="_blank">X</a>
-<a class="link-btn" href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">Instagram</a>
-<a class="link-btn" href="https://www.threads.com/@gokurakugaiwiki" target="_blank">Threads</a>
-<a class="link-btn" href="https://bsky.app/profile/gokurakugai.bsky.social" target="_blank">Bluesky</a>
-<a class="link-btn" href="https://www.facebook.com/gokurakugai" target="_blank">Facebook</a>
-<a class="link-btn" href="https://www.facebook.com/groups/gokurakugai" target="_blank">FB Group</a>
-<a class="link-btn" href="https://www.reddit.com/r/Saragi/" target="_blank">Reddit</a>
+<div class="button-group">
+  <a class="draw-btn" href="https://x.com/gokurakugainews" target="_blank">X</a>
+  <a class="draw-btn" href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">Instagram</a>
+  <a class="draw-btn" href="https://www.threads.com/@gokurakugaiwiki" target="_blank">Threads</a>
+  <a class="draw-btn" href="https://bsky.app/profile/gokurakugai.bsky.social" target="_blank">Bluesky</a>
+  <a class="draw-btn" href="https://www.facebook.com/gokurakugai" target="_blank">Facebook</a>
+  <a class="draw-btn" href="https://www.facebook.com/groups/gokurakugai" target="_blank">FB Group</a>
+  <a class="draw-btn" href="https://www.reddit.com/r/Saragi/" target="_blank">Reddit</a>
 </div>
 </div>
 
@@ -204,96 +220,25 @@ as well as Discord’s Terms of Service and Guidelines.
 </table>
 
 <h3>Official Synopsis</h3>
-<p><em>
-Gokurakugai, a bright and bustling working class district with a hidden dark side.
-In this area without order, Tao and Alma work as troubleshooters for hire.
-Their missions involve helping a young boy find his lost friend,
-a person who dissapears without a trace, and disfigured animal corpses.
-All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
-</em></p>
+<p><em>Gokurakugai, a bright and bustling working class district with a hidden dark side. In this area without order, Tao and Alma work as troubleshooters for hire. Their missions involve helping a young boy find his lost friend, a person who dissapears without a trace, and disfigured animal corpses. All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!</em></p>
 
-<div class="link-buttons">
-<a class="link-btn" href="https://jumpsq.shueisha.co.jp/sqrise/2020winter/gokuraku.html" target="_blank">One-shot</a>
-<a class="link-btn" href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank">Jump SQ</a>
-<a class="link-btn" href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank">VIZ</a>
-<a class="link-btn" href="https://mangaplus.shueisha.co.jp/titles/100230" target="_blank">MANGA Plus</a>
-<a class="link-btn" href="https://www.instagram.com/yuto__sano" target="_blank">Yuto Sano IG</a>
-<a class="link-btn" href="https://x.com/Yuto___Sano" target="_blank">Yuto Sano X</a>
-<a class="link-btn" href="https://x.com/gokurakugaiinfo" target="_blank">Info</a>
+<div class="button-group">
+  <a class="draw-btn" href="https://jumpsq.shueisha.co.jp/sqrise/2020winter/gokuraku.html" target="_blank">One-shot</a>
+  <a class="draw-btn" href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank">Jump SQ</a>
+  <a class="draw-btn" href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank">VIZ</a>
+  <a class="draw-btn" href="https://mangaplus.shueisha.co.jp/titles/100230" target="_blank">MANGA Plus</a>
+  <a class="draw-btn" href="https://www.instagram.com/yuto__sano" target="_blank">Yuto Sano IG</a>
+  <a class="draw-btn" href="https://x.com/Yuto___Sano" target="_blank">Yuto Sano X</a>
+  <a class="draw-btn" href="https://x.com/gokurakugaiinfo" target="_blank">Info</a>
 </div>
 </div>
 
-</div>
-</div>
-
-<!-- RULES -->
-<div class="section" id="rules">
-<h2>Server Rules</h2>
-<div id="rulesList"></div>
-</div>
-
-<!-- INFO -->
-<div class="section" id="info">
-<h2>Server Info</h2>
-<p>Coming soon.</p>
-</div>
-
-<!-- STAFF -->
-<div class="section" id="staff">
-<h2>About the Staff</h2>
-<div class="staff-grid">
-
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff1.jpg"><h4>Name 1</h4></div>
-<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
-
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff2.jpg"><h4>Name 2</h4></div>
-<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
-
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff3.jpg"><h4>Name 3</h4></div>
-<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
-
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff4.jpg"><h4>Name 4</h4></div>
-<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
-
-<div class="staff-card"><div class="staff-front"><img src="assets/images/staff5.jpg"><h4>Name 5</h4></div>
-<div class="staff-overlay"><strong>Role</strong><p>Description.</p></div></div>
-
-</div>
-</div>
-
-<!-- COMMUNITY -->
-<div class="section" id="links">
-<h2>Community & Official Links</h2>
-<div class="link-buttons">
-<a class="link-btn" href="#">Discord</a>
-<a class="link-btn" href="#">Twitter</a>
-<a class="link-btn" href="#">Manga</a>
 </div>
 </div>
 
 <footer>© Gokurakugai Discord Server</footer>
 
 <script>
-/* Tabs */
-document.querySelectorAll(".tab").forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-    t.classList.add("active");
-    document.getElementById(t.dataset.tab).classList.add("active");
-  };
-});
-
-/* Rules */
-const rl=document.getElementById("rulesList");
-for(let i=1;i<=20;i++){
-  const d=document.createElement("div");
-  d.className="rule";
-  d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  d.onclick=()=>{const p=d.querySelector("p");p.style.display=p.style.display==="block"?"none":"block";}
-  rl.appendChild(d);
-}
-
 /* Countdown JST */
 const events=[
   ["c33","2026-02-04T00:00:00+09:00"],
@@ -306,10 +251,10 @@ function tick(){
     const el=document.getElementById(e[0]);
     const diff=new Date(e[1])-now;
     if(diff<=0){el.textContent="Released";return;}
-    const d=Math.floor(diff/86400000);
-    const h=Math.floor(diff%86400000/3600000);
-    const m=Math.floor(diff%3600000/60000);
-    const s=Math.floor(diff%60000/1000);
+    const d=Math.floor(diff/86400000),
+          h=Math.floor(diff%86400000/3600000),
+          m=Math.floor(diff%3600000/60000),
+          s=Math.floor(diff%60000/1000);
     el.textContent=`${d}d ${h}h ${m}m ${s}s`;
   });
 }
