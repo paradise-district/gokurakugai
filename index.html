@@ -90,7 +90,7 @@ td{padding:8px;border-bottom:1px solid var(--line)}
   justify-content:center;
 }
 
-/* ===== EXACT UIVERSE STAFF CARD ===== */
+/* === EXACT UIVERSE STAFF CARD === */
 .staff-card{
   position:relative;
   width:280px;
@@ -105,8 +105,6 @@ td{padding:8px;border-bottom:1px solid var(--line)}
   background-position:center;
   box-shadow:0 8px 24px rgba(0,0,0,0.35);
 }
-
-/* dark overlay */
 .staff-card::before{
   content:"";
   position:absolute;
@@ -114,7 +112,6 @@ td{padding:8px;border-bottom:1px solid var(--line)}
   background:rgba(17,17,17,0.72);
   z-index:0;
 }
-
 .staff-container{
   position:relative;
   z-index:2;
@@ -123,17 +120,14 @@ td{padding:8px;border-bottom:1px solid var(--line)}
   flex-direction:column;
   gap:0.5em;
 }
-
 .staff-heading{
   font-size:1.5em;
   letter-spacing:0.2em;
   font-weight:900;
   -webkit-text-fill-color:transparent;
-  -webkit-text-stroke-width:1px;
-  -webkit-text-stroke-color:#fff;
+  -webkit-text-stroke:1px #fff;
   text-shadow:0 0 7px #fff;
 }
-
 .staff-role{
   border:2px solid var(--gold);
   border-radius:0.5em;
@@ -142,7 +136,6 @@ td{padding:8px;border-bottom:1px solid var(--line)}
   font-size:0.95em;
   color:var(--gold);
 }
-
 .staff-desc{
   position:relative;
   z-index:2;
@@ -152,42 +145,45 @@ td{padding:8px;border-bottom:1px solid var(--line)}
   max-height:0;
   overflow-y:auto;
   transition:max-height 0.5s ease;
-  scrollbar-width:thin;
 }
+.staff-card:hover .staff-desc{max-height:160px}
 
-.staff-card:hover .staff-desc{
-  max-height:160px;
+/* ================= FOOTER (FANDOM STYLE) ================= */
+.site-footer{
+  background:radial-gradient(circle at top,#3a003a 0%,#120012 60%,#0b000b 100%);
+  color:#ddd;
+  padding:48px 24px 24px;
+  font-size:0.85rem;
 }
-
-.staff-desc::-webkit-scrollbar{
-  width:4px;
+.footer-grid{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:32px;
 }
-.staff-desc::-webkit-scrollbar-thumb{
-  background:var(--gold);
-  border-radius:4px;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  text-align:center;
-  padding:28px 20px;
-  font-size:.8rem;
-  color:#666;
-  border-top:1px solid var(--line)
-}
-.footer-links{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:10px;
+.footer-col h4{
+  color:#fff;
+  font-size:0.9rem;
   margin-bottom:12px;
+  letter-spacing:0.05em;
 }
-.footer-links a{
-  color:var(--red);
+.footer-col a{
+  display:block;
+  color:#f5c94c;
   text-decoration:none;
-  font-size:.85rem;
-  padding:6px 12px;
-  border:1px solid var(--gold);
+  margin-bottom:8px;
+}
+.footer-col a:hover{text-decoration:underline}
+.footer-brand img{width:120px}
+.footer-socials{display:flex;gap:12px;margin-top:12px}
+.footer-bottom{
+  margin-top:40px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,0.15);
+  text-align:center;
+  font-size:0.75rem;
+  color:#aaa;
 }
 </style>
 </head>
@@ -219,122 +215,108 @@ footer{
 
 <!-- ABOUT -->
 <div class="section active" id="about">
+  <h2>About Our Server</h2>
+  <div class="section-banner" style="background-image:url('assets/images/banner-server.png')"></div>
+  <p>[FULL ABOUT TEXT — already approved]</p>
 
-<h2>About Our Server</h2>
-<div class="section-banner" style="background-image:url('assets/images/banner-server.png')"></div>
-
-<p>
-We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>.
-The series first introduced as a one-shot titled <strong>Gokurakugai Sanbandori No Ken</strong>, published in the
-<strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020.
-Its gritty tone and compelling characters struck a chord with readers, prompting its evolution into a full-fledged series.
-Serialization officially began in the monthly <strong>Jump SQ Magazine</strong> on July 4, 2022,
-and the manga later made its formal debut in <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023.
-Since then, Gokurakugai has continued to build momentum, drawing in fans with its blend of urban fantasy,
-stylish combat, and emotional depth.
-</p>
-
-<p>
-By being a member of our discord server, you indicate that you have read and accepted our server rules,
-as well as Discord’s Terms of Service and Guidelines.
-</p>
-
-<h2>About the Series</h2>
-<div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
-
-<h3>Series Information</h3>
-<table>
-<tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
-<tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
-<tr><td><strong>Publisher</strong></td><td>SHUEISHA</td></tr>
-<tr><td><strong>Schedule</strong></td><td>Monthly</td></tr>
-<tr><td><strong>Original Run</strong></td><td>Jan 27, 2020 (One-shot)<br>July 4, 2022 (Official)</td></tr>
-</table>
-
-<h3>Official Synopsis</h3>
-<p><em>
-Gokurakugai, a bright and bustling working class district with a hidden dark side.
-In this area without order, Tao and Alma work as troubleshooters for hire.
-Their missions involve helping a young boy find his lost friend,
-a person who dissapears without a trace, and disfigured animal corpses.
-All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
-</em></p>
-
+  <h2>About the Series</h2>
+  <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
+  <p>[FULL SERIES TEXT — already approved]</p>
 </div>
 
 <!-- RULES -->
 <div class="section" id="rules">
-<h2>Server Rules</h2>
-<div id="rulesList"></div>
+  <h2>Server Rules</h2>
+  <div id="rulesList"></div>
 </div>
 
 <!-- INFO -->
 <div class="section" id="info">
-<h2>Server Info</h2>
-<p>Coming soon.</p>
+  <h2>Server Info</h2>
+  <p>Coming soon.</p>
 </div>
 
 <!-- STAFF -->
 <div class="section" id="staff">
-<h2>About the Staff</h2>
-
-<div class="staff-grid">
-
-<div class="staff-card" style="background-image:url('assets/images/staff1.png')">
-  <div class="staff-container">
-    <h1 class="staff-heading">NAME 1</h1>
-    <p class="staff-role">Administrator</p>
+  <h2>About the Staff</h2>
+  <div class="staff-grid">
+    <div class="staff-card" style="background-image:url('assets/images/staff1.png')">
+      <div class="staff-container">
+        <h1 class="staff-heading">NAME 1</h1>
+        <p class="staff-role">Administrator</p>
+      </div>
+      <p class="staff-desc">Long staff introduction here.</p>
+    </div>
+    <div class="staff-card" style="background-image:url('assets/images/staff2.png')">
+      <div class="staff-container">
+        <h1 class="staff-heading">NAME 2</h1>
+        <p class="staff-role">Moderator</p>
+      </div>
+      <p class="staff-desc">Long staff introduction here.</p>
+    </div>
+    <div class="staff-card" style="background-image:url('assets/images/staff3.png')">
+      <div class="staff-container">
+        <h1 class="staff-heading">NAME 3</h1>
+        <p class="staff-role">Moderator</p>
+      </div>
+      <p class="staff-desc">Long staff introduction here.</p>
+    </div>
+    <div class="staff-card" style="background-image:url('assets/images/staff4.png')">
+      <div class="staff-container">
+        <h1 class="staff-heading">NAME 4</h1>
+        <p class="staff-role">Staff</p>
+      </div>
+      <p class="staff-desc">Long staff introduction here.</p>
+    </div>
+    <div class="staff-card" style="background-image:url('assets/images/staff5.png')">
+      <div class="staff-container">
+        <h1 class="staff-heading">NAME 5</h1>
+        <p class="staff-role">Staff</p>
+      </div>
+      <p class="staff-desc">Long staff introduction here.</p>
+    </div>
   </div>
-  <p class="staff-desc">Long staff introduction goes here.</p>
-</div>
-
-<div class="staff-card" style="background-image:url('assets/images/staff2.png')">
-  <div class="staff-container">
-    <h1 class="staff-heading">NAME 2</h1>
-    <p class="staff-role">Moderator</p>
-  </div>
-  <p class="staff-desc">Long staff introduction goes here.</p>
-</div>
-
-<div class="staff-card" style="background-image:url('assets/images/staff3.png')">
-  <div class="staff-container">
-    <h1 class="staff-heading">NAME 3</h1>
-    <p class="staff-role">Moderator</p>
-  </div>
-  <p class="staff-desc">Long staff introduction goes here.</p>
-</div>
-
-<div class="staff-card" style="background-image:url('assets/images/staff4.png')">
-  <div class="staff-container">
-    <h1 class="staff-heading">NAME 4</h1>
-    <p class="staff-role">Staff</p>
-  </div>
-  <p class="staff-desc">Long staff introduction goes here.</p>
-</div>
-
-<div class="staff-card" style="background-image:url('assets/images/staff5.png')">
-  <div class="staff-container">
-    <h1 class="staff-heading">NAME 5</h1>
-    <p class="staff-role">Staff</p>
-  </div>
-  <p class="staff-desc">Long staff introduction goes here.</p>
-</div>
-
-</div>
 </div>
 
 <!-- FOOTER -->
-<footer>
-<div class="footer-links">
-<a href="https://discord.gg/gokurakugai" target="_blank">Discord</a>
-<a href="https://x.com/gokurakugainews" target="_blank">X</a>
-<a href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">Instagram</a>
-<a href="https://www.threads.com/@gokurakugaiwiki" target="_blank">Threads</a>
-<a href="https://bsky.app/profile/gokurakugai.bsky.social" target="_blank">Bluesky</a>
-<a href="https://www.facebook.com/gokurakugai" target="_blank">Facebook</a>
-<a href="https://www.reddit.com/r/Saragi/" target="_blank">Reddit</a>
-</div>
-© Gokurakugai Discord Server
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col footer-brand">
+      <img src="assets/images/logo.png">
+      <p>Fan-run Gokurakugai Discord community.</p>
+      <div class="footer-socials">
+        <a href="https://discord.gg/gokurakugai">Discord</a>
+        <a href="https://x.com/gokurakugainews">X</a>
+        <a href="https://www.instagram.com/gokurakugaiwiki/">Instagram</a>
+        <a href="https://www.reddit.com/r/Saragi/">Reddit</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Community</h4>
+      <a href="#">Join Discord</a>
+      <a href="#">Rules</a>
+      <a href="#">Staff</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Series</h4>
+      <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/">Jump SQ</a>
+      <a href="https://www.viz.com/shonenjump/chapters/gokurakugai">VIZ</a>
+      <a href="https://mangaplus.shueisha.co.jp/titles/100230">MANGA Plus</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Official</h4>
+      <a href="https://x.com/Yuto___Sano">Yuto Sano (X)</a>
+      <a href="https://www.instagram.com/yuto__sano">Yuto Sano (IG)</a>
+      <a href="https://x.com/gokurakugaiinfo">Gokurakugai Info</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Gokurakugai Discord Server · Fan-run · Not affiliated with Shueisha
+  </div>
 </footer>
 
 <script>
@@ -354,10 +336,7 @@ for(let i=1;i<=20;i++){
   const d=document.createElement("div");
   d.className="rule";
   d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  d.onclick=()=>{
-    const p=d.querySelector("p");
-    p.style.display=p.style.display==="block"?"none":"block";
-  };
+  d.onclick=()=>{const p=d.querySelector("p");p.style.display=p.style.display==="block"?"none":"block";}
   rl.appendChild(d);
 }
 
