@@ -36,128 +36,139 @@ body{margin:0;background:var(--paper);color:#222}
 
 /* ================= COUNTDOWN ================= */
 .countdown{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:12px;padding:16px;background:#111;color:var(--gold);text-align:center
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+  padding:16px;
+  background:#111;
+  color:var(--gold);
+  text-align:center
 }
-.count-box{border:1px solid var(--gold);padding:10px}
-.count-box span{display:block;font-size:1.25rem;color:#fff;margin-top:6px}
+.count-box span{
+  display:block;
+  font-size:1.25rem;
+  color:#fff;
+  margin-top:6px
+}
 
 /* ================= TABS ================= */
-.tabs{display:flex;justify-content:center;flex-wrap:wrap;background:var(--ink)}
+.tabs{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  background:var(--ink)
+}
 .tab{
-  padding:14px 18px;cursor:pointer;color:#bbb;
+  padding:14px 18px;
+  cursor:pointer;
+  color:#bbb;
   border-bottom:3px solid transparent
 }
-.tab.active{color:var(--gold);border-color:var(--gold)}
+.tab.active{
+  color:var(--gold);
+  border-color:var(--gold)
+}
 
 /* ================= SECTIONS ================= */
-.section{display:none;max-width:1000px;margin:auto;padding:36px 20px}
+.section{
+  display:none;
+  max-width:1000px;
+  margin:auto;
+  padding:36px 20px
+}
 .section.active{display:block}
 .section h2{
   color:var(--red);
   border-left:5px solid var(--gold);
   padding-left:12px;
-  margin:24px 0 14px;
+  margin:28px 0 16px
 }
 .section h3{margin-top:20px}
 
 /* ================= BANNERS ================= */
 .section-banner{
   width:100%;
-  height:260px;
-  margin:10px 0 24px;
-  background-size:cover;
+  height:420px;
+  margin:14px 0 28px;
+  background-repeat:no-repeat;
   background-position:center;
-  border:1px solid var(--gold);
+  background-size:contain;
 }
 
 /* ================= TABLE ================= */
-table{width:100%;border-collapse:collapse;margin-top:12px}
-td{padding:8px;border-bottom:1px solid var(--line)}
-
-/* ================= BUTTONS ================= */
-.button-group{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:14px;
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:12px
 }
-
-.draw-btn{
-  position:relative;
-  padding:6px 12px;
-  font-size:.85rem;
-  color:var(--red);
-  text-decoration:none;
-  letter-spacing:.4px;
+td{
+  padding:8px;
+  border-bottom:1px solid var(--line)
 }
-
-.draw-btn::before,
-.draw-btn::after{
-  content:"";
-  position:absolute;
-  width:0;height:0;
-  border:1px solid transparent;
-  pointer-events:none;
-}
-
-.draw-btn::before{bottom:0;right:0}
-.draw-btn::after{top:0;left:0}
-
-.draw-btn:hover::before{
-  width:100%;height:100%;
-  border-bottom-color:var(--gold);
-  border-left-color:var(--gold);
-  transition:width .2s,height .2s .2s;
-}
-.draw-btn:hover::after{
-  width:100%;height:100%;
-  border-top-color:var(--gold);
-  border-right-color:var(--gold);
-  transition:width .2s .4s,height .2s .6s;
-}
-
-/* ================= RULES ================= */
-.rule{
-  border:1px solid var(--line);
-  padding:12px;margin-bottom:10px;background:#fff;cursor:pointer
-}
-.rule p{display:none;margin-top:8px}
-.rule:hover{background:#f9f6ee}
 
 /* ================= STAFF ================= */
 .staff-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:20px
+  gap:24px
 }
 @media(max-width:900px){
-  .staff-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .staff-grid{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr))
+  }
 }
+
+/* UIverse-inspired card */
 .staff-card{
-  position:relative;height:260px;
-  border:1px solid var(--gold);
-  background:#fff;overflow:hidden
+  position:relative;
+  height:280px;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.08)
 }
+
 .staff-front{
   height:100%;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  align-items:center
+  align-items:center;
+  gap:10px
 }
-.staff-front img{width:90px;border-radius:50%;margin-bottom:8px}
+.staff-front img{
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  object-fit:cover
+}
+
 .staff-overlay{
-  position:absolute;inset:0;
-  background:rgba(20,20,20,.95);
+  position:absolute;
+  inset:0;
+  background:#111;
   color:#eee;
-  padding:14px;
-  overflow-y:auto;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
   opacity:0;
-  transition:.3s
+  transition:.3s;
+  overflow-y:auto
 }
-.staff-overlay strong{color:var(--gold)}
-.staff-card:hover .staff-overlay{opacity:1}
+
+.staff-overlay span{
+  padding:6px 12px;
+  border:1px solid var(--gold);
+  font-size:.85rem;
+  color:var(--gold)
+}
+
+.staff-card:hover .staff-overlay{
+  opacity:1
+}
 
 /* ================= FOOTER ================= */
 footer{
@@ -165,11 +176,45 @@ footer{
   padding:28px 20px;
   font-size:.8rem;
   color:#666;
-  border-top:1px solid var(--line);
+  border-top:1px solid var(--line)
 }
-footer .button-group{
+
+.button-group{
+  display:flex;
+  flex-wrap:wrap;
   justify-content:center;
-  margin-bottom:12px;
+  gap:10px;
+  margin-bottom:12px
+}
+
+.draw-btn{
+  position:relative;
+  padding:6px 12px;
+  font-size:.85rem;
+  color:var(--red);
+  text-decoration:none
+}
+.draw-btn::before,
+.draw-btn::after{
+  content:"";
+  position:absolute;
+  width:0;height:0;
+  border:1px solid transparent;
+  pointer-events:none
+}
+.draw-btn::before{bottom:0;right:0}
+.draw-btn::after{top:0;left:0}
+.draw-btn:hover::before{
+  width:100%;height:100%;
+  border-bottom-color:var(--gold);
+  border-left-color:var(--gold);
+  transition:width .2s,height .2s .2s
+}
+.draw-btn:hover::after{
+  width:100%;height:100%;
+  border-top-color:var(--gold);
+  border-right-color:var(--gold);
+  transition:width .2s .4s,height .2s .6s
 }
 </style>
 </head>
@@ -244,23 +289,61 @@ footer .button-group{
 
 </div>
 
-<!-- RULES -->
-<div class="section" id="rules">
-  <h2>Server Rules</h2>
-  <div id="rulesList"></div>
-</div>
-
-<!-- INFO -->
-<div class="section" id="info">
-  <h2>Server Info</h2>
-  <p>Coming soon.</p>
-</div>
-
 <!-- STAFF -->
 <div class="section" id="staff">
   <h2>About the Staff</h2>
   <div class="staff-grid">
-    <!-- your 5 staff cards go here -->
+
+    <div class="staff-card">
+      <div class="staff-front">
+        <img src="assets/images/staff1.jpg">
+        <strong>Name 1</strong>
+      </div>
+      <div class="staff-overlay">
+        <span>Administrator</span>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-front">
+        <img src="assets/images/staff2.jpg">
+        <strong>Name 2</strong>
+      </div>
+      <div class="staff-overlay">
+        <span>Moderator</span>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-front">
+        <img src="assets/images/staff3.jpg">
+        <strong>Name 3</strong>
+      </div>
+      <div class="staff-overlay">
+        <span>Moderator</span>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-front">
+        <img src="assets/images/staff4.jpg">
+        <strong>Name 4</strong>
+      </div>
+      <div class="staff-overlay">
+        <span>Staff</span>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-front">
+        <img src="assets/images/staff5.jpg">
+        <strong>Name 5</strong>
+      </div>
+      <div class="staff-overlay">
+        <span>Staff</span>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -289,17 +372,7 @@ document.querySelectorAll(".tab").forEach(t=>{
   };
 });
 
-/* Rules */
-const rl=document.getElementById("rulesList");
-for(let i=1;i<=20;i++){
-  const d=document.createElement("div");
-  d.className="rule";
-  d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  d.onclick=()=>{const p=d.querySelector("p");p.style.display=p.style.display==="block"?"none":"block";}
-  rl.appendChild(d);
-}
-
-/* Countdown (JST) */
+/* Countdown JST */
 const events=[
   ["c33","2026-02-04T00:00:00+09:00"],
   ["v6jp","2026-02-04T00:00:00+09:00"],
