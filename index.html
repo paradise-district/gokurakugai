@@ -1,303 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gokurakugai Discord Server</title>
+
 <style>
-:root{
-  --bg-dark:#0c0a08;
-  --bg-panel:#16120d;
-  --accent:#b82b2b;
-  --gold:#d4af37;
-  --gold-soft:rgba(212,175,55,0.45);
-  --text-main:#eae3d6;
-  --text-muted:#b9b1a4;
-  --ease:cubic-bezier(.25,.8,.25,1);
+/* =====================
+   GLOBAL STYLES
+===================== */
+:root {
+  --red: #9b1c1c;
+  --gold: #d6b36a;
+  --ink: #1a1a1a;
+  --paper: #f6f2ea;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Noto Serif SC","SimSun","serif";
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
 }
 
-body{
-  background:
-    radial-gradient(circle at top, rgba(212,175,55,0.04), transparent 40%),
-    var(--bg-dark);
-  color:var(--text-main);
-  line-height:1.75;
+body {
+  margin: 0;
+  background: var(--paper);
+  color: #222;
 }
 
-/* ================= HEADER ================= */
-.header{
-  position:relative;
-  height:340px;
-  background:url("assets/images/header-bg.jpg") center/cover no-repeat;
+/* =====================
+   HEADER
+===================== */
+.header {
+  position: relative;
+  height: 320px;
+  background: url("assets/images/header-bg.jpg") center/cover no-repeat;
 }
 
-.header::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.9));
+.header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
 }
 
-.header-content{
-  position:relative;
-  z-index:2;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
+.header-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
 }
 
-.header-content img{
-  width:95px;
-  filter:drop-shadow(0 0 14px rgba(212,175,55,.35));
-  transition:transform .6s var(--ease);
+.header img {
+  width: 90px;
+  margin-bottom: 12px;
 }
 
-.header-content img:hover{
-  transform:scale(1.08);
+.header h1 {
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 6px;
 }
 
-.header-content h1{
-  font-size:2.4rem;
-  letter-spacing:3px;
-  padding-bottom:10px;
-  position:relative;
+/* =====================
+   COUNTDOWN
+===================== */
+.countdown {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 16px;
+  background: #111;
+  color: var(--gold);
+  font-size: 0.9rem;
 }
 
-.header-content h1::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  bottom:0;
-  width:120px;
-  height:2px;
-  background:linear-gradient(to right, transparent, var(--gold), transparent);
-  transform:translateX(-50%);
+.count-box {
+  text-align: center;
 }
 
-/* ================= COUNTDOWN ================= */
-.countdown{
-  background:linear-gradient(to right, #120f0b, #19140e);
-  display:flex;
-  justify-content:center;
-  gap:40px;
-  padding:16px;
-  border-bottom:1px solid rgba(212,175,55,.25);
+.count-box span {
+  display: block;
+  font-size: 1.3rem;
+  color: white;
 }
 
-.timer{
-  text-align:center;
-  padding:8px 16px;
-  border:1px solid rgba(212,175,55,.2);
-  transition:box-shadow .4s var(--ease);
+/* =====================
+   TABS
+===================== */
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: var(--ink);
 }
 
-.timer:hover{
-  box-shadow:0 0 18px rgba(212,175,55,.35);
+.tab {
+  padding: 14px 18px;
+  cursor: pointer;
+  color: #ccc;
+  border-bottom: 3px solid transparent;
 }
 
-.timer span{
-  display:block;
-  font-size:1.4rem;
-  color:var(--gold);
-  animation:pulse 2.5s infinite;
+.tab.active {
+  color: var(--gold);
+  border-color: var(--gold);
 }
 
-@keyframes pulse{
-  0%,100%{opacity:.8}
-  50%{opacity:1}
+/* =====================
+   CONTENT
+===================== */
+.section {
+  display: none;
+  padding: 32px 20px;
+  max-width: 1100px;
+  margin: auto;
 }
 
-/* ================= TABS ================= */
-.tabs{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  background:#120f0b;
-  border-bottom:1px solid rgba(212,175,55,.25);
+.section.active {
+  display: block;
 }
 
-.tabs button{
-  background:none;
-  border:none;
-  color:var(--text-muted);
-  padding:16px 20px;
-  cursor:pointer;
-  font-size:.95rem;
-  letter-spacing:1px;
-  position:relative;
-  transition:color .4s var(--ease);
+/* Decorative headers */
+.section h2 {
+  color: var(--red);
+  border-left: 5px solid var(--gold);
+  padding-left: 12px;
 }
 
-.tabs button::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  bottom:6px;
-  width:0;
-  height:2px;
-  background:linear-gradient(to right, transparent, var(--gold), transparent);
-  transition:width .4s var(--ease), left .4s var(--ease);
+/* =====================
+   ABOUT SERVER
+===================== */
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
 }
 
-.tabs button:hover,
-.tabs button.active{
-  color:var(--gold);
+@media (min-width: 900px) {
+  .split {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.tabs button:hover::after,
-.tabs button.active::after{
-  width:80%;
-  left:10%;
+.series-image {
+  float: right;
+  width: 180px;
+  margin-left: 20px;
+  border: 2px solid var(--gold);
 }
 
-/* ================= PANELS ================= */
-.panel{
-  display:none;
-  padding:40px 20px;
-  max-width:1150px;
-  margin:auto;
-  animation:fadeIn .6s var(--ease);
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
 }
 
-.panel.active{display:block;}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(12px)}
-  to{opacity:1;transform:none}
+td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
 
-/* ================= SECTIONS ================= */
-.section{
-  background:
-    linear-gradient(135deg, rgba(212,175,55,0.04), transparent),
-    var(--bg-panel);
-  padding:28px;
-  margin-bottom:30px;
-  border:1px solid rgba(212,175,55,.25);
-  position:relative;
-  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+/* =====================
+   RULES
+===================== */
+.rule {
+  border: 1px solid var(--gold);
+  padding: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background: #fff;
 }
 
-.section:hover{
-  transform:translateY(-4px);
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
+.rule p {
+  display: none;
+  margin-top: 8px;
+  font-size: 0.9rem;
 }
 
-.section h2{
-  margin-bottom:18px;
-  color:var(--gold);
-  letter-spacing:1px;
-  position:relative;
-  padding-left:14px;
+.rule:hover {
+  background: #fff7e6;
 }
 
-.section h2::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:4px;
-  width:4px;
-  height:70%;
-  background:var(--accent);
+/* =====================
+   STAFF
+===================== */
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
 }
 
-/* ================= RULES ================= */
-.rules{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
+.staff-card {
+  background: white;
+  border: 1px solid var(--gold);
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.3s;
 }
 
-.rule{
-  background:#1a1510;
-  padding:18px;
-  border:1px solid rgba(212,175,55,.25);
-  cursor:pointer;
-  transition:all .4s var(--ease);
+.staff-card:hover {
+  transform: translateY(-6px);
 }
 
-.rule:hover{
-  box-shadow:0 0 18px rgba(212,175,55,.25);
-  transform:translateY(-3px);
+.staff-card img {
+  width: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 
-.rule-content{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .6s var(--ease), opacity .4s var(--ease);
-  opacity:0;
-  margin-top:10px;
-  color:var(--text-muted);
+/* =====================
+   LINKS
+===================== */
+.links a {
+  display: inline-block;
+  margin: 6px 0;
+  color: var(--red);
+  text-decoration: none;
 }
 
-.rule.open .rule-content{
-  max-height:300px;
-  opacity:1;
+.links a:hover {
+  text-decoration: underline;
 }
 
-/* ================= STAFF ================= */
-.staff{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:22px;
-}
-
-.staff-card{
-  background:#1a1510;
-  border:1px solid rgba(212,175,55,.25);
-  padding:20px;
-  text-align:center;
-  transition:all .5s var(--ease);
-}
-
-.staff-card:hover{
-  transform:translateY(-8px);
-  box-shadow:0 18px 40px rgba(0,0,0,.6);
-}
-
-.staff-card img{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  object-fit:cover;
-  margin-bottom:12px;
-  transition:transform .5s var(--ease), box-shadow .5s var(--ease);
-}
-
-.staff-card:hover img{
-  transform:scale(1.08);
-  box-shadow:0 0 20px rgba(212,175,55,.45);
-}
-
-/* ================= LINKS ================= */
-a{
-  color:var(--gold);
-  text-decoration:none;
-  position:relative;
-}
-
-a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-3px;
-  width:0;
-  height:2px;
-  background:var(--accent);
-  transition:width .4s var(--ease);
-}
-
-a:hover::after{
-  width:100%;
-}
-
-/* ================= MOBILE ================= */
-@media(max-width:600px){
-  .countdown{flex-direction:column;gap:14px;}
+/* =====================
+   FOOTER
+===================== */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  color: #777;
 }
 </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <img src="assets/images/logo.png" alt="Logo">
+    <h1>Gokurakugai Discord Server</h1>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown">
+  <div class="count-box">
+    <span id="jpCountdown">--</span>
+    JP Release
+  </div>
+  <div class="count-box">
+    <span id="enCountdown">--</span>
+    EN Release
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" data-tab="about">About</div>
+  <div class="tab" data-tab="rules">Rules</div>
+  <div class="tab" data-tab="info">Server Info</div>
+  <div class="tab" data-tab="staff">Staff</div>
+  <div class="tab" data-tab="links">Community</div>
+</div>
+
+<!-- ABOUT -->
+<div class="section active" id="about">
+  <div class="split">
+    <div>
+      <h2>About Our Server</h2>
+      <p>[PASTE YOUR PROVIDED DESCRIPTION TEXT HERE — unchanged]</p>
+      <div class="links">
+        <a href="#">Official Discord</a>
+        <a href="#">Twitter</a>
+      </div>
+    </div>
+
+    <div>
+      <h2>About the Series</h2>
+      <img src="assets/images/series-cover.jpg" class="series-image">
+      <table>
+        <tr><td>Title</td><td>Gokurakugai</td></tr>
+        <tr><td>Magazine</td><td>Jump SQ</td></tr>
+        <tr><td>Publisher</td><td>Shueisha</td></tr>
+        <tr><td>Schedule</td><td>Monthly</td></tr>
+        <tr><td>Original Run</td><td>[Dates]</td></tr>
+      </table>
+      <p>[OFFICIAL SYNOPSIS — UNCHANGED]</p>
+    </div>
+  </div>
+</div>
+
+<!-- RULES -->
+<div class="section" id="rules">
+  <h2>Server Rules</h2>
+  <div id="rulesList"></div>
+</div>
+
+<!-- INFO -->
+<div class="section" id="info">
+  <h2>Server Info</h2>
+  <p>Coming soon.</p>
+</div>
+
+<!-- STAFF -->
+<div class="section" id="staff">
+  <h2>About the Staff</h2>
+  <div class="staff-grid">
+    <div class="staff-card">
+      <img src="assets/images/staff1.jpg">
+      <h4>Name</h4>
+      <p>Role</p>
+      <small>Description</small>
+    </div>
+  </div>
+</div>
+
+<!-- LINKS -->
+<div class="section" id="links">
+  <h2>Community Links</h2>
+  <div class="links">
+    <a href="#">Discord</a>
+    <a href="#">Twitter</a>
+    <a href="#">Manga Plus</a>
+  </div>
+</div>
+
+<footer>
+  © Gokurakugai Discord Server
+</footer>
+
+<script>
+/* =====================
+   TAB SWITCHING
+===================== */
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  };
+});
+
+/* =====================
+   RULES GENERATOR
+===================== */
+const rulesList = document.getElementById("rulesList");
+for (let i = 1; i <= 20; i++) {
+  const rule = document.createElement("div");
+  rule.className = "rule";
+  rule.innerHTML = `<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
+  rule.onclick = () => {
+    const p = rule.querySelector("p");
+    p.style.display = p.style.display === "block" ? "none" : "block";
+  };
+  rulesList.appendChild(rule);
+}
+
+/* =====================
+   COUNTDOWN (REAL)
+===================== */
+const jpDate = new Date("2026-03-01T00:00:00");
+const enDate = new Date("2026-03-15T00:00:00");
+
+function updateCountdown(target, element) {
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) {
+    element.textContent = "Released";
+    return;
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor(diff % 86400000 / 3600000);
+  const m = Math.floor(diff % 3600000 / 60000);
+  element.textContent = `${d}d ${h}h ${m}m`;
+}
+
+setInterval(() => {
+  updateCountdown(jpDate, document.getElementById("jpCountdown"));
+  updateCountdown(enDate, document.getElementById("enCountdown"));
+}, 1000);
+</script>
+
+</body>
+</html>
