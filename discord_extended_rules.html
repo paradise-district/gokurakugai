@@ -1,257 +1,202 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Discord — Extended Rules (Chinese theme)</title>
-  <!--
-    Single-file HTML (drop into your GitHub repo as index.html)
-    - Click a rule to open full content in the rule panel/modal
-    - Hover a rule to see a quick preview tooltip
-    - Theme: Chinese / Lunar festival inspired (red & gold)
-
-    How to use:
-    1. Replace the `rulesData` array in the <script> with your actual rules.
-    2. Commit this file to GitHub and open index.html in the browser.
-    3. For use inside GitHub Pages, rename to index.html and enable Pages on the repo.
-  -->
-
-  <!-- Google Fonts: use if you want Chinese-styled fonts. If offline, replace with system fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Discord Server Extended Rules</title>
 
   <style>
-    :root{
-      --bg:#0b0b0b;
-      --paper:#111;
-      --accent:#c62828; /* primary red */
-      --accent-2:#f9a825; /* gold */
-      --muted:#cfc6ba;
-      --glass: rgba(255,255,255,0.04);
-      --glass-2: rgba(255,255,255,0.02);
-      --shadow: 0 8px 24px rgba(3,3,3,0.7);
-      --radius:14px;
+    /* --------------------
+       Base Theme
+    -------------------- */
+    :root {
+      --ink-red: #8b1e1e;
+      --dark-red: #5a1212;
+      --paper: #f6f1e7;
+      --ink-black: #1a1a1a;
+      --border-gold: #c9a44c;
     }
 
-    /* Page reset */
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Rubik, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Serif SC", "Noto Serif", serif;color:var(--muted);background:var(--bg)}
-
-    /* Background motif: subtle circular pattern + diagonal stripe to suggest silk */
-    body::before{
-      content:"";
-      position:fixed;inset:0;z-index:-2;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 12%),
-        linear-gradient(135deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00) 40%),
-        linear-gradient(180deg, rgba(200,20,20,0.02), rgba(0,0,0,0.05));
-      mix-blend-mode: soft-light;
+    * {
+      box-sizing: border-box;
+      font-family: "Noto Serif", "Times New Roman", serif;
     }
 
-    /* Decorative top border (paper with gold trim) */
-    header{
-      max-width:1100px;margin:36px auto 18px;padding:22px 28px;border-radius:var(--radius);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--shadow);display:flex;align-items:center;gap:18px;border:1px solid rgba(255,255,255,0.03);
-      position:relative;overflow:visible
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #faf7f0, #eae2d3);
+      color: var(--ink-black);
+      display: flex;
+      justify-content: center;
+      padding: 60px 20px;
     }
 
-    header .crest{
-      width:84px;height:84px;border-radius:12px;background:linear-gradient(180deg,var(--accent),#7a0b0b);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(198,40,40,0.25);border:2px solid rgba(255,255,255,0.06);
-    }
-    header .crest .mark{font-family:'Noto Serif SC', serif;font-size:28px;color:var(--accent-2);transform:translateY(1px)}
-
-    header h1{margin:0;font-family:'Noto Serif SC', serif;font-weight:700;font-size:22px;color:var(--accent-2);letter-spacing:0.6px}
-    header p{margin:0;color:var(--muted);opacity:0.9}
-
-    main{max-width:1100px;margin:18px auto;padding:18px;display:grid;grid-template-columns:360px 1fr;gap:20px}
-
-    /* Left: rules list */
-    .rules-panel{background:linear-gradient(180deg,var(--paper),#0d0d0d);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);box-shadow:0 8px 20px rgba(0,0,0,0.6)}
-    .rules-panel h2{margin:0 0 12px 0;color:var(--accent-2);font-family:'Noto Serif SC', serif}
-
-    .rules-list{display:flex;flex-direction:column;gap:8px}
-
-    .rule-btn{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform .14s ease, box-shadow .14s ease}
-    .rule-btn:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,0.6)}
-
-    .rule-num{min-width:48px;height:48px;border-radius:8px;display:grid;place-items:center;font-weight:700;color:var(--accent-2);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));border:1px solid rgba(255,255,255,0.03)}
-    .rule-title{font-weight:600;color:#fff}
-    .rule-sub{font-size:12px;color:var(--muted);opacity:0.85}
-
-    /* Tooltip preview */
-    .tooltip{
-      position:fixed;background:linear-gradient(180deg, #1b1b1b, #0f0f0f);color:var(--muted);padding:10px 12px;border-radius:10px;z-index:2000;box-shadow:0 12px 30px rgba(0,0,0,0.7);max-width:320px;pointer-events:none;border:1px solid rgba(255,255,255,0.03);display:none;font-size:13px
+    .container {
+      width: 100%;
+      max-width: 820px;
+      background: var(--paper);
+      border: 2px solid var(--border-gold);
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     }
 
-    /* Right: content area / modal */
-    .content-area{position:relative;padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--shadow);min-height:420px;border:1px solid rgba(255,255,255,0.03)}
+    /* --------------------
+       Header
+    -------------------- */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-    .content-area .placeholder{display:grid;place-items:center;height:100%;color:var(--muted);text-align:center}
-    .content-area .rule-panel{display:flex;flex-direction:column;gap:12px}
-    .rule-panel header{display:flex;justify-content:space-between;align-items:center}
-    .rule-panel h3{margin:0;font-family:'Noto Serif SC', serif;color:var(--accent-2)}
-    .rule-panel p{margin:0;color:#eae6e0}
+    header h1 {
+      margin: 0;
+      color: var(--ink-red);
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+    }
 
-    .close-btn{background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer}
+    header p {
+      margin-top: 10px;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
 
-    /* modal overlay when opened */
-    .modal-overlay{position:fixed;inset:0;background:rgba(3,3,3,0.6);display:none;align-items:center;justify-content:center;z-index:1200}
-    .modal{width:min(880px,96%);background:linear-gradient(180deg,#120909,#0c0c0c);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 30px 60px rgba(0,0,0,0.8);}
+    /* --------------------
+       Rules
+    -------------------- */
+    .rule {
+      border-top: 1px solid rgba(0,0,0,0.15);
+    }
 
-    /* small flourish row */
-    .flourish{display:flex;gap:10px;align-items:center}
-    .flourish .dot{width:10px;height:10px;border-radius:50%;background:var(--accent-2)}
+    .rule:last-child {
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
 
-    footer{max-width:1100px;margin:20px auto;color:var(--muted);text-align:center;font-size:13px}
+    .rule-title {
+      cursor: pointer;
+      padding: 18px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
 
-    /* responsive */
-    @media (max-width:900px){main{grid-template-columns:1fr;padding:12px}.rules-panel{order:2}.content-area{order:1}}
+    .rule-title:hover {
+      background: rgba(139, 30, 30, 0.05);
+    }
+
+    .rule-title span {
+      font-weight: bold;
+      color: var(--ink-red);
+    }
+
+    .rule-title .icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .rule-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      padding: 0 10px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .rule.active .rule-content {
+      max-height: 300px;
+      padding: 10px 10px 20px;
+    }
+
+    .rule.active .icon {
+      transform: rotate(45deg);
+    }
+
+    /* --------------------
+       Footer
+    -------------------- */
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
   </style>
 </head>
+
 <body>
-  <header>
-    <div class="crest" aria-hidden="true"><div class="mark">守</div></div>
-    <div>
-      <h1>Server Rules — Extended Codes</h1>
-      <p>Click any rule to read the full explanation. Hover for a quick preview. Theme inspired by Lunar festival red & gold.</p>
-    </div>
-  </header>
+  <div class="container">
+    <header>
+      <h1>Extended Server Rules</h1>
+      <p>Read carefully. Harmony is mandatory.</p>
+    </header>
 
-  <main>
-    <aside class="rules-panel" aria-label="Rules list">
-      <h2>Rules (1–20)</h2>
-      <div class="rules-list" id="rulesList"></div>
-    </aside>
+    <!-- Rules -->
+    <div id="rules">
 
-    <section class="content-area" id="contentArea">
-      <div class="placeholder" id="placeholder">
-        <div>
-          <h2 style="color:var(--accent-2);font-family:'Noto Serif SC', serif;margin-bottom:6px">Welcome</h2>
-          <p style="max-width:680px;margin:0 auto;color:var(--muted)">Select a rule on the left to show its full text. This panel supports keyboard navigation and screen readers.</p>
+      <!-- Repeatable Rule Block -->
+      <!-- Rule 1 -->
+      <div class="rule">
+        <div class="rule-title">
+          <span>Rule #1 — Respect All Members</span>
+          <div class="icon">＋</div>
+        </div>
+        <div class="rule-content">
+          Treat everyone with respect. Harassment, hate speech, or targeted abuse is not tolerated under any circumstance.
         </div>
       </div>
 
-      <!-- the rule modal is injected here when needed -->
-    </section>
-  </main>
-
-  <div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
-
-  <div id="modalOverlay" class="modal-overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div id="modalContent"></div>
-      <div style="display:flex;justify-content:flex-end;margin-top:12px">
-        <button id="modalClose" class="close-btn">Close</button>
+      <!-- Rule 2 -->
+      <div class="rule">
+        <div class="rule-title">
+          <span>Rule #2 — No NSFW Content</span>
+          <div class="icon">＋</div>
+        </div>
+        <div class="rule-content">
+          Keep all content safe for work. This includes images, links, text, usernames, and profile pictures.
+        </div>
       </div>
+
+      <!-- Rule 3 -->
+      <div class="rule">
+        <div class="rule-title">
+          <span>Rule #3 — Follow Discord TOS</span>
+          <div class="icon">＋</div>
+        </div>
+        <div class="rule-content">
+          Any behavior that violates Discord’s Terms of Service or Community Guidelines is strictly forbidden.
+        </div>
+      </div>
+
+      <!-- Duplicate up to Rule 20 -->
+      <!-- Example template -->
+      <!--
+      <div class="rule">
+        <div class="rule-title">
+          <span>Rule #X — Title Here</span>
+          <div class="icon">＋</div>
+        </div>
+        <div class="rule-content">
+          Rule explanation here.
+        </div>
+      </div>
+      -->
+
     </div>
+
+    <footer>
+      © Your Discord Server — Order, Balance, Respect
+    </footer>
   </div>
 
-  <footer>
-    <div class="flourish"><span class="dot"></span><span>Made for Discord servers — adapt freely.</span></div>
-  </footer>
-
   <script>
-    /* ====== Replace these placeholder rules with your actual rules ====== */
-    const rulesData = Array.from({length:20}).map((_,i)=>({
-      id: i+1,
-      title: `Rule ${i+1}: Short rule title`,
-      short: `Short summary for rule ${i+1}.`,
-      body: `This is the full explanation text for rule ${i+1}. Replace this paragraph with your server's detailed rule, examples, enforcement steps, and any links or channels to report violations. \n\nYou can include further subpoints, examples, or moderation notes. This block supports multiple paragraphs.`
-    }))
+    const rules = document.querySelectorAll(".rule");
 
-    /* ====== Render the rules list ====== */
-    const rulesList = document.getElementById('rulesList')
-    const tooltip = document.getElementById('tooltip')
-    const contentArea = document.getElementById('contentArea')
-    const modalOverlay = document.getElementById('modalOverlay')
-    const modalContent = document.getElementById('modalContent')
-    const modalClose = document.getElementById('modalClose')
-    const placeholder = document.getElementById('placeholder')
-
-    function makeRuleItem(r){
-      const btn = document.createElement('button')
-      btn.className = 'rule-btn'
-      btn.type = 'button'
-      btn.setAttribute('data-id', r.id)
-      btn.setAttribute('aria-haspopup','dialog')
-      btn.setAttribute('aria-controls','modalContent')
-
-      btn.innerHTML = `
-        <div class="rule-num">${String(r.id).padStart(2,'0')}</div>
-        <div style="flex:1;text-align:left">
-          <div class="rule-title">${escapeHtml(r.title)}</div>
-          <div class="rule-sub">${escapeHtml(r.short)}</div>
-        </div>
-      `
-
-      // Hover -> preview tooltip
-      btn.addEventListener('mousemove', e=>{
-        tooltip.style.display = 'block'
-        tooltip.innerText = r.short + "\n\n" + (r.body.split('\n').slice(0,2).join(' ')).slice(0,160) + '…'
-        tooltip.style.left = (e.pageX + 16) + 'px'
-        tooltip.style.top = (e.pageY + 12) + 'px'
-        tooltip.setAttribute('aria-hidden','false')
-      })
-      btn.addEventListener('mouseleave', ()=>{ tooltip.style.display='none'; tooltip.setAttribute('aria-hidden','true') })
-
-      // Click -> open modal with full text
-      btn.addEventListener('click', ()=> openRuleModal(r))
-
-      // keyboard: Enter/Space
-      btn.addEventListener('keydown', (ev)=>{
-        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); openRuleModal(r) }
-      })
-
-      return btn
-    }
-
-    function renderRules(){
-      rulesList.innerHTML = ''
-      for(const r of rulesData){ rulesList.appendChild(makeRuleItem(r)) }
-    }
-
-    function openRuleModal(rule){
-      modalContent.innerHTML = `
-        <div class="rule-panel">
-          <header>
-            <h3 id="modalTitle">${escapeHtml(rule.title)}</h3>
-            <button class="close-btn" id="xClose">✕</button>
-          </header>
-          <div style="color:var(--muted);white-space:pre-wrap">${escapeHtml(rule.body)}</div>
-        </div>
-      `
-      // wire the small close inside modal
-      document.getElementById('xClose').addEventListener('click', closeModal)
-
-      placeholder.style.display = 'none'
-      modalOverlay.style.display = 'flex'
-      modalOverlay.setAttribute('aria-hidden','false')
-      // focus for accessibility
-      modalOverlay.querySelector('.modal').focus()
-
-      // trap escape key
-      function onKey(e){ if(e.key === 'Escape') closeModal() }
-      document.addEventListener('keydown', onKey, { once:true })
-    }
-
-    function closeModal(){ modalOverlay.style.display='none'; modalOverlay.setAttribute('aria-hidden','true'); placeholder.style.display = 'block' }
-
-    modalClose.addEventListener('click', closeModal)
-    modalOverlay.addEventListener('click', (e)=>{ if(e.target === modalOverlay) closeModal() })
-
-    // small escape helper for content area for mobile
-    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { modalOverlay.style.display='none'; modalOverlay.setAttribute('aria-hidden','true'); placeholder.style.display='block' }})
-
-    // Small HTML escape helper
-    function escapeHtml(str){ return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;') }
-
-    // Init
-    renderRules()
-
-    /* Optional: expose a simple API so you can update from other scripts if you want */
-    window.ExtendedRules = {
-      getRules: ()=> rulesData,
-      setRule: (idx, data)=> { rulesData[idx-1] = {...rulesData[idx-1], ...data}; renderRules() }
-    }
-
+    rules.forEach(rule => {
+      rule.querySelector(".rule-title").addEventListener("click", () => {
+        rule.classList.toggle("active");
+      });
+    });
   </script>
 </body>
 </html>
