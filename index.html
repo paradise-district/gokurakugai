@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gokurakugai Discord Server</title>
-
 <style>
-/* =====================
-   ROOT & RESET
-===================== */
 :root{
-  --bg-dark:#0e0b08;
+  --bg-dark:#0c0a08;
   --bg-panel:#16120d;
   --accent:#b82b2b;
   --gold:#d4af37;
+  --gold-soft:rgba(212,175,55,0.45);
   --text-main:#eae3d6;
   --text-muted:#b9b1a4;
-  --border-ornament:rgba(212,175,55,0.4);
+  --ease:cubic-bezier(.25,.8,.25,1);
 }
 
 *{
@@ -27,17 +18,17 @@
 }
 
 body{
-  background:var(--bg-dark);
+  background:
+    radial-gradient(circle at top, rgba(212,175,55,0.04), transparent 40%),
+    var(--bg-dark);
   color:var(--text-main);
-  line-height:1.7;
+  line-height:1.75;
 }
 
-/* =====================
-   HEADER
-===================== */
+/* ================= HEADER ================= */
 .header{
   position:relative;
-  height:320px;
+  height:340px;
   background:url("assets/images/header-bg.jpg") center/cover no-repeat;
 }
 
@@ -45,7 +36,8 @@ body{
   content:"";
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,0.65);
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.9));
 }
 
 .header-content{
@@ -54,351 +46,258 @@ body{
   height:100%;
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
-  text-align:center;
+  align-items:center;
+  gap:14px;
 }
 
 .header-content img{
-  width:90px;
-  margin-bottom:15px;
+  width:95px;
+  filter:drop-shadow(0 0 14px rgba(212,175,55,.35));
+  transition:transform .6s var(--ease);
+}
+
+.header-content img:hover{
+  transform:scale(1.08);
 }
 
 .header-content h1{
-  font-size:2.2rem;
-  letter-spacing:2px;
-  border-bottom:2px solid var(--gold);
-  padding-bottom:8px;
+  font-size:2.4rem;
+  letter-spacing:3px;
+  padding-bottom:10px;
+  position:relative;
 }
 
-/* =====================
-   COUNTDOWN
-===================== */
+.header-content h1::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:120px;
+  height:2px;
+  background:linear-gradient(to right, transparent, var(--gold), transparent);
+  transform:translateX(-50%);
+}
+
+/* ================= COUNTDOWN ================= */
 .countdown{
-  background:var(--bg-panel);
+  background:linear-gradient(to right, #120f0b, #19140e);
   display:flex;
   justify-content:center;
-  gap:30px;
-  padding:15px;
-  border-bottom:1px solid var(--border-ornament);
+  gap:40px;
+  padding:16px;
+  border-bottom:1px solid rgba(212,175,55,.25);
 }
 
 .timer{
   text-align:center;
+  padding:8px 16px;
+  border:1px solid rgba(212,175,55,.2);
+  transition:box-shadow .4s var(--ease);
+}
+
+.timer:hover{
+  box-shadow:0 0 18px rgba(212,175,55,.35);
 }
 
 .timer span{
   display:block;
-  font-size:1.3rem;
+  font-size:1.4rem;
   color:var(--gold);
+  animation:pulse 2.5s infinite;
 }
 
-/* =====================
-   TABS
-===================== */
+@keyframes pulse{
+  0%,100%{opacity:.8}
+  50%{opacity:1}
+}
+
+/* ================= TABS ================= */
 .tabs{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
   background:#120f0b;
-  border-bottom:1px solid var(--border-ornament);
+  border-bottom:1px solid rgba(212,175,55,.25);
 }
 
 .tabs button{
   background:none;
   border:none;
   color:var(--text-muted);
-  padding:14px 18px;
+  padding:16px 20px;
   cursor:pointer;
-  font-size:0.95rem;
+  font-size:.95rem;
+  letter-spacing:1px;
+  position:relative;
+  transition:color .4s var(--ease);
 }
 
-.tabs button.active,
-.tabs button:hover{
+.tabs button::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:6px;
+  width:0;
+  height:2px;
+  background:linear-gradient(to right, transparent, var(--gold), transparent);
+  transition:width .4s var(--ease), left .4s var(--ease);
+}
+
+.tabs button:hover,
+.tabs button.active{
   color:var(--gold);
-  border-bottom:2px solid var(--gold);
 }
 
-/* =====================
-   PANELS
-===================== */
+.tabs button:hover::after,
+.tabs button.active::after{
+  width:80%;
+  left:10%;
+}
+
+/* ================= PANELS ================= */
 .panel{
   display:none;
-  padding:30px 20px;
-  max-width:1100px;
+  padding:40px 20px;
+  max-width:1150px;
   margin:auto;
+  animation:fadeIn .6s var(--ease);
 }
 
-.panel.active{
-  display:block;
+.panel.active{display:block;}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
 }
 
+/* ================= SECTIONS ================= */
 .section{
-  background:var(--bg-panel);
-  padding:25px;
-  margin-bottom:25px;
-  border:1px solid var(--border-ornament);
+  background:
+    linear-gradient(135deg, rgba(212,175,55,0.04), transparent),
+    var(--bg-panel);
+  padding:28px;
+  margin-bottom:30px;
+  border:1px solid rgba(212,175,55,.25);
   position:relative;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+
+.section:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
 }
 
 .section h2{
-  margin-bottom:15px;
+  margin-bottom:18px;
   color:var(--gold);
-  border-left:4px solid var(--accent);
-  padding-left:10px;
+  letter-spacing:1px;
+  position:relative;
+  padding-left:14px;
 }
 
-/* =====================
-   SERIES INFO
-===================== */
-.series-wrap{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
+.section h2::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:4px;
+  width:4px;
+  height:70%;
+  background:var(--accent);
 }
 
-.series-cover{
-  width:180px;
-  flex-shrink:0;
-}
-
-.series-cover img{
-  width:100%;
-  border:1px solid var(--border-ornament);
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-td{
-  padding:6px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-/* =====================
-   RULES
-===================== */
+/* ================= RULES ================= */
 .rules{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
+  gap:18px;
 }
 
 .rule{
   background:#1a1510;
-  padding:15px;
-  border:1px solid var(--border-ornament);
+  padding:18px;
+  border:1px solid rgba(212,175,55,.25);
   cursor:pointer;
-  position:relative;
+  transition:all .4s var(--ease);
+}
+
+.rule:hover{
+  box-shadow:0 0 18px rgba(212,175,55,.25);
+  transform:translateY(-3px);
 }
 
 .rule-content{
-  display:none;
-  font-size:0.9rem;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .6s var(--ease), opacity .4s var(--ease);
+  opacity:0;
   margin-top:10px;
   color:var(--text-muted);
 }
 
-/* =====================
-   STAFF
-===================== */
+.rule.open .rule-content{
+  max-height:300px;
+  opacity:1;
+}
+
+/* ================= STAFF ================= */
 .staff{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
+  gap:22px;
 }
 
 .staff-card{
   background:#1a1510;
-  border:1px solid var(--border-ornament);
-  padding:15px;
+  border:1px solid rgba(212,175,55,.25);
+  padding:20px;
   text-align:center;
-  transition:transform 0.3s;
+  transition:all .5s var(--ease);
 }
 
 .staff-card:hover{
-  transform:translateY(-6px);
+  transform:translateY(-8px);
+  box-shadow:0 18px 40px rgba(0,0,0,.6);
 }
 
 .staff-card img{
-  width:80px;
-  height:80px;
+  width:90px;
+  height:90px;
   border-radius:50%;
   object-fit:cover;
-  margin-bottom:10px;
+  margin-bottom:12px;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease);
 }
 
-/* =====================
-   LINKS
-===================== */
+.staff-card:hover img{
+  transform:scale(1.08);
+  box-shadow:0 0 20px rgba(212,175,55,.45);
+}
+
+/* ================= LINKS ================= */
 a{
   color:var(--gold);
   text-decoration:none;
+  position:relative;
 }
 
-a:hover{
-  text-decoration:underline;
+a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0;
+  height:2px;
+  background:var(--accent);
+  transition:width .4s var(--ease);
 }
 
-/* =====================
-   MOBILE
-===================== */
+a:hover::after{
+  width:100%;
+}
+
+/* ================= MOBILE ================= */
 @media(max-width:600px){
-  .series-wrap{
-    flex-direction:column;
-    align-items:center;
-  }
+  .countdown{flex-direction:column;gap:14px;}
 }
 </style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="header-content">
-    <img src="assets/images/logo.png" alt="Logo">
-    <h1>Gokurakugai Discord Server</h1>
-  </div>
-</div>
-
-<!-- COUNTDOWN -->
-<div class="countdown">
-  <div class="timer">
-    <strong>EN Release</strong>
-    <span id="enTimer"></span>
-  </div>
-  <div class="timer">
-    <strong>JP Release</strong>
-    <span id="jpTimer"></span>
-  </div>
-</div>
-
-<!-- TABS -->
-<div class="tabs">
-  <button class="active" onclick="openTab(event,'about')">About</button>
-  <button onclick="openTab(event,'rules')">Rules</button>
-  <button onclick="openTab(event,'info')">Server Info</button>
-  <button onclick="openTab(event,'staff')">Staff</button>
-  <button onclick="openTab(event,'links')">Links</button>
-</div>
-
-<!-- ABOUT -->
-<div id="about" class="panel active">
-
-  <div class="section">
-    <h2>About Our Server</h2>
-    <!-- PASTE YOUR OFFICIAL DESCRIPTION HERE -->
-    <p>[OFFICIAL SERVER DESCRIPTION – DO NOT EDIT]</p>
-  </div>
-
-  <div class="section">
-    <h2>About the Series</h2>
-    <div class="series-wrap">
-      <div class="series-cover">
-        <img src="assets/images/series-cover.jpg">
-      </div>
-      <div>
-        <table>
-          <tr><td>Title</td><td>Gokurakugai</td></tr>
-          <tr><td>Magazine</td><td>[Magazine]</td></tr>
-          <tr><td>Publisher</td><td>[Publisher]</td></tr>
-          <tr><td>Schedule</td><td>[Schedule]</td></tr>
-          <tr><td>Original Run</td><td>[Dates]</td></tr>
-        </table>
-        <p style="margin-top:15px;">
-          [OFFICIAL SYNOPSIS – DO NOT PARAPHRASE]
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- RULES -->
-<div id="rules" class="panel">
-  <div class="section">
-    <h2>Server Rules</h2>
-    <div class="rules">
-      <!-- DUPLICATE FOR RULE 1–20 -->
-      <div class="rule" onclick="toggleRule(this)">
-        <strong>Rule #1</strong>
-        <div class="rule-content">Full rule text here.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- INFO -->
-<div id="info" class="panel">
-  <div class="section">
-    <h2>Server Info</h2>
-    <p>Coming soon.</p>
-  </div>
-</div>
-
-<!-- STAFF -->
-<div id="staff" class="panel">
-  <div class="section">
-    <h2>Staff Team</h2>
-    <div class="staff">
-      <div class="staff-card">
-        <img src="assets/images/staff1.jpg">
-        <h3>Name</h3>
-        <p>Role</p>
-        <small>Description</small>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- LINKS -->
-<div id="links" class="panel">
-  <div class="section">
-    <h2>Community Links</h2>
-    <ul>
-      <li><a href="#">Discord Invite</a></li>
-      <li><a href="#">Official Website</a></li>
-    </ul>
-  </div>
-</div>
-
-<script>
-/* TABS */
-function openTab(evt,id){
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  evt.currentTarget.classList.add("active");
-}
-
-/* RULES */
-function toggleRule(el){
-  el.querySelector(".rule-content").classList.toggle("active");
-  el.querySelector(".rule-content").style.display =
-    el.querySelector(".rule-content").style.display === "block" ? "none" : "block";
-}
-
-/* COUNTDOWN */
-const enDate = new Date("2026-02-10T00:00:00").getTime();
-const jpDate = new Date("2026-02-05T00:00:00").getTime();
-
-setInterval(()=>{
-  updateTimer(enDate,"enTimer");
-  updateTimer(jpDate,"jpTimer");
-},1000);
-
-function updateTimer(target,id){
-  const now = new Date().getTime();
-  const d = target - now;
-  if(d < 0){ document.getElementById(id).innerText="Released"; return; }
-  const days=Math.floor(d/(1000*60*60*24));
-  const hrs=Math.floor((d%(1000*60*60*24))/(1000*60*60));
-  const min=Math.floor((d%(1000*60*60))/(1000*60));
-  document.getElementById(id).innerText=`${days}d ${hrs}h ${min}m`;
-}
-</script>
-
-</body>
-</html>
