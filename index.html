@@ -187,7 +187,6 @@ td {
 .rule p {
   display: none;
   margin-top: 8px;
-  font-size: 0.95rem;
 }
 
 .rule:hover {
@@ -195,10 +194,33 @@ td {
 }
 
 /* ================= STAFF ================= */
-.staff-grid {
+.staff-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.staff-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
   gap: 20px;
+}
+
+.staff-row.top {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.staff-row.bottom {
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  max-width: 700px;
+  margin: auto;
+}
+
+@media (max-width: 800px) {
+  .staff-row.top,
+  .staff-row.bottom {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 }
 
 .staff-card {
@@ -297,23 +319,11 @@ footer {
         By being a member of our discord server, you indicate that you have read and accepted our server rules,
         as well as Discord’s Terms of Service and Guidelines.
       </p>
-
-      <div class="link-buttons">
-        <a class="link-btn" href="https://x.com/gokurakugainews" target="_blank">X (Twitter)</a>
-        <a class="link-btn" href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">Instagram</a>
-        <a class="link-btn" href="https://www.threads.com/@gokurakugaiwiki" target="_blank">Threads</a>
-        <a class="link-btn" href="https://bsky.app/profile/gokurakugai.bsky.social" target="_blank">Bluesky</a>
-        <a class="link-btn" href="https://www.facebook.com/gokurakugai" target="_blank">Facebook Page</a>
-        <a class="link-btn" href="https://www.facebook.com/groups/gokurakugai" target="_blank">Facebook Group</a>
-        <a class="link-btn" href="https://www.reddit.com/r/Saragi/" target="_blank">Reddit</a>
-      </div>
     </div>
 
     <div>
       <h2>About the Series</h2>
       <img src="assets/images/series-cover.jpg" class="series-image">
-
-      <h3>Series Information</h3>
       <table>
         <tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
         <tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
@@ -321,68 +331,43 @@ footer {
         <tr><td><strong>Schedule</strong></td><td>Monthly</td></tr>
         <tr><td><strong>Original Run</strong></td><td>Jan 27, 2020 (One-shot)<br>July 4, 2022 (Official)</td></tr>
       </table>
-
-      <h3>Official Synopsis</h3>
-      <p><em>
-        Gokurakugai, a bright and bustling working class district with a hidden dark side.
-        In this area without order, Tao and Alma work as troubleshooters for hire.
-        Their missions involve helping a young boy find his lost friend,
-        a person who dissapears without a trace, and disfigured animal corpses.
-        All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
-      </em></p>
-
-      <div class="link-buttons">
-        <a class="link-btn" href="https://jumpsq.shueisha.co.jp/sqrise/2020winter/gokuraku.html" target="_blank">Jump SQ.RISE One-shot</a>
-        <a class="link-btn" href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank">Jump SQ Official</a>
-        <a class="link-btn" href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank">VIZ Media</a>
-        <a class="link-btn" href="https://mangaplus.shueisha.co.jp/titles/100230" target="_blank">MANGA Plus</a>
-        <a class="link-btn" href="https://www.instagram.com/yuto__sano" target="_blank">Yuto Sano Instagram</a>
-        <a class="link-btn" href="https://x.com/Yuto___Sano" target="_blank">Yuto Sano X</a>
-        <a class="link-btn" href="https://x.com/gokurakugaiinfo" target="_blank">Gokurakugai Info</a>
-      </div>
     </div>
 
   </div>
-</div>
-
-<!-- RULES -->
-<div class="section" id="rules">
-  <h2>Server Rules</h2>
-  <div id="rulesList"></div>
-</div>
-
-<!-- INFO -->
-<div class="section" id="info">
-  <h2>Server Info</h2>
-  <p>Coming soon.</p>
 </div>
 
 <!-- STAFF -->
 <div class="section" id="staff">
   <h2>About the Staff</h2>
-  <div class="staff-grid">
 
-    <div class="staff-card">
-      <div class="staff-front">
-        <img src="assets/images/staff1.jpg">
-        <h4>Name</h4>
+  <div class="staff-wrapper">
+
+    <div class="staff-row top">
+      <div class="staff-card">
+        <div class="staff-front"><img src="assets/images/staff1.jpg"><h4>Name</h4></div>
+        <div class="staff-overlay"><strong>Role</strong><p>Description</p></div>
       </div>
-      <div class="staff-overlay">
-        <strong>Role</strong>
-        <p>Long description here. Scrollable if long.</p>
+      <div class="staff-card">
+        <div class="staff-front"><img src="assets/images/staff2.jpg"><h4>Name</h4></div>
+        <div class="staff-overlay"><strong>Role</strong><p>Description</p></div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-front"><img src="assets/images/staff3.jpg"><h4>Name</h4></div>
+        <div class="staff-overlay"><strong>Role</strong><p>Description</p></div>
       </div>
     </div>
 
-  </div>
-</div>
+    <div class="staff-row bottom">
+      <div class="staff-card">
+        <div class="staff-front"><img src="assets/images/staff4.jpg"><h4>Name</h4></div>
+        <div class="staff-overlay"><strong>Role</strong><p>Description</p></div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-front"><img src="assets/images/staff5.jpg"><h4>Name</h4></div>
+        <div class="staff-overlay"><strong>Role</strong><p>Description</p></div>
+      </div>
+    </div>
 
-<!-- COMMUNITY -->
-<div class="section" id="links">
-  <h2>Community & Official Links</h2>
-  <div class="link-buttons">
-    <a class="link-btn" href="#">Discord</a>
-    <a class="link-btn" href="#">Twitter</a>
-    <a class="link-btn" href="#">Manga Platforms</a>
   </div>
 </div>
 
@@ -398,19 +383,6 @@ document.querySelectorAll(".tab").forEach(tab => {
     document.getElementById(tab.dataset.tab).classList.add("active");
   };
 });
-
-/* Rules */
-const rulesList = document.getElementById("rulesList");
-for (let i = 1; i <= 20; i++) {
-  const rule = document.createElement("div");
-  rule.className = "rule";
-  rule.innerHTML = `<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  rule.onclick = () => {
-    const p = rule.querySelector("p");
-    p.style.display = p.style.display === "block" ? "none" : "block";
-  };
-  rulesList.appendChild(rule);
-}
 
 /* Countdown */
 const jpDate = new Date("2026-03-01T00:00:00");
