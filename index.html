@@ -1,146 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Gokurakugai Discord Server</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<title>Gokurakugai Discord Server</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --red: #8f1d1d;
+  --gold: #c9a24d;
+  --ink: #1b1b1b;
+  --paper: #f6f1e7;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Noto Serif SC", serif;
+  background: #e8dfcf;
+  color: var(--ink);
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: relative;
+  height: 280px;
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url("assets/header.jpg") center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header img {
+  width: 90px;
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  color: #fff;
+  letter-spacing: 2px;
+  font-size: 2.4rem;
+  margin: 0;
+}
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  justify-content: center;
+  background: var(--red);
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.tabs button.active,
+.tabs button:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ===== CONTENT ===== */
+.content {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: var(--paper);
+  padding: 40px;
+  border: 2px solid var(--gold);
+}
+
+/* ===== COUNTDOWN ===== */
+.countdown {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.count-item {
+  position: relative;
+  padding: 15px;
+  border: 1px solid var(--gold);
+  cursor: pointer;
+}
+
+.count-item img {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 80px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.count-item:hover img {
+  opacity: 1;
+}
+
+/* ===== SECTIONS ===== */
+.section { display: none; }
+.section.active { display: block; }
+
+.banner {
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+}
+
+.float-img {
+  float: right;
+  width: 180px;
+  margin: 0 0 20px 20px;
+  border: 1px solid var(--gold);
+}
+
+/* ===== RULES ===== */
+.rule {
+  border: 1px solid #d9cba8;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.rule-header {
+  padding: 14px;
+  background: #fbf8f1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rule-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 14px;
+  transition: 0.3s;
+}
+
+.rule.active .rule-content {
+  max-height: 200px;
+  padding: 14px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 40px;
+  opacity: 0.7;
+}
+</style>
 </head>
+
 <body>
 
 <!-- HEADER -->
-<header class="hero">
-  <img src="assets/images/header.jpg" class="hero-bg" alt="">
-  <div class="hero-overlay"></div>
-
-  <div class="hero-content">
-    <img src="assets/images/logo.png" class="logo" alt="Server Logo">
+<div class="header">
+  <div>
+    <img src="assets/logo.png" alt="Discord Logo">
     <h1>Gokurakugai Discord Server</h1>
-    <p>極楽街 • Paradise District</p>
   </div>
-</header>
+</div>
 
 <!-- TABS -->
-<nav class="tabs">
-  <button class="tab active" data-tab="about">About</button>
-  <button class="tab" data-tab="rules">Rules</button>
-  <button class="tab" data-tab="info">Server Info</button>
-  <button class="tab" data-tab="staff">Staff</button>
-  <button class="tab" data-tab="links">Community</button>
-</nav>
+<div class="tabs">
+  <button class="active" onclick="openTab(0)">About</button>
+  <button onclick="openTab(1)">Rules</button>
+  <button onclick="openTab(2)">Server Info</button>
+  <button onclick="openTab(3)">Staff</button>
+  <button onclick="openTab(4)">Community</button>
+</div>
 
-<!-- CONTENT -->
-<main>
+<div class="content">
+
+<!-- COUNTDOWN -->
+<div class="countdown">
+  <div class="count-item">
+    Next Chapter (EN)
+    <img src="assets/chapter-cover.jpg">
+  </div>
+  <div class="count-item">
+    Next Volume (JP)
+    <img src="assets/volume-cover.jpg">
+  </div>
+</div>
 
 <!-- ABOUT -->
-<section class="tab-content active" id="about">
-
-  <div class="banner">About Our Server</div>
-
-  <p>
-    We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga
-    written and illustrated by <strong>Yuto Sano</strong>.
-    Originally introduced as a one-shot titled
-    <strong>Gokurakugai Sanbandori No Ken</strong> in
-    <em>Jump SQ.RISE Winter 2020</em>, the series officially began serialization on July 4, 2022.
-  </p>
+<div class="section active">
+  <div class="banner" style="background-image:url('assets/server-banner.jpg')"></div>
 
   <p>
-    By joining our Discord server, you agree to our server rules and Discord’s Terms of Service.
+    We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>...
   </p>
 
-  <div class="links">
-    <a href="https://x.com/gokurakugainews">Twitter</a>
-    <a href="https://www.instagram.com/gokurakugaiwiki/">Instagram</a>
-    <a href="https://www.reddit.com/r/Saragi/">Reddit</a>
-  </div>
+  <div class="banner" style="background-image:url('assets/series-banner.jpg')"></div>
 
-  <div class="banner">Series Information</div>
+  <img src="assets/series-cover.jpg" class="float-img">
 
-  <div class="series-box">
-    <img src="assets/images/gokurakugai-cover.jpg" class="series-thumb">
-
-    <div>
-      <pre>
+  <h3>Series Information</h3>
+  <pre>
 Title:        Gokurakugai (極楽街)
-Magazine:     Jump SQ. Rise
+Magazine:     Jump SQ.Rise
 Publisher:    SHUEISHA
 Schedule:     Monthly
 Original Run: Jan 27, 2020 (One-shot)
               July 4, 2022 (Official)
-      </pre>
+  </pre>
 
-      <p class="synopsis">
-        <em>
-        A bright working-class district hides a darker truth. Tao and Alma work as troubleshooters,
-        dealing with disappearances, twisted creatures, and spirits lurking in the shadows.
-        </em>
-      </p>
-    </div>
-  </div>
-
-</section>
+  <p>
+    Gokurakugai is a bright and lively working-class district hiding a dark underbelly...
+  </p>
+</div>
 
 <!-- RULES -->
-<section class="tab-content" id="rules">
+<div class="section">
+  <h2>Server Rules</h2>
 
-  <div class="banner">Server Rules</div>
-
-  <div class="rules">
-    <!-- Repeat up to 20 -->
-    <div class="rule">
-      <h3>Rule 1</h3>
-      <p>Be respectful to all members.</p>
-    </div>
-    <div class="rule">
-      <h3>Rule 2</h3>
-      <p>No harassment, hate speech, or threats.</p>
-    </div>
-    <div class="rule">
-      <h3>Rule 3</h3>
-      <p>No spoilers without proper tags.</p>
-    </div>
-    <!-- add Rule 4–20 -->
+  <!-- RULE TEMPLATE -->
+  <div class="rule">
+    <div class="rule-header">Rule #1 <span>▶</span></div>
+    <div class="rule-content">Respect all members.</div>
   </div>
 
-</section>
+  <!-- Duplicate up to Rule #20 -->
+</div>
 
-<!-- SERVER INFO -->
-<section class="tab-content" id="info">
+<div class="section"><p>Server info content here.</p></div>
+<div class="section"><p>Staff bios here.</p></div>
+<div class="section"><p>Community links here.</p></div>
 
-  <div class="banner">Release Countdown</div>
+<div class="footer">
+  © Gokurakugai Discord · Hosted on GitHub Pages
+</div>
 
-  <div class="countdown-grid">
-    <div class="countdown-card">
-      <img src="assets/images/chapter-cover.jpg">
-      <span>Next Chapter</span>
-    </div>
-    <div class="countdown-card">
-      <img src="assets/images/volume-cover.jpg">
-      <span>Next Volume</span>
-    </div>
-  </div>
+</div>
 
-</section>
+<script>
+function openTab(i) {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".tabs button")[i].classList.add("active");
+  document.querySelectorAll(".section")[i].classList.add("active");
+}
 
-<!-- STAFF -->
-<section class="tab-content" id="staff">
-  <div class="banner">Staff Team</div>
-  <p>Admins, moderators, and contributors.</p>
-</section>
+document.querySelectorAll(".rule").forEach(r =>
+  r.addEventListener("click", () => r.classList.toggle("active"))
+);
+</script>
 
-<!-- COMMUNITY -->
-<section class="tab-content" id="links">
-  <div class="banner">Community Links</div>
-  <div class="links">
-    <a href="#">Discord</a>
-    <a href="#">Wiki</a>
-    <a href="#">MangaPlus</a>
-  </div>
-</section>
-
-</main>
-
-<script src="script.js"></script>
 </body>
 </html>
