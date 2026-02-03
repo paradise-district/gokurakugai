@@ -3,197 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Gokurakugai Discord Server</title>
 
 <style>
-/* =====================
-   ROOT & RESET
-===================== */
+/* =======================
+   ROOT & GLOBAL
+======================= */
 :root {
-  --ink: #0f1115;
-  --jade: #2aa198;
-  --vermillion: #c0392b;
-  --gold: #d4af37;
-  --paper: #f5f3ee;
-  --shadow: rgba(0,0,0,0.4);
+  --red: #8b1e1e;
+  --gold: #caa85c;
+  --ink: #0f0f0f;
+  --paper: #f5f2ec;
+  --border: rgba(202,168,92,0.5);
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
+  margin: 0;
   font-family: "Noto Serif SC", "Songti SC", serif;
-  background: radial-gradient(circle at top, #1a1d24, #0b0d12);
+  background: var(--ink);
   color: var(--paper);
-  line-height: 1.6;
 }
 
-/* =====================
+/* =======================
    HEADER
-===================== */
-header {
+======================= */
+.header {
   position: relative;
-  height: 260px;
-  background:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
-    url("ASSETS/header-bg.jpg") center/cover no-repeat;
+  height: 320px;
+  background: url("assets/header-bg.jpg") center/cover no-repeat;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
+
+.header-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  gap: 24px;
+  padding: 40px;
 }
 
-header img {
-  width: 90px;
-  height: 90px;
+.header-content img {
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   border: 2px solid var(--gold);
-  margin-bottom: 12px;
 }
 
-header h1 {
-  font-size: 2.2rem;
+.header-content h1 {
+  font-size: 2.6rem;
   letter-spacing: 2px;
   color: var(--gold);
 }
 
-/* =====================
+/* =======================
    COUNTDOWN
-===================== */
+======================= */
 .countdown {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  padding: 14px;
-  background: rgba(0,0,0,0.6);
-  border-bottom: 1px solid var(--gold);
+  gap: 24px;
+  padding: 16px;
+  background: rgba(139,30,30,0.2);
+  border-bottom: 1px solid var(--border);
 }
 
-.timer {
+.timer-box {
   text-align: center;
   font-size: 0.9rem;
 }
 
-.timer span {
+.timer-box span {
   display: block;
-  font-size: 1.2rem;
-  color: var(--jade);
+  font-size: 1.4rem;
+  color: var(--gold);
 }
 
-/* =====================
+/* =======================
    TABS
-===================== */
-nav {
+======================= */
+.tabs {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  background: #0c0f15;
-  border-bottom: 1px solid var(--gold);
+  background: #111;
+  border-bottom: 1px solid var(--border);
 }
 
-nav button {
+.tabs button {
   background: none;
   border: none;
-  color: var(--paper);
   padding: 14px 18px;
+  color: var(--paper);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
-nav button.active,
-nav button:hover {
+.tabs button.active,
+.tabs button:hover {
   color: var(--gold);
   border-bottom: 2px solid var(--gold);
 }
 
-section {
+/* =======================
+   SECTIONS
+======================= */
+.section {
   display: none;
-  padding: 30px 18px;
+  padding: 40px 20px;
   max-width: 1100px;
   margin: auto;
 }
 
-section.active {
+.section.active {
   display: block;
 }
 
-/* =====================
-   BANNERS
-===================== */
 .banner {
-  padding: 16px;
-  margin-bottom: 20px;
-  background: linear-gradient(90deg, #151821, #0f121a);
-  border-left: 4px solid var(--vermillion);
-  font-size: 1.2rem;
+  padding: 18px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.4);
   color: var(--gold);
+  font-size: 1.3rem;
 }
 
-/* =====================
+/* =======================
    ABOUT SERIES
-===================== */
+======================= */
 .series-box {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  position: relative;
 }
 
-.series-box img {
-  width: 200px;
-  border: 1px solid var(--gold);
+.series-thumb {
+  float: right;
+  width: 180px;
+  margin: 0 0 20px 20px;
+  border: 2px solid var(--gold);
 }
 
-table {
+.info-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 12px;
+  margin: 20px 0;
 }
 
-td {
-  padding: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-td:first-child {
-  color: var(--jade);
-  width: 35%;
-}
-
-/* =====================
-   RULES
-===================== */
-.rules details {
-  background: #11141c;
-  margin-bottom: 10px;
+.info-table td {
+  border: 1px solid var(--border);
   padding: 10px;
-  border-left: 3px solid var(--jade);
-  cursor: pointer;
 }
 
-.rules summary {
-  font-weight: bold;
+.info-table td:first-child {
+  width: 180px;
   color: var(--gold);
 }
 
-/* =====================
+/* =======================
+   RULES
+======================= */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 16px;
+}
+
+.rule {
+  border: 1px solid var(--border);
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.rule:hover {
+  background: rgba(202,168,92,0.1);
+}
+
+.rule-content {
+  display: none;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+/* =======================
    STAFF
-===================== */
+======================= */
 .staff-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
 }
 
 .staff-card {
-  background: #121520;
+  border: 1px solid var(--border);
   padding: 16px;
   text-align: center;
   transition: transform 0.3s;
-  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .staff-card:hover {
@@ -201,34 +216,38 @@ td:first-child {
 }
 
 .staff-card img {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  border: 1px solid var(--gold);
+  border: 2px solid var(--gold);
 }
 
-/* =====================
+/* =======================
    LINKS
-===================== */
-a {
-  color: var(--jade);
+======================= */
+.links a {
+  display: inline-block;
+  margin: 8px;
+  color: var(--gold);
   text-decoration: none;
 }
 
-a:hover {
-  color: var(--gold);
+.links a:hover {
   text-decoration: underline;
 }
 
-/* =====================
+/* =======================
    MOBILE
-===================== */
+======================= */
 @media (max-width: 600px) {
-  header h1 {
-    font-size: 1.6rem;
-  }
-  .countdown {
+  .header-content {
     flex-direction: column;
+    text-align: center;
+  }
+  .series-thumb {
+    float: none;
+    display: block;
+    margin: 0 auto 20px;
   }
 }
 </style>
@@ -236,101 +255,133 @@ a:hover {
 
 <body>
 
-<header>
-  <div>
-    <img src="ASSETS/server-logo.png" alt="Server Logo">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <img src="assets/server-logo.png" alt="Server Logo">
     <h1>Gokurakugai Discord Server</h1>
   </div>
-</header>
-
-<div class="countdown">
-  <div class="timer">JP Chapter<br><span id="jp"></span></div>
-  <div class="timer">EN Chapter<br><span id="en"></span></div>
-  <div class="timer">Volume Release<br><span id="vol"></span></div>
 </div>
 
-<nav>
+<!-- COUNTDOWN -->
+<div class="countdown">
+  <div class="timer-box">
+    English Release
+    <span id="enTimer">--</span>
+  </div>
+  <div class="timer-box">
+    Japanese Release
+    <span id="jpTimer">--</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
   <button class="active" onclick="openTab(0)">About Our Server</button>
   <button onclick="openTab(1)">Server Rules</button>
   <button onclick="openTab(2)">Server Info</button>
   <button onclick="openTab(3)">About the Staff</button>
   <button onclick="openTab(4)">Community Links</button>
-</nav>
+</div>
 
-<section class="active">
+<!-- ABOUT -->
+<div class="section active">
   <div class="banner">About Our Server</div>
-  <!-- PASTE EXACT SERVER DESCRIPTION HERE -->
+  <!-- INSERT EXACT SERVER DESCRIPTION HERE -->
 
   <div class="banner">About the Series</div>
   <div class="series-box">
-    <img src="ASSETS/series-cover.jpg" alt="Series Cover">
-    <div>
-      <table>
-        <tr><td>Title</td><td>PASTE HERE</td></tr>
-        <tr><td>Magazine</td><td>PASTE HERE</td></tr>
-        <tr><td>Publisher</td><td>PASTE HERE</td></tr>
-        <tr><td>Schedule</td><td>PASTE HERE</td></tr>
-        <tr><td>Original Run</td><td>PASTE HERE</td></tr>
-      </table>
-      <!-- PASTE OFFICIAL SYNOPSIS HERE -->
+    <img src="assets/series-cover.jpg" class="series-thumb">
+
+    <table class="info-table">
+      <tr><td>Title</td><td></td></tr>
+      <tr><td>Magazine</td><td></td></tr>
+      <tr><td>Publisher</td><td></td></tr>
+      <tr><td>Schedule</td><td></td></tr>
+      <tr><td>Original Run</td><td></td></tr>
+    </table>
+
+    <!-- INSERT OFFICIAL SYNOPSIS HERE -->
+  </div>
+</div>
+
+<!-- RULES -->
+<div class="section">
+  <div class="banner">Server Rules</div>
+  <div class="rules-grid">
+    <!-- Duplicate rule blocks up to #20 -->
+    <div class="rule" onclick="this.querySelector('.rule-content').classList.toggle('show')">
+      Rule #1
+      <div class="rule-content">Full rule text here.</div>
     </div>
   </div>
-</section>
+</div>
 
-<section class="rules">
-  <div class="banner">Server Rules</div>
-  <!-- DUPLICATE UP TO #20 -->
-  <details><summary>Rule #1</summary><p>Full rule text here.</p></details>
-  <details><summary>Rule #2</summary><p>Full rule text here.</p></details>
-</section>
-
-<section>
+<!-- INFO -->
+<div class="section">
   <div class="banner">Server Info</div>
-  <p>Placeholder content.</p>
-</section>
+  <p>Coming soon.</p>
+</div>
 
-<section>
+<!-- STAFF -->
+<div class="section">
   <div class="banner">About the Staff</div>
   <div class="staff-grid">
     <div class="staff-card">
-      <img src="ASSETS/staff1.jpg">
+      <img src="assets/staff1.png">
       <h3>Name</h3>
       <p>Role</p>
       <small>Description</small>
     </div>
   </div>
-</section>
+</div>
 
-<section>
+<!-- LINKS -->
+<div class="section">
   <div class="banner">Community Links</div>
-  <!-- ADD LINKS HERE -->
-</section>
+  <div class="links">
+    <a href="#">Discord</a>
+    <a href="#">Twitter</a>
+  </div>
+</div>
 
 <script>
-const tabs = document.querySelectorAll("section");
-const buttons = document.querySelectorAll("nav button");
-
-function openTab(i) {
-  tabs.forEach(t => t.classList.remove("active"));
-  buttons.forEach(b => b.classList.remove("active"));
-  tabs[i].classList.add("active");
-  buttons[i].classList.add("active");
+/* =======================
+   TABS
+======================= */
+function openTab(index) {
+  document.querySelectorAll(".section").forEach((s,i)=> {
+    s.classList.toggle("active", i === index);
+  });
+  document.querySelectorAll(".tabs button").forEach((b,i)=> {
+    b.classList.toggle("active", i === index);
+  });
 }
 
-function countdown(id, date) {
-  setInterval(() => {
-    const d = new Date(date) - new Date();
-    const days = Math.floor(d / 86400000);
-    const hrs = Math.floor(d % 86400000 / 3600000);
-    document.getElementById(id).textContent =
-      days + "d " + hrs + "h";
-  }, 1000);
+/* =======================
+   COUNTDOWN
+======================= */
+const enRelease = new Date("2026-03-01T00:00:00").getTime();
+const jpRelease = new Date("2026-02-20T00:00:00").getTime();
+
+function updateCountdown(id, target) {
+  const now = Date.now();
+  const diff = target - now;
+  if (diff <= 0) return document.getElementById(id).innerText = "Released";
+
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor(diff / (1000*60*60)) % 24;
+  const m = Math.floor(diff / (1000*60)) % 60;
+  const s = Math.floor(diff / 1000) % 60;
+
+  document.getElementById(id).innerText =
+    `${d}d ${h}h ${m}m ${s}s`;
 }
 
-/* SET DATES HERE */
-countdown("jp", "2026-02-10T00:00:00");
-countdown("en", "2026-02-14T00:00:00");
-countdown("vol", "2026-03-01T00:00:00");
+setInterval(() => {
+  updateCountdown("enTimer", enRelease);
+  updateCountdown("jpTimer", jpRelease);
+}, 1000);
 </script>
 
 </body>
