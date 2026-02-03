@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gokurakugai Discord Server</title>
 
 <style>
@@ -11,7 +11,7 @@
   --paper:#f5f1e8;
   --red:#8c1d18;
   --gold:#c9a24d;
-  --line:rgba(0,0,0,.12);
+  --line:rgba(0,0,0,.15);
 }
 
 *{box-sizing:border-box;font-family:"Segoe UI",system-ui,sans-serif}
@@ -20,59 +20,48 @@ body{margin:0;background:var(--paper);color:#222}
 /* ================= HEADER ================= */
 .header{
   position:relative;height:320px;
-  background:url("assets/images/header-bg.jpg") center/cover no-repeat;
+  background:url("assets/images/header-bg.jpg") center/cover no-repeat
 }
-.header::after{
-  content:"";position:absolute;inset:0;background:rgba(0,0,0,.65);
-}
+.header::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.65)}
 .header-content{
   position:relative;z-index:2;height:100%;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
-  color:#fff;text-align:center;
+  color:#fff;text-align:center
 }
 .header img{width:90px;margin-bottom:10px}
 .header h1{
   font-size:2.2rem;letter-spacing:2px;
-  border-bottom:2px solid var(--gold);padding-bottom:6px;
+  border-bottom:2px solid var(--gold);padding-bottom:6px
 }
 
 /* ================= COUNTDOWN ================= */
 .countdown{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:12px;
-  padding:16px;
-  background:#111;
-  color:var(--gold);
-  text-align:center;
+  gap:12px;padding:16px;background:#111;color:var(--gold);text-align:center
 }
 .count-box span{
-  display:block;font-size:1.25rem;color:#fff;margin-top:6px;
+  display:block;font-size:1.25rem;color:#fff;margin-top:6px
 }
 
 /* ================= TABS ================= */
-.tabs{
-  display:flex;justify-content:center;flex-wrap:wrap;background:var(--ink);
-}
+.tabs{display:flex;justify-content:center;flex-wrap:wrap;background:var(--ink)}
 .tab{
   padding:14px 18px;cursor:pointer;color:#bbb;
-  border-bottom:3px solid transparent;
+  border-bottom:3px solid transparent
 }
-.tab.active{color:var(--gold);border-color:var(--gold);}
+.tab.active{color:var(--gold);border-color:var(--gold)}
 
 /* ================= SECTIONS ================= */
 .section{
-  display:none;
-  max-width:1000px;
-  margin:auto;
-  padding:36px 20px;
+  display:none;max-width:1000px;margin:auto;padding:36px 20px
 }
 .section.active{display:block}
 .section h2{
   color:var(--red);
   border-left:5px solid var(--gold);
   padding-left:12px;
-  margin:28px 0 16px;
+  margin:28px 0 16px
 }
 .section h3{margin-top:20px}
 
@@ -90,84 +79,80 @@ body{margin:0;background:var(--paper);color:#222}
 table{width:100%;border-collapse:collapse;margin-top:12px}
 td{padding:8px;border-bottom:1px solid var(--line)}
 
-/* ================= RULES ================= */
-.rule{
-  border:1px solid var(--line);
-  padding:12px;
-  margin-bottom:10px;
-  background:#fff;
-  cursor:pointer;
-}
-.rule p{display:none;margin-top:8px}
-.rule:hover{background:#f9f6ee}
-
-/* ================= STAFF (UIVERSE STYLE) ================= */
+/* ================= STAFF ================= */
 .staff-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:24px;
+  gap:28px;
+}
+.staff-grid .staff-card:nth-child(4),
+.staff-grid .staff-card:nth-child(5){
+  grid-column:span 1;
 }
 @media(max-width:900px){
-  .staff-grid{
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  }
+  .staff-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 }
 
+/* UIverse-inspired staff card */
 .staff-card{
   position:relative;
   height:400px;
-  width:100%;
-  border-radius:1.5em;
+  border-radius:24px;
+  padding:24px;
+  display:flex;
+  justify-content:flex-end;
+  flex-direction:column;
+  background:
+    linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+    url("assets/images/staff-bg.png");
+  background-size:cover;
+  color:#fff;
   overflow:hidden;
-  background:#111;
-  box-shadow:0 4px 16px rgba(0,0,0,.25);
 }
 
-.staff-bg{
+.staff-card::before{
+  content:"";
   position:absolute;
   inset:0;
   background:#111;
+  z-index:0;
 }
 
 .staff-content{
   position:relative;
   z-index:2;
-  height:100%;
   display:flex;
   flex-direction:column;
-  justify-content:flex-end;
-  gap:.75em;
-  padding:1.5em;
-  color:#fff;
+  gap:10px;
 }
 
 .staff-name{
-  font-size:1.4em;
-  letter-spacing:.2em;
+  font-size:1.4rem;
+  letter-spacing:.25em;
   font-weight:900;
   -webkit-text-fill-color:transparent;
-  -webkit-text-stroke-width:1px;
+  -webkit-text-stroke:1px #fff;
   text-shadow:0 0 6px #fff;
 }
 
 .staff-role{
-  display:inline-block;
-  border:2px solid var(--gold);
-  padding:.25em .6em;
-  font-size:.9em;
+  border:1px solid var(--gold);
+  width:fit-content;
+  padding:4px 10px;
+  font-size:.85rem;
   color:var(--gold);
 }
 
 .staff-desc{
-  font-size:.9em;
-  line-height:1.3em;
-  height:0;
+  font-size:.9rem;
+  line-height:1.25em;
+  max-height:0;
   overflow:hidden;
-  transition:height .5s;
+  transition:max-height .5s ease;
 }
 
 .staff-card:hover .staff-desc{
-  height:7em;
+  max-height:120px;
 }
 
 /* ================= FOOTER ================= */
@@ -176,7 +161,26 @@ footer{
   padding:28px 20px;
   font-size:.8rem;
   color:#666;
-  border-top:1px solid var(--line);
+  border-top:1px solid var(--line)
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.footer-links a{
+  color:var(--red);
+  text-decoration:none;
+  font-size:.85rem;
+  padding:6px 12px;
+  border:1px solid var(--gold);
+}
+.footer-links a:hover{
+  background:rgba(201,162,77,.15);
 }
 </style>
 </head>
@@ -202,19 +206,31 @@ footer{
 <div class="tabs">
   <div class="tab active" data-tab="about">About</div>
   <div class="tab" data-tab="rules">Rules</div>
-  <div class="tab" data-tab="info">Server Info</div>
+  <div class="tab" data-tab="info">Info</div>
   <div class="tab" data-tab="staff">Staff</div>
 </div>
 
 <!-- ABOUT -->
 <div class="section active" id="about">
-  <!-- your full About + Series content stays exactly as before -->
+  <h2>About Our Server</h2>
+  <div class="section-banner" style="background-image:url('assets/images/banner-server.png')"></div>
+  <p>[Your full About text remains unchanged]</p>
+
+  <h2>About the Series</h2>
+  <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
+  <p>[Your full series info remains unchanged]</p>
 </div>
 
 <!-- RULES -->
 <div class="section" id="rules">
   <h2>Server Rules</h2>
   <div id="rulesList"></div>
+</div>
+
+<!-- INFO -->
+<div class="section" id="info">
+  <h2>Server Info</h2>
+  <p>Coming soon.</p>
 </div>
 
 <!-- STAFF -->
@@ -224,42 +240,59 @@ footer{
   <div class="staff-grid">
 
     <div class="staff-card">
-      <div class="staff-bg"></div>
       <div class="staff-content">
-        <div class="staff-name">NAME ONE</div>
-        <span class="staff-role">Administrator</span>
-        <div class="staff-desc">
-          Handles server operations, moderation oversight, and announcements.
-        </div>
+        <div class="staff-name">NAME 1</div>
+        <div class="staff-role">Administrator</div>
+        <div class="staff-desc">Short description about the staff member.</div>
       </div>
     </div>
 
     <div class="staff-card">
-      <div class="staff-bg"></div>
       <div class="staff-content">
-        <div class="staff-name">NAME TWO</div>
-        <span class="staff-role">Moderator</span>
-        <div class="staff-desc">
-          Enforces rules, assists members, and keeps discussions healthy.
-        </div>
+        <div class="staff-name">NAME 2</div>
+        <div class="staff-role">Moderator</div>
+        <div class="staff-desc">Short description about the staff member.</div>
       </div>
     </div>
 
     <div class="staff-card">
-      <div class="staff-bg"></div>
       <div class="staff-content">
-        <div class="staff-name">NAME THREE</div>
-        <span class="staff-role">Moderator</span>
-        <div class="staff-desc">
-          Community support, reports handling, and event moderation.
-        </div>
+        <div class="staff-name">NAME 3</div>
+        <div class="staff-role">Moderator</div>
+        <div class="staff-desc">Short description about the staff member.</div>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-content">
+        <div class="staff-name">NAME 4</div>
+        <div class="staff-role">Staff</div>
+        <div class="staff-desc">Short description about the staff member.</div>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <div class="staff-content">
+        <div class="staff-name">NAME 5</div>
+        <div class="staff-role">Staff</div>
+        <div class="staff-desc">Short description about the staff member.</div>
       </div>
     </div>
 
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
+  <div class="footer-links">
+    <a href="https://discord.gg/gokurakugai" target="_blank">Discord</a>
+    <a href="https://x.com/gokurakugainews" target="_blank">X</a>
+    <a href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">Instagram</a>
+    <a href="https://www.threads.com/@gokurakugaiwiki" target="_blank">Threads</a>
+    <a href="https://bsky.app/profile/gokurakugai.bsky.social" target="_blank">Bluesky</a>
+    <a href="https://www.facebook.com/gokurakugakugai" target="_blank">Facebook</a>
+    <a href="https://www.reddit.com/r/Saragi/" target="_blank">Reddit</a>
+  </div>
   © Gokurakugai Discord Server
 </footer>
 
@@ -274,17 +307,7 @@ document.querySelectorAll(".tab").forEach(t=>{
   };
 });
 
-/* Rules */
-const rl=document.getElementById("rulesList");
-for(let i=1;i<=20;i++){
-  const d=document.createElement("div");
-  d.className="rule";
-  d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  d.onclick=()=>{const p=d.querySelector("p");p.style.display=p.style.display==="block"?"none":"block";}
-  rl.appendChild(d);
-}
-
-/* Countdown JST */
+/* Countdown */
 const events=[
   ["c33","2026-02-04T00:00:00+09:00"],
   ["v6jp","2026-02-04T00:00:00+09:00"],
