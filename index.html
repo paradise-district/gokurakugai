@@ -6,70 +6,72 @@
 <title>Gokurakugai Discord Server</title>
 
 <style>
+/* ================= RESET ================= */
+*{box-sizing:border-box}
+
 /* ================= FONTS ================= */
 body{
-  font-family:"Segoe UI",system-ui,sans-serif;
+  font-family:"Noto Serif SC","Songti SC","SimSun","Georgia",serif;
+  letter-spacing:.02em;
 }
 h1,h2,h3,h4{
-  font-family:Georgia,"Times New Roman",serif;
+  font-family:"Noto Serif SC","STSong","SimSun",serif;
   letter-spacing:.08em;
 }
 
 /* ================= THEME ================= */
 :root{
-  --bg:#f7f3ea;
-  --panel:#ffffff;
-  --ink:#c43128;
-  --text:#222;
-  --accent:#c43128;
+  --bg:#f4f1ea;
+  --panel:#fbfaf6;
+  --ink:#2b2b2b;
+  --accent:#b32018;      /* cinnabar red */
+  --gold:#b89b5e;
+  --text:#2b2b2b;
+
   --frame:url("assets/images/light-border.png");
   --pattern:url("assets/images/pattern-light.png");
   --header-bg:url("assets/images/header-bg-light.jpg");
+
+  --ease:cubic-bezier(.25,.8,.25,1);
 }
 
 body.dark{
-  --bg:#0f0f0f;
+  --bg:#0e0e0e;
   --panel:#141414;
-  --ink:#d6b25e;
+  --ink:#eaeaea;
+  --accent:#cfa44a;
+  --gold:#e3c777;
   --text:#eaeaea;
-  --accent:#d6b25e;
+
   --frame:url("assets/images/dark-border.png");
   --pattern:url("assets/images/pattern-dark.png");
   --header-bg:url("assets/images/header-bg-dark.jpg");
 }
 
-*{box-sizing:border-box}
-
+/* ================= BODY ================= */
 body{
   margin:0;
   background:
-    linear-gradient(rgba(255,255,255,.85),rgba(255,255,255,.85)),
+    radial-gradient(circle at top, rgba(0,0,0,.04), transparent 60%),
     var(--pattern),
     var(--bg);
-  background-size:auto,260px 260px,auto;
-  background-repeat:no-repeat,repeat,no-repeat;
+  background-size:auto, 240px 240px, auto;
   color:var(--text);
-  transition:.3s;
+  transition:all .4s var(--ease);
 }
 
-body.dark{
-  background:
-    linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.8)),
-    var(--pattern),
-    var(--bg);
-}
-
-/* ================= HEADER (CEREMONIAL) ================= */
+/* ================= HEADER ================= */
 .header{
-  height:220px;
-  background:var(--header-bg) center/cover no-repeat;
   position:relative;
+  height:360px;
+  background:var(--header-bg) center/cover no-repeat;
 }
 .header::after{
   content:"";
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,.6);
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.75), rgba(0,0,0,.4));
 }
 .header-content{
   position:relative;
@@ -77,80 +79,108 @@ body.dark{
   height:100%;
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   color:#fff;
 }
-.header img{width:360px;max-width:90%}
+.header img{
+  width:440px;
+  max-width:90%;
+}
 .header h1{
-  margin-top:12px;
-  font-size:1.8rem;
-  border-bottom:2px solid var(--accent);
+  margin-top:14px;
+  font-size:2.4rem;
+  padding:.4em 1.2em;
+  border:2px solid var(--accent);
+  background:rgba(0,0,0,.35);
 }
 
-/* ================= COUNTDOWN ================= */
+/* ================= COUNTDOWN (TEMPLE PLAQUE) ================= */
 .countdown{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  background:#000;
-  padding:14px;
+  background:linear-gradient(to right,#111,#000,#111);
+  padding:20px 12px;
   text-align:center;
 }
-.count-box{color:var(--accent);font-size:.8rem}
-.count-box span{display:block;color:#fff;font-size:1.1rem}
-
-/* ================= MAIN LAYOUT ================= */
-.main-layout{
-  max-width:1400px;
-  margin:40px auto;
-  display:grid;
-  grid-template-columns:200px 1fr;
-  gap:36px;
-  padding:0 20px;
-}
-
-@media(max-width:900px){
-  .main-layout{grid-template-columns:1fr}
-}
-
-/* ================= VERTICAL NAV (CHINESE SCROLL STYLE) ================= */
-.nav-vertical{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  position:sticky;
-  top:30px;
-}
-
-.nav-vertical .tab{
-  padding:16px 12px;
-  text-align:center;
-  cursor:pointer;
-  background:var(--panel);
-  border-left:6px solid transparent;
-  letter-spacing:.15em;
-  font-weight:600;
-  transition:.25s;
-}
-
-.nav-vertical .tab:hover{
-  background:rgba(0,0,0,.05);
-}
-
-.nav-vertical .tab.active{
-  border-left-color:var(--accent);
+.count-box{
   color:var(--accent);
+  font-size:.8rem;
+  letter-spacing:.15em;
+}
+.count-box span{
+  display:block;
+  color:#fff;
+  font-size:1.2rem;
+  margin-top:6px;
 }
 
-/* ================= FRAME ================= */
+/* ================= TABS ================= */
+.tabs-bar{
+  display:flex;
+  align-items:center;
+  background:var(--panel);
+  border-top:4px solid var(--accent);
+  border-bottom:1px solid rgba(0,0,0,.15);
+}
+.tabs{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+.tab{
+  padding:12px 22px;
+  cursor:pointer;
+  background:transparent;
+  color:var(--ink);
+  border:1px solid transparent;
+  transition:all .3s var(--ease);
+}
+.tab:hover{
+  border-color:var(--accent);
+}
+.tab.active{
+  background:var(--accent);
+  color:#fff;
+}
+.theme-toggle{
+  margin-right:18px;
+  background:none;
+  border:none;
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+/* ================= SECTIONS ================= */
+.section{
+  display:none;
+  max-width:1250px;
+  margin:auto;
+  padding:48px 22px;
+}
+.section.active{display:block}
+
+/* ================= GRID ================= */
+.content-grid{
+  display:grid;
+  grid-template-columns:1fr 360px;
+  gap:40px;
+}
+@media(max-width:900px){
+  .content-grid{grid-template-columns:1fr}
+}
+
+/* ================= FRAME (SCROLL PANEL) ================= */
 .frame{
   background:var(--panel);
-  padding:28px;
-  margin-bottom:36px;
-  border:24px solid transparent;
+  padding:36px;
+  margin-bottom:42px;
+  border:28px solid transparent;
   border-image-source:var(--frame);
   border-image-slice:42;
   border-image-repeat:round;
+  box-shadow:0 12px 40px rgba(0,0,0,.08);
 }
 
 /* ================= BANNERS ================= */
@@ -158,56 +188,144 @@ body.dark{
   width:100%;
   height:260px;
   background:center/contain no-repeat;
-  margin:20px 0 30px;
-}
-
-/* ================= CONTENT ================= */
-.section{display:none}
-.section.active{display:block}
-
-.content-grid{
-  display:grid;
-  grid-template-columns:1fr 320px;
-  gap:32px;
-}
-
-@media(max-width:900px){
-  .content-grid{grid-template-columns:1fr}
+  margin:24px 0 34px;
 }
 
 /* ================= SERIES FLOAT ================= */
-.series-info-wrap{overflow:hidden}
 .series-cover{
   float:right;
-  width:200px;
-  margin:0 0 16px 24px;
+  width:220px;
+  margin:0 0 16px 28px;
+}
+.series-cover img{width:100%}
+
+/* ================= TABLE ================= */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+td{
+  padding:10px;
+  border-bottom:1px dashed rgba(0,0,0,.25);
+}
+
+/* ================= RULES ================= */
+.rule{
+  border-left:8px solid var(--accent);
+  padding:18px;
+  margin-bottom:18px;
+  background:rgba(0,0,0,.03);
+  cursor:pointer;
+}
+.rule strong{
+  letter-spacing:.12em;
+}
+.rule p{display:none;margin-top:10px}
+
+/* ================= STAFF ================= */
+.staff-grid{
+  display:grid;
+  grid-template-columns:repeat(3,300px);
+  gap:36px;
+  justify-content:center;
+}
+@media(max-width:768px){
+  .staff-grid{grid-template-columns:1fr}
+}
+.staff-card{
+  position:relative;
+  height:420px;
+  padding:2em;
+  border-radius:0;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+}
+.staff-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.25));
+}
+.staff-container{
+  position:relative;
+  color:#fff;
+}
+.staff-container h3{
+  margin:0;
+  letter-spacing:.18em;
+}
+.staff-container div{
+  font-size:.9rem;
+  opacity:.9;
+}
+.staff-desc{
+  margin-top:10px;
+  font-size:.85rem;
+  line-height:1.5;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .4s ease;
+}
+.staff-card:hover .staff-desc{
+  max-height:180px;
 }
 
 /* ================= SIDEBAR ================= */
-.sidebar iframe{width:100%;border:none}
+.sidebar iframe{
+  width:100%;
+  border:none;
+}
+.sns-icons{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+}
+.sns-icons a{
+  width:46px;
+  height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--panel);
+  border:1px solid var(--accent);
+}
+.sns-icons img{
+  width:22px;
+}
+body.dark .sns-icons img{
+  filter:brightness(0) invert(1);
+}
 
 /* ================= FOOTER ================= */
 footer{
   background:#000;
   color:#aaa;
-  padding:40px 24px;
-  margin-top:60px;
+  padding:50px 26px;
 }
 .footer-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:32px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:40px;
 }
-footer h4{color:#fff}
+footer h4{
+  color:var(--gold);
+  letter-spacing:.15em;
+}
 footer a{
-  color:var(--accent);
-  display:block;
-  margin:6px 0;
+  color:#ccc;
   text-decoration:none;
+  display:block;
+  margin:8px 0;
 }
-footer a:hover{color:#fff}
+footer a:hover{
+  color:var(--accent);
+}
 .footer-bottom{
-  margin-top:32px;
+  margin-top:40px;
   text-align:center;
   font-size:.8rem;
 }
@@ -215,93 +333,3 @@ footer a:hover{color:#fff}
 </head>
 
 <body>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="header-content">
-    <img src="assets/images/logo.png">
-    <h1>Gokurakugai Discord Server</h1>
-  </div>
-</div>
-
-<!-- COUNTDOWN -->
-<div class="countdown">
-  <div class="count-box">Chapter 33 (JP/EN)<span id="chapter"></span></div>
-  <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
-  <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
-</div>
-
-<!-- MAIN -->
-<div class="main-layout">
-
-  <!-- VERTICAL NAV -->
-  <nav class="nav-vertical">
-    <div class="tab active" data-tab="about">ABOUT</div>
-    <div class="tab" data-tab="rules">RULES</div>
-    <div class="tab" data-tab="info">INFO</div>
-    <div class="tab" data-tab="staff">STAFF</div>
-  </nav>
-
-  <!-- CONTENT -->
-  <div>
-
-    <!-- ABOUT -->
-    <section class="section active" id="about">
-      <div class="content-grid">
-        <main>
-
-          <!-- KEEP YOUR EXISTING FRAMES HERE -->
-          <!-- (About Our Server, About the Series, etc — unchanged) -->
-
-        </main>
-
-        <aside class="sidebar">
-          <!-- Media / Discord / SNS frames unchanged -->
-        </aside>
-      </div>
-    </section>
-
-    <!-- RULES -->
-    <section class="section" id="rules">
-      <div class="frame">
-        <h2>Server Rules</h2>
-        <div id="rulesList"></div>
-      </div>
-    </section>
-
-    <!-- INFO -->
-    <section class="section" id="info">
-      <div class="frame">
-        <h2>Server Info</h2>
-        <p>Coming soon.</p>
-      </div>
-    </section>
-
-    <!-- STAFF -->
-    <section class="section" id="staff">
-      <div class="frame">
-        <h2>About the Staff</h2>
-        <!-- staff-grid unchanged -->
-      </div>
-    </section>
-
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <!-- unchanged -->
-  </div>
-  <div class="footer-bottom">
-    © 2026 Gokurakugai Discord Server · Fan-run · Not affiliated with Shueisha
-  </div>
-</footer>
-
-<!-- KEEP YOUR EXISTING JS HERE UNCHANGED -->
-<script>
-/* tabs + hash + countdown logic — SAME AS BEFORE */
-</script>
-
-</body>
-</html>
