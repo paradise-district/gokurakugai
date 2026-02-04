@@ -394,7 +394,27 @@ body:not(.dark) .sns-icons a::after{
   transform:scale(1.1);
   box-shadow:0 0 12px var(--accent);
 }
-.sns-icons img{width:24px}
+.sns-icons img{
+  width:24px;
+  transition:filter .25s ease, opacity .25s ease;
+}
+/* ================= SNS ICON DARK MODE FIX ================= */
+body.dark .sns-icons img{
+  filter:
+    brightness(0)
+    invert(1)
+    contrast(1.6);
+  opacity:.95;
+}
+
+/* slightly stronger on hover */
+body.dark .sns-icons a:hover img{
+  filter:
+    brightness(0)
+    invert(1)
+    contrast(1.35);
+  opacity:1;
+}
 
 /* ================= FOOTER ================= */
 footer{
