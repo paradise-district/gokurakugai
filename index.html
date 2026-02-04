@@ -154,44 +154,64 @@ body.dark{
   opacity:0;
   pointer-events:none;
 }
+/* ================= REAL GLITCH EFFECT ================= */
+@keyframes rgb-glitch{
+  0%{
+    transform:translate(0);
+    filter:
+      drop-shadow(-2px 0 red)
+      drop-shadow(2px 0 cyan);
+  }
+  15%{
+    transform:translate(-2px,1px);
+  }
+  30%{
+    transform:translate(2px,-1px);
+  }
+  45%{
+    transform:translate(-1px,2px);
+  }
+  60%{
+    transform:translate(1px,-2px);
+  }
+  75%{
+    transform:translate(-1px,1px);
+  }
+  100%{
+    transform:translate(0);
+  }
+}
+.logo-glitch::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    rgba(255,255,255,.08) 50%,
+    rgba(0,0,0,.08) 50%
+  );
+  background-size:100% 4px;
+  opacity:0;
+  pointer-events:none;
+}
+
+.logo-glitch:hover::after{
+  opacity:.25;
+}
 
 /* Hover trigger */
 .logo-glitch:hover .glitch{
   opacity:1;
-  animation:glitch 0.5s steps(1,end) infinite;
+  animation:rgb-glitch 0.35s infinite;
+  filter:
+    drop-shadow(-2px 0 red)
+    drop-shadow(2px 0 cyan);
 }
-
 .logo-glitch:hover .base{
   opacity:0;
 }
 
 /* Glitch animation */
-@keyframes glitch{
-  0%{
-    clip-path:inset(0 0 85% 0);
-    transform:translate(0);
-  }
-  20%{
-    clip-path:inset(10% 0 60% 0);
-    transform:translate(-3px,2px);
-  }
-  40%{
-    clip-path:inset(40% 0 30% 0);
-    transform:translate(3px,-2px);
-  }
-  60%{
-    clip-path:inset(65% 0 10% 0);
-    transform:translate(-2px,1px);
-  }
-  80%{
-    clip-path:inset(80% 0 5% 0);
-    transform:translate(2px,-1px);
-  }
-  100%{
-    clip-path:inset(0);
-    transform:translate(0);
-  }
-}
+
 .header h1{
   margin-top:10px;
   font-size:2rem;
