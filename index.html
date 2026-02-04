@@ -317,7 +317,7 @@ body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
 
 <!-- COUNTDOWN -->
 <div class="countdown">
-  <div class="count-box">Chapter 33 (JP/EN)<span id="chapter"></span></div>
+  <div class="count-box">Chapter 34 (JP/EN)<span id="chapter"></span></div>
   <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
   <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
 </div>
@@ -495,7 +495,7 @@ function nowJST(){
 - Releases every 4th of the month (00:00 JST)
 - Shows "Released" ONLY on the 5th
 - After the 5th → counts down to next month
-- Next fixed chapter: Chapter 33 – March 4, 2026 (JP/EN)
+- Next fixed chapter: Chapter 34 – March 4, 2026 (JP/EN)
 */
 function updateChapter(){
   const now = nowJST();
@@ -508,7 +508,7 @@ function updateChapter(){
   const release = new Date(year, month, 4, 0, 0, 0);
   const releasedDay = new Date(year, month, 5, 0, 0, 0);
 
-  // Before Chapter 33 ever releases
+  // Before Chapter 34 ever releases
   if (now < firstRelease) {
     runCountdown("chapter", firstRelease);
     return;
