@@ -3,9 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gokurakugai Discord Server</title>
+<title>Gokurakugai Community · Discord Hub & Fan Site</title>
+  
+<!-- ================= BASIC SEO ================= -->
+<meta name="description" content="Gokurakugai Community — a fan-run Discord-centered hub dedicated to the action-supernatural manga by Yuto Sano. News, countdowns, and community resources.">
+<meta name="keywords" content="Gokurakugai, 極楽街, manga, Yuto Sano, Jump SQ, Gokurakugai community, Gokurakugai Discord, Gokurakugai server, Gokurakugai Discord Server, Gokurakugai anime, Gokurakugai manga, Gokurakugai anime manga fans">
+<meta name="author" content="Gokurakugai Community">
+<meta name="robots" content="index, follow">
 
+<!-- ================= CANONICAL URL ================= -->
+<link rel="canonical" href="https://paradise-district.github.io/gokurakugai/">
+
+<!-- ================= FAVICON ================= -->
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
+
+<!-- ================= OPEN GRAPH ================= -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gokurakugai Community">
+<meta property="og:description" content="A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.">
+<meta property="og:url" content="https://paradise-district.github.io/gokurakugai/">
+<meta property="og:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
+<meta property="og:site_name" content="Gokurakugai Community">
+<meta property="og:image:alt" content="Gokurakugai Community — Discord hub and fan site for the manga by Yuto Sano">
+
+<!-- ================= TWITTER PREVIEW ================= -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gokurakugai Community">
+<meta name="twitter:description" content="Fan-run Gokurakugai community and Discord hub. News, releases, countdowns, and resources.">
+<meta name="twitter:image" content="https://gokurakugai.wiki/assets/images/og-image.jpg">
 <style>
+
 /* ================= FONTS ================= */
 body{
   font-family:"Segoe UI",system-ui,sans-serif;
@@ -105,9 +135,62 @@ body.dark{
   color:#fff;
   text-align:center;
 }
-.header img{
+/* ================= LOGO GLITCH HOVER ================= */
+.logo-glitch{
+  position:relative;
   width:480px;
   max-width:90%;
+}
+
+.logo-glitch .logo{
+  width:100%;
+  display:block;
+}
+
+/* Japanese logo hidden by default */
+.logo-glitch .glitch{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Hover trigger */
+.logo-glitch:hover .glitch{
+  opacity:1;
+  animation:glitch 0.5s steps(1,end) infinite;
+}
+
+.logo-glitch:hover .base{
+  opacity:0;
+}
+
+/* Glitch animation */
+@keyframes glitch{
+  0%{
+    clip-path:inset(0 0 85% 0);
+    transform:translate(0);
+  }
+  20%{
+    clip-path:inset(10% 0 60% 0);
+    transform:translate(-3px,2px);
+  }
+  40%{
+    clip-path:inset(40% 0 30% 0);
+    transform:translate(3px,-2px);
+  }
+  60%{
+    clip-path:inset(65% 0 10% 0);
+    transform:translate(-2px,1px);
+  }
+  80%{
+    clip-path:inset(80% 0 5% 0);
+    transform:translate(2px,-1px);
+  }
+  100%{
+    clip-path:inset(0);
+    transform:translate(0);
+  }
 }
 .header h1{
   margin-top:10px;
@@ -458,8 +541,11 @@ body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
 <!-- HEADER -->
 <div class="header">
   <div class="header-content">
-    <img src="assets/images/logo.png">
-    <h1>Gokurakugai Discord Server</h1>
+    <div class="logo-glitch">
+      <img src="assets/images/logo-en.png" class="logo base" alt="Gokurakugai Community Logo">
+      <img src="assets/images/logo-jp.png" class="logo glitch" alt="極楽街">
+  </div>
+    <h1>Gokurakugai Community</h1>
   </div>
 </div>
 
@@ -554,12 +640,12 @@ when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on J
       </div>
 
       <div class="frame">
-        <h3>Discord</h3>
+        <h3>Join us!</h3>
         <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark" height="420"></iframe>
       </div>
 
       <div class="frame">
-        <h3>SNS</h3>
+        <h3>Follow us!</h3>
         <div class="sns-icons">
   <a href="https://x.com/gokurakugainews" data-label="Twitter / X">
     <img src="assets/icons/twitter.png">
