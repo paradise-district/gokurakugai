@@ -711,32 +711,35 @@ function nowJST(){
     new Date().toLocaleString("en-US",{timeZone:"Asia/Tokyo"})
   );
 }
-let baseChapterNumber = 34;
+let baseChapterNumber = 33;
 function updateChapter(){
   const now = nowJST();
 
-  // Calculate how many months have passed since March 2026
-  const startYear = 2026;
-  const startMonth = 2; // March (0-based)
+  // Anchor: February 2026 = Chapter 33
+  const baseYear = 2026;
+  const baseMonth = 1; // February (0-based)
+  
   const monthsPassed =
-    (now.getFullYear() - startYear) * 12 +
-    (now.getMonth() - startMonth);
+    (now.getFullYear() - baseYear) * 12 +
+    (now.getMonth() - baseMonth);
 
   const currentChapter = baseChapterNumber + Math.max(0, monthsPassed);
 
-  // Update label text
+  // Update chapter label text
   document.getElementById("chapterLabel").textContent =
     `Chapter ${currentChapter} (JP/EN)`;
 
-  // Release logic
+  // Release timing (always 4th–5th JST)
   const release = new Date(now.getFullYear(), now.getMonth(), 4, 0, 0, 0);
   const releasedDay = new Date(now.getFullYear(), now.getMonth(), 5, 0, 0, 0);
 
+  // Show "Released" only on the 4th
   if(now >= release && now < releasedDay){
     document.getElementById("chapter").textContent = "Released";
     return;
   }
 
+  // Otherwise countdown to next valid release
   const target =
     now >= releasedDay
       ? new Date(now.getFullYear(), now.getMonth() + 1, 4, 0, 0, 0)
