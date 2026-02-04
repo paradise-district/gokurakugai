@@ -5,24 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gokurakugai Discord Server</title>
 
-<!-- ================= FONTS ================= -->
 <style>
-@font-face{
-  font-family:"HeaderSerif";
-  src:local("Georgia");
+/* ================= FONTS ================= */
+body{
+  font-family:"Segoe UI",system-ui,sans-serif;
 }
-@font-face{
-  font-family:"BodySans";
-  src:local("Segoe UI");
+h1,h2,h3,h4{
+  font-family:Georgia,"Times New Roman",serif;
+  letter-spacing:.04em;
 }
 
-/* ================= THEME VARIABLES ================= */
+/* ================= THEME ================= */
 :root{
   --bg:#f7f3ea;
   --panel:#ffffff;
-  --ink:#b3261e;              /* brightened red */
-  --text:#1f1f1f;
-  --accent:#b3261e;
+  --ink:#c43128;
+  --text:#222;
+  --accent:#c43128;
   --frame:url("assets/images/light-border.png");
   --pattern:url("assets/images/pattern-light.png");
   --header-bg:url("assets/images/header-bg-light.jpg");
@@ -32,7 +31,7 @@
 body.dark{
   --bg:#0f0f0f;
   --panel:#141414;
-  --ink:#d6b25e;              /* gold */
+  --ink:#d6b25e;
   --text:#eaeaea;
   --accent:#d6b25e;
   --frame:url("assets/images/dark-border.png");
@@ -40,22 +39,17 @@ body.dark{
   --header-bg:url("assets/images/header-bg-dark.jpg");
 }
 
-/* ================= GLOBAL ================= */
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:"BodySans",system-ui,sans-serif;
   background:
     linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.04)),
     var(--pattern),
     var(--bg);
-  background-size:320px, 420px, auto;
-  background-repeat:repeat;
+  background-size:360px, 520px, auto;
   color:var(--text);
-  transition:background .3s var(--ease),color .3s var(--ease);
+  transition:all .3s var(--ease);
 }
 
 /* ================= HEADER ================= */
@@ -82,24 +76,21 @@ body{
   text-align:center;
 }
 .header img{
-  width:500px;
+  width:480px;
   max-width:90%;
-  margin-bottom:-10px;
 }
 .header h1{
-  font-family:"HeaderSerif",serif;
-  font-size:2.4rem;
-  letter-spacing:.08em;
+  margin-top:10px;
+  font-size:2.3rem;
   border-bottom:2px solid var(--accent);
-  padding-bottom:6px;
 }
 
 /* ================= COUNTDOWN ================= */
 .countdown{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  padding:16px;
   background:#000;
+  padding:16px;
   text-align:center;
 }
 .count-box{
@@ -108,8 +99,8 @@ body{
 }
 .count-box span{
   display:block;
-  font-size:1.15rem;
   color:#fff;
+  font-size:1.15rem;
 }
 
 /* ================= TABS ================= */
@@ -125,14 +116,11 @@ body{
 }
 .tab{
   padding:14px 18px;
-  color:#ccc;
   cursor:pointer;
+  color:#ccc;
   border-bottom:3px solid transparent;
-  transition:color .3s var(--ease),border-color .3s var(--ease);
 }
-.tab:hover{
-  color:#fff;
-}
+.tab:hover{color:#fff}
 .tab.active{
   color:var(--accent);
   border-color:var(--accent);
@@ -153,20 +141,16 @@ body{
   margin:auto;
   padding:32px 20px;
 }
-.section.active{
-  display:block;
-}
+.section.active{display:block}
 
-/* ================= WIKI GRID ================= */
+/* ================= GRID ================= */
 .content-grid{
   display:grid;
   grid-template-columns:1fr 340px;
   gap:32px;
 }
 @media(max-width:900px){
-  .content-grid{
-    grid-template-columns:1fr;
-  }
+  .content-grid{grid-template-columns:1fr}
 }
 
 /* ================= FRAME ================= */
@@ -180,18 +164,31 @@ body{
   border-image-repeat:round;
 }
 
-/* ================= ABOUT SERIES FLOAT ================= */
-.series-info-wrap{
-  overflow:hidden;
+/* ================= BANNERS ================= */
+.section-banner{
+  width:100%;
+  height:420px;
+  background:center/contain no-repeat;
+  margin:20px 0 30px;
 }
+
+/* ================= SERIES FLOAT ================= */
+.series-info-wrap{overflow:hidden}
 .series-cover{
   float:right;
   width:220px;
   margin:0 0 16px 24px;
 }
-.series-cover img{
+.series-cover img{width:100%}
+
+/* ================= TABLE ================= */
+table{
   width:100%;
-  display:block;
+  border-collapse:collapse;
+}
+td{
+  padding:8px;
+  border-bottom:1px solid rgba(0,0,0,.15);
 }
 
 /* ================= RULES ================= */
@@ -199,20 +196,19 @@ body{
   border-left:6px solid var(--accent);
   padding:14px;
   margin-bottom:14px;
-  background:rgba(0,0,0,.03);
+  background:rgba(0,0,0,.04);
   cursor:pointer;
-  transition:background .3s var(--ease);
+  transition:background .3s;
 }
 .rule:hover{
-  background:rgba(179,38,30,.14);
+  background:rgba(196,49,40,.18);
 }
 body.dark .rule:hover{
-  background:rgba(214,178,94,.18);
+  background:rgba(214,178,94,.22);
 }
 .rule p{
   display:none;
   margin-top:8px;
-  color:var(--text);
 }
 
 /* ================= STAFF ================= */
@@ -223,9 +219,7 @@ body.dark .rule:hover{
   justify-content:center;
 }
 @media(max-width:768px){
-  .staff-grid{
-    grid-template-columns:1fr;
-  }
+  .staff-grid{grid-template-columns:1fr}
 }
 .staff-card{
   position:relative;
@@ -245,25 +239,17 @@ body.dark .rule:hover{
   inset:0;
   background:rgba(0,0,0,.65);
 }
-.staff-container{
-  position:relative;
-  color:#fff;
-}
+.staff-container{position:relative;color:#fff}
 .staff-desc{
   color:#f1f1f1;
   max-height:0;
   overflow:auto;
-  transition:max-height .4s var(--ease);
+  transition:max-height .4s;
 }
-.staff-card:hover .staff-desc{
-  max-height:160px;
-}
+.staff-card:hover .staff-desc{max-height:160px}
 
 /* ================= SIDEBAR ================= */
-.sidebar iframe{
-  width:100%;
-  border:none;
-}
+.sidebar iframe{width:100%;border:none}
 .sns-icons{
   display:flex;
   gap:14px;
@@ -277,68 +263,59 @@ body.dark .rule:hover{
   justify-content:center;
   background:rgba(0,0,0,.08);
   border-radius:50%;
-  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  transition:transform .3s,box-shadow .3s;
 }
 .sns-icons a:hover{
   transform:scale(1.1);
   box-shadow:0 0 12px var(--accent);
 }
-.sns-icons img{
-  width:24px;
-}
+.sns-icons img{width:24px}
 
 /* ================= FOOTER ================= */
 footer{
   background:#000;
   color:#aaa;
-  padding:32px;
+  padding:40px 24px;
 }
+.footer-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:32px;
+}
+footer h4{color:#fff}
 footer a{
   color:var(--accent);
+  display:block;
   text-decoration:none;
+  margin:6px 0;
 }
-footer a:hover{
-  text-decoration:underline;
-}
-
-/* ================= MOBILE ================= */
-@media(max-width:768px){
-  .header{
-    height:260px;
-  }
-  .count-box span{
-    font-size:1rem;
-  }
+footer a:hover{text-decoration:underline}
+.footer-bottom{
+  margin-top:32px;
+  text-align:center;
+  font-size:.8rem;
 }
 </style>
 </head>
+
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 <div class="header">
   <div class="header-content">
-    <img src="assets/images/logo.png" alt="Gokurakugai Logo">
+    <img src="assets/images/logo.png">
     <h1>Gokurakugai Discord Server</h1>
   </div>
 </div>
 
-<!-- ================= COUNTDOWN ================= -->
+<!-- COUNTDOWN -->
 <div class="countdown">
-  <div class="count-box">
-    Chapter 33 (JP/EN)
-    <span id="chapterCountdown">--</span>
-  </div>
-  <div class="count-box">
-    Volume 6 (Japan)
-    <span id="v6jpCountdown">--</span>
-  </div>
-  <div class="count-box">
-    Volume 5 (English)
-    <span id="v5enCountdown">--</span>
-  </div>
+  <div class="count-box">Chapter 33 (JP/EN)<span id="chapter"></span></div>
+  <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
+  <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
 </div>
 
-<!-- ================= TABS ================= -->
+<!-- TABS -->
 <div class="tabs-bar">
   <div class="tabs">
     <div class="tab active" data-tab="about">About</div>
@@ -346,507 +323,231 @@ footer a:hover{
     <div class="tab" data-tab="info">Info</div>
     <div class="tab" data-tab="staff">Staff</div>
   </div>
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-    🌙
-  </button>
+  <button class="theme-toggle" id="themeToggle">🌙</button>
 </div>
-<!-- ================= ABOUT ================= -->
+
+<!-- ABOUT -->
 <div class="section active" id="about">
   <div class="content-grid">
 
-    <!-- ===== MAIN CONTENT ===== -->
     <main>
-
-      <!-- ABOUT OUR SERVER -->
       <div class="frame">
         <h2>About Our Server</h2>
-
-        <!-- SERVER BANNER -->
-        <div style="margin:18px 0 28px;">
-          <img
-            src="assets/images/banner-server.png"
-            alt="Gokurakugai Server Banner"
-            style="width:100%;display:block;"
-          >
-        </div>
-
+        <div class="section-banner" style="background-image:url('assets/images/banner-server.png')"></div>
         <p>
-          We’re a Discord community devoted to <strong>Gokurakugai</strong>, the
-          action-supernatural manga series written and illustrated by
-          <strong>Yuto Sano</strong>.
-          The series first introduced as a one-shot titled
-          <strong>Gokurakugai Sanbandori No Ken</strong>, published in the
-          <strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020.
+We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>.
+The series first introduced as a one-shot titled <strong>Gokurakugai Sanbandori No Ken</strong>, published in the
+<strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020.
+Its gritty tone and compelling characters struck a chord with readers, prompting its evolution into a full-fledged series.
+Serialization officially began in the monthly <strong>Jump SQ Magazine</strong> on July 4, 2022,
+and the manga later made its formal debut in <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023.
+Since then, Gokurakugai has continued to build momentum, drawing in fans with its blend of urban fantasy,
+stylish combat, and emotional depth.
         </p>
-
         <p>
-          Its gritty tone and compelling characters struck a chord with readers,
-          prompting its evolution into a full-fledged series.
-          Serialization officially began in the monthly
-          <strong>Jump SQ Magazine</strong> on July 4, 2022,
-          and the manga later made its formal debut in
-          <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023.
-        </p>
-
-        <p>
-          Since then, Gokurakugai has continued to build momentum, drawing in fans
-          with its blend of urban fantasy, stylish combat, and emotional depth.
-        </p>
-
-        <p>
-          By being a member of our Discord server, you indicate that you have read
-          and accepted our server rules, as well as Discord’s Terms of Service and
-          Guidelines.
+By being a member of our discord server, you indicate that you have read and accepted our server rules,
+as well as Discord’s Terms of Service and Guidelines.
         </p>
       </div>
 
-      <!-- ABOUT THE SERIES -->
       <div class="frame series-info-wrap">
         <h2>About the Series</h2>
+        <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
 
-        <!-- SERIES BANNER -->
-        <div style="margin:18px 0 28px;">
-          <img
-            src="assets/images/banner-series.png"
-            alt="Gokurakugai Series Banner"
-            style="width:100%;display:block;"
-          >
-        </div>
-
-        <!-- SERIES COVER -->
         <div class="series-cover">
-          <img
-            src="assets/images/series-cover.png"
-            alt="Gokurakugai Cover"
-          >
+          <img src="assets/images/series-cover.png">
         </div>
 
-        <!-- EMPHASIZED SYNOPSIS -->
         <p><em>
-          Gokurakugai, a bright and bustling working class district with a hidden
-          dark side. In this area without order, Tao and Alma work as
-          troubleshooters for hire. Their missions involve helping a young boy
-          find his lost friend, a person who disappears without a trace, and
-          disfigured animal corpses. All the while, the evil spirits who live in
-          the shadows bring out a different side to these troubleshooters!
+Gokurakugai, a bright and bustling working class district with a hidden dark side.
+In this area without order, Tao and Alma work as troubleshooters for hire.
+Their missions involve helping a young boy find his lost friend,
+a person who dissapears without a trace, and disfigured animal corpses.
+All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
         </em></p>
 
-        <!-- ADDITIONAL SERIES INFORMATION -->
         <p>
-          <strong>Gokurakugai</strong>
-          (Japanese: 極楽街, Hepburn: <em>Gokurakugai</em>,
-          lit. “Paradise Street” or “Gokuraku District”)
-          is a Japanese manga series in the action-supernatural genre, written
-          and illustrated by <strong>Yuto Sano</strong>.
-          It made its official debut in the pages of
-          <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2022.
+Gokurakugai (Japanese: 極楽街 Hepburn: Gokurakugai, lit. “Paradise Street” or Gokuraku District) is a Japanese manga series in the action-supernatural genre, written and illustrated by Yuto Sano. It made its official debut in Jump SQ.Rise on July 4, 2022.
         </p>
 
-        <p>
-          Initially introduced as a one-shot, known as
-          <strong>Gokurakugai: Trouble on Third Avenue</strong>,
-          it later evolved into a regularly published series within the monthly
-          <strong>Jump SQ Magazine</strong>, starting from July 4, 2022.
-          This transition happened because of the positive response it received
-          from readers when it was featured in the
-          <strong>Jump SQ RISE Winter 2020 Issue</strong>
-          on January 27, 2020.
-        </p>
-
+        <table>
+          <tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
+          <tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
+          <tr><td><strong>Publisher</strong></td><td>SHUEISHA</td></tr>
+          <tr><td><strong>Schedule</strong></td><td>Monthly</td></tr>
+          <tr><td><strong>Original Run</strong></td><td>Jan 27, 2020 (One-shot)<br>July 4, 2022 (Official)</td></tr>
+        </table>
       </div>
-
     </main>
 
-    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
-
-      <!-- MEDIA -->
       <div class="frame">
         <h3>Media</h3>
-        <iframe
-          height="200"
-          src="https://www.youtube.com/embed/W0A7JOGZF9Y"
-          allowfullscreen
-        ></iframe>
+        <iframe height="200" src="https://www.youtube.com/embed/W0A7JOGZF9Y" allowfullscreen></iframe>
       </div>
 
-      <!-- DISCORD -->
       <div class="frame">
         <h3>Discord</h3>
-        <iframe
-          src="https://discord.com/widget?id=995737046725443686&theme=dark"
-          height="420"
-          allowtransparency="true"
-          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-        ></iframe>
+        <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark" height="420"></iframe>
       </div>
 
-      <!-- SNS ICONS -->
       <div class="frame">
         <h3>SNS</h3>
         <div class="sns-icons">
-          <a href="https://x.com/gokurakugainews" target="_blank">
-            <img src="assets/icons/twitter.png" alt="Twitter">
-          </a>
-          <a href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">
-            <img src="assets/icons/instagram.png" alt="Instagram">
-          </a>
-          <a href="https://www.facebook.com/gokurakugakugai" target="_blank">
-            <img src="assets/icons/facebook.png" alt="Facebook">
-          </a>
-          <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank">
-            <img src="assets/icons/wiki.png" alt="Official Site">
-          </a>
+          <a href="https://x.com/gokurakugainews"><img src="assets/icons/twitter.png"></a>
+          <a href="https://www.instagram.com/gokurakugaiwiki/"><img src="assets/icons/instagram.png"></a>
+          <a href="#"><img src="assets/icons/wiki.png"></a>
+          <a href="https://www.facebook.com/gokurakugai"><img src="assets/icons/facebook.png"></a>
         </div>
       </div>
-
     </aside>
 
   </div>
 </div>
-<!-- ================= RULES ================= -->
-<div class="section" id="rules">
 
+<!-- RULES -->
+<div class="section" id="rules">
   <div class="frame">
     <h2>Server Rules</h2>
-
     <p>
-      Welcome to the <strong>Gokurakugai Discord Server</strong>.
-      This section contains the <strong>extended and detailed version</strong>
-      of our server rules. By joining and participating in this server, you
-      acknowledge that you have read, understood, and agreed to comply with
-      all rules listed below, as well as Discord’s
-      <strong>Terms of Service</strong> and
-      <strong>Community Guidelines</strong>.
+These are the extended rules of the Gokurakugai Discord Server. By joining and participating,
+you agree to follow these rules alongside Discord’s Terms of Service.
     </p>
-
-    <p>
-      These rules exist to ensure a welcoming, respectful, and enjoyable
-      environment for all members. Failure to follow them may result in
-      warnings, timeouts, or removal from the server depending on severity.
-    </p>
-
-    <div id="rulesList">
-
-      <div class="rule">
-        <strong>Rule #1 — Be respectful</strong>
-        <p>Treat all members with respect. Harassment, hate speech, or personal attacks are not tolerated.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #2 — Follow Discord TOS</strong>
-        <p>All activity must comply with Discord’s Terms of Service and Community Guidelines.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #3 — No hate speech</strong>
-        <p>Racism, sexism, homophobia, transphobia, or discriminatory language of any kind is prohibited.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #4 — Keep content appropriate</strong>
-        <p>Do not post NSFW, explicit, or disturbing content outside designated areas.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #5 — No harassment</strong>
-        <p>Repeated unwanted contact, intimidation, or targeted behavior is not allowed.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #6 — Spoilers must be tagged</strong>
-        <p>All spoilers must be properly marked and kept within spoiler-designated channels.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #7 — No illegal content</strong>
-        <p>Sharing illegal content or encouraging illegal activities is strictly forbidden.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #8 — Respect staff decisions</strong>
-        <p>Staff decisions should be respected. Concerns may be raised privately and calmly.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #9 — No spamming</strong>
-        <p>Do not spam messages, emojis, images, or links.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #10 — No excessive self-promotion</strong>
-        <p>Advertising and self-promotion are only allowed in designated channels.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #11 — Use appropriate channels</strong>
-        <p>Post content in the correct channels to keep discussions organized.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #12 — No impersonation</strong>
-        <p>Do not impersonate staff members, creators, or other users.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #13 — No misinformation</strong>
-        <p>Deliberately spreading false or misleading information is prohibited.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #14 — Respect privacy</strong>
-        <p>Do not share personal or private information without consent.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #15 — No callout culture</strong>
-        <p>Public callouts and dogpiling are not allowed. Report issues to staff instead.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #16 — Avoid excessive drama</strong>
-        <p>Do not instigate or escalate conflicts within the server.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #17 — Respect content warnings</strong>
-        <p>Use content warnings when discussing sensitive topics.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #18 — No backseat moderation</strong>
-        <p>Let staff handle moderation matters.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #19 — Follow event rules</strong>
-        <p>Events may have additional rules that must be followed.</p>
-      </div>
-
-      <div class="rule">
-        <strong>Rule #20 — Common sense applies</strong>
-        <p>If something feels disruptive or harmful, don’t do it.</p>
-      </div>
-
-    </div>
+    <div id="rulesList"></div>
   </div>
-
 </div>
-<!-- ================= STAFF ================= -->
-<div class="section" id="staff">
 
+<!-- INFO -->
+<div class="section" id="info">
+  <div class="frame">
+    <h2>Server Info</h2>
+    <p>Coming soon.</p>
+  </div>
+</div>
+
+<!-- STAFF -->
+<div class="section" id="staff">
   <div class="frame">
     <h2>About the Staff</h2>
-
-    <p>
-      Our staff team works behind the scenes to ensure the Gokurakugai Discord
-      Server remains a welcoming, organized, and respectful space for all
-      members. Please feel free to approach staff members if you need assistance
-      or have concerns.
-    </p>
-
     <div class="staff-grid">
-
-      <!-- STAFF 1 -->
       <div class="staff-card" style="background-image:url('assets/images/staff1.png')">
         <div class="staff-container">
-          <div class="staff-heading">NAME 1</div>
-          <div class="staff-role">Administrator</div>
+          <h3>NAME 1</h3><div>Administrator</div>
         </div>
-        <div class="staff-desc">
-          NAME 1 oversees server operations, moderation decisions, and long-term
-          community direction. They coordinate staff efforts and ensure rules are
-          applied fairly and consistently.
-        </div>
+        <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <!-- STAFF 2 -->
       <div class="staff-card" style="background-image:url('assets/images/staff2.png')">
         <div class="staff-container">
-          <div class="staff-heading">NAME 2</div>
-          <div class="staff-role">Moderator</div>
+          <h3>NAME 2</h3><div>Moderator</div>
         </div>
-        <div class="staff-desc">
-          NAME 2 assists with daily moderation, supports community discussions,
-          and helps enforce server rules to maintain a positive environment.
-        </div>
+        <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <!-- STAFF 3 -->
       <div class="staff-card" style="background-image:url('assets/images/staff3.png')">
         <div class="staff-container">
-          <div class="staff-heading">NAME 3</div>
-          <div class="staff-role">Moderator</div>
+          <h3>NAME 3</h3><div>Moderator</div>
         </div>
-        <div class="staff-desc">
-          NAME 3 focuses on member support, handling reports, and ensuring that
-          conversations remain respectful and on-topic.
-        </div>
+        <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <!-- STAFF 4 -->
       <div class="staff-card" style="background-image:url('assets/images/staff4.png')">
         <div class="staff-container">
-          <div class="staff-heading">NAME 4</div>
-          <div class="staff-role">Staff</div>
+          <h3>NAME 4</h3><div>Staff</div>
         </div>
-        <div class="staff-desc">
-          NAME 4 assists with events, announcements, and general community
-          engagement, helping keep the server active and welcoming.
-        </div>
+        <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <!-- STAFF 5 -->
       <div class="staff-card" style="background-image:url('assets/images/staff5.png')">
         <div class="staff-container">
-          <div class="staff-heading">NAME 5</div>
-          <div class="staff-role">Staff</div>
+          <h3>NAME 5</h3><div>Staff</div>
         </div>
-        <div class="staff-desc">
-          NAME 5 supports moderation efforts and assists members when questions
-          or issues arise within the server.
-        </div>
+        <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
-
     </div>
   </div>
-
 </div>
-<!-- ================= FOOTER ================= -->
+
+<!-- FOOTER -->
 <footer>
-
-  <div class="footer-grid" style="max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;">
-
-    <!-- COMMUNITY -->
-    <div class="footer-col">
+  <div class="footer-grid">
+    <div>
       <h4>Community</h4>
-      <a href="https://discord.gg/gokurakugai" target="_blank">Join Discord</a>
+      <a href="https://discord.gg/gokurakugai">Join Discord</a>
       <a href="#rules">Server Rules</a>
       <a href="#staff">Staff</a>
       <a href="#info">Server Info</a>
     </div>
 
-    <!-- SERIES -->
-    <div class="footer-col">
+    <div>
       <h4>Gokurakugai</h4>
-      <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank">Jump SQ</a>
-      <a href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank">VIZ</a>
-      <a href="https://mangaplus.shueisha.co.jp/titles/100230" target="_blank">MANGA Plus</a>
+      <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/">Jump SQ</a>
+      <a href="https://www.viz.com/shonenjump/chapters/gokurakugai">VIZ</a>
+      <a href="https://mangaplus.shueisha.co.jp/titles/100230">MANGA Plus</a>
     </div>
 
-    <!-- OFFICIAL / SOCIAL -->
-    <div class="footer-col">
+    <div>
       <h4>Official Links</h4>
-      <a href="https://x.com/Yuto___Sano" target="_blank">Yuto Sano (X)</a>
-      <a href="https://www.instagram.com/yuto__sano" target="_blank">Yuto Sano (Instagram)</a>
-      <a href="https://x.com/gokurakugaiinfo" target="_blank">Gokurakugai Info</a>
+      <a href="https://x.com/Yuto___Sano">Yuto Sano (X)</a>
+      <a href="https://www.instagram.com/yuto__sano">Yuto Sano (Instagram)</a>
+      <a href="https://x.com/gokurakugaiinfo">Gokurakugai Info</a>
     </div>
-
   </div>
 
-  <div style="margin-top:40px;padding-top:16px;border-top:1px solid rgba(255,255,255,.15);text-align:center;font-size:.75rem;color:#aaa;">
+  <div class="footer-bottom">
     © 2026 Gokurakugai Discord Server · Fan-run · Not affiliated with Shueisha
   </div>
-
 </footer>
 
-<!-- ================= SCRIPTS ================= -->
 <script>
-/* ===== THEME TOGGLE ===== */
+/* THEME */
 const toggle=document.getElementById("themeToggle");
-const savedTheme=localStorage.getItem("theme");
-if(savedTheme==="dark"){
-  document.body.classList.add("dark");
-  toggle.textContent="☀";
-}
 toggle.onclick=()=>{
   document.body.classList.toggle("dark");
-  const isDark=document.body.classList.contains("dark");
-  toggle.textContent=isDark?"☀":"🌙";
-  localStorage.setItem("theme",isDark?"dark":"light");
+  toggle.textContent=document.body.classList.contains("dark")?"☀":"🌙";
 };
 
-/* ===== TAB NAVIGATION + HASH ===== */
-const tabs=document.querySelectorAll(".tab");
-const sections=document.querySelectorAll(".section");
-
-function activateTab(name){
-  tabs.forEach(t=>t.classList.toggle("active",t.dataset.tab===name));
-  sections.forEach(s=>s.classList.toggle("active",s.id===name));
-}
-
-tabs.forEach(tab=>{
-  tab.onclick=()=>{
-    const name=tab.dataset.tab;
-    history.pushState(null,"",`#${name}`);
-    activateTab(name);
+/* TABS */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    t.classList.add("active");
+    document.getElementById(t.dataset.tab).classList.add("active");
   };
 });
 
-function handleHash(){
-  const hash=location.hash.replace("#","")||"about";
-  activateTab(hash);
+/* RULES */
+const rl=document.getElementById("rulesList");
+for(let i=1;i<=20;i++){
+  const d=document.createElement("div");
+  d.className="rule";
+  d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
+  d.onclick=()=>{const p=d.querySelector("p");p.style.display=p.style.display==="block"?"none":"block";}
+  rl.appendChild(d);
 }
-window.addEventListener("hashchange",handleHash);
-handleHash();
 
-/* ===== RULE TOGGLE ===== */
-document.querySelectorAll(".rule").forEach(rule=>{
-  rule.onclick=()=>{
-    const p=rule.querySelector("p");
-    p.style.display=p.style.display==="block"?"none":"block";
-  };
-});
-
-/* ===== COUNTDOWN LOGIC ===== */
-function updateCountdown(){
+/* COUNTDOWN */
+function updateChapter(){
   const now=new Date();
-
-  /* Chapter (monthly) */
-  const year=now.getFullYear();
-  const month=now.getMonth();
-  const release=new Date(year,month,4,0,0,0);
-  const releaseEnd=new Date(year,month,5,0,0,0);
+  const y=now.getFullYear();
+  const m=now.getMonth();
+  const release=new Date(y,m,4);
+  const showRelease=new Date(y,m,5);
   let target=release;
-
-  if(now>=release && now<releaseEnd){
-    document.getElementById("chapterCountdown").textContent="Released";
-  }else{
-    if(now>=releaseEnd){
-      target=new Date(year,month+1,4,0,0,0);
-    }
-    const diff=target-now;
-    const d=Math.floor(diff/86400000);
-    const h=Math.floor(diff%86400000/3600000);
-    const m=Math.floor(diff%3600000/60000);
-    const s=Math.floor(diff%60000/1000);
-    document.getElementById("chapterCountdown").textContent=
-      `${d}d ${h}h ${m}m ${s}s`;
+  if(now>showRelease) target=new Date(y,m+1,4);
+  if(now>=release && now<showRelease){
+    document.getElementById("chapter").textContent="Released";
+    return;
   }
-
-  /* Volume dates (fixed) */
-  const events=[
-    ["v6jpCountdown","2026-02-04T00:00:00+09:00"],
-    ["v5enCountdown","2026-04-07T00:00:00+09:00"]
-  ];
-
-  events.forEach(([id,date])=>{
-    const el=document.getElementById(id);
-    const diff=new Date(date)-now;
-    if(diff<=0){
-      el.textContent="Released";
-    }else{
-      const d=Math.floor(diff/86400000);
-      const h=Math.floor(diff%86400000/3600000);
-      const m=Math.floor(diff%3600000/60000);
-      const s=Math.floor(diff%60000/1000);
-      el.textContent=`${d}d ${h}h ${m}m ${s}s`;
-    }
-  });
+  const diff=target-now;
+  const d=Math.floor(diff/86400000),
+        h=Math.floor(diff%86400000/3600000),
+        mi=Math.floor(diff%3600000/60000),
+        s=Math.floor(diff%60000/1000);
+  document.getElementById("chapter").textContent=`${d}d ${h}h ${mi}m ${s}s`;
 }
-
-setInterval(updateCountdown,1000);
-updateCountdown();
+setInterval(updateChapter,1000);updateChapter();
 </script>
 
 </body>
