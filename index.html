@@ -33,7 +33,7 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  transition:.3s;
+  transition:background .3s var(--ease), color .3s var(--ease);
 }
 
 /* ================= HEADER ================= */
@@ -106,6 +106,7 @@ body{
   cursor:pointer;
   color:#bbb;
   border-bottom:3px solid transparent;
+  transition:color .3s var(--ease), border-color .3s var(--ease);
 }
 .tab:hover{color:#fff}
 .tab.active{
@@ -157,30 +158,45 @@ body{
 }
 
 /* ================= TABLE ================= */
-table{width:100%;border-collapse:collapse}
-td{padding:8px;border-bottom:1px solid rgba(0,0,0,.15)}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+td{
+  padding:8px;
+  border-bottom:1px solid rgba(0,0,0,.15);
+}
 
 /* ================= RULES ================= */
 .rule{
-  padding:16px 18px;
-  margin-bottom:16px;
-  border-radius:6px;
+  position:relative;
+  padding:14px 16px;
+  margin-bottom:14px;
   cursor:pointer;
-  transition:.25s;
+  background:linear-gradient(90deg,rgba(0,0,0,.04),transparent);
+  border-left:5px solid var(--accent);
+  transition:
+    background .3s var(--ease),
+    transform .3s var(--ease),
+    box-shadow .3s var(--ease);
 }
-body:not(.dark) .rule{
-  background:linear-gradient(90deg,#8c1d18,#b23a32);
-  color:#fff;
+.rule:hover{
+  background:linear-gradient(90deg,var(--accent)20%,transparent);
+  transform:translateX(4px);
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
 }
-body.dark .rule{
-  background:linear-gradient(90deg,#c9a24d,#e0be6a);
-  color:#1a1a1a;
+.rule strong{
+  color:var(--ink);
+  font-size:1.05rem;
 }
-.rule strong{font-size:1.05rem}
+body.dark .rule strong{
+  color:var(--accent);
+}
 .rule p{
   display:none;
   margin-top:10px;
   line-height:1.5;
+  opacity:.95;
 }
 
 /* ================= STAFF ================= */
@@ -230,7 +246,7 @@ body.dark .rule{
   max-height:0;
   overflow:auto;
   color:#eee;
-  transition:max-height .4s;
+  transition:max-height .4s var(--ease);
 }
 .staff-card:hover .staff-desc{max-height:160px}
 
@@ -302,8 +318,8 @@ body.dark .rule{
 <!-- ABOUT -->
 <div class="section active" id="about">
   <div class="content-grid">
-    <main>
 
+    <main>
       <div class="frame">
         <h2>About Our Server</h2>
         <p>
@@ -342,11 +358,9 @@ a person who dissapears without a trace, and disfigured animal corpses.
 All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
         </em></p>
       </div>
-
     </main>
 
     <aside class="sidebar">
-
       <div class="frame widget">
         <h3>Discord</h3>
         <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark"
@@ -369,7 +383,6 @@ All the while, the evil spirits who live in the shadows bring out a different si
         <h3>Facebook</h3>
         <a href="https://www.facebook.com/gokurakugai" target="_blank">facebook.com/gokurakugai</a>
       </div>
-
     </aside>
   </div>
 </div>
@@ -437,7 +450,6 @@ All the while, the evil spirits who live in the shadows bring out a different si
 <!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-grid">
-
     <div class="footer-col">
       <h4>Community</h4>
       <a href="https://discord.gg/gokurakugai">Join Discord</a>
@@ -459,7 +471,6 @@ All the while, the evil spirits who live in the shadows bring out a different si
       <a href="https://www.instagram.com/yuto__sano" target="_blank">Yuto Sano (Instagram)</a>
       <a href="https://x.com/gokurakugaiinfo" target="_blank">Gokurakugai Info</a>
     </div>
-
   </div>
 
   <div class="footer-bottom">
@@ -507,7 +518,10 @@ for(let i=1;i<=20;i++){
   const d=document.createElement("div");
   d.className="rule";
   d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  d.onclick=()=>{const p=d.querySelector("p");p.style.display=p.style.display==="block"?"none":"block";}
+  d.onclick=()=>{
+    const p=d.querySelector("p");
+    p.style.display=p.style.display==="block"?"none":"block";
+  };
   rl.appendChild(d);
 }
 
