@@ -44,12 +44,36 @@ body.dark{
 body{
   margin:0;
   background:
-    linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.04)),
+    linear-gradient(
+      rgba(255,255,255,.85),
+      rgba(255,255,255,.85)
+    ),
     var(--pattern),
     var(--bg);
-  background-size:360px, 520px, auto;
+  background-size:
+    auto,
+    420px 420px,
+    auto;
+  background-repeat:
+    no-repeat,
+    repeat,
+    no-repeat;
   color:var(--text);
   transition:all .3s var(--ease);
+}
+
+body.dark{
+  background:
+    linear-gradient(
+      rgba(0,0,0,.82),
+      rgba(0,0,0,.82)
+    ),
+    var(--pattern),
+    var(--bg);
+  background-size:
+    auto,
+    420px 420px,
+    auto;
 }
 
 /* ================= HEADER ================= */
@@ -528,26 +552,84 @@ for(let i=1;i<=20;i++){
 }
 
 /* COUNTDOWN */
+<script>
+/* ===== JST TIME ===== */
+function nowJST(){
+  return new Date(
+    new Date().toLocaleString("en-US",{timeZone:"Asia/Tokyo"})
+  );
+}
+
+/* ===== CHAPTER (MONTHLY, JP/EN) ===== */
 function updateChapter(){
-  const now=new Date();
-  const y=now.getFullYear();
-  const m=now.getMonth();
-  const release=new Date(y,m,4);
-  const showRelease=new Date(y,m,5);
-  let target=release;
-  if(now>showRelease) target=new Date(y,m+1,4);
-  if(now>=release && now<showRelease){
-    document.getElementById("chapter").textContent="Released";
+  const now = nowJST();
+
+  const firstRelease = new Date("2026-03-04T00:00:00+09:00");
+
+  let y = now.getFullYear();
+  let m = now.getMonth();
+
+  const release = new Date(y, m, 4, 0, 0, 0);
+  const releasedDay = new Date(y, m, 5, 0, 0, 0);
+
+  // Before first release ever
+  if (now < firstRelease) {
+    countdown("chapter", firstRelease);
     return;
   }
-  const diff=target-now;
-  const d=Math.floor(diff/86400000),
-        h=Math.floor(diff%86400000/3600000),
-        mi=Math.floor(diff%3600000/60000),
-        s=Math.floor(diff%60000/1000);
-  document.getElementById("chapter").textContent=`${d}d ${h}h ${mi}m ${s}s`;
+
+  // Release window (4th → 5th)
+  if (now >= release && now < releasedDay) {
+    document.getElementById("chapter").textContent = "Released";
+    return;
+  }
+
+  // After 5th → next month
+  if (now >= releasedDay) {
+    const next = new Date(y, m + 1, 4, 0, 0, 0);
+    countdown("chapter", next);
+    return;
+  }
+
+  countdown("chapter", release);
 }
-setInterval(updateChapter,1000);updateChapter();
+
+/* ===== VOLUMES ===== */
+function updateVolumes(){
+  // JP volume already out
+  document.getElementById("v6jp").textContent = "Released";
+
+  // EN volume
+  const v5en = new Date("2026-04-07T00:00:00+09:00");
+  countdown("v5en", v5en, true);
+}
+
+/* ===== GENERIC ===== */
+function countdown(id, target, allowReleased){
+  const now = nowJST();
+  const diff = target - now;
+
+  if (diff <= 0 && allowReleased) {
+    document.getElementById(id).textContent = "Released";
+    return;
+  }
+
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor(diff % 86400000 / 3600000);
+  const m = Math.floor(diff % 3600000 / 60000);
+  const s = Math.floor(diff % 60000 / 1000);
+
+  document.getElementById(id).textContent =
+    `${d}d ${h}h ${m}m ${s}s`;
+}
+
+/* ===== LOOP ===== */
+function tick(){
+  updateChapter();
+  updateVolumes();
+}
+setInterval(tick, 1000);
+tick();
 </script>
 
 </body>
