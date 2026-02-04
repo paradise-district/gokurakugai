@@ -116,6 +116,10 @@ body.dark{
 }
 
 /* ================= COUNTDOWN ================= */
+.count-title{
+  color: var(--accent);
+  font-size: .85rem;
+}
 .countdown{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -442,7 +446,7 @@ body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
 <!-- COUNTDOWN -->
 <div class="countdown">
   <div class="count-box">
-  <span id="chapterLabel">Chapter 34 (JP/EN)</span>
+  <div id="chapterLabel" class="count-title">Chapter 34 (JP/EN)</div>
   <span id="chapter"></span>
 </div>
   <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
