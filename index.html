@@ -14,6 +14,7 @@
   --text:#222;
   --accent:#8c1d18;
   --frame:url("assets/images/light-border.png");
+  --header-bg:url("assets/images/header-bg-light.jpg");
   --ease:cubic-bezier(.4,0,.2,1);
 }
 
@@ -24,25 +25,26 @@ body.dark{
   --text:#eaeaea;
   --accent:#c9a24d;
   --frame:url("assets/images/dark-border.png");
+  --header-bg:url("assets/images/header-bg-dark.jpg");
 }
 
-*{box-sizing:border-box;font-family:"Segoe UI",system-ui,sans-serif}
+*{
+  box-sizing:border-box;
+  font-family:"Segoe UI",system-ui,sans-serif;
+}
 
 body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  transition:background .3s var(--ease), color .3s var(--ease);
+  transition:background .3s var(--ease),color .3s var(--ease);
 }
 
 /* ================= HEADER ================= */
 .header{
   position:relative;
   height:320px;
-  background:url("assets/images/header-bg.jpg") center/cover no-repeat;
-}
-body.dark .header{
-  filter:brightness(.85);
+  background:var(--header-bg) center/cover no-repeat;
 }
 .header::after{
   content:"";
@@ -83,16 +85,11 @@ body.dark .header{
   color:var(--accent);
   text-align:center;
 }
-.count-box{
-  font-size:.9rem;
-}
+.count-box{font-size:.9rem}
 .count-box span{
   display:block;
   font-size:1.2rem;
   color:#fff;
-}
-body:not(.dark) .countdown{
-  background:#1a1a1a;
 }
 
 /* ================= TABS ================= */
@@ -111,9 +108,8 @@ body:not(.dark) .countdown{
   cursor:pointer;
   color:#ccc;
   border-bottom:3px solid transparent;
-  transition:color .3s var(--ease), border-color .3s var(--ease);
+  transition:color .3s var(--ease),border-color .3s var(--ease);
 }
-body:not(.dark) .tab{color:#ddd}
 .tab:hover{color:#fff}
 .tab.active{
   color:var(--accent);
@@ -154,7 +150,7 @@ body:not(.dark) .tab{color:#ddd}
   margin-bottom:32px;
   border:24px solid transparent;
   border-image-source:var(--frame);
-  border-image-slice:43;
+  border-image-slice:41;
   border-image-repeat:round;
 }
 .frame h2,
@@ -167,17 +163,18 @@ body:not(.dark) .tab{color:#ddd}
 .section-banner{
   width:100%;
   height:380px;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-size:contain;
+  background:center/contain no-repeat;
   margin:20px 0 28px;
 }
 
-/* ================= SERIES COVER ================= */
+/* ================= SERIES COVER + TABLE ================= */
+.series-info-wrap{
+  overflow:hidden;
+}
 .series-cover{
   float:right;
   width:220px;
-  margin:0 0 16px 20px;
+  margin:0 0 16px 24px;
 }
 .series-cover img{
   width:100%;
@@ -195,16 +192,21 @@ td{
 }
 
 /* ================= RULES ================= */
+.rules-intro{
+  margin-bottom:20px;
+  line-height:1.6;
+  font-size:.95rem;
+}
 .rule{
   padding:16px 18px;
   margin-bottom:14px;
   border-left:6px solid var(--accent);
-  background:rgba(0,0,0,.04);
+  background:rgba(0,0,0,.05);
   cursor:pointer;
   transition:background .3s var(--ease);
 }
 body.dark .rule{
-  background:rgba(255,255,255,.06);
+  background:rgba(255,255,255,.08);
 }
 .rule strong{
   color:var(--ink);
@@ -215,10 +217,10 @@ body.dark .rule{
   line-height:1.5;
 }
 .rule:hover{
-  background:rgba(0,0,0,.08);
+  background:rgba(0,0,0,.1);
 }
 body.dark .rule:hover{
-  background:rgba(255,255,255,.12);
+  background:rgba(255,255,255,.15);
 }
 
 /* ================= STAFF ================= */
@@ -264,9 +266,9 @@ body.dark .rule:hover{
 .staff-role{
   border:2px solid var(--accent);
   color:var(--accent);
-  display:inline-block;
   padding:2px 8px;
   border-radius:6px;
+  display:inline-block;
 }
 .staff-desc{
   position:relative;
@@ -297,7 +299,7 @@ footer{
   max-width:1200px;
   margin:auto;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:32px;
 }
 .footer-col h4{
@@ -322,7 +324,10 @@ footer{
   .header{height:260px}
   .header img{width:300px}
   .count-box span{font-size:1rem}
-  .series-cover{float:none;margin:0 auto 16px}
+  .series-cover{
+    float:none;
+    margin:0 auto 16px;
+  }
 }
 </style>
 </head>
@@ -385,18 +390,20 @@ as well as Discord’s Terms of Service and Guidelines.
         <h2>About the Series</h2>
         <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
 
-        <div class="series-cover">
-          <img src="assets/images/series-cover.jpg" alt="Gokurakugai Cover">
-        </div>
+        <div class="series-info-wrap">
+          <div class="series-cover">
+            <img src="assets/images/series-cover.png" alt="Gokurakugai Cover">
+          </div>
 
-        <h3>Series Information</h3>
-        <table>
-          <tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
-          <tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
-          <tr><td><strong>Publisher</strong></td><td>SHUEISHA</td></tr>
-          <tr><td><strong>Schedule</strong></td><td>Monthly</td></tr>
-          <tr><td><strong>Original Run</strong></td><td>Jan 27, 2020 (One-shot)<br>July 4, 2022 (Official)</td></tr>
-        </table>
+          <h3>Series Information</h3>
+          <table>
+            <tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
+            <tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
+            <tr><td><strong>Publisher</strong></td><td>SHUEISHA</td></tr>
+            <tr><td><strong>Schedule</strong></td><td>Monthly</td></tr>
+            <tr><td><strong>Original Run</strong></td><td>Jan 27, 2020 (One-shot)<br>July 4, 2022 (Official)</td></tr>
+          </table>
+        </div>
 
         <h3>Official Synopsis</h3>
         <p><em>
@@ -412,12 +419,16 @@ All the while, the evil spirits who live in the shadows bring out a different si
     <aside class="sidebar">
       <div class="frame widget">
         <h3>SNS Feed</h3>
-        <iframe src="https://discord.com/widget?id=995737046725443686&theme=auto"
-          height="420" allowtransparency="true"
-          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <iframe
+          src="https://discord.com/widget?id=995737046725443686&theme=auto"
+          height="420"
+          allowtransparency="true"
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe>
+
         <p><a href="https://x.com/gokurakugainews" target="_blank">X (Twitter)</a></p>
         <p><a href="https://www.instagram.com/gokurakugaiwiki/" target="_blank">Instagram</a></p>
-        <p><a href="https://www.facebook.com/gokurakugakugai" target="_blank">Facebook</a></p>
+        <p><a href="https://www.facebook.com/gokurakugai" target="_blank">Facebook</a></p>
       </div>
     </aside>
 
@@ -428,6 +439,14 @@ All the while, the evil spirits who live in the shadows bring out a different si
 <div class="section" id="rules">
   <div class="frame">
     <h2>Server Rules</h2>
+
+    <div class="rules-intro">
+      These are the extended and detailed rules for the Gokurakugai Discord Server.
+      By joining and participating in our community, you agree to follow all rules listed below,
+      as well as Discord’s Terms of Service and Community Guidelines.
+      Failure to comply may result in moderation actions at staff discretion.
+    </div>
+
     <div id="rulesList"></div>
   </div>
 </div>
@@ -444,6 +463,7 @@ All the while, the evil spirits who live in the shadows bring out a different si
 <div class="section" id="staff">
   <div class="frame">
     <h2>About the Staff</h2>
+
     <div class="staff-grid">
       <div class="staff-card" style="background-image:url('assets/images/staff1.png')">
         <div class="staff-container">
@@ -519,10 +539,8 @@ All the while, the evil spirits who live in the shadows bring out a different si
   </div>
 </footer>
 
-<script async src="https://platform.twitter.com/widgets.js"></script>
-
 <script>
-/* THEME */
+/* THEME TOGGLE */
 const toggle=document.getElementById("themeToggle");
 toggle.onclick=()=>{
   document.body.classList.toggle("dark");
