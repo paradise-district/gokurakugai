@@ -44,20 +44,42 @@ body.dark{
 body{
   margin:0;
   background:
-    linear-gradient(rgba(255,255,255,.85),rgba(255,255,255,.85)),
+    linear-gradient(
+      rgba(255,255,255,.82),
+      rgba(255,255,255,.82)
+    ),
     var(--pattern),
     var(--bg);
-  background-size:auto,420px 420px,auto;
-  background-repeat:no-repeat,repeat,no-repeat;
+
+  /* SMALL + UNIFORM PATTERN */
+  background-size:
+    auto,
+    260px 260px,
+    auto;
+
+  background-repeat:
+    no-repeat,
+    repeat,
+    no-repeat;
+
   color:var(--text);
   transition:all .3s var(--ease);
 }
 
 body.dark{
   background:
-    linear-gradient(rgba(0,0,0,.82),rgba(0,0,0,.82)),
+    linear-gradient(
+      rgba(0,0,0,.78),
+      rgba(0,0,0,.78)
+    ),
     var(--pattern),
     var(--bg);
+
+  /* SAME TILE SIZE — VISUALLY MATCHED */
+  background-size:
+    auto,
+    260px 260px,
+    auto;
 }
 
 /* ================= HEADER ================= */
@@ -360,7 +382,7 @@ as well as Discord’s Terms of Service and Community Guidelines.
         <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
 
         <div class="series-cover">
-          <img src="assets/images/series-cover.png">
+          <img src="assets/images/series-cover.jpg">
         </div>
 
         <p><em>
