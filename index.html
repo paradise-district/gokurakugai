@@ -441,7 +441,10 @@ body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
 
 <!-- COUNTDOWN -->
 <div class="countdown">
-  <div class="count-box">Chapter 33 (JP/EN)<span id="chapter"></span></div>
+  <div class="count-box">
+  <span id="chapterLabel">Chapter 34 (JP/EN)</span>
+  <span id="chapter"></span>
+</div>
   <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
   <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
 </div>
@@ -708,22 +711,38 @@ function nowJST(){
     new Date().toLocaleString("en-US",{timeZone:"Asia/Tokyo"})
   );
 }
-
+let baseChapterNumber = 34;
 function updateChapter(){
-  const now=nowJST();
-  const release=new Date(2026,2,4,0,0,0); // March 4, 2026 JST
-  const releasedDay=new Date(2026,2,5,0,0,0);
+  const now = nowJST();
 
-  if(now>=release && now<releasedDay){
-    document.getElementById("chapter").textContent="Released";
+  // Calculate how many months have passed since March 2026
+  const startYear = 2026;
+  const startMonth = 2; // March (0-based)
+  const monthsPassed =
+    (now.getFullYear() - startYear) * 12 +
+    (now.getMonth() - startMonth);
+
+  const currentChapter = baseChapterNumber + Math.max(0, monthsPassed);
+
+  // Update label text
+  document.getElementById("chapterLabel").textContent =
+    `Chapter ${currentChapter} (JP/EN)`;
+
+  // Release logic
+  const release = new Date(now.getFullYear(), now.getMonth(), 4, 0, 0, 0);
+  const releasedDay = new Date(now.getFullYear(), now.getMonth(), 5, 0, 0, 0);
+
+  if(now >= release && now < releasedDay){
+    document.getElementById("chapter").textContent = "Released";
     return;
   }
 
-  const target=now>=releasedDay
-    ? new Date(now.getFullYear(),now.getMonth()+1,4,0,0,0)
-    : release;
+  const target =
+    now >= releasedDay
+      ? new Date(now.getFullYear(), now.getMonth() + 1, 4, 0, 0, 0)
+      : release;
 
-  runCountdown("chapter",target);
+  runCountdown("chapter", target);
 }
 
 function updateVolumes(){
