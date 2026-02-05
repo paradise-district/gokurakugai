@@ -258,6 +258,7 @@
       .tabs {
         flex: 1;
         display: flex;
+        justify-content: center;
         gap: 6px;
         overflow-x: auto;
         overflow-y: hidden;
@@ -289,12 +290,6 @@
       .tabs {
         scrollbar-width: none;
         /* Firefox */
-      }
-
-      @media (max-width: 768px) {
-        .tabs {
-          justify-content: flex-start;
-        }
       }
 
       .tab.active {
