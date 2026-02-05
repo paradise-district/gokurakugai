@@ -1,1294 +1,1315 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gokurakugai Community · Discord Hub & Fan Site</title>
-  
-<!-- ================= BASIC SEO ================= -->
-<meta name="description" content="Gokurakugai Community — a fan-run Discord-centered hub dedicated to the action-supernatural manga by Yuto Sano. News, countdowns, and community resources.">
-<meta name="keywords" content="Gokurakugai, 極楽街, manga, Yuto Sano, Jump SQ, Gokurakugai community, Gokurakugai Discord, Gokurakugai server, Gokurakugai Discord Server, Gokurakugai anime, Gokurakugai manga, Gokurakugai anime manga fans">
-<meta name="author" content="Gokurakugai Community">
-<meta name="robots" content="index, follow">
 
-<!-- ================= CANONICAL URL ================= -->
-<link rel="canonical" href="https://paradise-district.github.io/gokurakugai/">
-
-<!-- ================= FAVICON ================= -->
-<link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
-
-<!-- ================= OPEN GRAPH ================= -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gokurakugai Community">
-<meta property="og:description" content="A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.">
-<meta property="og:url" content="https://paradise-district.github.io/gokurakugai/">
-<meta property="og:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
-<meta property="og:site_name" content="Gokurakugai Community">
-<meta property="og:image:alt" content="Gokurakugai Community — Discord hub and fan site for the manga by Yuto Sano">
-
-<!-- ================= TWITTER PREVIEW ================= -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Gokurakugai Community">
-<meta name="twitter:description" content="Fan-run Gokurakugai community and Discord hub. News, releases, countdowns, and resources.">
-<meta name="twitter:image" content="https://gokurakugai.wiki/assets/images/og-image.jpg">
-<style>
-
-/* ================= FONTS ================= */
-body{
-  font-family:"Segoe UI",system-ui,sans-serif;
-}
-h1,h2,h3,h4{
-  font-family:Georgia,"Times New Roman",serif;
-  letter-spacing:.04em;
-}
-
-/* ================= THEME ================= */
-:root{
-  --bg:#f7f3ea;
-  --panel:#ffffff;
-  --ink:#c43128;
-  --text:#222;
-  --accent:#c43128;
-  --frame:url("assets/images/light-border.png");
-  --pattern:url("assets/images/pattern-light.png");
-  --header-bg:url("assets/images/header-bg-light.jpg");
-  --ease:cubic-bezier(.4,0,.2,1);
-}
-
-body.dark{
-  --bg:#0f0f0f;
-  --panel:#141414;
-  --ink:#d6b25e;
-  --text:#eaeaea;
-  --accent:#d6b25e;
-  --frame:url("assets/images/dark-border.png");
-  --pattern:url("assets/images/pattern-dark.png");
-  --header-bg:url("assets/images/header-bg-dark.jpg");
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:
-    linear-gradient(
-      rgba(255,255,255,.82),
-      rgba(255,255,255,.82)
-    ),
-    var(--pattern),
-    var(--bg);
-
-  /* SMALL + UNIFORM PATTERN */
-  background-size:
-    auto,
-    260px 260px,
-    auto;
-
-  background-repeat:
-    no-repeat,
-    repeat,
-    no-repeat;
-
-  color:var(--text);
-  transition:all .3s var(--ease);
-}
-
-body.dark{
-  background:
-    linear-gradient(
-      rgba(0,0,0,.78),
-      rgba(0,0,0,.78)
-    ),
-    var(--pattern),
-    var(--bg);
-
-  /* SAME TILE SIZE — VISUALLY MATCHED */
-  background-size:
-    auto,
-    260px 260px,
-    auto;
-}
-
-/* ================= HEADER ================= */
-.header{
-  position:relative;
-  height:320px;
-  background:var(--header-bg) center/cover no-repeat;
-}
-.header::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.6);
-}
-.header-content{
-  position:relative;
-  z-index:2;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-  text-align:center;
-}
-/* ================= LOGO GLITCH HOVER ================= */
-.logo-glitch{
-  position:relative;
-  width:480px;
-  max-width:90%;
-}
-
-.logo-glitch .logo{
-  width:100%;
-  display:block;
-}
-
-/* Japanese logo hidden by default */
-.logo-glitch .glitch{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  pointer-events:none;
-}
-/* ================= REAL GLITCH EFFECT ================= */
-@keyframes rgb-glitch{
-  0%{
-    transform:translate(0);
-    filter:
-      drop-shadow(-2px 0 red)
-      drop-shadow(2px 0 cyan);
-  }
-  15%{
-    transform:translate(-2px,1px);
-  }
-  30%{
-    transform:translate(2px,-1px);
-  }
-  45%{
-    transform:translate(-1px,2px);
-  }
-  60%{
-    transform:translate(1px,-2px);
-  }
-  75%{
-    transform:translate(-1px,1px);
-  }
-  100%{
-    transform:translate(0);
-  }
-}
-.logo-glitch::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    rgba(255,255,255,.08) 50%,
-    rgba(0,0,0,.08) 50%
-  );
-  background-size:100% 4px;
-  opacity:0;
-  pointer-events:none;
-}
-
-.logo-glitch:hover::after{
-  opacity:.25;
-}
-
-/* Hover trigger */
-.logo-glitch:hover .glitch{
-  opacity:1;
-  animation:rgb-glitch 0.35s infinite;
-  filter:
-    drop-shadow(-2px 0 red)
-    drop-shadow(2px 0 cyan);
-}
-.logo-glitch:hover .base{
-  opacity:0;
-}
-
-/* Glitch animation */
-
-.header h1{
-  margin-top:10px;
-  font-size:2rem;
-  border-bottom:2px solid var(--accent);
-}
-
-/* ================= COUNTDOWN ================= */
-.count-title{
-  color: var(--accent);
-  font-size: .85rem;
-}
-.countdown{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  background:#000;
-  padding:16px;
-  text-align:center;
-}
-.count-box{
-  color:var(--accent);
-  font-size:.85rem;
-}
-.count-box span{
-  display:block;
-  color:#fff;
-  font-size:1.15rem;
-}
-
-/* ================= TABS ================= */
-.tabs-bar{
-  display:flex;
-  align-items:center;
-  background:#000;
-}
-.tabs{
-  flex:1;
-  display:flex;
-  justify-content:center;
-}
-.tab{
-  padding:14px 18px;
-  cursor:pointer;
-  color:#ccc;
-  border-bottom:3px solid transparent;
-}
-.tab:hover{color:#fff}
-.tab.active{
-  color:var(--accent);
-  border-color:var(--accent);
-}
-.theme-toggle{
-  margin-right:16px;
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:1.3rem;
-  cursor:pointer;
-}
-
-/* ================= SECTIONS ================= */
-.section{
-  display:none;
-  max-width:1200px;
-  margin:auto;
-  padding:32px 20px;
-}
-.section.active{display:block}
-
-/* ================= GRID ================= */
-.content-grid{
-  display:grid;
-  grid-template-columns:1fr 340px;
-  gap:32px;
-}
-@media(max-width:900px){
-  .content-grid{grid-template-columns:1fr}
-}
-
-/* ================= FRAME ================= */
-.frame{
-  background:var(--panel);
-  padding:28px;
-  margin-bottom:32px;
-  border:24px solid transparent;
-  border-image-source:var(--frame);
-  border-image-slice:42;
-  border-image-repeat:round;
-}
-
-/* ================= BANNERS ================= */
-.section-banner{
-  width:100%;
-  height:290px;
-  background:center/contain no-repeat;
-  margin:20px 0 30px;
-}
-
-/* ================= SERIES FLOAT ================= */
-.series-info-wrap{overflow:hidden}
-.series-cover{
-  float:right;
-  width:220px;
-  margin:0 0 16px 24px;
-}
-.series-cover img{width:100%}
-
-/* ================= TABLE ================= */
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-td{
-  padding:8px;
-  border-bottom:1px solid rgba(0,0,0,.15);
-}
-
-/* ================= RULES ================= */
-.rule{
-  border-left:6px solid var(--accent);
-  padding:14px;
-  margin-bottom:14px;
-  background:rgba(0,0,0,.04);
-  cursor:pointer;
-  transition:background .3s;
-}
-.rule:hover{background:rgba(196,49,40,.18)}
-body.dark .rule:hover{background:rgba(214,178,94,.22)}
-.rule p{display:none;margin-top:8px}
-
-/* ================= STAFF ================= */
-.staff-grid{
-  display:grid;
-  grid-template-columns:repeat(3,280px);
-  gap:32px;
-  justify-content:center;
-}
-@media(max-width:768px){
-  .staff-grid{grid-template-columns:1fr}
-}
-.staff-card{
-  position:relative;
-  height:400px;
-  padding:1.5em;
-  border-radius:1.5em;
-  overflow:hidden;
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-}
-.staff-card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  transition:background .3s ease;
-}
-body.dark .staff-card::before{
-  background:rgba(0,0,0,.7);
-}
-
-.staff-container{position:relative;color:#fff}
-/* ================= STAFF ================= */
-.staff-grid{
-  display:grid;
-  grid-template-columns:repeat(3,280px);
-  gap:32px;
-  justify-content:center;
-}
-
-@media(max-width:768px){
-  .staff-grid{grid-template-columns:1fr}
-}
-
-.staff-card{
-  position:relative;
-  height:400px;
-  padding:1.5em;
-  border-radius:1.5em;
-  overflow:hidden;
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-}
-
-/* image darkening only */
-.staff-card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.35);
-}
-
-body.dark .staff-card::before{
-  background:rgba(0,0,0,.6);
-}
-
-/* text container */
-.staff-container{
-  position:relative;
-  color:var(--text);
-}
-
-/* name */
-.staff-container h3{
-  margin:0;
-  color:var(--text);
-}
-
-/* role */
-.staff-container div{
-  font-size:.9rem;
-  opacity:.85;
-  color:var(--text);
-}
-
-/* description */
-.staff-desc{
-  margin-top:8px;
-  color:var(--text);
-  font-size:.85rem;
-  line-height:1.45;
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .35s ease;
-}
-
-/* reveal */
-.staff-card:hover .staff-desc{
-  max-height:160px;
-}
-
-/* make card clearly clickable */
-.staff-card{
-  cursor:pointer;
-}
-
-.staff-card:hover .staff-desc{max-height:160px}
-
-/* ================= SIDEBAR ================= */
-.sidebar iframe{width:100%;border:none}
-.sns-icons{
-  display:flex;
-  gap:14px;
-  justify-content:center;
-}
-  .sns-icons a{
-  position:relative; /* needed for tooltip */
-}
-.sns-icons a::after{
-  content:attr(data-label);
-  position:absolute;
-  bottom:-28px;
-  left:50%;
-  transform:translateX(-50%);
-  white-space:nowrap;
-
-  background:rgba(0,0,0,.85);
-  color:#fff;
-  font-size:.65rem;
-  padding:4px 8px;
-  border-radius:6px;
-
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease;
-}
-
-/* ================= NEWS FEED ================= */
-.news-tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:10px;
-}
-
-.news-tab{
-  flex:1;
-  padding:6px 8px;
-  font-size:.75rem;
-  background:rgba(0,0,0,.05);
-  border:none;
-  cursor:pointer;
-  color:var(--text);
-  border-bottom:2px solid transparent;
-}
-
-.news-tab.active{
-  border-color:var(--accent);
-  font-weight:600;
-}
-
-.news-refresh{
-  background:none;
-  border:none;
-  cursor:pointer;
-  font-size:1rem;
-  color:var(--accent);
-}
-
-.news-list{
-  list-style:none;
-  padding:0;
-  margin:0;
-  font-size:.8rem;
-}
-
-.news-list li{
-  padding:8px 0;
-  border-bottom:1px dashed rgba(0,0,0,.15);
-}
-
-.news-list a{
-  color:var(--text);
-  text-decoration:none;
-}
-
-.news-list a:hover{
-  color:var(--accent);
-}
-
-.news-loading{
-  opacity:.7;
-  font-style:italic;
-}
-
-.sns-icons a:hover::after{
-  opacity:1;
-  transform:translateX(-50%) translateY(4px);
-}
-
-/* Light mode tweak for readability */
-body:not(.dark) .sns-icons a::after{
-  background:rgba(40,40,40,.9);
-}
-.sns-icons a{
-  width:48px;
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.08);
-  border-radius:50%;
-  transition:transform .3s,box-shadow .3s;
-}
-.sns-icons a:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 12px var(--accent);
-}
-.sns-icons img{
-  width:24px;
-  transition:filter .25s ease, opacity .25s ease;
-}
-/* ================= SNS ICON DARK MODE FIX ================= */
-body.dark .sns-icons img{
-  filter:
-    brightness(0)
-    invert(1)
-    contrast(1.6);
-  opacity:.95;
-}
-
-/* slightly stronger on hover */
-body.dark .sns-icons a:hover img{
-  filter:
-    brightness(0)
-    invert(1)
-    contrast(1.35);
-  opacity:1;
-}
-
-/* ================= FOOTER ================= */
-footer{
-  background:#000;
-  color:#aaa;
-  padding:40px 24px;
-}
-.footer-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:32px;
-}
-footer h4{color:#fff}
-footer a{
-  color:var(--accent);
-  display:block;
-  text-decoration:none;
-  margin:6px 0;
-  transition:color .25s,transform .25s,text-shadow .25s;
-}
-footer a:hover{
-  color:#fff;
-  transform:translateX(4px);
-  text-shadow:0 0 6px var(--accent);
-}
-body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
-.footer-bottom{
-  margin-top:32px;
-  text-align:center;
-  font-size:.8rem;
-}
-
-/* ================= STAFF MODAL ================= */
-.staff-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(10px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .35s ease;
-  z-index:9999;
-}
-
-.staff-modal.active{
-  opacity:1;
-  pointer-events:auto;
-}
-
-/* ID CARD */
-.staff-modal-card{
-  width:720px;
-  max-width:90%;
-  display:grid;
-  grid-template-columns:260px 1fr;
-  background:var(--panel);
-  border:2px solid var(--accent);
-  box-shadow:0 20px 60px rgba(0,0,0,.4);
-  animation:modalPop .35s ease;
-}
-
-@keyframes modalPop{
-  from{
-    transform:translateY(20px) scale(.96);
-    opacity:0;
-  }
-  to{
-    transform:none;
-    opacity:1;
-  }
-}
-
-/* LEFT IMAGE */
-.staff-modal-img{
-  background-size:cover;
-  background-position:center;
-}
-
-/* RIGHT INFO */
-.staff-modal-info{
-  padding:24px;
-}
-
-.staff-modal-info h3{
-  margin:0;
-  letter-spacing:.12em;
-}
-
-.staff-modal-roles{
-  margin:8px 0;
-  font-size:.85rem;
-  opacity:.85;
-}
-
-.staff-modal-meta{
-  font-size:.85rem;
-  line-height:1.6;
-  margin-top:12px;
-}
-
-/* INTRODUCTION SECTION */
-.staff-modal-intro{
-  margin-top:16px;
-  padding-top:12px;
-  border-top:1px solid rgba(0,0,0,.15);
-}
-
-.staff-modal-intro h4{
-  margin:0 0 6px;
-  font-size:.8rem;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  color:var(--accent);
-}
-
-.staff-modal-intro p{
-  font-size:.8rem;
-  line-height:1.6;
-  max-height:110px;          /* prevents awkward long blocks */
-  overflow-y:auto;
-  margin:0;
-  padding-right:6px;
-}
-
-/* CLOSE BUTTON */
-.staff-modal-close{
-  position:absolute;
-  top:18px;
-  left:18px;
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  border:1px solid var(--accent);
-  background:rgba(0,0,0,.6);
-  color:#fff;
-  font-size:1.1rem;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:transform .25s ease, background .25s ease;
-}
-
-.staff-modal-close:hover{
-  transform:rotate(90deg) scale(1.1);
-  background:var(--accent);
-  color:#000;
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="header-content">
-    <div class="logo-glitch">
-      <img src="assets/images/logo-en.png" class="logo base" alt="Gokurakugai Community Logo">
-      <img src="assets/images/logo-jp.png" class="logo glitch" alt="極楽街">
-  </div>
-    <h1>Gokurakugai Community</h1>
-  </div>
-</div>
-
-<!-- COUNTDOWN -->
-<div class="countdown">
-  <div class="count-box">
-  <div id="chapterLabel" class="count-title">Chapter 34 (JP/EN)</div>
-  <span id="chapter"></span>
-</div>
-  <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
-  <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
-</div>
-
-<!-- TABS -->
-<div class="tabs-bar">
-  <div class="tabs">
-    <div class="tab active" data-tab="about">About</div>
-    <div class="tab" data-tab="rules">Rules</div>
-    <div class="tab" data-tab="info">Info</div>
-    <div class="tab" data-tab="staff">Staff</div>
-  </div>
-  <button class="theme-toggle" id="themeToggle">🌙</button>
-</div>
-
-<!-- ABOUT -->
-<div class="section active" id="about">
-  <div class="content-grid">
-    <main>
-
-      <div class="frame">
-        <h2>About Our Server</h2>
-        <div class="section-banner" style="background-image:url('assets/images/banner-server.png')"></div>
-        <p>
-We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>.
-The series first introduced as a one-shot titled <strong>Gokurakugai Sanbandori No Ken</strong>, published in the
-<strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020.
-Its gritty tone and compelling characters struck a chord with readers, prompting its evolution into a full-fledged series.
-Serialization officially began in the monthly <strong>Jump SQ Magazine</strong> on July 4, 2022,
-and the manga later made its formal debut in <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023.
-        </p>
-        <p>
-By being a member of our Discord server, you indicate that you have read and accepted our server rules,
-as well as Discord’s Terms of Service and Community Guidelines.
-        </p>
-      </div>
-
-      <div class="frame series-info-wrap">
-        <h2>About the Series</h2>
-        <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
-
-        <div class="series-cover">
-          <img src="assets/images/series-cover.jpg">
-        </div>
-
-        <p><em>
-Gokurakugai, a bright and bustling working class district with a hidden dark side.
-In this area without order, Tao and Alma work as troubleshooters for hire.
-Their missions involve helping a young boy find his lost friend,
-a person who disappears without a trace, and disfigured animal corpses.
-All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
-        </em></p>
-
-        <p>
-<strong>Gokurakugai</strong> (Japanese: 極楽街, Hepburn: <em>Gokurakugai</em>, lit. “Paradise Street” or “Gokuraku District”)
-is a Japanese manga series in the action-supernatural genre, written and illustrated by <strong>Yuto Sano</strong>.
-It made its official debut in the pages of <strong>Jump SQ.Rise</strong> on July 4, 2022.
-        </p>
-
-        <p>
-Initially introduced as a one-shot, known as <em>Gokurakugai: Trouble on Third Avenue</em>,
-it later evolved into a regularly published series within the monthly <strong>Jump SQ Magazine</strong>,
-starting from July 4, 2022. This transition happened because of the positive response it received from readers
-when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on January 27, 2020.
-        </p>
-
-        <table>
-          <tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
-          <tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
-          <tr><td><strong>Publisher</strong></td><td>SHUEISHA</td></tr>
-          <tr><td><strong>Schedule</strong></td><td>Monthly</td></tr>
-          <tr><td><strong>Original Run</strong></td><td>Jan 27, 2020 (One-shot)<br>July 4, 2022 (Official)</td></tr>
-        </table>
-      </div>
-
-    </main>
-
-    <aside class="sidebar">
-
-      <div class="frame">
-        <h3>Media</h3>
-        <iframe height="200" src="https://www.youtube.com/embed/W0A7JOGZF9Y" allowfullscreen></iframe>
-      </div>
-
-      <div class="frame">
-  <h3>Latest News</h3>
-
-  <div class="news-tabs">
-    <button class="news-tab active" data-query="Gokurakugai">Gokurakugai</button>
-    <button class="news-tab" data-query="極楽街">極楽街</button>
-    <button class="news-refresh" title="Reload news">⟳</button>
-  </div>
-
-  <ul class="news-list" id="newsList">
-    <li class="news-loading">Loading news…</li>
-  </ul>
-</div>
-
-      <div class="frame">
-        <h3>Join us!</h3>
-        <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark" height="420"></iframe>
-      </div>
-
-      <div class="frame">
-        <h3>Follow us!</h3>
-        <div class="sns-icons">
-  <a href="https://x.com/gokurakugainews" data-label="Twitter / X">
-    <img src="assets/icons/twitter.png">
-  </a>
-
-  <a href="https://www.instagram.com/gokurakugaiwiki/" data-label="Instagram">
-    <img src="assets/icons/instagram.png">
-  </a>
-
-  <a href="#" data-label="Wiki">
-    <img src="assets/icons/wiki.png">
-  </a>
-
-  <a href="https://www.facebook.com/gokurakugai" data-label="Facebook">
-    <img src="assets/icons/facebook.png">
-  </a>
-</div>
-      </div>
-
-    </aside>
-  </div>
-</div>
-
-<!-- RULES -->
-<div class="section" id="rules">
-  <div class="frame">
-    <h2>Server Rules</h2>
-    <p>
-These are the extended and detailed rules for the Gokurakugai Discord Server.
-By joining and participating in our community, you agree to follow all rules listed below,
-as well as Discord’s Terms of Service and Community Guidelines.
-Failure to comply may result in moderation actions at staff discretion.
-    </p>
-    <div id="rulesList"></div>
-  </div>
-</div>
-
-<!-- INFO -->
-<div class="section" id="info">
-  <div class="frame">
-    <h2>Server Info</h2>
-    <p>Coming soon.</p>
-  </div>
-</div>
-
-<!-- STAFF -->
-<div class="section" id="staff">
-  <div class="frame">
-    <h2>About the Staff</h2>
-    <div class="staff-grid">
-
-    <!-- 1 — Admin & Founder -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff1.png')"
-     data-name="NAME 1"
-     data-roles="Administrator, Founder"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-      <div class="staff-container"><h3>NAME 1</h3><div>Administrator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-
-      <!-- 2 — Admin -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff2.png')"
-     data-name="NAME 2"
-     data-roles="Administrator"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-  <div class="staff-container"><h3>NAME 2</h3><div>Moderator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-
-      <!-- 3 — Admin -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff3.png')"
-     data-name="NAME 3"
-     data-roles="Administrator"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-  <div class="staff-container"><h3>NAME 3</h3><div>Moderator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-
-      <!-- 4 — Moderator -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff4.png')"
-     data-name="NAME 4"
-     data-roles="Moderator"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-  <div class="staff-container"><h3>NAME 4</h3><div>Moderator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-
-     <!-- 5 — Moderator -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff5.png')"
-     data-name="NAME 5"
-     data-roles="Moderator"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-  <div class="staff-container"><h3>NAME 5</h3><div>Moderator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-
-      <!-- 6 — Moderator -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff6.png')"
-     data-name="NAME 6"
-     data-roles="Moderator"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-  <div class="staff-container"><h3>NAME 6</h3><div>Moderator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-
-      <!-- 7 — Moderator -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff7.png')"
-     data-name="NAME 7"
-     data-roles="Moderator"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-  <div class="staff-container"><h3>NAME 7</h3><div>Moderator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-      
-      <!-- 8 — Trial Moderator -->
-<div class="staff-card"
-     style="background-image:url('assets/images/staff8.png')"
-     data-name="NAME 8"
-     data-roles="Trial Moderator"
-     data-age="AGE"
-     data-timezone="GMT+#"
-     data-birthday="MM/DD"
-     data-intro="Short, friendly introduction about the staff member goes here. Keep it casual and human.">
-  <div class="staff-container"><h3>NAME 8</h3><div>Moderator</div></div>
-        <p class="staff-desc">Long staff introduction goes here.</p>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- STAFF MODAL -->
-<div class="staff-modal" id="staffModal">
-  <div class="staff-modal-card">
-    <button class="staff-modal-close" id="staffModalClose">✕</button>
-
-    <div class="staff-modal-img" id="modalImg"></div>
-
-  <div class="staff-modal-info">
-  <h3 id="modalName"></h3>
-  <div class="staff-modal-roles" id="modalRoles"></div>
-
-  <div class="staff-modal-meta" id="modalMeta"></div>
-
-  <!-- INTRODUCTION -->
-  <div class="staff-modal-intro">
-    <h4>Introduction</h4>
-    <p id="modalIntro"></p>
-  </div>
-</div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <h4>Community</h4>
-      <a href="https://discord.gg/gokurakugai">Join Discord</a>
-      <a href="#rules">Server Rules</a>
-      <a href="#staff">Staff</a>
-      <a href="#info">Server Info</a>
-    </div>
-
-    <div>
-      <h4>Gokurakugai</h4>
-      <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/">Jump SQ</a>
-      <a href="https://www.viz.com/shonenjump/chapters/gokurakugai">VIZ</a>
-      <a href="https://mangaplus.shueisha.co.jp/titles/100230">MANGA Plus</a>
-    </div>
-
-    <div>
-      <h4>Official Links</h4>
-      <a href="https://x.com/Yuto___Sano">Yuto Sano (X)</a>
-      <a href="https://www.instagram.com/yuto__sano">Yuto Sano (Instagram)</a>
-      <a href="https://x.com/gokurakugaiinfo">Gokurakugai Info</a>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    © 2026 Gokurakugai Discord Server · Fan-run · Not affiliated with Shueisha
-  </div>
-</footer>
-
-<script>
-/* THEME */
-const toggle=document.getElementById("themeToggle");
-toggle.onclick=()=>{
-  document.body.classList.toggle("dark");
-  toggle.textContent=document.body.classList.contains("dark")?"☀":"🌙";
-};
-
-/* TABS */
-/* ================= TABS + HASH SUPPORT ================= */
-function activateTab(id){
-  document.querySelectorAll(".tab").forEach(t=>{
-    t.classList.toggle("active", t.dataset.tab === id);
-  });
-
-  document.querySelectorAll(".section").forEach(s=>{
-    s.classList.toggle("active", s.id === id);
-  });
-}
-
-// Tab clicks
-document.querySelectorAll(".tab").forEach(tab=>{
-  tab.addEventListener("click", ()=>{
-    const id = tab.dataset.tab;
-    history.pushState(null, "", `#${id}`);
-    activateTab(id);
-  });
-});
-
-// Hash navigation (direct links & refresh)
-function handleHash(){
-  const hash = location.hash.replace("#", "");
-  const target = document.getElementById(hash) ? hash : "about";
-  activateTab(target);
-}
-
-window.addEventListener("hashchange", handleHash);
-handleHash();
-
-/* RULES */
-const rl=document.getElementById("rulesList");
-for(let i=1;i<=20;i++){
-  const d=document.createElement("div");
-  d.className="rule";
-  d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-  d.onclick=()=>{
-    const p=d.querySelector("p");
-    p.style.display=p.style.display==="block"?"none":"block";
-  };
-  rl.appendChild(d);
-}
-
-/* ================= JST COUNTDOWN ================= */
-function nowJST(){
-  return new Date(
-    new Date().toLocaleString("en-US",{timeZone:"Asia/Tokyo"})
-  );
-}
-let baseChapterNumber = 33;
-function updateChapter(){
-  const now = nowJST();
-
-  // Anchor: Feb 4, 2026 (00:00 JST) = Chapter 33
-const anchorDate = new Date("2026-02-04T00:00:00+09:00");
-
-let monthsPassed =
-  (now.getFullYear() - anchorDate.getFullYear()) * 12 +
-  (now.getMonth() - anchorDate.getMonth());
-
-// If before the 4th JST, don't count the new month yet
-if (now.getDate() < 4) {
-  monthsPassed -= 1;
-}
-
-const currentChapter = baseChapterNumber + Math.max(0, monthsPassed);
-
-  // Update chapter label text
-  document.getElementById("chapterLabel").textContent =
-    `Chapter ${currentChapter} (JP/EN)`;
-
-  // Release timing (always 4th–5th JST)
-  const release = new Date(now.getFullYear(), now.getMonth(), 4, 0, 0, 0);
-  const releasedDay = new Date(now.getFullYear(), now.getMonth(), 5, 0, 0, 0);
-
-  // Show "Released" only on the 4th
-  if(now >= release && now < releasedDay){
-    document.getElementById("chapter").textContent = "Released";
-    return;
-  }
-
-  // Otherwise countdown to next valid release
-  const target =
-    now >= releasedDay
-      ? new Date(now.getFullYear(), now.getMonth() + 1, 4, 0, 0, 0)
-      : release;
-
-  runCountdown("chapter", target);
-}
-
-function updateVolumes(){
-  document.getElementById("v6jp").textContent="Released";
-  runCountdown("v5en",new Date("2026-04-07T00:00:00+09:00"),true);
-}
-
-function runCountdown(id,target,allowReleased){
-  const diff=target-nowJST();
-  if(diff<=0 && allowReleased){
-    document.getElementById(id).textContent="Released";
-    return;
-  }
-  const d=Math.floor(diff/86400000);
-  const h=Math.floor(diff%86400000/3600000);
-  const m=Math.floor(diff%3600000/60000);
-  const s=Math.floor(diff%60000/1000);
-  document.getElementById(id).textContent=`${d}d ${h}h ${m}m ${s}s`;
-}
-
-/* ================= NEWS FEED ================= */
-const newsList = document.getElementById("newsList");
-const newsTabs = document.querySelectorAll(".news-tab");
-const refreshBtn = document.querySelector(".news-refresh");
-
-let currentQuery = "Gokurakugai";
-
-function loadNews(query){
-  if(!newsList) return;
-
-  newsList.innerHTML = `<li class="news-loading">Loading news…</li>`;
-
-  // Language-aware RSS source
-const isJapanese = query === "極楽街";
-
-const rssURL = isJapanese
-  ? `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=ja&gl=JP&ceid=JP:ja`
-  : `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
-  const proxy =
-    `https://api.allorigins.win/get?url=${encodeURIComponent(rssURL)}`;
-
-  fetch(proxy)
-    .then(r => r.json())
-    .then(data => {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data.contents, "text/xml");
-      const items = [...xml.querySelectorAll("item")].slice(0,5);
-
-      if(!items.length){
-        newsList.innerHTML = `<li>No news found.</li>`;
-        return;
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gokurakugai Community · Discord Hub & Fan Site</title>
+
+    <!-- ================= BASIC SEO ================= -->
+    <meta name="description" content="Gokurakugai Community — a fan-run Discord-centered hub dedicated to the action-supernatural manga by Yuto Sano. News, countdowns, and community resources.">
+    <meta name="keywords" content="Gokurakugai, 極楽街, manga, Yuto Sano, Jump SQ, Gokurakugai community, Gokurakugai Discord, Gokurakugai server, Gokurakugai Discord Server, Gokurakugai anime, Gokurakugai manga, Gokurakugai anime manga fans">
+    <meta name="author" content="Gokurakugai Community">
+    <meta name="robots" content="index, follow">
+
+    <!-- ================= CANONICAL URL ================= -->
+    <link rel="canonical" href="https://paradise-district.github.io/gokurakugai/">
+
+    <!-- ================= FAVICON ================= -->
+    <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
+
+    <!-- ================= OPEN GRAPH ================= -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gokurakugai Community">
+    <meta property="og:description" content="A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.">
+    <meta property="og:url" content="https://paradise-district.github.io/gokurakugai/">
+    <meta property="og:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="Gokurakugai Community">
+    <meta property="og:image:alt" content="Gokurakugai Community — Discord hub and fan site for the manga by Yuto Sano">
+
+    <!-- ================= TWITTER PREVIEW ================= -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gokurakugai Community">
+    <meta name="twitter:description" content="Fan-run Gokurakugai community and Discord hub. News, releases, countdowns, and resources.">
+    <meta name="twitter:image" content="https://gokurakugai.wiki/assets/images/og-image.jpg">
+    <style>
+      /* ================= FONTS ================= */
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
       }
 
-      newsList.innerHTML = items.map(item=>{
-        const title = item.querySelector("title").textContent;
-        const link = item.querySelector("link").textContent;
-        return `<li><a href="${link}" target="_blank" rel="noopener">${title}</a></li>`;
-      }).join("");
-    })
-    .catch(()=>{
-      newsList.innerHTML = `<li>Failed to load news.</li>`;
-    });
-}
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: Georgia, "Times New Roman", serif;
+        letter-spacing: .04em;
+      }
 
-newsTabs.forEach(tab=>{
-  tab.addEventListener("click", ()=>{
-    newsTabs.forEach(t=>t.classList.remove("active"));
-    tab.classList.add("active");
-    currentQuery = tab.dataset.query;
-    loadNews(currentQuery);
-  });
-});
+      /* ================= THEME ================= */
+      :root {
+        --bg: #f7f3ea;
+        --panel: #ffffff;
+        --ink: #c43128;
+        --text: #222;
+        --accent: #c43128;
+        --frame: url("assets/images/light-border.png");
+        --pattern: url("assets/images/pattern-light.png");
+        --header-bg: url("assets/images/header-bg-light.jpg");
+        --ease: cubic-bezier(.4, 0, .2, 1);
+      }
 
-refreshBtn.addEventListener("click", ()=>{
-  loadNews(currentQuery);
-});
+      body.dark {
+        --bg: #0f0f0f;
+        --panel: #141414;
+        --ink: #d6b25e;
+        --text: #eaeaea;
+        --accent: #d6b25e;
+        --frame: url("assets/images/dark-border.png");
+        --pattern: url("assets/images/pattern-dark.png");
+        --header-bg: url("assets/images/header-bg-dark.jpg");
+      }
 
-loadNews(currentQuery);
+      * {
+        box-sizing: border-box
+      }
 
-setInterval(()=>{
-  updateChapter();
-  updateVolumes();
-},1000);
+      body {
+        margin: 0;
+        background:
+          linear-gradient(rgba(255, 255, 255, .82),
+            rgba(255, 255, 255, .82)),
+          var(--pattern),
+          var(--bg);
+        /* SMALL + UNIFORM PATTERN */
+        background-size:
+          auto,
+          260px 260px,
+          auto;
+        background-repeat:
+          no-repeat,
+          repeat,
+          no-repeat;
+        color: var(--text);
+        transition: all .3s var(--ease);
+      }
 
-/* ================= STAFF MODAL LOGIC ================= */
-const modal = document.getElementById("staffModal");
-const modalImg = document.getElementById("modalImg");
-const modalName = document.getElementById("modalName");
-const modalRoles = document.getElementById("modalRoles");
-const modalMeta = document.getElementById("modalMeta");
-const modalClose = document.getElementById("staffModalClose");
-const modalIntro = document.getElementById("modalIntro");
+      body.dark {
+        background:
+          linear-gradient(rgba(0, 0, 0, .78),
+            rgba(0, 0, 0, .78)),
+          var(--pattern),
+          var(--bg);
+        /* SAME TILE SIZE — VISUALLY MATCHED */
+        background-size:
+          auto,
+          260px 260px,
+          auto;
+      }
 
-document.querySelectorAll(".staff-card").forEach(card=>{
-  card.addEventListener("click", ()=>{
-    modalImg.style.backgroundImage = card.style.backgroundImage;
-    modalName.textContent = card.dataset.name || "";
-    modalRoles.textContent = card.dataset.roles || "";
+      /* ================= HEADER ================= */
+      .header {
+        position: relative;
+        height: 320px;
+        background: var(--header-bg) center/cover no-repeat;
+      }
 
-    modalMeta.innerHTML = `
+      .header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, .6);
+      }
+
+      .header-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-align: center;
+      }
+
+      /* ================= LOGO GLITCH HOVER ================= */
+      .logo-glitch {
+        position: relative;
+        width: 480px;
+        max-width: 90%;
+      }
+
+      .logo-glitch .logo {
+        width: 100%;
+        display: block;
+      }
+
+      /* Japanese logo hidden by default */
+      .logo-glitch .glitch {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* ================= REAL GLITCH EFFECT ================= */
+      @keyframes rgb-glitch {
+        0% {
+          transform: translate(0);
+          filter:
+            drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);
+        }
+
+        15% {
+          transform: translate(-2px, 1px);
+        }
+
+        30% {
+          transform: translate(2px, -1px);
+        }
+
+        45% {
+          transform: translate(-1px, 2px);
+        }
+
+        60% {
+          transform: translate(1px, -2px);
+        }
+
+        75% {
+          transform: translate(-1px, 1px);
+        }
+
+        100% {
+          transform: translate(0);
+        }
+      }
+
+      .logo-glitch::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(255, 255, 255, .08) 50%,
+            rgba(0, 0, 0, .08) 50%);
+        background-size: 100% 4px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .logo-glitch:hover::after {
+        opacity: .25;
+      }
+
+      /* Hover trigger */
+      .logo-glitch:hover .glitch {
+        opacity: 1;
+        animation: rgb-glitch 0.35s infinite;
+        filter:
+          drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);
+      }
+
+      .logo-glitch:hover .base {
+        opacity: 0;
+      }
+
+      /* Glitch animation */
+      .header h1 {
+        margin-top: 10px;
+        font-size: 2rem;
+        border-bottom: 2px solid var(--accent);
+      }
+
+      /* ================= COUNTDOWN ================= */
+      .count-title {
+        color: var(--accent);
+        font-size: .85rem;
+      }
+
+      .countdown {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        background: #000;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .count-box {
+        color: var(--accent);
+        font-size: .85rem;
+      }
+
+      .count-box span {
+        display: block;
+        color: #fff;
+        font-size: 1.15rem;
+      }
+
+      /* ================= TABS ================= */
+      .tabs-bar {
+        display: flex;
+        align-items: center;
+        background: #000;
+      }
+
+      .tabs {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .tab {
+        padding: 14px 18px;
+        cursor: pointer;
+        color: #ccc;
+        border-bottom: 3px solid transparent;
+      }
+
+      .tab:hover {
+        color: #fff
+      }
+
+      .tab.active {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .theme-toggle {
+        margin-right: 16px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.3rem;
+        cursor: pointer;
+      }
+
+      /* ================= SECTIONS ================= */
+      .section {
+        display: none;
+        max-width: 1200px;
+        margin: auto;
+        padding: 32px 20px;
+      }
+
+      .section.active {
+        display: block
+      }
+
+      /* ================= GRID ================= */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 32px;
+      }
+
+      @media(max-width:900px) {
+        .content-grid {
+          grid-template-columns: 1fr
+        }
+      }
+
+      /* ================= FRAME ================= */
+      .frame {
+        background: var(--panel);
+        padding: 28px;
+        margin-bottom: 32px;
+        border: 24px solid transparent;
+        border-image-source: var(--frame);
+        border-image-slice: 42;
+        border-image-repeat: round;
+      }
+
+      /* ================= BANNERS ================= */
+      .section-banner {
+        width: 100%;
+        height: 290px;
+        background: center/contain no-repeat;
+        margin: 20px 0 30px;
+      }
+
+      /* ================= SERIES FLOAT ================= */
+      .series-info-wrap {
+        overflow: hidden
+      }
+
+      .series-cover {
+        float: right;
+        width: 220px;
+        margin: 0 0 16px 24px;
+      }
+
+      .series-cover img {
+        width: 100%
+      }
+
+      /* ================= TABLE ================= */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      td {
+        padding: 8px;
+        border-bottom: 1px solid rgba(0, 0, 0, .15);
+      }
+
+      /* ================= RULES ================= */
+      .rule {
+        border-left: 6px solid var(--accent);
+        padding: 14px;
+        margin-bottom: 14px;
+        background: rgba(0, 0, 0, .04);
+        cursor: pointer;
+        transition: background .3s;
+      }
+
+      .rule:hover {
+        background: rgba(196, 49, 40, .18)
+      }
+
+      body.dark .rule:hover {
+        background: rgba(214, 178, 94, .22)
+      }
+
+      .rule p {
+        display: none;
+        margin-top: 8px
+      }
+
+      /* ================= STAFF ================= */
+      .staff-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 280px);
+        gap: 32px;
+        justify-content: center;
+      }
+
+      @media(max-width:768px) {
+        .staff-grid {
+          grid-template-columns: 1fr
+        }
+      }
+
+      .staff-card {
+        position: relative;
+        height: 400px;
+        padding: 1.5em;
+        border-radius: 1.5em;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+
+      .staff-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, .45);
+        transition: background .3s ease;
+      }
+
+      body.dark .staff-card::before {
+        background: rgba(0, 0, 0, .7);
+      }
+
+      .staff-container {
+        position: relative;
+        color: #fff
+      }
+
+      /* ================= STAFF ================= */
+      .staff-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 280px);
+        gap: 32px;
+        justify-content: center;
+      }
+
+      @media(max-width:768px) {
+        .staff-grid {
+          grid-template-columns: 1fr
+        }
+      }
+
+      .staff-card {
+        position: relative;
+        height: 400px;
+        padding: 1.5em;
+        border-radius: 1.5em;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+
+      /* image darkening only */
+      .staff-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, .35);
+      }
+
+      body.dark .staff-card::before {
+        background: rgba(0, 0, 0, .6);
+      }
+
+      /* text container */
+      .staff-container {
+        position: relative;
+        color: var(--text);
+      }
+
+      /* name */
+      .staff-container h3 {
+        margin: 0;
+        color: var(--text);
+      }
+
+      /* role */
+      .staff-container div {
+        font-size: .9rem;
+        opacity: .85;
+        color: var(--text);
+      }
+
+      /* description */
+      .staff-desc {
+        margin-top: 8px;
+        color: var(--text);
+        font-size: .85rem;
+        line-height: 1.45;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .35s ease;
+      }
+
+      /* reveal */
+      .staff-card:hover .staff-desc {
+        max-height: 160px;
+      }
+
+      /* make card clearly clickable */
+      .staff-card {
+        cursor: pointer;
+      }
+
+      .staff-card:hover .staff-desc {
+        max-height: 160px
+      }
+
+      /* ================= SIDEBAR ================= */
+      .sidebar iframe {
+        width: 100%;
+        border: none
+      }
+
+      .sns-icons {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+      }
+
+      .sns-icons a {
+        position: relative;
+        /* needed for tooltip */
+      }
+
+      .sns-icons a::after {
+        content: attr(data-label);
+        position: absolute;
+        bottom: -28px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        background: rgba(0, 0, 0, .85);
+        color: #fff;
+        font-size: .65rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .25s ease, transform .25s ease;
+      }
+
+      /* ================= NEWS FEED ================= */
+      .news-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .news-tab {
+        flex: 1;
+        padding: 6px 8px;
+        font-size: .75rem;
+        background: rgba(0, 0, 0, .05);
+        border: none;
+        cursor: pointer;
+        color: var(--text);
+        border-bottom: 2px solid transparent;
+      }
+
+      .news-tab.active {
+        border-color: var(--accent);
+        font-weight: 600;
+      }
+
+      .news-refresh {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--accent);
+      }
+
+      .news-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: .8rem;
+      }
+
+      .news-list li {
+        padding: 8px 0;
+        border-bottom: 1px dashed rgba(0, 0, 0, .15);
+      }
+
+      .news-list a {
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .news-list a:hover {
+        color: var(--accent);
+      }
+
+      .news-loading {
+        opacity: .7;
+        font-style: italic;
+      }
+
+      .sns-icons a:hover::after {
+        opacity: 1;
+        transform: translateX(-50%) translateY(4px);
+      }
+
+      /* Light mode tweak for readability */
+      body:not(.dark) .sns-icons a::after {
+        background: rgba(40, 40, 40, .9);
+      }
+
+      .sns-icons a {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, .08);
+        border-radius: 50%;
+        transition: transform .3s, box-shadow .3s;
+      }
+
+      .sns-icons a:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 12px var(--accent);
+      }
+
+      .sns-icons img {
+        width: 24px;
+        transition: filter .25s ease, opacity .25s ease;
+      }
+
+      /* ================= SNS ICON DARK MODE FIX ================= */
+      body.dark .sns-icons img {
+        filter:
+          brightness(0) invert(1) contrast(1.6);
+        opacity: .95;
+      }
+
+      /* slightly stronger on hover */
+      body.dark .sns-icons a:hover img {
+        filter:
+          brightness(0) invert(1) contrast(1.35);
+        opacity: 1;
+      }
+
+      /* ================= FOOTER ================= */
+      footer {
+        background: #000;
+        color: #aaa;
+        padding: 40px 24px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 32px;
+      }
+
+      footer h4 {
+        color: #fff
+      }
+
+      footer a {
+        color: var(--accent);
+        display: block;
+        text-decoration: none;
+        margin: 6px 0;
+        transition: color .25s, transform .25s, text-shadow .25s;
+      }
+
+      footer a:hover {
+        color: #fff;
+        transform: translateX(4px);
+        text-shadow: 0 0 6px var(--accent);
+      }
+
+      body.dark footer a:hover {
+        text-shadow: 0 0 8px var(--accent)
+      }
+
+      .footer-bottom {
+        margin-top: 32px;
+        text-align: center;
+        font-size: .8rem;
+      }
+
+      /* ================= STAFF MODAL ================= */
+      .staff-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .55);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .35s ease;
+        z-index: 9999;
+      }
+
+      .staff-modal.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* ID CARD */
+      .staff-modal-card {
+        width: 720px;
+        max-width: 90%;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        background: var(--panel);
+        border: 2px solid var(--accent);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
+        animation: modalPop .35s ease;
+      }
+
+      @keyframes modalPop {
+        from {
+          transform: translateY(20px) scale(.96);
+          opacity: 0;
+        }
+
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+
+      /* LEFT IMAGE */
+      .staff-modal-img {
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* RIGHT INFO */
+      .staff-modal-info {
+        padding: 24px;
+      }
+
+      .staff-modal-info h3 {
+        margin: 0;
+        letter-spacing: .12em;
+      }
+
+      .staff-modal-roles {
+        margin: 8px 0;
+        font-size: .85rem;
+        opacity: .85;
+      }
+
+      .staff-modal-meta {
+        font-size: .85rem;
+        line-height: 1.6;
+        margin-top: 12px;
+      }
+
+      /* INTRODUCTION SECTION */
+      .staff-modal-intro {
+        margin-top: 16px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(0, 0, 0, .15);
+      }
+
+      .staff-modal-intro h4 {
+        margin: 0 0 6px;
+        font-size: .8rem;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .staff-modal-intro p {
+        font-size: .8rem;
+        line-height: 1.6;
+        max-height: 110px;
+        /* prevents awkward long blocks */
+        overflow-y: auto;
+        margin: 0;
+        padding-right: 6px;
+      }
+
+      /* CLOSE BUTTON */
+      .staff-modal-close {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid var(--accent);
+        background: rgba(0, 0, 0, .6);
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform .25s ease, background .25s ease;
+      }
+
+      .staff-modal-close:hover {
+        transform: rotate(90deg) scale(1.1);
+        background: var(--accent);
+        color: #000;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-content">
+        <div class="logo-glitch">
+          <img src="assets/images/logo-en.png" class="logo base" alt="Gokurakugai Community Logo">
+          <img src="assets/images/logo-jp.png" class="logo glitch" alt="極楽街">
+        </div>
+        <h1>Gokurakugai Community</h1>
+      </div>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown">
+      <div class="count-box">
+        <div id="chapterLabel" class="count-title">Chapter 34 (JP/EN)</div>
+        <span id="chapter"></span>
+      </div>
+      <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
+      <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-bar">
+      <div class="tabs">
+        <div class="tab active" data-tab="about">About</div>
+        <div class="tab" data-tab="rules">Rules</div>
+        <div class="tab" data-tab="info">Info</div>
+        <div class="tab" data-tab="staff">Staff</div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="section active" id="about">
+      <div class="content-grid">
+        <main>
+
+          <div class="frame">
+            <h2>About Our Server</h2>
+            <div class="section-banner" style="background-image:url('assets/images/banner-server.png')"></div>
+            <p>
+              We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>.
+              The series first introduced as a one-shot titled <strong>Gokurakugai Sanbandori No Ken</strong>, published in the
+              <strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020.
+              Its gritty tone and compelling characters struck a chord with readers, prompting its evolution into a full-fledged series.
+              Serialization officially began in the monthly <strong>Jump SQ Magazine</strong> on July 4, 2022,
+              and the manga later made its formal debut in <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023.
+            </p>
+            <p>
+              By being a member of our Discord server, you indicate that you have read and accepted our server rules,
+              as well as Discord’s Terms of Service and Community Guidelines.
+            </p>
+          </div>
+
+          <div class="frame series-info-wrap">
+            <h2>About the Series</h2>
+            <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
+
+            <div class="series-cover">
+              <img src="assets/images/series-cover.jpg">
+            </div>
+
+            <p><em>
+                Gokurakugai, a bright and bustling working class district with a hidden dark side.
+                In this area without order, Tao and Alma work as troubleshooters for hire.
+                Their missions involve helping a young boy find his lost friend,
+                a person who disappears without a trace, and disfigured animal corpses.
+                All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
+              </em></p>
+
+            <p>
+              <strong>Gokurakugai</strong> (Japanese: 極楽街, Hepburn: <em>Gokurakugai</em>, lit. “Paradise Street” or “Gokuraku District”)
+              is a Japanese manga series in the action-supernatural genre, written and illustrated by <strong>Yuto Sano</strong>.
+              It made its official debut in the pages of <strong>Jump SQ.Rise</strong> on July 4, 2022.
+            </p>
+
+            <p>
+              Initially introduced as a one-shot, known as <em>Gokurakugai: Trouble on Third Avenue</em>,
+              it later evolved into a regularly published series within the monthly <strong>Jump SQ Magazine</strong>,
+              starting from July 4, 2022. This transition happened because of the positive response it received from readers
+              when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on January 27, 2020.
+            </p>
+
+            <table>
+              <tr>
+                <td><strong>Title</strong></td>
+                <td>Gokurakugai (極楽街)</td>
+              </tr>
+              <tr>
+                <td><strong>Magazine</strong></td>
+                <td>Jump SQ. Rise</td>
+              </tr>
+              <tr>
+                <td><strong>Publisher</strong></td>
+                <td>SHUEISHA</td>
+              </tr>
+              <tr>
+                <td><strong>Schedule</strong></td>
+                <td>Monthly</td>
+              </tr>
+              <tr>
+                <td><strong>Original Run</strong></td>
+                <td>Jan 27, 2020 (One-shot)<br>July 4, 2022 (Official)</td>
+              </tr>
+            </table>
+          </div>
+
+        </main>
+
+        <aside class="sidebar">
+
+          <div class="frame">
+            <h3>Media</h3>
+            <iframe height="200" src="https://www.youtube.com/embed/W0A7JOGZF9Y" allowfullscreen></iframe>
+          </div>
+
+          <div class="frame">
+            <h3>Latest News</h3>
+
+            <div class="news-tabs">
+              <button class="news-tab active" data-query="Gokurakugai">Gokurakugai</button>
+              <button class="news-tab" data-query="極楽街">極楽街</button>
+              <button class="news-refresh" title="Reload news">⟳</button>
+            </div>
+
+            <ul class="news-list" id="newsList">
+              <li class="news-loading">Loading news…</li>
+            </ul>
+          </div>
+
+          <div class="frame">
+            <h3>Join us!</h3>
+            <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark" height="420"></iframe>
+          </div>
+
+          <div class="frame">
+            <h3>Follow us!</h3>
+            <div class="sns-icons">
+              <a href="https://x.com/gokurakugainews" data-label="Twitter / X">
+                <img src="assets/icons/twitter.png">
+              </a>
+
+              <a href="https://www.instagram.com/gokurakugaiwiki/" data-label="Instagram">
+                <img src="assets/icons/instagram.png">
+              </a>
+
+              <a href="#" data-label="Wiki">
+                <img src="assets/icons/wiki.png">
+              </a>
+
+              <a href="https://www.facebook.com/gokurakugai" data-label="Facebook">
+                <img src="assets/icons/facebook.png">
+              </a>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+
+    <!-- RULES -->
+    <div class="section" id="rules">
+      <div class="frame">
+        <h2>Server Rules</h2>
+        <p>
+          These are the extended and detailed rules for the Gokurakugai Discord Server.
+          By joining and participating in our community, you agree to follow all rules listed below,
+          as well as Discord’s Terms of Service and Community Guidelines.
+          Failure to comply may result in moderation actions at staff discretion.
+        </p>
+        <div id="rulesList"></div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="section" id="info">
+      <div class="frame">
+        <h2>Server Info</h2>
+        <p>Coming soon.</p>
+      </div>
+    </div>
+
+    <!-- STAFF -->
+    <div class="section" id="staff">
+      <div class="frame">
+        <h2>About the Staff</h2>
+        <div class="staff-grid">
+
+          <!-- 1 — Admin & Founder -->
+          <div class="staff-card" style="background-image:url('assets/images/staff1.png')" data-name="NAME 1" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 1</h3>
+              <div>Administrator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+          <!-- 2 — Admin -->
+          <div class="staff-card" style="background-image:url('assets/images/staff2.png')" data-name="NAME 2" data-roles="Administrator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 2</h3>
+              <div>Moderator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+          <!-- 3 — Admin -->
+          <div class="staff-card" style="background-image:url('assets/images/staff3.png')" data-name="NAME 3" data-roles="Administrator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 3</h3>
+              <div>Moderator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+          <!-- 4 — Moderator -->
+          <div class="staff-card" style="background-image:url('assets/images/staff4.png')" data-name="NAME 4" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 4</h3>
+              <div>Moderator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+          <!-- 5 — Moderator -->
+          <div class="staff-card" style="background-image:url('assets/images/staff5.png')" data-name="NAME 5" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 5</h3>
+              <div>Moderator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+          <!-- 6 — Moderator -->
+          <div class="staff-card" style="background-image:url('assets/images/staff6.png')" data-name="NAME 6" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 6</h3>
+              <div>Moderator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+          <!-- 7 — Moderator -->
+          <div class="staff-card" style="background-image:url('assets/images/staff7.png')" data-name="NAME 7" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro=Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 7</h3>
+              <div>Moderator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+          <!-- 8 — Trial Moderator -->
+          <div class="staff-card" style="background-image:url('assets/images/staff8.png')" data-name="NAME 8" data-roles="Trial Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+            <div class="staff-container">
+              <h3>NAME 8</h3>
+              <div>Moderator</div>
+            </div>
+            <p class="staff-desc">ID Intro Placeholder.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- STAFF MODAL -->
+    <div class="staff-modal" id="staffModal">
+      <div class="staff-modal-card">
+        <button class="staff-modal-close" id="staffModalClose">✕</button>
+
+        <div class="staff-modal-img" id="modalImg"></div>
+
+        <div class="staff-modal-info">
+          <h3 id="modalName"></h3>
+          <div class="staff-modal-roles" id="modalRoles"></div>
+
+          <div class="staff-modal-meta" id="modalMeta"></div>
+
+          <!-- INTRODUCTION -->
+          <div class="staff-modal-intro">
+            <h4>Introduction</h4>
+            <p id="modalIntro"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <h4>Community</h4>
+          <a href="https://discord.gg/gokurakugai">Join Discord</a>
+          <a href="#rules">Server Rules</a>
+          <a href="#staff">Staff</a>
+          <a href="#info">Server Info</a>
+        </div>
+
+        <div>
+          <h4>Gokurakugai</h4>
+          <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/">Jump SQ</a>
+          <a href="https://www.viz.com/shonenjump/chapters/gokurakugai">VIZ</a>
+          <a href="https://mangaplus.shueisha.co.jp/titles/100230">MANGA Plus</a>
+        </div>
+
+        <div>
+          <h4>Official Links</h4>
+          <a href="https://x.com/Yuto___Sano">Yuto Sano (X)</a>
+          <a href="https://www.instagram.com/yuto__sano">Yuto Sano (Instagram)</a>
+          <a href="https://x.com/gokurakugaiinfo">Gokurakugai Info</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 Gokurakugai Discord Server · Fan-run · Not affiliated with Shueisha
+      </div>
+    </footer>
+
+    <script>
+      /* THEME */
+      const toggle = document.getElementById("themeToggle");
+      toggle.onclick = () => {
+        document.body.classList.toggle("dark");
+        toggle.textContent = document.body.classList.contains("dark") ? "☀" : "🌙";
+      };
+      /* TABS */
+      /* ================= TABS + HASH SUPPORT ================= */
+      function activateTab(id) {
+        document.querySelectorAll(".tab").forEach(t => {
+          t.classList.toggle("active", t.dataset.tab === id);
+        });
+        document.querySelectorAll(".section").forEach(s => {
+          s.classList.toggle("active", s.id === id);
+        });
+      }
+      // Tab clicks
+      document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          const id = tab.dataset.tab;
+          history.pushState(null, "", `#${id}`);
+          activateTab(id);
+        });
+      });
+      // Hash navigation (direct links & refresh)
+      function handleHash() {
+        const hash = location.hash.replace("#", "");
+        const target = document.getElementById(hash) ? hash : "about";
+        activateTab(target);
+      }
+      window.addEventListener("hashchange", handleHash);
+      handleHash();
+      /* RULES */
+      const rl = document.getElementById("rulesList");
+      for (let i = 1; i <= 20; i++) {
+        const d = document.createElement("div");
+        d.className = "rule";
+        d.innerHTML = `<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
+        d.onclick = () => {
+          const p = d.querySelector("p");
+          p.style.display = p.style.display === "block" ? "none" : "block";
+        };
+        rl.appendChild(d);
+      }
+      /* ================= JST COUNTDOWN ================= */
+      function nowJST() {
+        return new Date(
+          new Date().toLocaleString("en-US", {
+            timeZone: "Asia/Tokyo"
+          })
+        );
+      }
+      let baseChapterNumber = 33;
+
+      function updateChapter() {
+        const now = nowJST();
+        // Anchor: Feb 4, 2026 (00:00 JST) = Chapter 33
+        const anchorDate = new Date("2026-02-04T00:00:00+09:00");
+        let monthsPassed =
+          (now.getFullYear() - anchorDate.getFullYear()) * 12 +
+          (now.getMonth() - anchorDate.getMonth());
+        // If before the 4th JST, don't count the new month yet
+        if (now.getDate() < 4) {
+          monthsPassed -= 1;
+        }
+        const currentChapter = baseChapterNumber + Math.max(0, monthsPassed);
+        // Update chapter label text
+        document.getElementById("chapterLabel").textContent =
+          `Chapter ${currentChapter} (JP/EN)`;
+        // Release timing (always 4th–5th JST)
+        const release = new Date(now.getFullYear(), now.getMonth(), 4, 0, 0, 0);
+        const releasedDay = new Date(now.getFullYear(), now.getMonth(), 5, 0, 0, 0);
+        // Show "Released" only on the 4th
+        if (now >= release && now < releasedDay) {
+          document.getElementById("chapter").textContent = "Released";
+          return;
+        }
+        // Otherwise countdown to next valid release
+        const target =
+          now >= releasedDay ?
+          new Date(now.getFullYear(), now.getMonth() + 1, 4, 0, 0, 0) :
+          release;
+        runCountdown("chapter", target);
+      }
+
+      function updateVolumes() {
+        document.getElementById("v6jp").textContent = "Released";
+        runCountdown("v5en", new Date("2026-04-07T00:00:00+09:00"), true);
+      }
+
+      function runCountdown(id, target, allowReleased) {
+        const diff = target - nowJST();
+        if (diff <= 0 && allowReleased) {
+          document.getElementById(id).textContent = "Released";
+          return;
+        }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor(diff % 86400000 / 3600000);
+        const m = Math.floor(diff % 3600000 / 60000);
+        const s = Math.floor(diff % 60000 / 1000);
+        document.getElementById(id).textContent = `${d}d ${h}h ${m}m ${s}s`;
+      }
+      /* ================= NEWS FEED ================= */
+      const newsList = document.getElementById("newsList");
+      const newsTabs = document.querySelectorAll(".news-tab");
+      const refreshBtn = document.querySelector(".news-refresh");
+      let currentQuery = "Gokurakugai";
+
+      function loadNews(query) {
+        if (!newsList) return;
+        newsList.innerHTML = `<li class="news-loading">Loading news…</li>`;
+        // Language-aware RSS source
+        const isJapanese = query === "極楽街";
+        const rssURL = isJapanese ?
+          `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=ja&gl=JP&ceid=JP:ja` :
+          `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+        const proxy =
+          `https://api.allorigins.win/get?url=${encodeURIComponent(rssURL)}`;
+        fetch(proxy)
+          .then(r => r.json())
+          .then(data => {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(data.contents, "text/xml");
+            const items = [...xml.querySelectorAll("item")].slice(0, 5);
+            if (!items.length) {
+              newsList.innerHTML = `<li>No news found.</li>`;
+              return;
+            }
+            newsList.innerHTML = items.map(item => {
+              const title = item.querySelector("title").textContent;
+              const link = item.querySelector("link").textContent;
+              return `<li><a href="${link}" target="_blank" rel="noopener">${title}</a></li>`;
+            }).join("");
+          })
+          .catch(() => {
+            newsList.innerHTML = `<li>Failed to load news.</li>`;
+          });
+      }
+      newsTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          newsTabs.forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          currentQuery = tab.dataset.query;
+          loadNews(currentQuery);
+        });
+      });
+      refreshBtn.addEventListener("click", () => {
+        loadNews(currentQuery);
+      });
+      loadNews(currentQuery);
+      setInterval(() => {
+        updateChapter();
+        updateVolumes();
+      }, 1000);
+      /* ================= STAFF MODAL LOGIC ================= */
+      const modal = document.getElementById("staffModal");
+      const modalImg = document.getElementById("modalImg");
+      const modalName = document.getElementById("modalName");
+      const modalRoles = document.getElementById("modalRoles");
+      const modalMeta = document.getElementById("modalMeta");
+      const modalClose = document.getElementById("staffModalClose");
+      const modalIntro = document.getElementById("modalIntro");
+      document.querySelectorAll(".staff-card").forEach(card => {
+        card.addEventListener("click", () => {
+          modalImg.style.backgroundImage = card.style.backgroundImage;
+          modalName.textContent = card.dataset.name || "";
+          modalRoles.textContent = card.dataset.roles || "";
+          modalMeta.innerHTML = `
       <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
       <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
       <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
     `;
+          modalIntro.textContent =
+            card.dataset.intro || "No introduction provided.";
+          modal.classList.add("active");
+        });
+      });
+      modalClose.onclick = () => modal.classList.remove("active");
+      modal.onclick = e => {
+        if (e.target === modal) modal.classList.remove("active");
+      };
+    </script>
 
-    modalIntro.textContent =
-      card.dataset.intro || "No introduction provided.";
+  </body>
 
-    modal.classList.add("active");
-  });
-});
-
-modalClose.onclick = ()=> modal.classList.remove("active");
-modal.onclick = e=>{
-  if(e.target === modal) modal.classList.remove("active");
-};
-</script>
-
-</body>
 </html>
