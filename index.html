@@ -866,6 +866,12 @@
           /* disable hover-only behavior on touch */
         }
       }
+
+      @media (max-width: 768px) {
+        #leaderboard iframe {
+          height: 520px;
+        }
+      }
     </style>
   </head>
 
@@ -899,6 +905,7 @@
         <div class="tab" data-tab="rules">Rules</div>
         <div class="tab" data-tab="info">Info</div>
         <div class="tab" data-tab="staff">Staff</div>
+        <div class="tab" data-tab="leaderboard">Leaderboard</div>
       </div>
       <button class="theme-toggle" id="themeToggle">🌙</button>
     </div>
@@ -1154,6 +1161,25 @@
             <p id="modalIntro"></p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="section" id="leaderboard">
+      <div class="frame">
+        <h2>Server Leaderboard</h2>
+
+        <p>
+          This leaderboard is powered by our Discord leveling system.
+          Rankings update automatically based on server activity.
+        </p>
+
+        <iframe src="https://mee6.xyz/leaderboard/995737046725443686" style="width:100%; height:700px; border:none;" loading="lazy" referrerpolicy="no-referrer">
+        </iframe>
+
+        <p style="font-size:.75rem; opacity:.7; margin-top:10px;">
+          Leaderboard provided by MEE6.
+        </p>
       </div>
     </div>
 
