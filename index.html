@@ -36,6 +36,96 @@
 <meta name="twitter:image" content="https://gokurakugai.wiki/assets/images/og-image.jpg">
 <style>
 
+/* ================= HEADER SUBTITLE ================= */
+.header-subtitle{
+  margin-top:18px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.header-subtitle .cn{
+  font-size:2.2rem;
+  letter-spacing:.3em;
+  font-family:"KaiTi","STKaiti","Songti SC",serif;
+  color:#f2e6c9;
+}
+
+.header-subtitle .en{
+  font-size:.85rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  opacity:.85;
+}
+
+/* ================= INK NAV ================= */
+.ink-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 24px;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.85),
+    rgba(0,0,0,.95)
+  );
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.ink-tabs{
+  display:flex;
+  gap:14px;
+}
+
+.ink-tab{
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:10px 18px;
+  color:#aaa;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  position:relative;
+  font-family:"Songti SC","SimSun",serif;
+}
+
+.ink-tab .cn{
+  font-size:1.1rem;
+  letter-spacing:.2em;
+}
+
+.ink-tab .en{
+  font-size:.65rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  opacity:.6;
+}
+
+.ink-tab::after{
+  content:"";
+  position:absolute;
+  bottom:-8px;
+  width:0;
+  height:2px;
+  background:var(--accent);
+  transition:width .3s ease;
+}
+
+.ink-tab.active{
+  color:var(--accent);
+}
+
+.ink-tab.active::after{
+  width:100%;
+}
+
+.ink-tab:hover{
+  color:#fff;
+}
+
 /* ================= FONTS ================= */
 body{
   font-family:"Segoe UI",system-ui,sans-serif;
@@ -622,7 +712,10 @@ body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
       <img src="assets/images/logo-en.png" class="logo base" alt="Gokurakugai Community Logo">
       <img src="assets/images/logo-jp.png" class="logo glitch" alt="極楽街">
   </div>
-    <h1>Gokurakugai Community</h1>
+    <div class="header-subtitle">
+  <span class="cn">極楽街</span>
+  <span class="en">Gokurakugai Community</span>
+</div>
   </div>
 </div>
 
@@ -637,15 +730,31 @@ body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
 </div>
 
 <!-- TABS -->
-<div class="tabs-bar">
-  <div class="tabs">
-    <div class="tab active" data-tab="about">About</div>
-    <div class="tab" data-tab="rules">Rules</div>
-    <div class="tab" data-tab="info">Info</div>
-    <div class="tab" data-tab="staff">Staff</div>
+<nav class="ink-nav">
+  <div class="ink-tabs">
+    <button class="ink-tab active" data-tab="about">
+      <span class="cn">關於</span>
+      <span class="en">About</span>
+    </button>
+
+    <button class="ink-tab" data-tab="rules">
+      <span class="cn">規則</span>
+      <span class="en">Rules</span>
+    </button>
+
+    <button class="ink-tab" data-tab="info">
+      <span class="cn">資訊</span>
+      <span class="en">Info</span>
+    </button>
+
+    <button class="ink-tab" data-tab="staff">
+      <span class="cn">人員</span>
+      <span class="en">Staff</span>
+    </button>
   </div>
+
   <button class="theme-toggle" id="themeToggle">🌙</button>
-</div>
+</nav>
 
 <!-- ABOUT -->
 <div class="section active" id="about">
@@ -865,7 +974,7 @@ toggle.onclick=()=>{
 /* TABS */
 /* ================= TABS + HASH SUPPORT ================= */
 function activateTab(id){
-  document.querySelectorAll(".tab").forEach(t=>{
+  document.querySelectorAll(".ink-tab").forEach(t=>{
     t.classList.toggle("active", t.dataset.tab === id);
   });
 
@@ -875,7 +984,7 @@ function activateTab(id){
 }
 
 // Tab clicks
-document.querySelectorAll(".tab").forEach(tab=>{
+document.querySelectorAll(".ink-tab").forEach(tab=>{
   tab.addEventListener("click", ()=>{
     const id = tab.dataset.tab;
     history.pushState(null, "", `#${id}`);
