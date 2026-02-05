@@ -279,6 +279,11 @@
         flex: 0 0 auto;
       }
 
+      .tab.active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+      
       .tab:hover {
         color: #fff
       }
@@ -306,6 +311,58 @@
         cursor: pointer;
       }
 
+      /* ================= MANGA DROPDOWN ================= */
+.tab.has-dropdown {
+  position: relative;
+}
+
+.tab.has-dropdown::after {
+  content: "▾";
+  margin-left: 6px;
+  font-size: .7rem;
+  opacity: .7;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: #000;
+  border: 1px solid rgba(255,255,255,.12);
+  min-width: 160px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 999;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  font-size: .85rem;
+  color: #ccc;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dropdown-item:hover {
+  background: rgba(255,255,255,.08);
+  color: var(--accent);
+}
+
+.tab.has-dropdown:hover .dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+      @media (max-width: 480px) {
+  .tab {
+    padding: 12px 14px; /* narrower */
+    font-size: .85rem;  /* slightly smaller */
+  }
+}
+      
       /* ================= SECTIONS ================= */
       .section {
         display: none;
@@ -960,9 +1017,34 @@
     <!-- TABS -->
     <div class="tabs-bar">
       <div class="tabs">
-        <div class="tab active" data-tab="about">About</div>
-        <div class="tab" data-tab="rules">Rules</div>
+    <div class="tab active" data-tab="about">About</div>
+
+<div class="tab has-dropdown" data-tab="manga">
+  Manga
+  <div class="dropdown">
+    <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
+    <div class="dropdown-item" data-tab="manga-characters">Characters</div>
+  </div>
+</div>
+
+<div class="tab" data-tab="rules">Rules</div>
         <div class="tab" data-tab="info">Info</div>
+
+        <!-- MANGA -->
+<div class="section" id="manga-gallery">
+  <div class="frame">
+    <h2>Manga Gallery</h2>
+    <p>Coming soon…</p>
+  </div>
+</div>
+
+<div class="section" id="manga-characters">
+  <div class="frame">
+    <h2>Manga Characters</h2>
+    <p>Coming soon…</p>
+  </div>
+</div>
+        
         <div class="tab" data-tab="staff">Staff</div>
         <div class="tab" data-tab="leaderboard">Leaderboard</div>
       </div>
@@ -1311,13 +1393,23 @@
         });
       }
       // Tab clicks
-      document.querySelectorAll(".tab").forEach(tab => {
-        tab.addEventListener("click", () => {
-          const id = tab.dataset.tab;
-          history.pushState(null, "", `#${id}`);
-          activateTab(id);
-        });
-      });
+    document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", e => {
+    if (tab.classList.contains("has-dropdown")) return;
+    const id = tab.dataset.tab;
+    history.pushState(null, "", `#${id}`);
+    activateTab(id);
+  });
+});
+
+document.querySelectorAll(".dropdown-item").forEach(item => {
+  item.addEventListener("click", e => {
+    e.stopPropagation();
+    const id = item.dataset.tab;
+    history.pushState(null, "", `#${id}`);
+    activateTab(id);
+  });
+});
       // Hash navigation (direct links & refresh)
       function handleHash() {
         const hash = location.hash.replace("#", "");
