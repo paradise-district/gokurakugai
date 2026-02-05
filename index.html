@@ -983,8 +983,12 @@ function loadNews(query){
 
   newsList.innerHTML = `<li class="news-loading">Loading news…</li>`;
 
-  const rssURL =
-    `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+  // Language-aware RSS source
+const isJapanese = query === "極楽街";
+
+const rssURL = isJapanese
+  ? `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=ja&gl=JP&ceid=JP:ja`
+  : `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
   const proxy =
     `https://api.allorigins.win/get?url=${encodeURIComponent(rssURL)}`;
 
