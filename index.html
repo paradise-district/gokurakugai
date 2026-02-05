@@ -240,6 +240,64 @@ body.dark{
   font-size:1.15rem;
 }
 
+/* ================= NEWS FEED ================= */
+const newsList = document.getElementById("newsList");
+const newsTabs = document.querySelectorAll(".news-tab");
+const refreshBtn = document.querySelector(".news-refresh");
+
+let currentQuery = "Gokurakugai";
+
+function loadNews(query){
+  if(!newsList) return;
+
+  newsList.innerHTML = `<li class="news-loading">Loading news…</li>`;
+
+  const rssURL =
+    `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+  const proxy =
+    `https://api.allorigins.win/get?url=${encodeURIComponent(rssURL)}`;
+
+  fetch(proxy)
+    .then(r => r.json())
+    .then(data => {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, "text/xml");
+      const items = [...xml.querySelectorAll("item")].slice(0,5);
+
+      if(!items.length){
+        newsList.innerHTML = `<li>No news found.</li>`;
+        return;
+      }
+
+      newsList.innerHTML = items.map(item=>{
+        const title = item.querySelector("title").textContent;
+        const link = item.querySelector("link").textContent;
+        return `<li><a href="${link}" target="_blank" rel="noopener">${title}</a></li>`;
+      }).join("");
+    })
+    .catch(()=>{
+      newsList.innerHTML = `<li>Failed to load news.</li>`;
+    });
+}
+
+// Tab switching
+newsTabs.forEach(tab=>{
+  tab.addEventListener("click", ()=>{
+    newsTabs.forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    currentQuery = tab.dataset.query;
+    loadNews(currentQuery);
+  });
+});
+
+// Manual reload
+refreshBtn.addEventListener("click", ()=>{
+  loadNews(currentQuery);
+});
+
+// Initial load
+loadNews(currentQuery);
+
 /* ================= TABS ================= */
 .tabs-bar{
   display:flex;
@@ -478,6 +536,63 @@ body.dark .staff-card::before{
   transition:opacity .25s ease, transform .25s ease;
 }
 
+/* ================= NEWS FEED ================= */
+.news-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.news-tab{
+  flex:1;
+  padding:6px 8px;
+  font-size:.75rem;
+  background:rgba(0,0,0,.05);
+  border:none;
+  cursor:pointer;
+  color:var(--text);
+  border-bottom:2px solid transparent;
+}
+
+.news-tab.active{
+  border-color:var(--accent);
+  font-weight:600;
+}
+
+.news-refresh{
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:1rem;
+  color:var(--accent);
+}
+
+.news-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+  font-size:.8rem;
+}
+
+.news-list li{
+  padding:8px 0;
+  border-bottom:1px dashed rgba(0,0,0,.15);
+}
+
+.news-list a{
+  color:var(--text);
+  text-decoration:none;
+}
+
+.news-list a:hover{
+  color:var(--accent);
+}
+
+.news-loading{
+  opacity:.7;
+  font-style:italic;
+}
+
 .sns-icons a:hover::after{
   opacity:1;
   transform:translateX(-50%) translateY(4px);
@@ -658,6 +773,20 @@ when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on J
         <h3>Media</h3>
         <iframe height="200" src="https://www.youtube.com/embed/W0A7JOGZF9Y" allowfullscreen></iframe>
       </div>
+
+      <div class="frame">
+  <h3>Latest News</h3>
+
+  <div class="news-tabs">
+    <button class="news-tab active" data-query="Gokurakugai">Gokurakugai</button>
+    <button class="news-tab" data-query="極楽街">極楽街</button>
+    <button class="news-refresh" title="Reload news">⟳</button>
+  </div>
+
+  <ul class="news-list" id="newsList">
+    <li class="news-loading">Loading news…</li>
+  </ul>
+</div>
 
       <div class="frame">
         <h3>Join us!</h3>
@@ -845,15 +974,19 @@ let baseChapterNumber = 33;
 function updateChapter(){
   const now = nowJST();
 
-  // Anchor: February 2026 = Chapter 33
-  const baseYear = 2026;
-  const baseMonth = 1; // February (0-based)
-  
-  const monthsPassed =
-    (now.getFullYear() - baseYear) * 12 +
-    (now.getMonth() - baseMonth);
+  // Anchor: Feb 4, 2026 (00:00 JST) = Chapter 33
+const anchorDate = new Date("2026-02-04T00:00:00+09:00");
 
-  const currentChapter = baseChapterNumber + Math.max(0, monthsPassed);
+let monthsPassed =
+  (now.getFullYear() - anchorDate.getFullYear()) * 12 +
+  (now.getMonth() - anchorDate.getMonth());
+
+// If before the 4th JST, don't count the new month yet
+if (now.getDate() < 4) {
+  monthsPassed -= 1;
+}
+
+const currentChapter = baseChapterNumber + Math.max(0, monthsPassed);
 
   // Update chapter label text
   document.getElementById("chapterLabel").textContent =
