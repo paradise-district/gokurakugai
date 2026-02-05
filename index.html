@@ -1234,42 +1234,75 @@
       }
       window.addEventListener("hashchange", handleHash);
       handleHash();
-      /* RULES */
+      /* ================= RULES ================= */
       const rl = document.getElementById("rulesList");
+      // Create rules
       for (let i = 1; i <= 20; i++) {
-        const d = document.createElement("div");
-        d.className = "rule";
-        d.innerHTML = `
-  <strong>Rule #${i}</strong>
-  <p class="rule-preview">
-    Short rule summary…
-    <span class="read-more">Read more</span>
-  </p>
-  <p class="rule-full">Full rule description here.</p>
-`;
-        d.addEventListener("click", () => {
-          activateTab("rules");
-          history.pushState(null, "", `#rules/${i}`);
-          d.querySelector(".rule-full").style.display = "block";
+        const rule = document.createElement("div");
+        rule.className = "rule";
+        rule.dataset.rule = i;
+        rule.innerHTML = `
+    <strong>Rule #${i}</strong>
+    <p class="rule-preview">
+      Short rule summary…
+      <span class="read-more">Read more</span>
+    </p>
+    <p class="rule-full">Full rule description here.</p>
+  `;
+        rl.appendChild(rule);
+      }
+      // Helper: close all rules
+      function closeAllRules() {
+        document.querySelectorAll(".rule-full").forEach(p => {
+          p.style.display = "none";
         });
-
-        function handleRuleHash() {
-          if (location.hash.startsWith("#rules/")) {
-            const num = location.hash.split("/")[1];
-            activateTab("rules");
-            const rule = document.querySelectorAll(".rule")[num - 1];
-            if (rule) {
-              rule.querySelector(".rule-full").style.display = "block";
-              rule.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-              });
-            }
+      }
+      // Click handling (toggle)
+      rl.addEventListener("click", e => {
+        const rule = e.target.closest(".rule");
+        if (!rule) return;
+        const full = rule.querySelector(".rule-full");
+        const ruleNum = rule.dataset.rule;
+        // If clicking "Read more" → open + update URL
+        if (e.target.classList.contains("read-more")) {
+          e.stopPropagation();
+          closeAllRules();
+          full.style.display = "block";
+          history.pushState(null, "", `#rules/${ruleNum}`);
+          return;
+        }
+        // Normal toggle click
+        const isOpen = full.style.display === "block";
+        closeAllRules();
+        if (!isOpen) {
+          full.style.display = "block";
+          history.pushState(null, "", `#rules/${ruleNum}`);
+        } else {
+          history.pushState(null, "", "#rules");
+        }
+      });
+      // Handle direct hash navigation & back button
+      function handleRuleHash() {
+        if (!location.hash.startsWith("#rules")) return;
+        activateTab("rules");
+        closeAllRules();
+        const parts = location.hash.split("/");
+        if (parts.length === 2) {
+          const num = parts[1];
+          const rule = document.querySelector(`.rule[data-rule="${num}"]`);
+          if (rule) {
+            const full = rule.querySelector(".rule-full");
+            full.style.display = "block";
+            rule.scrollIntoView({
+              behavior: "smooth",
+              block: "center"
+            });
           }
         }
-        window.addEventListener("load", handleRuleHash);
-        window.addEventListener("hashchange", handleRuleHash);
-        rl.appendChild(d);
+      }
+      window.addEventListener("load", handleRuleHash);
+      window.addEventListener("popstate", handleRuleHash);
+      rl.appendChild(d);
       }
       /* ================= JST COUNTDOWN ================= */
       function nowJST() {
@@ -1390,7 +1423,7 @@
       const modalClose = document.getElementById("staffModalClose");
       const modalIntro = document.getElementById("modalIntro");
 
-      function openStaffModal(card) {
+      function openStaffModal(card, skipHistory = false) {
         modalImg.style.backgroundImage = card.style.backgroundImage;
         modalName.textContent = card.dataset.name || "";
         modalRoles.textContent = card.dataset.roles || "";
@@ -1403,41 +1436,64 @@
           card.dataset.intro || "No introduction provided.";
         modal.classList.add("active");
         // 🔗 Update URL
-        history.pushState(null, "", `#staff/${card.dataset.id}`);
-      }
-      document.querySelectorAll(".staff-card").forEach(card => {
-        card.addEventListener("click", () => {
-          openStaffModal(card);
+        if (!skipHistory) {
+          history.pushState(null, "", `#staff/${card.dataset.id}`);
+        }
+        document.querySelectorAll(".staff-card").forEach(card => {
+          card.addEventListener("click", () => {
+            openStaffModal(card, true);
+          });
         });
-      });
-      document.querySelectorAll(".read-more").forEach(link => {
-        link.addEventListener("click", e => {
-          e.stopPropagation(); // prevent card double-click
-          const card = link.closest(".staff-card");
-          openStaffModal(card);
-        });
-      });
-
-      function handleStaffHash() {
-        const hash = location.hash;
-        if (hash.startsWith("#staff/")) {
-          const id = hash.split("/")[1];
-          const card = document.querySelector(`.staff-card[data-id="${id}"]`);
-          if (card) {
-            activateTab("staff");
+        document.querySelectorAll(".read-more").forEach(link => {
+          link.addEventListener("click", e => {
+            e.stopPropagation(); // prevent card double-click
+            const card = link.closest(".staff-card");
             openStaffModal(card);
+          });
+        });
+
+        function handleStaffHash() {
+          const hash = location.hash;
+          if (hash.startsWith("#staff/")) {
+            const id = hash.split("/")[1];
+            const card = document.querySelector(`.staff-card[data-id="${id}"]`);
+            if (card) {
+              activateTab("staff");
+              openStaffModal(card);
+            }
           }
         }
-      }
-      window.addEventListener("load", handleStaffHash);
-      window.addEventListener("hashchange", handleStaffHash);
-      modalClose.onclick = () => {
-        modal.classList.remove("active");
-        history.pushState(null, "", "#staff");
-      };
-      modal.onclick = e => {
-        if (e.target === modal) modal.classList.remove("active");
-      };
+        window.addEventListener("load", handleStaffHash);
+        window.addEventListener("hashchange", handleStaffHash);
+        modalClose.onclick = () => {
+          modal.classList.remove("active");
+          // Go back ONE history entry instead of pushing a new one
+          history.back();
+        };
+        modal.onclick = e => {
+          if (e.target === modal) modal.classList.remove("active");
+        };
+        window.addEventListener("popstate", () => {
+          const hash = location.hash;
+          // Case 1: #staff/NAME_X → open modal
+          if (hash.startsWith("#staff/")) {
+            const id = hash.split("/")[1];
+            const card = document.querySelector(`.staff-card[data-id="${id}"]`);
+            if (card) {
+              activateTab("staff");
+              openStaffModal(card);
+            }
+            return;
+          }
+          // Case 2: #staff → close modal
+          if (hash === "#staff") {
+            modal.classList.remove("active");
+            activateTab("staff");
+            return;
+          }
+          // Case 3: anything else → close modal
+          modal.classList.remove("active");
+        });
     </script>
 
   </body>
