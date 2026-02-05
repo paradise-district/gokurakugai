@@ -447,6 +447,11 @@ body.dark .staff-card::before{
   max-height:160px;
 }
 
+/* make card clearly clickable */
+.staff-card{
+  cursor:pointer;
+}
+
 .staff-card:hover .staff-desc{max-height:160px}
 
 /* ================= SIDEBAR ================= */
@@ -610,6 +615,103 @@ body.dark footer a:hover{text-shadow:0 0 8px var(--accent)}
   text-align:center;
   font-size:.8rem;
 }
+
+/* ================= STAFF MODAL ================= */
+.staff-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .35s ease;
+  z-index:9999;
+}
+
+.staff-modal.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* ID CARD */
+.staff-modal-card{
+  width:720px;
+  max-width:90%;
+  display:grid;
+  grid-template-columns:260px 1fr;
+  background:var(--panel);
+  border:2px solid var(--accent);
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  animation:modalPop .35s ease;
+}
+
+@keyframes modalPop{
+  from{
+    transform:translateY(20px) scale(.96);
+    opacity:0;
+  }
+  to{
+    transform:none;
+    opacity:1;
+  }
+}
+
+/* LEFT IMAGE */
+.staff-modal-img{
+  background-size:cover;
+  background-position:center;
+}
+
+/* RIGHT INFO */
+.staff-modal-info{
+  padding:24px;
+}
+
+.staff-modal-info h3{
+  margin:0;
+  letter-spacing:.12em;
+}
+
+.staff-modal-roles{
+  margin:8px 0;
+  font-size:.85rem;
+  opacity:.85;
+}
+
+.staff-modal-meta{
+  font-size:.85rem;
+  line-height:1.6;
+  margin-top:12px;
+}
+
+/* CLOSE BUTTON */
+.staff-modal-close{
+  position:absolute;
+  top:18px;
+  left:18px;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:1px solid var(--accent);
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  font-size:1.1rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:transform .25s ease, background .25s ease;
+}
+
+.staff-modal-close:hover{
+  transform:rotate(90deg) scale(1.1);
+  background:var(--accent);
+  color:#000;
+}
+
 </style>
 </head>
 
@@ -788,37 +890,62 @@ Failure to comply may result in moderation actions at staff discretion.
     <h2>About the Staff</h2>
     <div class="staff-grid">
 
-      <div class="staff-card" style="background-image:url('assets/images/staff1.png')">
+      <div class="staff-card" style="background-image:url('assets/images/staff1.png')" data-name="NAME 1" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
         <div class="staff-container"><h3>NAME 1</h3><div>Administrator</div></div>
         <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <div class="staff-card" style="background-image:url('assets/images/staff2.png')">
+      <div class="staff-card" style="background-image:url('assets/images/staff2.png')" data-name="NAME 2" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
         <div class="staff-container"><h3>NAME 2</h3><div>Moderator</div></div>
         <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <div class="staff-card" style="background-image:url('assets/images/staff3.png')">
+      <div class="staff-card" style="background-image:url('assets/images/staff3.png')" data-name="NAME 3" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
         <div class="staff-container"><h3>NAME 3</h3><div>Moderator</div></div>
         <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <div class="staff-card" style="background-image:url('assets/images/staff4.png')">
-        <div class="staff-container"><h3>NAME 4</h3><div>Staff</div></div>
+      <div class="staff-card" style="background-image:url('assets/images/staff4.png')" data-name="NAME 4" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
+        <div class="staff-container"><h3>NAME 3</h3><div>Moderator</div></div>
         <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <div class="staff-card" style="background-image:url('assets/images/staff5.png')">
-        <div class="staff-container"><h3>NAME 5</h3><div>Staff</div></div>
+     <div class="staff-card" style="background-image:url('assets/images/staff5.png')" data-name="NAME 5" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
+        <div class="staff-container"><h3>NAME 3</h3><div>Moderator</div></div>
         <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
-      <!-- NEW STAFF CARD -->
-      <div class="staff-card" style="background-image:url('assets/images/staff6.png')">
-        <div class="staff-container"><h3>NAME 6</h3><div>Staff</div></div>
+      <div class="staff-card" style="background-image:url('assets/images/staff6.png')" data-name="NAME 6" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
+        <div class="staff-container"><h3>NAME 3</h3><div>Moderator</div></div>
         <p class="staff-desc">Long staff introduction goes here.</p>
       </div>
 
+      <div class="staff-card" style="background-image:url('assets/images/staff7.png')" data-name="NAME 7" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
+        <div class="staff-container"><h3>NAME 3</h3><div>Moderator</div></div>
+        <p class="staff-desc">Long staff introduction goes here.</p>
+      </div>
+      
+      <div class="staff-card" style="background-image:url('assets/images/staff8.png')" data-name="NAME 8" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD">
+        <div class="staff-container"><h3>NAME 3</h3><div>Moderator</div></div>
+        <p class="staff-desc">Long staff introduction goes here.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STAFF MODAL -->
+<div class="staff-modal" id="staffModal">
+  <div class="staff-modal-card">
+    <button class="staff-modal-close" id="staffModalClose">✕</button>
+
+    <div class="staff-modal-img" id="modalImg"></div>
+
+    <div class="staff-modal-info">
+      <h3 id="modalName"></h3>
+      <div class="staff-modal-roles" id="modalRoles"></div>
+
+      <div class="staff-modal-meta" id="modalMeta"></div>
     </div>
   </div>
 </div>
