@@ -1161,6 +1161,35 @@ setInterval(()=>{
   updateChapter();
   updateVolumes();
 },1000);
+
+/* ================= STAFF MODAL LOGIC ================= */
+const modal = document.getElementById("staffModal");
+const modalImg = document.getElementById("modalImg");
+const modalName = document.getElementById("modalName");
+const modalRoles = document.getElementById("modalRoles");
+const modalMeta = document.getElementById("modalMeta");
+const modalClose = document.getElementById("staffModalClose");
+
+document.querySelectorAll(".staff-card").forEach(card=>{
+  card.addEventListener("click", ()=>{
+    modalImg.style.backgroundImage = card.style.backgroundImage;
+    modalName.textContent = card.dataset.name || "";
+    modalRoles.textContent = card.dataset.roles || "";
+
+    modalMeta.innerHTML = `
+      <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
+      <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
+      <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
+    `;
+
+    modal.classList.add("active");
+  });
+});
+
+modalClose.onclick = ()=> modal.classList.remove("active");
+modal.onclick = e=>{
+  if(e.target === modal) modal.classList.remove("active");
+};
 </script>
 
 </body>
