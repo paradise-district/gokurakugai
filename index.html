@@ -1275,8 +1275,10 @@ document.querySelectorAll(".staff-card").forEach(card=>{
       <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
       <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
       <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
-      modalIntro.textContent = card.dataset.intro || "No introduction provided.";
     `;
+
+    modalIntro.textContent =
+      card.dataset.intro || "No introduction provided.";
 
     modal.classList.add("active");
   });
