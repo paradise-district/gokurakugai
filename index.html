@@ -378,10 +378,11 @@
       body.dark .rule:hover {
         background: rgba(214, 178, 94, .22)
       }
+
       .rule-preview {
-  display: block;
-  margin-top: 6px;
-}
+        display: block;
+        margin-top: 6px;
+      }
 
       .read-more {
         display: inline-block;
@@ -1293,7 +1294,6 @@
       }
       window.addEventListener("load", handleRuleHash);
       window.addEventListener("popstate", handleRuleHash);
-
       /* ================= JST COUNTDOWN ================= */
       function nowJST() {
         return new Date(
@@ -1413,79 +1413,69 @@
       const modalClose = document.getElementById("staffModalClose");
       const modalIntro = document.getElementById("modalIntro");
 
-function openStaffModal(card, skipHistory = false) {
-  modalImg.style.backgroundImage = card.style.backgroundImage;
-  modalName.textContent = card.dataset.name || "";
-  modalRoles.textContent = card.dataset.roles || "";
-  modalMeta.innerHTML = `
+      function openStaffModal(card, skipHistory = false) {
+        modalImg.style.backgroundImage = card.style.backgroundImage;
+        modalName.textContent = card.dataset.name || "";
+        modalRoles.textContent = card.dataset.roles || "";
+        modalMeta.innerHTML = `
     <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
     <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
     <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
   `;
-  modalIntro.textContent =
-    card.dataset.intro || "No introduction provided.";
-
-  modal.classList.add("active");
-
-  if (!skipHistory) {
-    history.pushState(null, "", `#staff/${card.dataset.id}`);
-  }
-}
-
+        modalIntro.textContent =
+          card.dataset.intro || "No introduction provided.";
+        modal.classList.add("active");
+        if (!skipHistory) {
+          history.pushState(null, "", `#staff/${card.dataset.id}`);
+        }
+      }
       // Staff card click → open modal
-document.querySelectorAll(".staff-card").forEach(card => {
-  card.addEventListener("click", () => {
-    openStaffModal(card);
-  });
-});
-
-// "Read more" click (mobile-safe)
-document.querySelectorAll(".read-more").forEach(link => {
-  link.addEventListener("click", e => {
-    e.stopPropagation();
-    const card = link.closest(".staff-card");
-    openStaffModal(card);
-  });
-});
+      document.querySelectorAll(".staff-card").forEach(card => {
+        card.addEventListener("click", () => {
+          openStaffModal(card);
+        });
+      });
+      // "Read more" click (mobile-safe)
+      document.querySelectorAll(".read-more").forEach(link => {
+        link.addEventListener("click", e => {
+          e.stopPropagation();
+          const card = link.closest(".staff-card");
+          openStaffModal(card);
+        });
+      });
 
       function handleStaffHash() {
-  const hash = location.hash;
-
-  // #staff/NAME_X → open modal
-  if (hash.startsWith("#staff/")) {
-    const id = hash.split("/")[1];
-    const card = document.querySelector(`.staff-card[data-id="${id}"]`);
-    if (card) {
-      activateTab("staff");
-      openStaffModal(card, true);
-    }
-    return;
-  }
-
-  // #staff → close modal but stay on staff tab
-  if (hash === "#staff") {
-    modal.classList.remove("active");
-    activateTab("staff");
-    return;
-  }
-
-  // anything else → close modal
-  modal.classList.remove("active");
-}
-
-      window.addEventListener("load", handleStaffHash);
-window.addEventListener("hashchange", handleStaffHash);
-window.addEventListener("popstate", handleStaffHash);
-
-        modalClose.onclick = () => {
+        const hash = location.hash;
+        // #staff/NAME_X → open modal
+        if (hash.startsWith("#staff/")) {
+          const id = hash.split("/")[1];
+          const card = document.querySelector(`.staff-card[data-id="${id}"]`);
+          if (card) {
+            activateTab("staff");
+            openStaffModal(card, true);
+          }
+          return;
+        }
+        // #staff → close modal but stay on staff tab
+        if (hash === "#staff") {
           modal.classList.remove("active");
-          // Go back ONE history entry instead of pushing a new one
-          history.back();
-        };
-        modal.onclick = e => {
-          if (e.target === modal) modal.classList.remove("active");
-        };
-      
+          activateTab("staff");
+          return;
+        }
+        // anything else → close modal
+        modal.classList.remove("active");
+      }
+      window.addEventListener("load", handleStaffHash);
+      window.addEventListener("hashchange", handleStaffHash);
+      window.addEventListener("popstate", handleStaffHash);
+      modalClose.onclick = () => {
+        modal.classList.remove("active");
+        // Go back ONE history entry instead of pushing a new one
+        history.back();
+      };
+      modal.onclick = e => {
+        if (e.target === modal) modal.classList.remove("active");
+      };
     </script>
 
   </body>
