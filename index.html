@@ -366,6 +366,11 @@
         transition: background .3s;
       }
 
+      .rule-full {
+        display: none;
+        margin-top: 8px;
+      }
+
       .rule:hover {
         background: rgba(196, 49, 40, .18)
       }
@@ -385,6 +390,15 @@
         grid-template-columns: repeat(3, 280px);
         gap: 32px;
         justify-content: center;
+      }
+
+      .read-more {
+        display: inline-block;
+        margin-left: 4px;
+        font-size: .75rem;
+        color: var(--accent);
+        cursor: pointer;
+        text-decoration: underline;
       }
 
       @media(max-width:768px) {
@@ -1059,75 +1073,75 @@
         <div class="staff-grid">
 
           <!-- 1 — Admin & Founder -->
-          <div class="staff-card" style="background-image:url('assets/images/staff1.png')" data-name="NAME 1" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff1.png')" data-id="NAME_1" data-name="NAME 1" data-roles="Administrator, Founder" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 1</h3>
               <div>Administrator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
           <!-- 2 — Admin -->
-          <div class="staff-card" style="background-image:url('assets/images/staff2.png')" data-name="NAME 2" data-roles="Administrator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff2.png')" data-id="NAME_2" data-name="NAME 2" data-roles="Administrator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 2</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
           <!-- 3 — Admin -->
-          <div class="staff-card" style="background-image:url('assets/images/staff3.png')" data-name="NAME 3" data-roles="Administrator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff3.png')" data-id="NAME_3" data-name="NAME 3" data-roles="Administrator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 3</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
           <!-- 4 — Moderator -->
-          <div class="staff-card" style="background-image:url('assets/images/staff4.png')" data-name="NAME 4" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff4.png')" data-id="NAME_4" data-name="NAME 4" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 4</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
           <!-- 5 — Moderator -->
-          <div class="staff-card" style="background-image:url('assets/images/staff5.png')" data-name="NAME 5" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff5.png')" data-id="NAME_5" data-name="NAME 5" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 5</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
           <!-- 6 — Moderator -->
-          <div class="staff-card" style="background-image:url('assets/images/staff6.png')" data-name="NAME 6" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff6.png')" data-id="NAME_6" data-name="NAME 6" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 6</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
           <!-- 7 — Moderator -->
-          <div class="staff-card" style="background-image:url('assets/images/staff7.png')" data-name="NAME 7" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff7.png')" data-id="NAME_7" data-name="NAME 7" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 7</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
           <!-- 8 — Trial Moderator -->
-          <div class="staff-card" style="background-image:url('assets/images/staff8.png')" data-name="NAME 8" data-roles="Trial Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
+          <div class="staff-card" style="background-image:url('assets/images/staff8.png')" data-id="NAME_8" data-name="NAME 8" data-roles="Trial Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 8</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder.</p>
+            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
           </div>
 
         </div>
@@ -1225,11 +1239,36 @@
       for (let i = 1; i <= 20; i++) {
         const d = document.createElement("div");
         d.className = "rule";
-        d.innerHTML = `<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
-        d.onclick = () => {
-          const p = d.querySelector("p");
-          p.style.display = p.style.display === "block" ? "none" : "block";
-        };
+        d.innerHTML = `
+  <strong>Rule #${i}</strong>
+  <p class="rule-preview">
+    Short rule summary…
+    <span class="read-more">Read more</span>
+  </p>
+  <p class="rule-full">Full rule description here.</p>
+`;
+        d.addEventListener("click", () => {
+          activateTab("rules");
+          history.pushState(null, "", `#rules/${i}`);
+          d.querySelector(".rule-full").style.display = "block";
+        });
+
+        function handleRuleHash() {
+          if (location.hash.startsWith("#rules/")) {
+            const num = location.hash.split("/")[1];
+            activateTab("rules");
+            const rule = document.querySelectorAll(".rule")[num - 1];
+            if (rule) {
+              rule.querySelector(".rule-full").style.display = "block";
+              rule.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+              });
+            }
+          }
+        }
+        window.addEventListener("load", handleRuleHash);
+        window.addEventListener("hashchange", handleRuleHash);
         rl.appendChild(d);
       }
       /* ================= JST COUNTDOWN ================= */
@@ -1350,22 +1389,52 @@
       const modalMeta = document.getElementById("modalMeta");
       const modalClose = document.getElementById("staffModalClose");
       const modalIntro = document.getElementById("modalIntro");
+
+      function openStaffModal(card) {
+        modalImg.style.backgroundImage = card.style.backgroundImage;
+        modalName.textContent = card.dataset.name || "";
+        modalRoles.textContent = card.dataset.roles || "";
+        modalMeta.innerHTML = `
+    <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
+    <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
+    <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
+  `;
+        modalIntro.textContent =
+          card.dataset.intro || "No introduction provided.";
+        modal.classList.add("active");
+        // 🔗 Update URL
+        history.pushState(null, "", `#staff/${card.dataset.id}`);
+      }
       document.querySelectorAll(".staff-card").forEach(card => {
         card.addEventListener("click", () => {
-          modalImg.style.backgroundImage = card.style.backgroundImage;
-          modalName.textContent = card.dataset.name || "";
-          modalRoles.textContent = card.dataset.roles || "";
-          modalMeta.innerHTML = `
-      <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
-      <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
-      <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
-    `;
-          modalIntro.textContent =
-            card.dataset.intro || "No introduction provided.";
-          modal.classList.add("active");
+          openStaffModal(card);
         });
       });
-      modalClose.onclick = () => modal.classList.remove("active");
+      document.querySelectorAll(".read-more").forEach(link => {
+        link.addEventListener("click", e => {
+          e.stopPropagation(); // prevent card double-click
+          const card = link.closest(".staff-card");
+          openStaffModal(card);
+        });
+      });
+
+      function handleStaffHash() {
+        const hash = location.hash;
+        if (hash.startsWith("#staff/")) {
+          const id = hash.split("/")[1];
+          const card = document.querySelector(`.staff-card[data-id="${id}"]`);
+          if (card) {
+            activateTab("staff");
+            openStaffModal(card);
+          }
+        }
+      }
+      window.addEventListener("load", handleStaffHash);
+      window.addEventListener("hashchange", handleStaffHash);
+      modalClose.onclick = () => {
+        modal.classList.remove("active");
+        history.pushState(null, "", "#staff");
+      };
       modal.onclick = e => {
         if (e.target === modal) modal.classList.remove("active");
       };
