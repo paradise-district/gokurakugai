@@ -872,6 +872,46 @@
           height: 520px;
         }
       }
+
+      .leaderboard-card {
+  background: linear-gradient(
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.55)
+  ),
+  url("assets/images/header-bg-dark.jpg") center/cover no-repeat;
+  padding: 48px 32px;
+  border-radius: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+.leaderboard-card h3 {
+  margin-top: 0;
+  letter-spacing: .12em;
+}
+
+.leaderboard-card p {
+  max-width: 520px;
+  margin: 12px auto 24px;
+  font-size: .9rem;
+  opacity: .9;
+}
+
+.leaderboard-btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .25s, box-shadow .25s;
+}
+
+.leaderboard-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 14px var(--accent);
+}
     </style>
   </head>
 
@@ -1174,8 +1214,22 @@
           Rankings update automatically based on server activity.
         </p>
 
-        <iframe src="https://mee6.xyz/leaderboard/995737046725443686" style="width:100%; height:700px; border:none;" loading="lazy" referrerpolicy="no-referrer">
-        </iframe>
+        <div class="leaderboard-card">
+  <div class="leaderboard-cover">
+    <h3>Live Discord Leaderboard</h3>
+    <p>
+      Rankings are powered by MEE6 and update automatically based on server activity.
+    </p>
+
+    <a
+      href="https://mee6.xyz/leaderboard/995737046725443686"
+      target="_blank"
+      rel="noopener"
+      class="leaderboard-btn">
+      View Full Leaderboard ↗
+    </a>
+  </div>
+</div>
 
         <p style="font-size:.75rem; opacity:.7; margin-top:10px;">
           Leaderboard provided by MEE6.
