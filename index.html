@@ -8,7 +8,7 @@
 
 <!-- ================= BASIC SEO ================= -->
 <meta name="description" content="Gokurakugai Community — a fan-run Discord-centered hub dedicated to the action-supernatural manga by Yuto Sano. News, countdowns, and community resources.">
-<meta name="keywords" content="Gokurakugai, 極楽街, manga, Yuto Sano, Jump SQ, Gokurakugai community, Gokurakugai Discord">
+<meta name="keywords" content="Gokurakugai, 極楽街, manga, Yuto Sano, Jump SQ, Gokurakugai Discord">
 <meta name="author" content="Gokurakugai Community">
 <meta name="robots" content="index, follow">
 
@@ -23,7 +23,7 @@
 <!-- ================= OPEN GRAPH ================= -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Gokurakugai Community">
-<meta property="og:description" content="A fan-run Discord community dedicated to the manga by Yuto Sano.">
+<meta property="og:description" content="Fan-run Discord community dedicated to Gokurakugai.">
 <meta property="og:url" content="https://paradise-district.github.io/gokurakugai/">
 <meta property="og:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
 <meta property="og:site_name" content="Gokurakugai Community">
@@ -31,10 +31,9 @@
 <!-- ================= TWITTER ================= -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gokurakugai Community">
-<meta name="twitter:description" content="Fan-run Gokurakugai Discord hub. News, releases, and community.">
+<meta name="twitter:description" content="Fan-run Gokurakugai Discord hub.">
 
 <style>
-
 /* ================= FONTS ================= */
 body{font-family:"Segoe UI",system-ui,sans-serif}
 h1,h2,h3,h4{font-family:Georgia,"Times New Roman",serif;letter-spacing:.04em}
@@ -71,6 +70,7 @@ body{
   background-size:auto,260px 260px,auto;
   background-repeat:no-repeat,repeat,no-repeat;
   color:var(--text);
+  transition:.3s;
 }
 
 /* ================= HEADER ================= */
@@ -97,17 +97,9 @@ body{
 }
 
 /* ================= LOGO GLITCH ================= */
-.logo-glitch{
-  position:relative;
-  width:480px;
-  max-width:90%;
-}
+.logo-glitch{position:relative;width:480px;max-width:90%}
 .logo-glitch img{width:100%;display:block}
-.logo-glitch .glitch{
-  position:absolute;
-  inset:0;
-  opacity:0;
-}
+.logo-glitch .glitch{position:absolute;inset:0;opacity:0}
 
 @keyframes rgb-glitch{
   0%{transform:translate(0);filter:drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan)}
@@ -117,16 +109,10 @@ body{
   100%{transform:translate(0)}
 }
 
-.logo-glitch:hover .glitch{
-  opacity:1;
-  animation:rgb-glitch .35s infinite;
-}
+.logo-glitch:hover .glitch{opacity:1;animation:rgb-glitch .35s infinite}
 .logo-glitch:hover .base{opacity:0}
 
-.header h1{
-  margin-top:10px;
-  border-bottom:2px solid var(--accent);
-}
+.header h1{margin-top:10px;border-bottom:2px solid var(--accent)}
 
 /* ================= COUNTDOWN ================= */
 .countdown{
@@ -139,19 +125,22 @@ body{
 .count-box{color:var(--accent)}
 .count-box span{display:block;color:#fff}
 
-/* ================= LAYOUT ================= */
+/* ================= TABS ================= */
 .tabs-bar{display:flex;background:#000}
 .tabs{flex:1;display:flex;justify-content:center}
 .tab{padding:14px;color:#ccc;cursor:pointer}
 .tab.active{color:var(--accent);border-bottom:3px solid var(--accent)}
 .theme-toggle{margin-right:16px;background:none;border:none;color:#fff}
 
+/* ================= SECTIONS ================= */
 .section{display:none;max-width:1200px;margin:auto;padding:32px}
 .section.active{display:block}
 
+/* ================= GRID ================= */
 .content-grid{display:grid;grid-template-columns:1fr 340px;gap:32px}
 @media(max-width:900px){.content-grid{grid-template-columns:1fr}}
 
+/* ================= FRAME ================= */
 .frame{
   background:var(--panel);
   padding:28px;
@@ -162,14 +151,47 @@ body{
   border-image-repeat:round;
 }
 
+/* ================= SERIES ================= */
+.series-cover{float:right;width:220px;margin:0 0 16px 24px}
+.series-cover img{width:100%}
+
+/* ================= TABLE ================= */
+table{width:100%;border-collapse:collapse}
+td{padding:8px;border-bottom:1px solid rgba(0,0,0,.15)}
+
+/* ================= RULES ================= */
+.rule{
+  border-left:6px solid var(--accent);
+  padding:14px;
+  margin-bottom:14px;
+  background:rgba(0,0,0,.04);
+  cursor:pointer;
+}
+.rule p{display:none;margin-top:8px}
+
+/* ================= STAFF ================= */
+.staff-grid{display:grid;grid-template-columns:repeat(3,280px);gap:32px;justify-content:center}
+@media(max-width:768px){.staff-grid{grid-template-columns:1fr}}
+.staff-card{
+  position:relative;height:400px;padding:1.5em;border-radius:1.5em;
+  background-size:cover;background-position:center;display:flex;align-items:flex-end
+}
+.staff-card::before{
+  content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)
+}
+.staff-container{position:relative;color:#fff}
+.staff-desc{display:none;font-size:.85rem}
+.staff-card:hover .staff-desc{display:block}
+
 /* ================= NEWS ================= */
 .news-tabs{display:flex;gap:8px;margin-bottom:10px}
 .news-tab{flex:1;padding:6px;cursor:pointer}
 .news-tab.active{border-bottom:2px solid var(--accent)}
 .news-refresh{background:none;border:none;color:var(--accent);cursor:pointer}
-.news-list{list-style:none;padding:0;margin:0}
+.news-list{list-style:none;padding:0;margin:0;font-size:.8rem}
 .news-list li{padding:8px 0;border-bottom:1px dashed rgba(0,0,0,.15)}
 
+/* ================= FOOTER ================= */
 footer{background:#000;color:#aaa;padding:40px}
 footer a{color:var(--accent);text-decoration:none}
 </style>
@@ -181,8 +203,8 @@ footer a{color:var(--accent);text-decoration:none}
 <div class="header">
   <div class="header-content">
     <div class="logo-glitch">
-      <img src="assets/images/logo-en.png" class="base" alt="Gokurakugai">
-      <img src="assets/images/logo-jp.png" class="glitch" alt="極楽街">
+      <img src="assets/images/logo-en.png" class="base">
+      <img src="assets/images/logo-jp.png" class="glitch">
     </div>
     <h1>Gokurakugai Community</h1>
   </div>
@@ -213,10 +235,35 @@ footer a{color:var(--accent);text-decoration:none}
 <div class="section active" id="about">
   <div class="content-grid">
     <main>
+
       <div class="frame">
         <h2>About Our Server</h2>
-        <p>We’re a Discord community devoted to <strong>Gokurakugai</strong> by <strong>Yuto Sano</strong>.</p>
+        <p>We’re a Discord community devoted to <strong>Gokurakugai</strong>, written and illustrated by <strong>Yuto Sano</strong>.</p>
       </div>
+
+      <div class="frame">
+        <h2>About the Series</h2>
+
+        <div class="series-cover">
+          <img src="assets/images/series-cover.jpg">
+        </div>
+
+        <p><em>
+Gokurakugai, a bright and bustling working class district with a hidden dark side…
+        </em></p>
+
+        <p>
+<strong>Gokurakugai</strong> (Japanese: 極楽街) is a Japanese action-supernatural manga by Yuto Sano.
+        </p>
+
+        <table>
+          <tr><td><strong>Title</strong></td><td>Gokurakugai (極楽街)</td></tr>
+          <tr><td><strong>Magazine</strong></td><td>Jump SQ. Rise</td></tr>
+          <tr><td><strong>Publisher</strong></td><td>Shueisha</td></tr>
+          <tr><td><strong>Schedule</strong></td><td>Monthly</td></tr>
+        </table>
+      </div>
+
     </main>
 
     <aside class="sidebar">
@@ -236,18 +283,83 @@ footer a{color:var(--accent);text-decoration:none}
         <ul class="news-list" id="newsList"></ul>
       </div>
 
+      <div class="frame">
+        <h3>Join us!</h3>
+        <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark" height="420"></iframe>
+      </div>
+
     </aside>
   </div>
 </div>
 
+<!-- RULES -->
+<div class="section" id="rules">
+  <div class="frame">
+    <h2>Server Rules</h2>
+    <p>
+These are the extended and detailed rules for the Gokurakugai Discord Server.
+By joining and participating in our community, you agree to follow all rules listed below,
+as well as Discord’s Terms of Service and Community Guidelines.
+Failure to comply may result in moderation actions at staff discretion.
+    </p>
+    <div id="rulesList"></div>
+  </div>
+</div>
+
+<!-- INFO -->
+<div class="section" id="info">
+  <div class="frame">
+    <h2>Server Info</h2>
+    <p>Coming soon.</p>
+  </div>
+</div>
+
+<!-- STAFF -->
+<div class="section" id="staff">
+  <div class="frame">
+    <h2>About the Staff</h2>
+    <div class="staff-grid">
+      <div class="staff-card" style="background-image:url('assets/images/staff1.png')">
+        <div class="staff-container">
+          <h3>NAME 1</h3>
+          <div>Administrator</div>
+          <p class="staff-desc">Long staff introduction goes here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 Gokurakugai Community · Fan-run · Not affiliated with Shueisha
+  © 2026 Gokurakugai Discord Server · Fan-run · Not affiliated with Shueisha
 </footer>
 
 <script>
 /* THEME */
-const toggle=document.getElementById("themeToggle");
-toggle.onclick=()=>document.body.classList.toggle("dark");
+document.getElementById("themeToggle").onclick=()=>{
+  document.body.classList.toggle("dark");
+};
+
+/* TABS */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    t.classList.add("active");
+    document.getElementById(t.dataset.tab).classList.add("active");
+  };
+});
+
+/* RULES */
+const rl=document.getElementById("rulesList");
+for(let i=1;i<=20;i++){
+  const d=document.createElement("div");
+  d.className="rule";
+  d.innerHTML=`<strong>Rule #${i}</strong><p>Full rule description here.</p>`;
+  d.onclick=()=>d.querySelector("p").classList.toggle("show");
+  rl.appendChild(d);
+}
 
 /* NEWS */
 const newsList=document.getElementById("newsList");
@@ -277,19 +389,26 @@ tabs.forEach(t=>t.onclick=()=>{
 refresh.onclick=loadNews;
 loadNews();
 
-/* COUNTDOWN */
-function nowJST(){return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Tokyo"}))}
-const base=33,anchor=new Date("2026-02-04T00:00:00+09:00");
+/* COUNTDOWN (JST) */
+function nowJST(){
+  return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Tokyo"}));
+}
+
+const baseChapter=33;
+const anchor=new Date("2026-02-04T00:00:00+09:00");
 
 function updateChapter(){
   const now=nowJST();
   let m=(now.getFullYear()-anchor.getFullYear())*12+(now.getMonth()-anchor.getMonth());
   if(now.getDate()<4)m--;
-  const ch=base+Math.max(0,m);
+  const ch=baseChapter+Math.max(0,m);
   document.getElementById("chapterLabel").textContent=`Chapter ${ch} (JP/EN)`;
 }
 setInterval(updateChapter,1000);
 updateChapter();
+
+document.getElementById("v6jp").textContent="Released";
+document.getElementById("v5en").textContent="Apr 7, 2026";
 </script>
 
 </body>
