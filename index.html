@@ -379,11 +379,6 @@
         background: rgba(214, 178, 94, .22)
       }
 
-      .rule-preview {
-        display: block;
-        margin-top: 6px;
-      }
-
       .read-more {
         display: inline-block;
         margin-left: 4px;
@@ -1235,10 +1230,6 @@
         rule.dataset.rule = i;
         rule.innerHTML = `
     <strong>Rule #${i}</strong>
-    <p class="rule-preview">
-      Short rule summary…
-      <span class="read-more">Read more</span>
-    </p>
     <p class="rule-full">Full rule description here.</p>
   `;
         rl.appendChild(rule);
