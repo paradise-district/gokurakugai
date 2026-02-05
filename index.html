@@ -356,12 +356,25 @@
         transform: translateX(-50%) translateY(0);
       }
 
+  /* Mobile dropdown open state */
+.tab.has-dropdown.open .dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
       @media (max-width: 480px) {
         .tab {
           padding: 12px 14px;
           /* narrower */
           font-size: .85rem;
           /* slightly smaller */
+        }
+      }
+
+      @media (max-width: 768px) {
+        .tabs {
+          justify-content: flex-start;
+          /* 👈 critical */
         }
       }
 
@@ -1031,22 +1044,6 @@
 
         <div class="tab" data-tab="rules">Rules</div>
         <div class="tab" data-tab="info">Info</div>
-
-        <!-- MANGA -->
-        <div class="section" id="manga-gallery">
-          <div class="frame">
-            <h2>Manga Gallery</h2>
-            <p>Coming soon…</p>
-          </div>
-        </div>
-
-        <div class="section" id="manga-characters">
-          <div class="frame">
-            <h2>Manga Characters</h2>
-            <p>Coming soon…</p>
-          </div>
-        </div>
-
         <div class="tab" data-tab="staff">Staff</div>
         <div class="tab" data-tab="leaderboard">Leaderboard</div>
       </div>
@@ -1203,6 +1200,21 @@
       </div>
     </div>
 
+    <!-- MANGA -->
+    <div class="section" id="manga-gallery">
+      <div class="frame">
+        <h2>Manga Gallery</h2>
+        <p>Coming soon…</p>
+      </div>
+    </div>
+
+    <div class="section" id="manga-characters">
+      <div class="frame">
+        <h2>Manga Characters</h2>
+        <p>Coming soon…</p>
+      </div>
+    </div>
+
     <!-- STAFF -->
     <div class="section" id="staff">
       <div class="frame">
@@ -1275,7 +1287,7 @@
           <!-- 8 — Moderator -->
           <div class="staff-card" style="background-image:url('assets/images/staff8.png')" data-id="NAME_8" data-name="NAME 8" data-roles="Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
-              <h3>NAME 7</h3>
+              <h3>NAME 8</h3>
               <div>Moderator</div>
             </div>
             <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
@@ -1408,6 +1420,13 @@
           const id = item.dataset.tab;
           history.pushState(null, "", `#${id}`);
           activateTab(id);
+        });
+      });
+      document.querySelectorAll(".tab.has-dropdown").forEach(tab => {
+        tab.addEventListener("click", e => {
+          if (window.innerWidth > 768) return;
+          e.stopPropagation();
+          tab.classList.toggle("open");
         });
       });
       // Hash navigation (direct links & refresh)
