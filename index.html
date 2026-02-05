@@ -1199,6 +1199,13 @@
         <p>Coming soon.</p>
       </div>
     </div>
+<!-- MANGA (PARENT / LANDING SECTION) -->
+<div class="section" id="manga">
+  <div class="frame">
+    <h2>Manga</h2>
+    <p>Select a category above.</p>
+  </div>
+</div>
 
     <!-- MANGA -->
     <div class="section" id="manga-gallery">
@@ -1424,11 +1431,19 @@
   tab.addEventListener("click", e => {
 
     // If this tab has a dropdown, TOGGLE it instead of navigating
-    if (tab.classList.contains("has-dropdown")) {
-      e.preventDefault();
-      tab.classList.toggle("open");
-      return;
-    }
+   if (tab.classList.contains("has-dropdown")) {
+  // Desktop hover handles dropdown
+  // Mobile click opens dropdown instead of navigating
+  if (window.matchMedia("(hover: none)").matches) {
+    e.preventDefault();
+    tab.classList.toggle("open");
+  } else {
+    // Desktop: clicking Manga goes to its page
+    history.pushState(null, "", "#manga-gallery");
+    activateTab("manga-gallery");
+  }
+  return;
+}
 
     // Normal tabs
     const id = tab.dataset.tab;
@@ -1439,6 +1454,12 @@
     document.querySelectorAll(".tab.has-dropdown").forEach(t => {
       t.classList.remove("open");
     });
+  });
+});
+    // Close dropdown when leaving the Manga tab (desktop only)
+document.querySelectorAll(".tab.has-dropdown").forEach(tab => {
+  tab.addEventListener("mouseleave", () => {
+    tab.classList.remove("open");
   });
 });
      document.querySelectorAll(".dropdown-item").forEach(item => {
@@ -1455,13 +1476,7 @@
     });
   });
 });
-document.addEventListener("pointerdown", e => {
-  if (!e.target.closest(".tab.has-dropdown")) {
-    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-      t.classList.remove("open");
-    });
-  }
-});
+
       // Hash navigation (direct links & refresh)
      function handleHash() {
   const raw = location.hash.replace("#", "");
