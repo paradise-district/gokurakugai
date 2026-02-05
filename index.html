@@ -1407,28 +1407,47 @@
       }
       // Tab clicks
       document.querySelectorAll(".tab").forEach(tab => {
-        tab.addEventListener("click", e => {
-          if (tab.classList.contains("has-dropdown")) return;
-          const id = tab.dataset.tab;
-          history.pushState(null, "", `#${id}`);
-          activateTab(id);
-        });
-      });
-      document.querySelectorAll(".dropdown-item").forEach(item => {
-        item.addEventListener("click", e => {
-          e.stopPropagation();
-          const id = item.dataset.tab;
-          history.pushState(null, "", `#${id}`);
-          activateTab(id);
-        });
-      });
-      document.querySelectorAll(".tab.has-dropdown").forEach(tab => {
-        tab.addEventListener("click", e => {
-          if (window.innerWidth > 768) return;
-          e.stopPropagation();
-          tab.classList.toggle("open");
-        });
-      });
+  tab.addEventListener("click", e => {
+
+    // If this tab has a dropdown, TOGGLE it instead of navigating
+    if (tab.classList.contains("has-dropdown")) {
+      e.preventDefault();
+      tab.classList.toggle("open");
+      return;
+    }
+
+    // Normal tabs
+    const id = tab.dataset.tab;
+    history.pushState(null, "", `#${id}`);
+    activateTab(id);
+
+    // Close any open dropdowns
+    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+      t.classList.remove("open");
+    });
+  });
+});
+     document.querySelectorAll(".dropdown-item").forEach(item => {
+  item.addEventListener("click", e => {
+    e.stopPropagation();
+
+    const id = item.dataset.tab;
+    history.pushState(null, "", `#${id}`);
+    activateTab(id);
+
+    // Close dropdown after selection
+    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+      t.classList.remove("open");
+    });
+  });
+});
+document.addEventListener("click", e => {
+  if (!e.target.closest(".tab.has-dropdown")) {
+    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+      t.classList.remove("open");
+    });
+  }
+});
       // Hash navigation (direct links & refresh)
       function handleHash() {
         const hash = location.hash.replace("#", "");
