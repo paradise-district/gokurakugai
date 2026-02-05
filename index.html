@@ -805,65 +805,66 @@
         color: #000;
       }
 
-  /* ================= STAFF MODAL — MOBILE FIX ================= */
-@media (max-width: 640px){
+      /* ================= STAFF MODAL — MOBILE FIX ================= */
+      @media (max-width: 640px) {
+        .staff-modal {
+          align-items: center;
+          padding: 16px;
+        }
 
-  .staff-modal{
-    align-items:flex-start;
-    padding:16px;
-  }
+        .staff-modal-card {
+          width: 100%;
+          max-height: 85vh;
+          grid-template-columns: 1fr;
+          /* switch to vertical */
+          overflow: hidden;
+        }
 
-  .staff-modal-card{
-    width:100%;
-    max-height:calc(100vh - 32px);
-    grid-template-columns:1fr;       /* switch to vertical */
-    overflow:hidden;
-  }
+        /* Image becomes top banner */
+        .staff-modal-img {
+          height: 200px;
+        }
 
-  /* Image becomes top banner */
-  .staff-modal-img{
-    height:200px;
-  }
+        /* Info section scrolls if needed */
+        .staff-modal-info {
+          padding: 16px;
+          overflow-y: auto;
+          max-height: calc(100vh - 260px);
+        }
 
-  /* Info section scrolls if needed */
-  .staff-modal-info{
-    padding:16px;
-    overflow-y:auto;
-    max-height:calc(100vh - 260px);
-  }
+        .staff-modal-info h3 {
+          font-size: 1.05rem;
+        }
 
-  .staff-modal-info h3{
-    font-size:1.05rem;
-  }
+        .staff-modal-roles {
+          font-size: .8rem;
+        }
 
-  .staff-modal-roles{
-    font-size:.8rem;
-  }
+        .staff-modal-meta {
+          font-size: .8rem;
+        }
 
-  .staff-modal-meta{
-    font-size:.8rem;
-  }
+        .staff-modal-intro p {
+          max-height: 140px;
+          /* slightly taller on mobile */
+        }
 
-  .staff-modal-intro p{
-    max-height:140px;   /* slightly taller on mobile */
-  }
+        /* Close button easier to tap */
+        .staff-modal-close {
+          top: 12px;
+          left: 12px;
+          width: 36px;
+          height: 36px;
+          font-size: 1.2rem;
+        }
+      }
 
-  /* Close button easier to tap */
-  .staff-modal-close{
-    top:12px;
-    left:12px;
-    width:36px;
-    height:36px;
-    font-size:1.2rem;
-  }
-}
-      
-@media (hover: none){
-  .staff-card:hover .staff-desc{
-    max-height:0; /* disable hover-only behavior on touch */
-  }
-}
-      
+      @media (hover: none) {
+        .staff-card:hover .staff-desc {
+          max-height: 0;
+          /* disable hover-only behavior on touch */
+        }
+      }
     </style>
   </head>
 
