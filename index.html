@@ -34,7 +34,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Gokurakugai Community">
     <meta name="twitter:description" content="Fan-run Gokurakugai community and Discord hub. News, releases, countdowns, and resources.">
-    <meta name="twitter:image" content="https://gokurakugai.wiki/assets/images/og-image.jpg">
+    <meta name="twitter:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
     <style>
       /* ================= FONTS ================= */
       body {
@@ -378,19 +378,10 @@
       body.dark .rule:hover {
         background: rgba(214, 178, 94, .22)
       }
-
-      .rule p {
-        display: none;
-        margin-top: 8px
-      }
-
-      /* ================= STAFF ================= */
-      .staff-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 280px);
-        gap: 32px;
-        justify-content: center;
-      }
+      .rule-preview {
+  display: block;
+  margin-top: 6px;
+}
 
       .read-more {
         display: inline-block;
@@ -1302,8 +1293,7 @@
       }
       window.addEventListener("load", handleRuleHash);
       window.addEventListener("popstate", handleRuleHash);
-      rl.appendChild(d);
-      }
+
       /* ================= JST COUNTDOWN ================= */
       function nowJST() {
         return new Date(
@@ -1423,48 +1413,70 @@
       const modalClose = document.getElementById("staffModalClose");
       const modalIntro = document.getElementById("modalIntro");
 
-      function openStaffModal(card, skipHistory = false) {
-        modalImg.style.backgroundImage = card.style.backgroundImage;
-        modalName.textContent = card.dataset.name || "";
-        modalRoles.textContent = card.dataset.roles || "";
-        modalMeta.innerHTML = `
+function openStaffModal(card, skipHistory = false) {
+  modalImg.style.backgroundImage = card.style.backgroundImage;
+  modalName.textContent = card.dataset.name || "";
+  modalRoles.textContent = card.dataset.roles || "";
+  modalMeta.innerHTML = `
     <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
     <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
     <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
   `;
-        modalIntro.textContent =
-          card.dataset.intro || "No introduction provided.";
-        modal.classList.add("active");
-        // 🔗 Update URL
-        if (!skipHistory) {
-          history.pushState(null, "", `#staff/${card.dataset.id}`);
-        }
-        document.querySelectorAll(".staff-card").forEach(card => {
-          card.addEventListener("click", () => {
-            openStaffModal(card, true);
-          });
-        });
-        document.querySelectorAll(".read-more").forEach(link => {
-          link.addEventListener("click", e => {
-            e.stopPropagation(); // prevent card double-click
-            const card = link.closest(".staff-card");
-            openStaffModal(card);
-          });
-        });
+  modalIntro.textContent =
+    card.dataset.intro || "No introduction provided.";
 
-        function handleStaffHash() {
-          const hash = location.hash;
-          if (hash.startsWith("#staff/")) {
-            const id = hash.split("/")[1];
-            const card = document.querySelector(`.staff-card[data-id="${id}"]`);
-            if (card) {
-              activateTab("staff");
-              openStaffModal(card);
-            }
-          }
-        }
-        window.addEventListener("load", handleStaffHash);
-        window.addEventListener("hashchange", handleStaffHash);
+  modal.classList.add("active");
+
+  if (!skipHistory) {
+    history.pushState(null, "", `#staff/${card.dataset.id}`);
+  }
+}
+
+      // Staff card click → open modal
+document.querySelectorAll(".staff-card").forEach(card => {
+  card.addEventListener("click", () => {
+    openStaffModal(card);
+  });
+});
+
+// "Read more" click (mobile-safe)
+document.querySelectorAll(".read-more").forEach(link => {
+  link.addEventListener("click", e => {
+    e.stopPropagation();
+    const card = link.closest(".staff-card");
+    openStaffModal(card);
+  });
+});
+
+      function handleStaffHash() {
+  const hash = location.hash;
+
+  // #staff/NAME_X → open modal
+  if (hash.startsWith("#staff/")) {
+    const id = hash.split("/")[1];
+    const card = document.querySelector(`.staff-card[data-id="${id}"]`);
+    if (card) {
+      activateTab("staff");
+      openStaffModal(card, true);
+    }
+    return;
+  }
+
+  // #staff → close modal but stay on staff tab
+  if (hash === "#staff") {
+    modal.classList.remove("active");
+    activateTab("staff");
+    return;
+  }
+
+  // anything else → close modal
+  modal.classList.remove("active");
+}
+
+      window.addEventListener("load", handleStaffHash);
+window.addEventListener("hashchange", handleStaffHash);
+window.addEventListener("popstate", handleStaffHash);
+
         modalClose.onclick = () => {
           modal.classList.remove("active");
           // Go back ONE history entry instead of pushing a new one
@@ -1473,27 +1485,7 @@
         modal.onclick = e => {
           if (e.target === modal) modal.classList.remove("active");
         };
-        window.addEventListener("popstate", () => {
-          const hash = location.hash;
-          // Case 1: #staff/NAME_X → open modal
-          if (hash.startsWith("#staff/")) {
-            const id = hash.split("/")[1];
-            const card = document.querySelector(`.staff-card[data-id="${id}"]`);
-            if (card) {
-              activateTab("staff");
-              openStaffModal(card);
-            }
-            return;
-          }
-          // Case 2: #staff → close modal
-          if (hash === "#staff") {
-            modal.classList.remove("active");
-            activateTab("staff");
-            return;
-          }
-          // Case 3: anything else → close modal
-          modal.classList.remove("active");
-        });
+      
     </script>
 
   </body>
