@@ -1034,13 +1034,13 @@
       <div class="tabs">
         <div class="tab active" data-tab="about">About</div>
 
-        <div class="tab has-dropdown">
-          Manga
-          <div class="dropdown">
-            <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
-            <div class="dropdown-item" data-tab="manga-characters">Characters</div>
-          </div>
-        </div>
+        <div class="tab has-dropdown" data-tab="manga">
+  Manga
+  <div class="dropdown">
+    <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
+    <div class="dropdown-item" data-tab="manga-characters">Characters</div>
+  </div>
+</div>
 
         <div class="tab" data-tab="rules">Rules</div>
         <div class="tab" data-tab="info">Info</div>
@@ -1398,21 +1398,25 @@
       /* TABS */
       /* ================= TABS + HASH SUPPORT ================= */
  function activateTab(id) {
-  // Normal tabs
-  document.querySelectorAll(".tab").forEach(t => {
-    t.classList.toggle("active", t.dataset.tab === id);
+  // Activate sections
+  document.querySelectorAll(".section").forEach(section => {
+    section.classList.toggle("active", section.id === id);
   });
 
-  // Sections
-  document.querySelectorAll(".section").forEach(s => {
-    s.classList.toggle("active", s.id === id);
+  // Clear all tab states
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
   });
 
-  const mangaTab = document.querySelector(".tab.has-dropdown");
+  // Direct tab match (About, Rules, etc.)
+  const directTab = document.querySelector(`.tab[data-tab="${id}"]`);
+  if (directTab) {
+    directTab.classList.add("active");
+  }
+
+  // Manga children → activate Manga parent
   if (id.startsWith("manga")) {
-    mangaTab.classList.add("active");
-  } else {
-    mangaTab.classList.remove("active");
+    document.querySelector(".tab.has-dropdown")?.classList.add("active");
   }
 }
       // Tab clicks
@@ -1451,7 +1455,7 @@
     });
   });
 });
-document.addEventListener("click", e => {
+document.addEventListener("pointerdown", e => {
   if (!e.target.closest(".tab.has-dropdown")) {
     document.querySelectorAll(".tab.has-dropdown").forEach(t => {
       t.classList.remove("open");
