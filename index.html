@@ -264,12 +264,25 @@
         display: flex;
         justify-content: center;
         gap: 6px;
-        overflow-x: auto;
-        overflow-y: visible;
         white-space: nowrap;
         padding: 0 12px;
         position: relative;
       }
+
+      .tabs-viewport {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 0 12px;
+}
 
       .tab {
         padding: 14px 18px;
@@ -1039,7 +1052,8 @@
 
     <!-- TABS -->
     <div class="tabs-bar">
-      <div class="tabs">
+  <div class="tabs-viewport">
+    <div class="tabs">
         <div class="tab active" data-tab="about">About</div>
 
         <div class="tab has-dropdown" data-tab="manga">
@@ -1049,6 +1063,7 @@
             <div class="dropdown-item" data-tab="manga-characters">Characters</div>
           </div>
         </div>
+      </div>
 
         <div class="tab" data-tab="rules">Rules</div>
         <div class="tab" data-tab="info">Info</div>
@@ -1435,15 +1450,28 @@
       document.querySelectorAll(".tab").forEach(tab => {
         tab.addEventListener("click", e => {
           // If this tab has a dropdown, TOGGLE it instead of navigating
-          if (tab.classList.contains("has-dropdown")) {
-            // Mobile: tap to toggle dropdown
-            if (window.matchMedia("(hover: none)").matches) {
-              e.preventDefault();
-              tab.classList.toggle("open");
-            }
-            // Desktop: do NOTHING on click (hover handles it)
-            return;
-          }
+         if (tab.classList.contains("has-dropdown")) {
+  const id = tab.dataset.tab;
+
+  // Mobile: tap once opens dropdown, second tap navigates
+  if (window.matchMedia("(hover: none)").matches) {
+    if (!tab.classList.contains("open")) {
+      e.preventDefault();
+      tab.classList.add("open");
+      return;
+    }
+  }
+
+  // Desktop or second tap → navigate to Manga page
+  history.pushState(null, "", `#${id}`);
+  activateTab(id);
+
+  document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+    t.classList.remove("open");
+  });
+
+  return;
+}
           // Normal tabs
           const id = tab.dataset.tab;
           history.pushState(null, "", `#${id}`);
