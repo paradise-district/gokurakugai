@@ -519,23 +519,103 @@
         justify-content: flex-end;
       }
 
-      .staff-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .45);
-        transition: background .3s ease;
-      }
+/* ================= STAFF CARD READABILITY LAYER ================= */
+.staff-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
 
-      body.dark .staff-card::before {
-        background: rgba(0, 0, 0, .7);
-      }
+  /* Neutral panel-tinted gradient (theme-safe) */
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.55) 0%,
+      rgba(0,0,0,.35) 30%,
+      rgba(0,0,0,.15) 55%,
+      rgba(0,0,0,0) 75%
+    );
 
-      .staff-container {
-        position: relative;
-        color: #fff
-      }
+  transition:background .35s ease;
+  pointer-events:none;
+}
 
+/* Light theme override (brighter, still readable) */
+body:not(.dark) .staff-card::before{
+  background:
+    linear-gradient(
+      to top,
+      rgba(255,255,255,.65) 0%,
+      rgba(255,255,255,.42) 30%,
+      rgba(255,255,255,.18) 55%,
+      rgba(255,255,255,0) 75%
+    );
+}
+
+      /* ================= STAFF CARD GLOSS HOVER ================= */
+.staff-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.28),
+      rgba(255,255,255,.14) 40%,
+      rgba(255,255,255,0) 65%
+    );
+
+  opacity:0;
+  transition:opacity .35s ease;
+  pointer-events:none;
+}
+
+.staff-card:hover::after{
+  opacity:1;
+}
+
+/* Dark mode gloss (so it doesn't look dusty) */
+body.dark .staff-card::after{
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.18),
+      rgba(255,255,255,.08) 40%,
+      rgba(255,255,255,0) 65%
+    );
+}
+
+/* ================= STAFF TEXT CONTRAST ================= */
+.staff-container{
+  position:relative;
+  color:#fff;
+}
+
+body:not(.dark) .staff-container{
+  color:#111;
+}
+
+.staff-container h3{
+  margin:0;
+  font-weight:600;
+}
+
+.staff-container div,
+.staff-desc{
+  font-size:.85rem;
+  line-height:1.45;
+}
+
+/* Subtle contrast boost */
+.staff-container,
+.staff-desc{
+  text-shadow:0 2px 6px rgba(0,0,0,.45);
+}
+
+body:not(.dark) .staff-container,
+body:not(.dark) .staff-desc{
+  text-shadow:0 1px 4px rgba(0,0,0,.25);
+}
       /* ================= STAFF ================= */
       .staff-grid {
         display: grid;
@@ -564,16 +644,7 @@
       }
 
       /* image darkening only */
-      .staff-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .35);
-      }
 
-      body.dark .staff-card::before {
-        background: rgba(0, 0, 0, .6);
-      }
 
       /* text container */
       .staff-container {
