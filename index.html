@@ -35,10 +35,28 @@
     <meta name="twitter:title" content="Gokurakugai Community">
     <meta name="twitter:description" content="Fan-run Gokurakugai community and Discord hub. News, releases, countdowns, and resources.">
     <meta name="twitter:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
+
+    <!-- ================= STYLES ================= -->
     <style>
-      /* ================= FONTS ================= */
+      /* ==================================================
+       RESET / BASE
+    ================================================== */
+      * {
+        box-sizing: border-box
+      }
+
       body {
+        margin: 0;
         font-family: "Segoe UI", system-ui, sans-serif;
+        background:
+          linear-gradient(rgba(255, 255, 255, .82),
+            rgba(255, 255, 255, .82)),
+          var(--pattern),
+          var(--bg);
+        background-size: auto, 260px 260px, auto;
+        background-repeat: no-repeat, repeat, no-repeat;
+        color: var(--text);
+        transition: all .3s var(--ease);
       }
 
       h1,
@@ -49,7 +67,9 @@
         letter-spacing: .04em;
       }
 
-      /* ================= THEME ================= */
+      /* ==================================================
+       THEME VARIABLES
+    ================================================== */
       :root {
         --bg: #f7f3ea;
         --panel: #ffffff;
@@ -73,44 +93,17 @@
         --header-bg: url("assets/images/header-bg-dark.jpg");
       }
 
-      * {
-        box-sizing: border-box
-      }
-
-      body {
-        margin: 0;
-        background:
-          linear-gradient(rgba(255, 255, 255, .82),
-            rgba(255, 255, 255, .82)),
-          var(--pattern),
-          var(--bg);
-        /* SMALL + UNIFORM PATTERN */
-        background-size:
-          auto,
-          260px 260px,
-          auto;
-        background-repeat:
-          no-repeat,
-          repeat,
-          no-repeat;
-        color: var(--text);
-        transition: all .3s var(--ease);
-      }
-
       body.dark {
         background:
           linear-gradient(rgba(0, 0, 0, .78),
             rgba(0, 0, 0, .78)),
           var(--pattern),
           var(--bg);
-        /* SAME TILE SIZE — VISUALLY MATCHED */
-        background-size:
-          auto,
-          260px 260px,
-          auto;
       }
 
-      /* ================= HEADER ================= */
+      /* ==================================================
+       HEADER + LOGO GLITCH
+    ================================================== */
       .header {
         position: relative;
         height: 320px;
@@ -136,7 +129,6 @@
         text-align: center;
       }
 
-      /* ================= LOGO GLITCH HOVER ================= */
       .logo-glitch {
         position: relative;
         width: 480px;
@@ -148,7 +140,6 @@
         display: block;
       }
 
-      /* Japanese logo hidden by default */
       .logo-glitch .glitch {
         position: absolute;
         inset: 0;
@@ -156,32 +147,14 @@
         pointer-events: none;
       }
 
-      /* ================= REAL GLITCH EFFECT ================= */
       @keyframes rgb-glitch {
         0% {
           transform: translate(0);
-          filter:
-            drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);
+          filter: drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);
         }
 
-        15% {
-          transform: translate(-2px, 1px);
-        }
-
-        30% {
-          transform: translate(2px, -1px);
-        }
-
-        45% {
-          transform: translate(-1px, 2px);
-        }
-
-        60% {
-          transform: translate(1px, -2px);
-        }
-
-        75% {
-          transform: translate(-1px, 1px);
+        50% {
+          transform: translate(-2px, 2px);
         }
 
         100% {
@@ -189,41 +162,19 @@
         }
       }
 
-      .logo-glitch::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(rgba(255, 255, 255, .08) 50%,
-            rgba(0, 0, 0, .08) 50%);
-        background-size: 100% 4px;
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .logo-glitch:hover::after {
-        opacity: .25;
-      }
-
-      /* Hover trigger */
       .logo-glitch:hover .glitch {
         opacity: 1;
         animation: rgb-glitch 0.35s infinite;
-        filter:
-          drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);
+        filter: drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);
       }
 
       .logo-glitch:hover .base {
         opacity: 0;
       }
 
-      /* Glitch animation */
-      .header h1 {
-        margin-top: 10px;
-        font-size: 2rem;
-        border-bottom: 2px solid var(--accent);
-      }
-
-      /* ================= COUNTDOWN ================= */
+      /* ==================================================
+       COUNTDOWN
+    ================================================== */
       .count-title {
         color: var(--accent);
         font-size: .85rem;
@@ -248,7 +199,9 @@
         font-size: 1.15rem;
       }
 
-      /* ================= TABS ================= */
+      /* ==================================================
+       NAV / TABS / DROPDOWN
+    ================================================== */
       .tabs-bar {
         display: flex;
         align-items: center;
@@ -261,11 +214,9 @@
         justify-content: center;
         gap: 6px;
         overflow-x: auto;
-        overflow-y: hidden;
         white-space: nowrap;
         padding: 0 12px;
         scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
       }
 
       .tab {
@@ -273,9 +224,6 @@
         cursor: pointer;
         color: #ccc;
         border-bottom: 3px solid transparent;
-      }
-
-      .tab {
         flex: 0 0 auto;
       }
 
@@ -288,20 +236,6 @@
         color: #fff
       }
 
-      .tabs::-webkit-scrollbar {
-        display: none;
-      }
-
-      .tabs {
-        scrollbar-width: none;
-        /* Firefox */
-      }
-
-      .tab.active {
-        color: var(--accent);
-        border-color: var(--accent);
-      }
-
       .theme-toggle {
         margin-right: 16px;
         background: none;
@@ -311,7 +245,6 @@
         cursor: pointer;
       }
 
-      /* ================= MANGA DROPDOWN ================= */
       .tab.has-dropdown {
         position: relative;
       }
@@ -350,35 +283,16 @@
         color: var(--accent);
       }
 
-      .tab.has-dropdown:hover .dropdown {
+      .tab.has-dropdown:hover .dropdown,
+      .tab.has-dropdown.open .dropdown {
         opacity: 1;
         pointer-events: auto;
         transform: translateX(-50%) translateY(0);
       }
 
-  /* Mobile dropdown open state */
-.tab.has-dropdown.open .dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
-}
-      @media (max-width: 480px) {
-        .tab {
-          padding: 12px 14px;
-          /* narrower */
-          font-size: .85rem;
-          /* slightly smaller */
-        }
-      }
-
-      @media (max-width: 768px) {
-        .tabs {
-          justify-content: flex-start;
-          /* 👈 critical */
-        }
-      }
-
-      /* ================= SECTIONS ================= */
+      /* ==================================================
+       SECTIONS / FRAME
+    ================================================== */
       .section {
         display: none;
         max-width: 1200px;
@@ -390,20 +304,6 @@
         display: block
       }
 
-      /* ================= GRID ================= */
-      .content-grid {
-        display: grid;
-        grid-template-columns: 1fr 340px;
-        gap: 32px;
-      }
-
-      @media(max-width:900px) {
-        .content-grid {
-          grid-template-columns: 1fr
-        }
-      }
-
-      /* ================= FRAME ================= */
       .frame {
         background: var(--panel);
         padding: 28px;
@@ -414,601 +314,25 @@
         border-image-repeat: round;
       }
 
-      /* ================= BANNERS ================= */
-      .section-banner {
-        width: 100%;
-        height: 290px;
-        background: center/contain no-repeat;
-        margin: 20px 0 30px;
-      }
-
-      /* ================= SERIES FLOAT ================= */
-      .series-info-wrap {
-        overflow: hidden
-      }
-
-      .series-cover {
-        float: right;
-        width: 220px;
-        margin: 0 0 16px 24px;
-      }
-
-      .series-cover img {
-        width: 100%
-      }
-
-      /* ================= TABLE ================= */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      td {
-        padding: 8px;
-        border-bottom: 1px solid rgba(0, 0, 0, .15);
-      }
-
-      /* ================= RULES ================= */
-      .rule {
-        border-left: 6px solid var(--accent);
-        padding: 14px;
-        margin-bottom: 14px;
-        background: rgba(0, 0, 0, .04);
-        cursor: pointer;
-        transition: background .3s;
-      }
-
-      .rule-full {
-        display: none;
-        margin-top: 8px;
-      }
-
-      .rule:hover {
-        background: rgba(196, 49, 40, .18)
-      }
-
-      body.dark .rule:hover {
-        background: rgba(214, 178, 94, .22)
-      }
-
-      .read-more {
-        display: inline-block;
-        margin-left: 4px;
-        font-size: .75rem;
-        color: var(--accent);
-        cursor: pointer;
-        text-decoration: underline;
-      }
-
-      @media(max-width:768px) {
-        .staff-grid {
-          grid-template-columns: 1fr
-        }
-      }
-
-      .staff-card {
-        position: relative;
-        height: 400px;
-        padding: 1.5em;
-        border-radius: 1.5em;
-        overflow: hidden;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-      }
-
-      .staff-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .45);
-        transition: background .3s ease;
-      }
-
-      body.dark .staff-card::before {
-        background: rgba(0, 0, 0, .7);
-      }
-
-      .staff-container {
-        position: relative;
-        color: #fff
-      }
-
-      /* ================= STAFF ================= */
-      .staff-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 280px);
-        gap: 32px;
-        justify-content: center;
-      }
-
-      @media(max-width:768px) {
-        .staff-grid {
-          grid-template-columns: 1fr
-        }
-      }
-
-      .staff-card {
-        position: relative;
-        height: 400px;
-        padding: 1.5em;
-        border-radius: 1.5em;
-        overflow: hidden;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-      }
-
-      /* image darkening only */
-      .staff-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .35);
-      }
-
-      body.dark .staff-card::before {
-        background: rgba(0, 0, 0, .6);
-      }
-
-      /* text container */
-      .staff-container {
-        position: relative;
-        color: var(--text);
-      }
-
-      /* name */
-      .staff-container h3 {
-        margin: 0;
-        color: var(--text);
-      }
-
-      /* role */
-      .staff-container div {
-        font-size: .9rem;
-        opacity: .85;
-        color: var(--text);
-      }
-
-      /* description */
-      .staff-desc {
-        margin-top: 8px;
-        color: var(--text);
-        font-size: .85rem;
-        line-height: 1.45;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height .35s ease;
-      }
-
-      /* reveal */
-      .staff-card:hover .staff-desc {
-        max-height: 160px;
-      }
-
-      /* make card clearly clickable */
-      .staff-card {
-        cursor: pointer;
-      }
-
-      .staff-card:hover .staff-desc {
-        max-height: 160px
-      }
-
-      /* ================= SIDEBAR ================= */
-      .sidebar iframe {
-        width: 100%;
-        border: none
-      }
-
-      .sns-icons {
-        display: flex;
-        gap: 14px;
-        justify-content: center;
-      }
-
-      .sns-icons a {
-        position: relative;
-        /* needed for tooltip */
-      }
-
-      .sns-icons a::after {
-        content: attr(data-label);
-        position: absolute;
-        bottom: -28px;
-        left: 50%;
-        transform: translateX(-50%);
-        white-space: nowrap;
-        background: rgba(0, 0, 0, .85);
-        color: #fff;
-        font-size: .65rem;
-        padding: 4px 8px;
-        border-radius: 6px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .25s ease, transform .25s ease;
-      }
-
-      /* ================= NEWS FEED ================= */
-      .news-tabs {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 10px;
-      }
-
-      .news-tab {
-        flex: 1;
-        padding: 6px 8px;
-        font-size: .75rem;
-        background: rgba(0, 0, 0, .05);
-        border: none;
-        cursor: pointer;
-        color: var(--text);
-        border-bottom: 2px solid transparent;
-      }
-
-      .news-tab.active {
-        border-color: var(--accent);
-        font-weight: 600;
-      }
-
-      .news-refresh {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-        color: var(--accent);
-      }
-
-      .news-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        font-size: .8rem;
-      }
-
-      .news-list li {
-        padding: 8px 0;
-        border-bottom: 1px dashed rgba(0, 0, 0, .15);
-      }
-
-      .news-list a {
-        color: var(--text);
-        text-decoration: none;
-      }
-
-      .news-list a:hover {
-        color: var(--accent);
-      }
-
-      .news-loading {
-        opacity: .7;
-        font-style: italic;
-      }
-
-      .sns-icons a:hover::after {
-        opacity: 1;
-        transform: translateX(-50%) translateY(4px);
-      }
-
-      /* Light mode tweak for readability */
-      body:not(.dark) .sns-icons a::after {
-        background: rgba(40, 40, 40, .9);
-      }
-
-      .sns-icons a {
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, .08);
-        border-radius: 50%;
-        transition: transform .3s, box-shadow .3s;
-      }
-
-      .sns-icons a:hover {
-        transform: scale(1.1);
-        box-shadow: 0 0 12px var(--accent);
-      }
-
-      .sns-icons img {
-        width: 24px;
-        transition: filter .25s ease, opacity .25s ease;
-      }
-
-      /* ================= SNS ICON DARK MODE FIX ================= */
-      body.dark .sns-icons img {
-        filter:
-          brightness(0) invert(1) contrast(1.6);
-        opacity: .95;
-      }
-
-      /* slightly stronger on hover */
-      body.dark .sns-icons a:hover img {
-        filter:
-          brightness(0) invert(1) contrast(1.35);
-        opacity: 1;
-      }
-
-      /* ================= FOOTER ================= */
+      /* ==================================================
+       FOOTER
+    ================================================== */
       footer {
         background: #000;
         color: #aaa;
         padding: 40px 24px;
       }
 
-      .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 32px;
-      }
-
-      footer h4 {
-        color: #fff
-      }
-
       footer a {
         color: var(--accent);
-        display: block;
         text-decoration: none;
-        margin: 6px 0;
-        transition: color .25s, transform .25s, text-shadow .25s;
-      }
-
-      footer a:hover {
-        color: #fff;
-        transform: translateX(4px);
-        text-shadow: 0 0 6px var(--accent);
-      }
-
-      body.dark footer a:hover {
-        text-shadow: 0 0 8px var(--accent)
-      }
-
-      .footer-bottom {
-        margin-top: 32px;
-        text-align: center;
-        font-size: .8rem;
-      }
-
-      /* ================= STAFF MODAL ================= */
-      .staff-modal {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, .55);
-        backdrop-filter: blur(10px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .35s ease;
-        z-index: 9999;
-      }
-
-      .staff-modal.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      /* ID CARD */
-      .staff-modal-card {
-        width: 720px;
-        max-width: 90%;
-        display: grid;
-        grid-template-columns: 260px 1fr;
-        background: var(--panel);
-        border: 2px solid var(--accent);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
-        animation: modalPop .35s ease;
-      }
-
-      @keyframes modalPop {
-        from {
-          transform: translateY(20px) scale(.96);
-          opacity: 0;
-        }
-
-        to {
-          transform: none;
-          opacity: 1;
-        }
-      }
-
-      /* LEFT IMAGE */
-      .staff-modal-img {
-        background-size: cover;
-        background-position: center;
-      }
-
-      /* RIGHT INFO */
-      .staff-modal-info {
-        padding: 24px;
-      }
-
-      .staff-modal-info h3 {
-        margin: 0;
-        letter-spacing: .12em;
-      }
-
-      .staff-modal-roles {
-        margin: 8px 0;
-        font-size: .85rem;
-        opacity: .85;
-      }
-
-      .staff-modal-meta {
-        font-size: .85rem;
-        line-height: 1.6;
-        margin-top: 12px;
-      }
-
-      /* INTRODUCTION SECTION */
-      .staff-modal-intro {
-        margin-top: 16px;
-        padding-top: 12px;
-        border-top: 1px solid rgba(0, 0, 0, .15);
-      }
-
-      .staff-modal-intro h4 {
-        margin: 0 0 6px;
-        font-size: .8rem;
-        letter-spacing: .15em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
-
-      .staff-modal-intro p {
-        font-size: .8rem;
-        line-height: 1.6;
-        max-height: 110px;
-        /* prevents awkward long blocks */
-        overflow-y: auto;
-        margin: 0;
-        padding-right: 6px;
-      }
-
-      /* CLOSE BUTTON */
-      .staff-modal-close {
-        position: absolute;
-        top: 18px;
-        left: 18px;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: 1px solid var(--accent);
-        background: rgba(0, 0, 0, .6);
-        color: #fff;
-        font-size: 1.1rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform .25s ease, background .25s ease;
-      }
-
-      .staff-modal-close:hover {
-        transform: rotate(90deg) scale(1.1);
-        background: var(--accent);
-        color: #000;
-      }
-
-      /* ================= STAFF MODAL — MOBILE FIX ================= */
-      @media (max-width: 640px) {
-        .staff-modal {
-          align-items: center;
-          padding: 16px;
-        }
-
-        .staff-modal-card {
-          width: 100%;
-          max-height: 85vh;
-          grid-template-columns: 1fr;
-          /* switch to vertical */
-          overflow: hidden;
-        }
-
-        /* Image becomes top banner */
-        .staff-modal-img {
-          height: 200px;
-        }
-
-        /* Info section scrolls if needed */
-        .staff-modal-info {
-          padding: 16px;
-          overflow-y: auto;
-          max-height: calc(100vh - 260px);
-        }
-
-        .staff-modal-info h3 {
-          font-size: 1.05rem;
-        }
-
-        .staff-modal-roles {
-          font-size: .8rem;
-        }
-
-        .staff-modal-meta {
-          font-size: .8rem;
-        }
-
-        .staff-modal-intro p {
-          max-height: 140px;
-          /* slightly taller on mobile */
-        }
-
-        /* Close button easier to tap */
-        .staff-modal-close {
-          top: 12px;
-          left: 12px;
-          width: 36px;
-          height: 36px;
-          font-size: 1.2rem;
-        }
-      }
-
-      @media (hover: none) {
-        .staff-card:hover .staff-desc {
-          max-height: 0;
-          /* disable hover-only behavior on touch */
-        }
-      }
-
-      @media (max-width: 768px) {
-        #leaderboard iframe {
-          height: 520px;
-        }
-      }
-
-      .leaderboard-card {
-        background:
-          linear-gradient(rgba(0, 0, 0, .55),
-            rgba(0, 0, 0, .55)),
-          var(--header-bg) center/cover no-repeat;
-        padding: 48px 32px;
-        border-radius: 18px;
-        text-align: center;
-        color: #fff;
-      }
-
-      .leaderboard-card h3 {
-        margin-top: 0;
-        letter-spacing: .12em;
-      }
-
-      .leaderboard-card p {
-        max-width: 520px;
-        margin: 12px auto 24px;
-        font-size: .9rem;
-        opacity: .9;
-      }
-
-      .leaderboard-btn {
-        display: inline-block;
-        padding: 12px 22px;
-        border-radius: 999px;
-        background: var(--accent);
-        color: #000;
-        font-weight: 600;
-        text-decoration: none;
-        transition: transform .25s, box-shadow .25s;
-      }
-
-      .leaderboard-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 0 14px var(--accent);
       }
     </style>
   </head>
 
   <body>
 
-    <!-- HEADER -->
+    <!-- ================= HEADER ================= -->
     <div class="header">
       <div class="header-content">
         <div class="logo-glitch">
@@ -1019,53 +343,68 @@
       </div>
     </div>
 
-    <!-- COUNTDOWN -->
+    <!-- ================= COUNTDOWN ================= -->
     <div class="countdown">
       <div class="count-box">
         <div id="chapterLabel" class="count-title">Chapter 34 (JP/EN)</div>
         <span id="chapter"></span>
       </div>
-      <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
-      <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
+      <div class="count-box">
+        Volume 6 (Japan)
+        <span id="v6jp"></span>
+      </div>
+      <div class="count-box">
+        Volume 5 (English)
+        <span id="v5en"></span>
+      </div>
     </div>
 
-    <!-- TABS -->
+    <!-- ================= TABS ================= -->
     <div class="tabs-bar">
       <div class="tabs">
+
         <div class="tab active" data-tab="about">About</div>
 
         <div class="tab has-dropdown" data-tab="manga">
-  Manga
-  <div class="dropdown">
-    <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
-    <div class="dropdown-item" data-tab="manga-characters">Characters</div>
-  </div>
-</div>
+          Manga
+          <div class="dropdown">
+            <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
+            <div class="dropdown-item" data-tab="manga-characters">Characters</div>
+          </div>
+        </div>
 
         <div class="tab" data-tab="rules">Rules</div>
         <div class="tab" data-tab="info">Info</div>
         <div class="tab" data-tab="staff">Staff</div>
         <div class="tab" data-tab="leaderboard">Leaderboard</div>
+
       </div>
+
       <button class="theme-toggle" id="themeToggle">🌙</button>
     </div>
 
-    <!-- ABOUT -->
+    <!-- ================= ABOUT ================= -->
     <div class="section active" id="about">
       <div class="content-grid">
+
+        <!-- ===== MAIN CONTENT ===== -->
         <main>
 
           <div class="frame">
             <h2>About Our Server</h2>
+
             <div class="section-banner" style="background-image:url('assets/images/banner-server.png')"></div>
+
             <p>
-              We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by <strong>Yuto Sano</strong>.
+              We’re a Discord community devoted to <strong>Gokurakugai</strong>, the action-supernatural manga series written and illustrated by
+              <strong>Yuto Sano</strong>.
               The series first introduced as a one-shot titled <strong>Gokurakugai Sanbandori No Ken</strong>, published in the
               <strong>Jump SQ.RISE Winter 2020 Issue</strong> on January 27, 2020.
               Its gritty tone and compelling characters struck a chord with readers, prompting its evolution into a full-fledged series.
               Serialization officially began in the monthly <strong>Jump SQ Magazine</strong> on July 4, 2022,
               and the manga later made its formal debut in <strong>Jump SQ.Rise</strong> (ジャンプ SQ.RISE) on July 4, 2023.
             </p>
+
             <p>
               By being a member of our Discord server, you indicate that you have read and accepted our server rules,
               as well as Discord’s Terms of Service and Community Guidelines.
@@ -1074,10 +413,11 @@
 
           <div class="frame series-info-wrap">
             <h2>About the Series</h2>
+
             <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
 
             <div class="series-cover">
-              <img src="assets/images/series-cover.jpg">
+              <img src="assets/images/series-cover.jpg" alt="Gokurakugai Cover">
             </div>
 
             <p><em>
@@ -1097,7 +437,8 @@
             <p>
               Initially introduced as a one-shot, known as <em>Gokurakugai: Trouble on Third Avenue</em>,
               it later evolved into a regularly published series within the monthly <strong>Jump SQ Magazine</strong>,
-              starting from July 4, 2022. This transition happened because of the positive response it received from readers
+              starting from July 4, 2022.
+              This transition happened because of the positive response it received from readers
               when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on January 27, 2020.
             </p>
 
@@ -1127,11 +468,13 @@
 
         </main>
 
+        <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar">
 
           <div class="frame">
             <h3>Media</h3>
-            <iframe height="200" src="https://www.youtube.com/embed/W0A7JOGZF9Y" allowfullscreen></iframe>
+            <iframe height="200" src="https://www.youtube.com/embed/W0A7JOGZF9Y" allowfullscreen>
+            </iframe>
           </div>
 
           <div class="frame">
@@ -1150,64 +493,48 @@
 
           <div class="frame">
             <h3>Join us!</h3>
-            <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark" height="420"></iframe>
+            <iframe src="https://discord.com/widget?id=995737046725443686&theme=dark" height="420">
+            </iframe>
           </div>
 
           <div class="frame">
             <h3>Follow us!</h3>
+
             <div class="sns-icons">
+
               <a href="https://x.com/gokurakugainews" data-label="Twitter / X">
-                <img src="assets/icons/twitter.png">
+                <img src="assets/icons/twitter.png" alt="Twitter">
               </a>
 
               <a href="https://www.instagram.com/gokurakugaiwiki/" data-label="Instagram">
-                <img src="assets/icons/instagram.png">
+                <img src="assets/icons/instagram.png" alt="Instagram">
               </a>
 
               <a href="#" data-label="Wiki">
-                <img src="assets/icons/wiki.png">
+                <img src="assets/icons/wiki.png" alt="Wiki">
               </a>
 
               <a href="https://www.facebook.com/gokurakugai" data-label="Facebook">
-                <img src="assets/icons/facebook.png">
+                <img src="assets/icons/facebook.png" alt="Facebook">
               </a>
+
             </div>
           </div>
 
         </aside>
+
       </div>
     </div>
 
-    <!-- RULES -->
-    <div class="section" id="rules">
+    <!-- ================= MANGA (PARENT / LANDING SECTION) ================= -->
+    <div class="section" id="manga">
       <div class="frame">
-        <h2>Server Rules</h2>
-        <p>
-          These are the extended and detailed rules for the Gokurakugai Discord Server.
-          By joining and participating in our community, you agree to follow all rules listed below,
-          as well as Discord’s Terms of Service and Community Guidelines.
-          Failure to comply may result in moderation actions at staff discretion.
-        </p>
-        <div id="rulesList"></div>
+        <h2>Manga</h2>
+        <p>Select a category above.</p>
       </div>
     </div>
 
-    <!-- INFO -->
-    <div class="section" id="info">
-      <div class="frame">
-        <h2>Server Info</h2>
-        <p>Coming soon.</p>
-      </div>
-    </div>
-<!-- MANGA (PARENT / LANDING SECTION) -->
-<div class="section" id="manga">
-  <div class="frame">
-    <h2>Manga</h2>
-    <p>Select a category above.</p>
-  </div>
-</div>
-
-    <!-- MANGA -->
+    <!-- ================= MANGA → GALLERY ================= -->
     <div class="section" id="manga-gallery">
       <div class="frame">
         <h2>Manga Gallery</h2>
@@ -1215,6 +542,7 @@
       </div>
     </div>
 
+    <!-- ================= MANGA → CHARACTERS ================= -->
     <div class="section" id="manga-characters">
       <div class="frame">
         <h2>Manga Characters</h2>
@@ -1222,10 +550,28 @@
       </div>
     </div>
 
-    <!-- STAFF -->
+    <!-- ================= RULES ================= -->
+    <div class="section" id="rules">
+      <div class="frame">
+        <h2>Server Rules</h2>
+
+        <p>
+          These are the extended and detailed rules for the Gokurakugai Discord Server.
+          By joining and participating in our community, you agree to follow all rules listed below,
+          as well as Discord’s Terms of Service and Community Guidelines.
+          Failure to comply may result in moderation actions at staff discretion.
+        </p>
+
+        <!-- Rules are injected via JS -->
+        <div id="rulesList"></div>
+      </div>
+    </div>
+
+    <!-- ================= STAFF ================= -->
     <div class="section" id="staff">
       <div class="frame">
         <h2>About the Staff</h2>
+
         <div class="staff-grid">
 
           <!-- 1 — Admin & Founder -->
@@ -1234,7 +580,10 @@
               <h3>NAME 1</h3>
               <div>Administrator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
           <!-- 2 — Admin -->
@@ -1243,7 +592,10 @@
               <h3>NAME 2</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
           <!-- 3 — Admin -->
@@ -1252,7 +604,10 @@
               <h3>NAME 3</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
           <!-- 4 — Moderator -->
@@ -1261,7 +616,10 @@
               <h3>NAME 4</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
           <!-- 5 — Moderator -->
@@ -1270,7 +628,10 @@
               <h3>NAME 5</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
           <!-- 6 — Moderator -->
@@ -1279,7 +640,10 @@
               <h3>NAME 6</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
           <!-- 7 — Moderator -->
@@ -1288,7 +652,10 @@
               <h3>NAME 7</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
           <!-- 8 — Moderator -->
@@ -1297,45 +664,53 @@
               <h3>NAME 8</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
-          <!-- 8 — Trial Moderator -->
+          <!-- 9 — Trial Moderator -->
           <div class="staff-card" style="background-image:url('assets/images/staff9.png')" data-id="NAME_9" data-name="NAME 9" data-roles="Trial Moderator" data-age="AGE" data-timezone="GMT+#" data-birthday="MM/DD" data-intro="Introduction Placeholder">
             <div class="staff-container">
               <h3>NAME 9</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">ID Intro Placeholder…<span class="read-more">Read more</span></p>
+            <p class="staff-desc">
+              ID Intro Placeholder…
+              <span class="read-more">Read more</span>
+            </p>
           </div>
 
         </div>
       </div>
     </div>
 
-    <!-- STAFF MODAL -->
+    <!-- ================= STAFF MODAL ================= -->
     <div class="staff-modal" id="staffModal">
       <div class="staff-modal-card">
+
         <button class="staff-modal-close" id="staffModalClose">✕</button>
 
         <div class="staff-modal-img" id="modalImg"></div>
 
         <div class="staff-modal-info">
           <h3 id="modalName"></h3>
+
           <div class="staff-modal-roles" id="modalRoles"></div>
 
           <div class="staff-modal-meta" id="modalMeta"></div>
 
-          <!-- INTRODUCTION -->
           <div class="staff-modal-intro">
             <h4>Introduction</h4>
             <p id="modalIntro"></p>
           </div>
         </div>
+
       </div>
     </div>
 
-    <!-- LEADERBOARD -->
+    <!-- ================= LEADERBOARD ================= -->
     <div class="section" id="leaderboard">
       <div class="frame">
         <h2>Server Leaderboard</h2>
@@ -1348,6 +723,7 @@
         <div class="leaderboard-card">
           <div class="leaderboard-cover">
             <h3>Live Discord Leaderboard</h3>
+
             <p>
               Rankings are powered by MEE6 and update automatically based on server activity.
             </p>
@@ -1364,9 +740,10 @@
       </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- ================= FOOTER ================= -->
     <footer>
       <div class="footer-grid">
+
         <div>
           <h4>Community</h4>
           <a href="https://discord.gg/gokurakugai">Join Discord</a>
@@ -1388,6 +765,7 @@
           <a href="https://www.instagram.com/yuto__sano">Yuto Sano (Instagram)</a>
           <a href="https://x.com/gokurakugaiinfo">Gokurakugai Info</a>
         </div>
+
       </div>
 
       <div class="footer-bottom">
@@ -1395,174 +773,109 @@
       </div>
     </footer>
 
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
-      /* THEME */
+      /* ==================================================
+       THEME TOGGLE
+    ================================================== */
       const toggle = document.getElementById("themeToggle");
       toggle.onclick = () => {
         document.body.classList.toggle("dark");
         toggle.textContent = document.body.classList.contains("dark") ? "☀" : "🌙";
       };
-      /* TABS */
-      /* ================= TABS + HASH SUPPORT ================= */
- function activateTab(id) {
-  // Activate sections
-  document.querySelectorAll(".section").forEach(section => {
-    section.classList.toggle("active", section.id === id);
-  });
-
-  // Clear all tab states
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  // Direct tab match (About, Rules, etc.)
-  const directTab = document.querySelector(`.tab[data-tab="${id}"]`);
-  if (directTab) {
-    directTab.classList.add("active");
-  }
-
-  // Manga logic
-if (id === "manga" || id.startsWith("manga-")) {
-  document.querySelector(".tab.has-dropdown")?.classList.add("active");
-}
-}
-      // Tab clicks
-      document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", e => {
-
-    const id = tab.dataset.tab;
-
-    // ===== MANGA TAB =====
-    if (tab.classList.contains("has-dropdown")) {
-
-      // Mobile: toggle dropdown only
-      if (window.matchMedia("(hover: none)").matches) {
-        e.preventDefault();
-        tab.classList.toggle("open");
-        return;
+      /* ==================================================
+         TABS + HASH SUPPORT
+      ================================================== */
+      function activateTab(id) {
+        document.querySelectorAll(".section").forEach(section => {
+          section.classList.toggle("active", section.id === id);
+        });
+        document.querySelectorAll(".tab").forEach(tab => {
+          tab.classList.remove("active");
+        });
+        const directTab = document.querySelector(`.tab[data-tab="${id}"]`);
+        if (directTab) {
+          directTab.classList.add("active");
+        }
+        if (id === "manga" || id.startsWith("manga-")) {
+          document.querySelector(".tab.has-dropdown")?.classList.add("active");
+        }
       }
+      document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", e => {
+          const id = tab.dataset.tab;
+          if (tab.classList.contains("has-dropdown")) {
+            if (window.matchMedia("(hover: none)").matches) {
+              e.preventDefault();
+              tab.classList.toggle("open");
+              return;
+            }
+            history.pushState(null, "", "#manga");
+            activateTab("manga");
+            return;
+          }
+          history.pushState(null, "", `#${id}`);
+          activateTab(id);
+          document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+            t.classList.remove("open");
+          });
+        });
+      });
+      document.querySelectorAll(".dropdown-item").forEach(item => {
+        item.addEventListener("click", e => {
+          e.stopPropagation();
+          const id = item.dataset.tab;
+          history.pushState(null, "", `#${id}`);
+          activateTab(id);
+          document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+            t.classList.remove("open");
+          });
+        });
+      });
 
-      // Desktop: navigate to Manga landing
-      history.pushState(null, "", "#manga");
-      activateTab("manga");
-
-      return;
-    }
-
-    // ===== NORMAL TABS =====
-    history.pushState(null, "", `#${id}`);
-    activateTab(id);
-
-    // Close any open dropdowns
-    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-      t.classList.remove("open");
-    });
-  });
-});
-
-    // If this tab has a dropdown, TOGGLE it instead of navigating
-   if (tab.classList.contains("has-dropdown")) {
-  // Desktop hover handles dropdown
-  // Mobile click opens dropdown instead of navigating
-  if (window.matchMedia("(hover: none)").matches) {
-    e.preventDefault();
-    tab.classList.toggle("open");
-  }
-  return;
-}
-
-    // Normal tabs
-    const id = tab.dataset.tab;
-    history.pushState(null, "", `#${id}`);
-    activateTab(id);
-
-    // Close any open dropdowns
-    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-      t.classList.remove("open");
-    });
-  });
-});
-    // Close dropdown when leaving the Manga tab (desktop only)
-document.querySelectorAll(".tab.has-dropdown").forEach(tab => {
-  tab.addEventListener("mouseleave", () => {
-    tab.classList.remove("open");
-  });
-});
-     document.querySelectorAll(".dropdown-item").forEach(item => {
-  item.addEventListener("click", e => {
-    e.stopPropagation();
-
-    const id = item.dataset.tab;
-    history.pushState(null, "", `#${id}`);
-    activateTab(id);
-
-    // Close dropdown after selection
-    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-      t.classList.remove("open");
-    });
-  });
-});
-
-      // Hash navigation (direct links & refresh)
-     function handleHash() {
-  const raw = location.hash.replace("#", "");
-
-  // Ignore dropdown-only parent
- if (raw === "") {
-  activateTab("about");
-  return;
-}
-
-if (raw === "manga") {
-  activateTab("manga");
-  return;
-}
-
-  // Valid section
-  if (document.getElementById(raw)) {
-    activateTab(raw);
-    return;
-  }
-
-  // Fallback
-  activateTab("about");
-}
+      function handleHash() {
+        const raw = location.hash.replace("#", "");
+        if (raw === "") {
+          activateTab("about");
+          return;
+        }
+        if (raw === "manga") {
+          activateTab("manga");
+          return;
+        }
+        if (document.getElementById(raw)) {
+          activateTab(raw);
+          return;
+        }
+        activateTab("about");
+      }
       window.addEventListener("hashchange", handleHash);
       handleHash();
-      /* ================= RULES ================= */
+      /* ==================================================
+         RULES
+      ================================================== */
       const rl = document.getElementById("rulesList");
-      // Create rules
       for (let i = 1; i <= 20; i++) {
         const rule = document.createElement("div");
         rule.className = "rule";
         rule.dataset.rule = i;
         rule.innerHTML = `
-    <strong>Rule #${i}</strong>
-    <p class="rule-full">Full rule description here.</p>
-  `;
+        <strong>Rule #${i}</strong>
+        <p class="rule-full">Full rule description here.</p>
+      `;
         rl.appendChild(rule);
       }
-      // Helper: close all rules
+
       function closeAllRules() {
         document.querySelectorAll(".rule-full").forEach(p => {
           p.style.display = "none";
         });
       }
-      // Click handling (toggle)
       rl.addEventListener("click", e => {
         const rule = e.target.closest(".rule");
         if (!rule) return;
         const full = rule.querySelector(".rule-full");
         const ruleNum = rule.dataset.rule;
-        // If clicking "Read more" → open + update URL
-        if (e.target.classList.contains("read-more")) {
-          e.stopPropagation();
-          closeAllRules();
-          full.style.display = "block";
-          history.pushState(null, "", `#rules/${ruleNum}`);
-          return;
-        }
-        // Normal toggle click
         const isOpen = full.style.display === "block";
         closeAllRules();
         if (!isOpen) {
@@ -1572,7 +885,7 @@ if (raw === "manga") {
           history.pushState(null, "", "#rules");
         }
       });
-      // Handle direct hash navigation & back button
+
       function handleRuleHash() {
         if (!location.hash.startsWith("#rules")) return;
         activateTab("rules");
@@ -1582,8 +895,7 @@ if (raw === "manga") {
           const num = parts[1];
           const rule = document.querySelector(`.rule[data-rule="${num}"]`);
           if (rule) {
-            const full = rule.querySelector(".rule-full");
-            full.style.display = "block";
+            rule.querySelector(".rule-full").style.display = "block";
             rule.scrollIntoView({
               behavior: "smooth",
               block: "center"
@@ -1593,7 +905,9 @@ if (raw === "manga") {
       }
       window.addEventListener("load", handleRuleHash);
       window.addEventListener("popstate", handleRuleHash);
-      /* ================= JST COUNTDOWN ================= */
+      /* ==================================================
+         COUNTDOWN (JST)
+      ================================================== */
       function nowJST() {
         return new Date(
           new Date().toLocaleString("en-US", {
@@ -1605,31 +919,25 @@ if (raw === "manga") {
 
       function updateChapter() {
         const now = nowJST();
-        // Anchor: Mar 4, 2026 (00:00 JST) = Chapter 34
         const anchorDate = new Date("2026-03-04T00:00:00+09:00");
         let monthsPassed =
           (now.getFullYear() - anchorDate.getFullYear()) * 12 +
           (now.getMonth() - anchorDate.getMonth());
-        // If before the 4th JST, don't count the new month yet
         if (now.getDate() < 4) {
           monthsPassed -= 1;
         }
         const currentChapter = baseChapterNumber + Math.max(0, monthsPassed);
-        // Update chapter label text
         document.getElementById("chapterLabel").textContent =
           `Chapter ${currentChapter} (JP/EN)`;
-        // Release timing (always 4th–5th JST)
-        const release = new Date(now.getFullYear(), now.getMonth(), 4, 0, 0, 0);
-        const releasedDay = new Date(now.getFullYear(), now.getMonth(), 5, 0, 0, 0);
-        // Show "Released" only on the 4th
+        const release = new Date(now.getFullYear(), now.getMonth(), 4);
+        const releasedDay = new Date(now.getFullYear(), now.getMonth(), 5);
         if (now >= release && now < releasedDay) {
           document.getElementById("chapter").textContent = "Released";
           return;
         }
-        // Otherwise countdown to next valid release
         const target =
           now >= releasedDay ?
-          new Date(now.getFullYear(), now.getMonth() + 1, 4, 0, 0, 0) :
+          new Date(now.getFullYear(), now.getMonth() + 1, 4) :
           release;
         runCountdown("chapter", target);
       }
@@ -1651,22 +959,21 @@ if (raw === "manga") {
         const s = Math.floor(diff % 60000 / 1000);
         document.getElementById(id).textContent = `${d}d ${h}h ${m}m ${s}s`;
       }
-      /* ================= NEWS FEED ================= */
+      /* ==================================================
+         NEWS FEED
+      ================================================== */
       const newsList = document.getElementById("newsList");
       const newsTabs = document.querySelectorAll(".news-tab");
       const refreshBtn = document.querySelector(".news-refresh");
       let currentQuery = "Gokurakugai";
 
       function loadNews(query) {
-        if (!newsList) return;
         newsList.innerHTML = `<li class="news-loading">Loading news…</li>`;
-        // Language-aware RSS source
         const isJapanese = query === "極楽街";
         const rssURL = isJapanese ?
           `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=ja&gl=JP&ceid=JP:ja` :
           `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
-        const proxy =
-          `https://api.allorigins.win/get?url=${encodeURIComponent(rssURL)}`;
+        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssURL)}`;
         fetch(proxy)
           .then(r => r.json())
           .then(data => {
@@ -1703,49 +1010,44 @@ if (raw === "manga") {
         updateChapter();
         updateVolumes();
       }, 1000);
-      /* ================= STAFF MODAL LOGIC ================= */
+      /* ==================================================
+         STAFF MODAL
+      ================================================== */
       const modal = document.getElementById("staffModal");
       const modalImg = document.getElementById("modalImg");
       const modalName = document.getElementById("modalName");
       const modalRoles = document.getElementById("modalRoles");
       const modalMeta = document.getElementById("modalMeta");
-      const modalClose = document.getElementById("staffModalClose");
       const modalIntro = document.getElementById("modalIntro");
+      const modalClose = document.getElementById("staffModalClose");
 
       function openStaffModal(card, skipHistory = false) {
         modalImg.style.backgroundImage = card.style.backgroundImage;
         modalName.textContent = card.dataset.name || "";
         modalRoles.textContent = card.dataset.roles || "";
         modalMeta.innerHTML = `
-    <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
-    <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
-    <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
-  `;
-        modalIntro.textContent =
-          card.dataset.intro || "No introduction provided.";
+        <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
+        <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
+        <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
+      `;
+        modalIntro.textContent = card.dataset.intro || "No introduction provided.";
         modal.classList.add("active");
         if (!skipHistory) {
           history.pushState(null, "", `#staff/${card.dataset.id}`);
         }
       }
-      // Staff card click → open modal
       document.querySelectorAll(".staff-card").forEach(card => {
-        card.addEventListener("click", () => {
-          openStaffModal(card);
-        });
+        card.addEventListener("click", () => openStaffModal(card));
       });
-      // "Read more" click (mobile-safe)
       document.querySelectorAll(".read-more").forEach(link => {
         link.addEventListener("click", e => {
           e.stopPropagation();
-          const card = link.closest(".staff-card");
-          openStaffModal(card);
+          openStaffModal(link.closest(".staff-card"));
         });
       });
 
       function handleStaffHash() {
         const hash = location.hash;
-        // #staff/NAME_X → open modal
         if (hash.startsWith("#staff/")) {
           const id = hash.split("/")[1];
           const card = document.querySelector(`.staff-card[data-id="${id}"]`);
@@ -1755,13 +1057,11 @@ if (raw === "manga") {
           }
           return;
         }
-        // #staff → close modal but stay on staff tab
         if (hash === "#staff") {
           modal.classList.remove("active");
           activateTab("staff");
           return;
         }
-        // anything else → close modal
         modal.classList.remove("active");
       }
       window.addEventListener("load", handleStaffHash);
@@ -1769,7 +1069,6 @@ if (raw === "manga") {
       window.addEventListener("popstate", handleStaffHash);
       modalClose.onclick = () => {
         modal.classList.remove("active");
-        // Go back ONE history entry instead of pushing a new one
         history.back();
       };
       modal.onclick = e => {
