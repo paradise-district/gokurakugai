@@ -528,32 +528,28 @@
       }
 
       /* ================= STAFF IMAGE FILLER (THEME SAFE) ================= */
-  /* ================= STAFF IMAGE OVERLAY (USES --panel) ================= */
-.staff-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+      /* ================= STAFF IMAGE OVERLAY (USES --panel) ================= */
+      .staff-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        /* NORMAL STATE — image mostly visible */
+        background: linear-gradient(to top,
+            color-mix(in srgb, var(--panel) 35%, transparent),
+            color-mix(in srgb, var(--panel) 15%, transparent) 55%,
+            transparent);
+        transition: background 0.3s ease;
+        pointer-events: none;
+      }
 
-  /* NORMAL STATE — image mostly visible */
-  background: linear-gradient(
-    to top,
-    color-mix(in srgb, var(--panel) 35%, transparent),
-    color-mix(in srgb, var(--panel) 15%, transparent) 55%,
-    transparent
-  );
+      /* HOVER STATE — image dims */
+      .staff-card:hover::before {
+        background: linear-gradient(to top,
+            color-mix(in srgb, var(--panel) 65%, transparent),
+            color-mix(in srgb, var(--panel) 30%, transparent) 55%,
+            transparent);
+      }
 
-  transition: background 0.3s ease;
-  pointer-events: none;
-}
-/* HOVER STATE — image dims */
-.staff-card:hover::before {
-  background: linear-gradient(
-    to top,
-    color-mix(in srgb, var(--panel) 65%, transparent),
-    color-mix(in srgb, var(--panel) 30%, transparent) 55%,
-    transparent
-  );
-}
       /* Hover = lighter filler */
       @media(max-width:768px) {
         .staff-grid {
