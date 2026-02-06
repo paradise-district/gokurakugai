@@ -860,83 +860,82 @@
       .staff-modal-info h3 {
         margin: 0;
         letter-spacing: .12em;
+        color: var(--accent);
       }
 
-/* ================= STAFF MODAL — DISCORD IDENTITY ================= */
-.staff-modal-discord {
-  margin-top: 4px;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: .75rem;
-  color: var(--text);
-  opacity: .85;
-}
+      /* ================= STAFF MODAL — DISCORD IDENTITY ================= */
+      .staff-modal-discord {
+        margin-top: 4px;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: .75rem;
+        color: var(--text);
+        opacity: .85;
+      }
 
-.staff-modal-discord .discord-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-}
+      .staff-modal-discord .discord-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+      }
 
-.staff-modal-discord img {
-  width: 14px;
-  height: 14px;
-  object-fit: contain;
-}
+      .staff-modal-discord img {
+        width: 14px;
+        height: 14px;
+        object-fit: contain;
+      }
 
-/* ================= DISCORD ICON THEME ADAPT ================= */
+      /* ================= DISCORD ICON THEME ADAPT ================= */
+      /* Light mode (default) */
+      .staff-modal-discord img {
+        filter: none;
+      }
 
-/* Light mode (default) */
-.staff-modal-discord img {
-  filter: none;
-}
+      /* Dark mode — make icons light */
+      body.dark .staff-modal-discord img {
+        filter: brightness(0) invert(1);
+        opacity: .95;
+      }
 
-/* Dark mode — make icons light */
-body.dark .staff-modal-discord img {
-  filter: brightness(0) invert(1);
-  opacity: .95;
-}
-      
-.staff-modal-discord .divider {
-  opacity: .4;
-}
+      .staff-modal-discord .divider {
+        opacity: .4;
+      }
 
       /* ================= STAFF MODAL — DISCORD ROW ================= */
+      .staff-discord-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: .75rem;
+      }
 
-.staff-discord-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .75rem;
-}
+      .staff-discord-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
 
-.staff-discord-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
+      .staff-discord-item img {
+        width: 14px;
+        height: 14px;
+        object-fit: contain;
+      }
 
-.staff-discord-item img {
-  width: 14px;
-  height: 14px;
-  object-fit: contain;
-}
+      /* Separator */
+      .staff-discord-sep {
+        opacity: .45;
+      }
 
-/* Separator */
-.staff-discord-sep {
-  opacity: .45;
-}
+      /* DARK MODE — auto invert icons */
+      body.dark .staff-discord-item img {
+        filter: brightness(0) invert(1);
+        opacity: .95;
+      }
 
-/* DARK MODE — auto invert icons */
-body.dark .staff-discord-item img {
-  filter: brightness(0) invert(1);
-  opacity: .95;
-}
- 
       .staff-modal-discord span {
         display: flex;
         align-items: center;
@@ -949,10 +948,37 @@ body.dark .staff-discord-item img {
         color: var(--accent);
       }
 
+      /* ================= STAFF MODAL — ROLE PILLS (DISCORD STYLE) ================= */
       .staff-modal-roles {
-        margin: 8px 0;
-        font-size: .85rem;
-        opacity: .85;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 10px 0 6px;
+      }
+
+      /* single role pill */
+      .staff-role {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        font-size: .75rem;
+        font-weight: 600;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      /* role color dot */
+      .staff-role::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex-shrink: 0;
       }
 
       .staff-modal-meta {
@@ -1801,12 +1827,11 @@ body.dark .staff-discord-item img {
       function openStaffModal(card, skipHistory = false) {
         modalImg.style.backgroundImage = card.style.backgroundImage;
         modalName.textContent = card.dataset.name || "";
-/* ================= DISCORD IDENTITY ================= */
-const discordUser = card.dataset.discord;
-const discordId = card.dataset.discordId;
-
-if (discordUser || discordId) {
-  modalDiscord.innerHTML = `
+        /* ================= DISCORD IDENTITY ================= */
+        const discordUser = card.dataset.discord;
+        const discordId = card.dataset.discordId;
+        if (discordUser || discordId) {
+          modalDiscord.innerHTML = `
     <div class="staff-discord-row">
       ${discordUser ? `
         <span class="staff-discord-item">
@@ -1825,10 +1850,20 @@ if (discordUser || discordId) {
       ` : ""}
     </div>
   `;
-} else {
-  modalDiscord.innerHTML = "";
-}
-        modalRoles.textContent = card.dataset.roles || "";
+        } else {
+          modalDiscord.innerHTML = "";
+        }
+        /* ================= ROLE PILLS ================= */
+        modalRoles.innerHTML = "";
+        if (card.dataset.roles) {
+          const roles = card.dataset.roles.split(",").map(r => r.trim());
+          roles.forEach(role => {
+            const pill = document.createElement("span");
+            pill.className = "staff-role";
+            pill.textContent = role;
+            modalRoles.appendChild(pill);
+          });
+        }
         modalMeta.innerHTML = `
     <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
     <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
