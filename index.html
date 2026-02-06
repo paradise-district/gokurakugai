@@ -230,6 +230,9 @@
       }
 
       .countdown {
+        position: sticky;
+        top: 0;
+        z-index: 2000;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         background: #000;
@@ -250,6 +253,10 @@
 
       /* ================= TABS ================= */
       .tabs-bar {
+        position: sticky;
+        top: 64px;
+        /* height of countdown */
+        z-index: 1999;
         display: flex;
         align-items: center;
         background: #000;
@@ -423,6 +430,24 @@
         }
       }
 
+      @media (max-width: 768px) {
+        .series-cover {
+          float: left;
+          width: 140px;
+          margin: 0 16px 8px 0;
+        }
+
+        .series-info-wrap p {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .frame {
+          padding: 20px;
+        }
+      }
+
       /* ================= FRAME ================= */
       .frame {
         background: var(--panel);
@@ -440,6 +465,21 @@
         height: 290px;
         background: center/contain no-repeat;
         margin: 20px 0 30px;
+        opacity: 0;
+        animation: bannerFade .6s ease forwards;
+      }
+
+      .header,
+      .section-banner {
+        user-select: none;
+        pointer-events: none;
+      }
+
+      @media (max-width: 768px) {
+        #about .section-banner {
+          height: 200px;
+          background-size: cover;
+        }
       }
 
       /* ================= SERIES FLOAT ================= */
@@ -1142,10 +1182,56 @@
         transform: translateY(-2px);
         box-shadow: 0 0 14px var(--accent);
       }
+
+      #toTop {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid var(--accent);
+        background: var(--panel);
+        color: var(--accent);
+        font-size: 1.2rem;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s ease, transform .3s ease;
+        z-index: 3000;
+      }
+
+      #toTop.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      #toTop:hover {
+        transform: translateY(-4px);
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          height: 220px;
+        }
+      }
+
+      @keyframes bannerFade {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
     </style>
   </head>
 
   <body>
+    <button id="toTop" aria-label="Back to top">↑</button>
 
     <!-- HEADER -->
     <div class="header">
@@ -1923,6 +2009,16 @@
       modal.onclick = e => {
         if (e.target === modal) modal.classList.remove("active");
       };
+      const toTop = document.getElementById("toTop");
+      window.addEventListener("scroll", () => {
+        toTop.classList.toggle("show", window.scrollY > 400);
+      });
+      toTop.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
     </script>
 
   </body>
