@@ -255,6 +255,10 @@
         background: #000;
       }
 
+      .tabs-bar {
+        overflow: visible;
+      }
+
       .tabs {
         flex: 1;
         display: flex;
@@ -273,6 +277,10 @@
         cursor: pointer;
         color: #ccc;
         border-bottom: 3px solid transparent;
+      }
+
+      .tab.has-dropdown {
+        z-index: 10;
       }
 
       .tab {
@@ -1429,16 +1437,12 @@
         tab.addEventListener("click", e => {
           // If this tab has a dropdown, TOGGLE it instead of navigating
           if (tab.classList.contains("has-dropdown")) {
-            // Desktop hover handles dropdown
-            // Mobile click opens dropdown instead of navigating
+            // Mobile: tap to toggle dropdown
             if (window.matchMedia("(hover: none)").matches) {
               e.preventDefault();
               tab.classList.toggle("open");
-            } else {
-              // Desktop: clicking Manga goes to its page
-              history.pushState(null, "", "#manga-gallery");
-              activateTab("manga-gallery");
             }
+            // Desktop: do NOTHING on click (hover handles it)
             return;
           }
           // Normal tabs
