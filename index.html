@@ -54,7 +54,7 @@
         --bg: #f7f3ea;
         --panel: #ffffff;
         --ink: #c43128;
-        --text: #222;
+        --text: #000;
         --accent: #c43128;
         --frame: url("assets/images/light-border.png");
         --pattern: url("assets/images/pattern-light.png");
@@ -66,7 +66,7 @@
         --bg: #0f0f0f;
         --panel: #141414;
         --ink: #d6b25e;
-        --text: #eaeaea;
+        --text: #fff;
         --accent: #d6b25e;
         --frame: url("assets/images/dark-border.png");
         --pattern: url("assets/images/pattern-dark.png");
@@ -270,18 +270,18 @@
       }
 
       .tabs-viewport {
-  flex: 1;
-  overflow: visible;
-  position: relative;
-}
+        flex: 1;
+        overflow: visible;
+        position: relative;
+      }
 
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  white-space: nowrap;
-  padding: 0 12px;
-}
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        white-space: nowrap;
+        padding: 0 12px;
+      }
 
       .tab {
         padding: 14px 18px;
@@ -519,18 +519,6 @@
         justify-content: flex-end;
       }
 
-      .staff-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .45);
-        transition: background .3s ease;
-      }
-
-      body.dark .staff-card::before {
-        background: rgba(0, 0, 0, .7);
-      }
-
       .staff-container {
         position: relative;
         color: #fff
@@ -542,6 +530,26 @@
         grid-template-columns: repeat(3, 280px);
         gap: 32px;
         justify-content: center;
+      }
+
+      /* ================= STAFF IMAGE FILLER (THEME SAFE) ================= */
+      .staff-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        /* Uses theme panel color instead of black */
+        background: color-mix(in srgb,
+            var(--panel) 55%,
+            transparent);
+        transition: background 0.35s ease;
+        pointer-events: none;
+      }
+
+      /* Hover = lighter filler */
+      .staff-card:hover::before {
+        background: color-mix(in srgb,
+            var(--panel) 35%,
+            transparent);
       }
 
       @media(max-width:768px) {
@@ -561,18 +569,6 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-      }
-
-      /* image darkening only */
-      .staff-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .35);
-      }
-
-      body.dark .staff-card::before {
-        background: rgba(0, 0, 0, .6);
       }
 
       /* text container */
@@ -595,11 +591,13 @@
       }
 
       /* description */
+      /* ================= STAFF DESCRIPTION TEXT ================= */
       .staff-desc {
         margin-top: 8px;
-        color: var(--text);
         font-size: .85rem;
         line-height: 1.45;
+        color: var(--text);
+        /* FONT COLOR ONLY */
         max-height: 0;
         overflow: hidden;
         transition: max-height .35s ease;
@@ -1050,31 +1048,31 @@
     </div>
 
     <!-- TABS -->
-<!-- TABS -->
-<div class="tabs-bar">
-  <div class="tabs-viewport">
-    <div class="tabs">
+    <!-- TABS -->
+    <div class="tabs-bar">
+      <div class="tabs-viewport">
+        <div class="tabs">
 
-      <div class="tab active" data-tab="about">About</div>
+          <div class="tab active" data-tab="about">About</div>
 
-      <div class="tab has-dropdown" data-tab="manga">
-        Manga
-        <div class="dropdown">
-          <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
-          <div class="dropdown-item" data-tab="manga-characters">Characters</div>
+          <div class="tab has-dropdown" data-tab="manga">
+            Manga
+            <div class="dropdown">
+              <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
+              <div class="dropdown-item" data-tab="manga-characters">Characters</div>
+            </div>
+          </div>
+
+          <div class="tab" data-tab="rules">Rules</div>
+          <div class="tab" data-tab="info">Info</div>
+          <div class="tab" data-tab="staff">Staff</div>
+          <div class="tab" data-tab="leaderboard">Leaderboard</div>
+
         </div>
       </div>
 
-      <div class="tab" data-tab="rules">Rules</div>
-      <div class="tab" data-tab="info">Info</div>
-      <div class="tab" data-tab="staff">Staff</div>
-      <div class="tab" data-tab="leaderboard">Leaderboard</div>
-
+      <button class="theme-toggle" id="themeToggle">🌙</button>
     </div>
-  </div>
-
-  <button class="theme-toggle" id="themeToggle">🌙</button>
-</div>
 
     <!-- ABOUT -->
     <div class="section active" id="about">
@@ -1453,28 +1451,24 @@
       document.querySelectorAll(".tab").forEach(tab => {
         tab.addEventListener("click", e => {
           // If this tab has a dropdown, TOGGLE it instead of navigating
-         if (tab.classList.contains("has-dropdown")) {
-  const id = tab.dataset.tab;
-
-  // Mobile: tap once opens dropdown, second tap navigates
-  if (window.matchMedia("(hover: none)").matches) {
-    if (!tab.classList.contains("open")) {
-      e.preventDefault();
-      tab.classList.add("open");
-      return;
-    }
-  }
-
-  // Desktop or second tap → navigate to Manga page
-  history.pushState(null, "", `#${id}`);
-  activateTab(id);
-
-  document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-    t.classList.remove("open");
-  });
-
-  return;
-}
+          if (tab.classList.contains("has-dropdown")) {
+            const id = tab.dataset.tab;
+            // Mobile: tap once opens dropdown, second tap navigates
+            if (window.matchMedia("(hover: none)").matches) {
+              if (!tab.classList.contains("open")) {
+                e.preventDefault();
+                tab.classList.add("open");
+                return;
+              }
+            }
+            // Desktop or second tap → navigate to Manga page
+            history.pushState(null, "", `#${id}`);
+            activateTab(id);
+            document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+              t.classList.remove("open");
+            });
+            return;
+          }
           // Normal tabs
           const id = tab.dataset.tab;
           history.pushState(null, "", `#${id}`);
