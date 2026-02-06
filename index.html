@@ -1421,14 +1421,44 @@
     directTab.classList.add("active");
   }
 
-  // Manga children → activate Manga parent
-  if (id.startsWith("manga")) {
-    document.querySelector(".tab.has-dropdown")?.classList.add("active");
-  }
+  // Manga logic
+if (id === "manga" || id.startsWith("manga-")) {
+  document.querySelector(".tab.has-dropdown")?.classList.add("active");
+}
 }
       // Tab clicks
       document.querySelectorAll(".tab").forEach(tab => {
   tab.addEventListener("click", e => {
+
+    const id = tab.dataset.tab;
+
+    // ===== MANGA TAB =====
+    if (tab.classList.contains("has-dropdown")) {
+
+      // Mobile: toggle dropdown only
+      if (window.matchMedia("(hover: none)").matches) {
+        e.preventDefault();
+        tab.classList.toggle("open");
+        return;
+      }
+
+      // Desktop: navigate to Manga landing
+      history.pushState(null, "", "#manga");
+      activateTab("manga");
+
+      return;
+    }
+
+    // ===== NORMAL TABS =====
+    history.pushState(null, "", `#${id}`);
+    activateTab(id);
+
+    // Close any open dropdowns
+    document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+      t.classList.remove("open");
+    });
+  });
+});
 
     // If this tab has a dropdown, TOGGLE it instead of navigating
    if (tab.classList.contains("has-dropdown")) {
@@ -1437,10 +1467,6 @@
   if (window.matchMedia("(hover: none)").matches) {
     e.preventDefault();
     tab.classList.toggle("open");
-  } else {
-    // Desktop: clicking Manga goes to its page
-    history.pushState(null, "", "#manga-gallery");
-    activateTab("manga-gallery");
   }
   return;
 }
@@ -1482,10 +1508,15 @@ document.querySelectorAll(".tab.has-dropdown").forEach(tab => {
   const raw = location.hash.replace("#", "");
 
   // Ignore dropdown-only parent
-  if (raw === "manga" || raw === "") {
-    activateTab("about");
-    return;
-  }
+ if (raw === "") {
+  activateTab("about");
+  return;
+}
+
+if (raw === "manga") {
+  activateTab("manga");
+  return;
+}
 
   // Valid section
   if (document.getElementById(raw)) {
