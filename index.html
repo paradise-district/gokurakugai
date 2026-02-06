@@ -532,8 +532,11 @@
         content: "";
         position: absolute;
         inset: 0;
-        /* Uses theme panel color instead of black */
-        transition: background 0.35s ease;
+        /* subtle darkening for readability — NOT a card background */
+        background: linear-gradient(to top,
+            rgba(0, 0, 0, .55),
+            rgba(0, 0, 0, .15) 55%,
+            rgba(0, 0, 0, 0));
         pointer-events: none;
       }
 
@@ -567,28 +570,27 @@
       .staff-container h3 {
         margin: 0;
         color: var(--text);
+        font-weight: 700;
       }
 
       /* role */
       .staff-container div {
-        font-size: .9rem;
-        opacity: .85;
+        font-size: .85rem;
+        font-weight: 600;
         color: var(--text);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, .55);
       }
 
       /* ================= STAFF DESCRIPTION TEXT ================= */
       .staff-desc {
-        margin-top: 10px;
-        padding: 10px 12px;
-        font-size: .85rem;
+        margin-top: 8px;
+        font-size: .9rem;
         line-height: 1.45;
         color: var(--text);
-        border-radius: 10px;
+        font-weight: 600;
         max-height: 0;
         overflow: hidden;
-        transition:
-          max-height .35s ease,
-          background .25s ease;
+        transition: max-height .35s ease;
       }
 
       /* reveal */
