@@ -533,20 +533,11 @@
         position: absolute;
         inset: 0;
         /* Uses theme panel color instead of black */
-        background: color-mix(in srgb,
-            var(--panel) 55%,
-            transparent);
         transition: background 0.35s ease;
         pointer-events: none;
       }
 
       /* Hover = lighter filler */
-      .staff-card:hover::before {
-        background: color-mix(in srgb,
-            var(--panel) 35%,
-            transparent);
-      }
-
       @media(max-width:768px) {
         .staff-grid {
           grid-template-columns: 1fr
@@ -585,8 +576,6 @@
         color: var(--text);
       }
 
-      /* description */
-      /* ================= STAFF DESCRIPTION TEXT ================= */
       /* ================= STAFF DESCRIPTION TEXT ================= */
       .staff-desc {
         margin-top: 10px;
@@ -594,22 +583,12 @@
         font-size: .85rem;
         line-height: 1.45;
         color: var(--text);
-        background: color-mix(in srgb,
-            var(--panel) 92%,
-            transparent);
         border-radius: 10px;
         max-height: 0;
         overflow: hidden;
         transition:
           max-height .35s ease,
           background .25s ease;
-      }
-
-      /* Slight hover contrast boost */
-      .staff-card:hover .staff-desc {
-        background: color-mix(in srgb,
-            var(--panel) 97%,
-            transparent);
       }
 
       /* reveal */
