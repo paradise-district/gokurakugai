@@ -862,18 +862,81 @@
         letter-spacing: .12em;
       }
 
-      /* ================= STAFF MODAL — DISCORD ID ================= */
-      .staff-modal-discord {
-        margin-top: 4px;
-        margin-bottom: 6px;
-        font-size: .75rem;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        color: var(--text);
-        opacity: .85;
-      }
+/* ================= STAFF MODAL — DISCORD IDENTITY ================= */
+.staff-modal-discord {
+  margin-top: 4px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .75rem;
+  color: var(--text);
+  opacity: .85;
+}
 
+.staff-modal-discord .discord-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.staff-modal-discord img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+/* ================= DISCORD ICON THEME ADAPT ================= */
+
+/* Light mode (default) */
+.staff-modal-discord img {
+  filter: none;
+}
+
+/* Dark mode — make icons light */
+body.dark .staff-modal-discord img {
+  filter: brightness(0) invert(1);
+  opacity: .95;
+}
+      
+.staff-modal-discord .divider {
+  opacity: .4;
+}
+
+      /* ================= STAFF MODAL — DISCORD ROW ================= */
+
+.staff-discord-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .75rem;
+}
+
+.staff-discord-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.staff-discord-item img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+/* Separator */
+.staff-discord-sep {
+  opacity: .45;
+}
+
+/* DARK MODE — auto invert icons */
+body.dark .staff-discord-item img {
+  filter: brightness(0) invert(1);
+  opacity: .95;
+}
+ 
       .staff-modal-discord span {
         display: flex;
         align-items: center;
@@ -1738,21 +1801,33 @@
       function openStaffModal(card, skipHistory = false) {
         modalImg.style.backgroundImage = card.style.backgroundImage;
         modalName.textContent = card.dataset.name || "";
-        // 🔁 INSERTED CODE — RIGHT HERE
-        const discordUser = card.dataset.discord;
-        const discordId = card.dataset.discordId;
-        let discordHTML = "";
-        if (discordUser) {
-          discordHTML += `
-      <div class="staff-discord">
-        <span class="discord-icon">🟣</span>
-        <span class="discord-name">@${discordUser}</span>
-        ${discordId ? `<span class="discord-id">(${discordId})</span>` : ""}
-      </div>
-    `;
-        }
-        document.getElementById("modalDiscord").innerHTML = discordHTML;
-        // 🔁 END INSERT
+/* ================= DISCORD IDENTITY ================= */
+const discordUser = card.dataset.discord;
+const discordId = card.dataset.discordId;
+
+if (discordUser || discordId) {
+  modalDiscord.innerHTML = `
+    <div class="staff-discord-row">
+      ${discordUser ? `
+        <span class="staff-discord-item">
+          <img src="assets/icons/discord-user.png" alt="">
+          <span>@${discordUser}</span>
+        </span>
+      ` : ""}
+
+      ${discordUser && discordId ? `<span class="staff-discord-sep">|</span>` : ""}
+
+      ${discordId ? `
+        <span class="staff-discord-item">
+          <img src="assets/icons/discord-id.png" alt="">
+          <span>${discordId}</span>
+        </span>
+      ` : ""}
+    </div>
+  `;
+} else {
+  modalDiscord.innerHTML = "";
+}
         modalRoles.textContent = card.dataset.roles || "";
         modalMeta.innerHTML = `
     <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
