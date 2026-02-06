@@ -862,6 +862,30 @@
         letter-spacing: .12em;
       }
 
+      /* ================= STAFF MODAL — DISCORD ID ================= */
+      .staff-modal-discord {
+        margin-top: 4px;
+        margin-bottom: 6px;
+        font-size: .75rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text);
+        opacity: .85;
+      }
+
+      .staff-modal-discord span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
+
+      .staff-modal-discord .icon {
+        font-size: .85rem;
+        color: var(--accent);
+      }
+
       .staff-modal-roles {
         margin: 8px 0;
         font-size: .85rem;
@@ -1354,6 +1378,10 @@
 
         <div class="staff-modal-info">
           <h3 id="modalName"></h3>
+
+          <!-- DISCORD IDENTITY -->
+          <div class="staff-modal-discord" id="modalDiscord"></div>
+
           <div class="staff-modal-roles" id="modalRoles"></div>
 
           <div class="staff-modal-meta" id="modalMeta"></div>
@@ -1705,10 +1733,26 @@
       const modalMeta = document.getElementById("modalMeta");
       const modalClose = document.getElementById("staffModalClose");
       const modalIntro = document.getElementById("modalIntro");
+      const modalDiscord = document.getElementById("modalDiscord");
 
       function openStaffModal(card, skipHistory = false) {
         modalImg.style.backgroundImage = card.style.backgroundImage;
         modalName.textContent = card.dataset.name || "";
+        // 🔁 INSERTED CODE — RIGHT HERE
+        const discordUser = card.dataset.discord;
+        const discordId = card.dataset.discordId;
+        let discordHTML = "";
+        if (discordUser) {
+          discordHTML += `
+      <div class="staff-discord">
+        <span class="discord-icon">🟣</span>
+        <span class="discord-name">@${discordUser}</span>
+        ${discordId ? `<span class="discord-id">(${discordId})</span>` : ""}
+      </div>
+    `;
+        }
+        document.getElementById("modalDiscord").innerHTML = discordHTML;
+        // 🔁 END INSERT
         modalRoles.textContent = card.dataset.roles || "";
         modalMeta.innerHTML = `
     <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
