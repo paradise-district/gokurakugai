@@ -519,11 +519,6 @@
         justify-content: flex-end;
       }
 
-      .staff-container {
-        position: relative;
-        color: #fff
-      }
-
       /* ================= STAFF ================= */
       .staff-grid {
         display: grid;
@@ -592,15 +587,29 @@
 
       /* description */
       /* ================= STAFF DESCRIPTION TEXT ================= */
+      /* ================= STAFF DESCRIPTION TEXT ================= */
       .staff-desc {
-        margin-top: 8px;
+        margin-top: 10px;
+        padding: 10px 12px;
         font-size: .85rem;
         line-height: 1.45;
         color: var(--text);
-        /* FONT COLOR ONLY */
+        background: color-mix(in srgb,
+            var(--panel) 92%,
+            transparent);
+        border-radius: 10px;
         max-height: 0;
         overflow: hidden;
-        transition: max-height .35s ease;
+        transition:
+          max-height .35s ease,
+          background .25s ease;
+      }
+
+      /* Slight hover contrast boost */
+      .staff-card:hover .staff-desc {
+        background: color-mix(in srgb,
+            var(--panel) 97%,
+            transparent);
       }
 
       /* reveal */
