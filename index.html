@@ -519,36 +519,24 @@
         justify-content: flex-end;
       }
 
-/* ================= STAFF CARD READABILITY LAYER ================= */
+/* ================= STAFF CARD PANEL BACKING ================= */
 .staff-card::before{
   content:"";
   position:absolute;
   inset:0;
 
-  /* Neutral panel-tinted gradient (theme-safe) */
+  /* Panel-based gradient for BOTH themes */
   background:
     linear-gradient(
       to top,
-      rgba(0,0,0,.55) 0%,
-      rgba(0,0,0,.35) 30%,
-      rgba(0,0,0,.15) 55%,
-      rgba(0,0,0,0) 75%
+      color-mix(in srgb, var(--panel) 92%, transparent) 0%,
+      color-mix(in srgb, var(--panel) 82%, transparent) 35%,
+      color-mix(in srgb, var(--panel) 55%, transparent) 60%,
+      color-mix(in srgb, var(--panel) 0%, transparent) 78%
     );
 
   transition:background .35s ease;
   pointer-events:none;
-}
-
-/* Light theme override (brighter, still readable) */
-body:not(.dark) .staff-card::before{
-  background:
-    linear-gradient(
-      to top,
-      rgba(255,255,255,.65) 0%,
-      rgba(255,255,255,.42) 30%,
-      rgba(255,255,255,.18) 55%,
-      rgba(255,255,255,0) 75%
-    );
 }
 
       /* ================= STAFF CARD GLOSS HOVER ================= */
@@ -585,10 +573,20 @@ body.dark .staff-card::after{
     );
 }
 
-/* ================= STAFF TEXT CONTRAST ================= */
+/* ================= STAFF TEXT PANEL ================= */
 .staff-container{
   position:relative;
-  color:#fff;
+  padding:12px 14px;
+  border-radius:12px;
+
+  background:
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--panel) 88%, transparent),
+      color-mix(in srgb, var(--panel) 70%, transparent)
+    );
+
+  backdrop-filter: blur(2px);
 }
 
 body:not(.dark) .staff-container{
@@ -598,6 +596,7 @@ body:not(.dark) .staff-container{
 .staff-container h3{
   margin:0;
   font-weight:600;
+  color:var(--text);
 }
 
 .staff-container div,
@@ -659,22 +658,18 @@ body:not(.dark) .staff-desc{
       }
 
       /* role */
-      .staff-container div {
-        font-size: .9rem;
-        opacity: .85;
-        color: var(--text);
-      }
+  .staff-container div{
+  font-size:.85rem;
+  opacity:.9;
+  color:var(--text);
+}
 
-      /* description */
-      .staff-desc {
-        margin-top: 8px;
-        color: var(--text);
-        font-size: .85rem;
-        line-height: 1.45;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height .35s ease;
-      }
+ .staff-desc{
+  margin-top:6px;
+  font-size:.8rem;
+  line-height:1.45;
+  color:var(--text);
+}
 
       /* reveal */
       .staff-card:hover .staff-desc {
