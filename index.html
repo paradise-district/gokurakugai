@@ -2068,6 +2068,13 @@
       const modalIntro = document.getElementById("modalIntro");
       const modalDiscord = document.getElementById("modalDiscord");
 
+      function closeStaffModalToList() {
+        // Only change hash if we're currently in a staff modal
+        if (location.hash.startsWith("#staff/")) {
+          history.pushState(null, "", "#staff");
+        }
+      }
+
       function openStaffModal(card, skipHistory = false) {
         modalImg.style.backgroundImage = card.style.backgroundImage;
         modalName.textContent = card.dataset.name || "";
@@ -2160,43 +2167,50 @@
       window.addEventListener("hashchange", handleStaffHash);
       window.addEventListener("popstate", handleStaffHash);
       modalClose.onclick = () => {
-        modal.classList.remove("active");
-        // Go back ONE history entry instead of pushing a new one
-        history.back();
-      };
-      modal.onclick = e => {
-        if (e.target === modal) modal.classList.remove("active");
-      };
-      const toTop = document.getElementById("toTop");
-      window.addEventListener("scroll", () => {
-        toTop.classList.toggle("show", window.scrollY > 400);
-      });
-      toTop.addEventListener("click", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      });
-      /* ================= MOBILE TAB SCROLL INDICATOR ================= */
-      const tabsViewport = document.querySelector(".tabs-viewport");
+          modal.classList.remove("active");
+          modalClose.onclick = () => {
+            closeStaffModalToList();
+          };
+          modal.onclick = e => {
+            if (e.target === modal) {
+              closeStaffModalToList();
+            }
+          };
+          document.addEventListener("keydown", e => {
+            if (e.key === "Escape") {
+              closeStaffModalToList();
+            }
+          });
+          const toTop = document.getElementById("toTop");
+          window.addEventListener("scroll", () => {
+            toTop.classList.toggle("show", window.scrollY > 400);
+          });
+          toTop.addEventListener("click", () => {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          });
+          /* ================= MOBILE TAB SCROLL INDICATOR ================= */
+          const tabsViewport = document.querySelector(".tabs-viewport");
 
-      function updateTabFades() {
-        if (!tabsViewport) return;
-        const scrollLeft = tabsViewport.scrollLeft;
-        const maxScroll =
-          tabsViewport.scrollWidth - tabsViewport.clientWidth;
-        tabsViewport.classList.toggle("fade-left", scrollLeft > 4);
-        tabsViewport.classList.toggle(
-          "fade-right",
-          scrollLeft < maxScroll - 4
-        );
-      }
-      // Initial check
-      updateTabFades();
-      // Update on scroll
-      tabsViewport.addEventListener("scroll", updateTabFades);
-      // Update on resize (orientation change etc.)
-      window.addEventListener("resize", updateTabFades);
+          function updateTabFades() {
+            if (!tabsViewport) return;
+            const scrollLeft = tabsViewport.scrollLeft;
+            const maxScroll =
+              tabsViewport.scrollWidth - tabsViewport.clientWidth;
+            tabsViewport.classList.toggle("fade-left", scrollLeft > 4);
+            tabsViewport.classList.toggle(
+              "fade-right",
+              scrollLeft < maxScroll - 4
+            );
+          }
+          // Initial check
+          updateTabFades();
+          // Update on scroll
+          tabsViewport.addEventListener("scroll", updateTabFades);
+          // Update on resize (orientation change etc.)
+          window.addEventListener("resize", updateTabFades);
     </script>
 
   </body>
