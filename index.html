@@ -363,6 +363,15 @@
         white-space: nowrap;
       }
 
+      .dropdown-toggle {
+        padding: 6px 8px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:active {
+        background: rgba(255, 255, 255, .12);
+      }
+
       .dropdown-item:hover {
         background: rgba(255, 255, 255, .08);
         color: var(--accent);
@@ -421,12 +430,13 @@
           overflow-y: hidden;
           -webkit-overflow-scrolling: touch;
           position: relative;
+          flex: 1;
         }
 
         .tabs {
+          flex: 0 0 auto;
           justify-content: flex-start;
           width: max-content;
-          min-width: max-content;
           padding-left: 16px;
           padding-right: 16px;
         }
@@ -1733,35 +1743,39 @@
           document.querySelector(".tab.has-dropdown")?.classList.add("active");
         }
       }
-      // Tab clicks
+      /* ================= TABS CLICK LOGIC (FIXED) ================= */
+      // Normal tab navigation (label only)
       document.querySelectorAll(".tab").forEach(tab => {
-        tab.addEventListener("click", e => {
-          // If this tab has a dropdown, TOGGLE it instead of navigating
-          if (tab.classList.contains("has-dropdown")) {
+        const label = tab.querySelector(".tab-label");
+        // Tabs WITHOUT dropdown
+        if (!tab.classList.contains("has-dropdown")) {
+          tab.addEventListener("click", () => {
             const id = tab.dataset.tab;
-            // Mobile: tap once opens dropdown, second tap navigates
-            if (window.matchMedia("(hover: none)").matches) {
-              if (!tab.classList.contains("open")) {
-                e.preventDefault();
-                tab.classList.add("open");
-                return;
-              }
-            }
-            // Desktop or second tap → navigate to Manga page
             history.pushState(null, "", `#${id}`);
             activateTab(id);
-            document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-              t.classList.remove("open");
-            });
-            return;
-          }
-          // Normal tabs
-          const id = tab.dataset.tab;
-          history.pushState(null, "", `#${id}`);
-          activateTab(id);
-          // Close any open dropdowns
+          });
+          return;
+        }
+        // Tabs WITH dropdown → LABEL navigates
+        if (label) {
+          label.addEventListener("click", e => {
+            e.stopPropagation();
+            const id = tab.dataset.tab;
+            history.pushState(null, "", `#${id}`);
+            activateTab(id);
+            tab.classList.remove("open");
+          });
+        }
+      });
+      // Dropdown arrow toggle (mobile + desktop click support)
+      document.querySelectorAll(".dropdown-toggle").forEach(btn => {
+        btn.addEventListener("click", e => {
+          e.stopPropagation();
+          const tab = btn.closest(".tab.has-dropdown");
+          tab.classList.toggle("open");
+          // close other dropdowns
           document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-            t.classList.remove("open");
+            if (t !== tab) t.classList.remove("open");
           });
         });
       });
