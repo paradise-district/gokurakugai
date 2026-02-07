@@ -134,6 +134,7 @@
         align-items: center;
         color: #fff;
         text-align: center;
+        height: 260px;
       }
 
       /* ================= LOGO GLITCH HOVER ================= */
@@ -219,7 +220,7 @@
       /* Glitch animation */
       .header h1 {
         margin-top: 10px;
-        font-size: 2rem;
+        font-size: 25px;
         border-bottom: 2px solid var(--accent);
       }
 
@@ -340,13 +341,6 @@
         position: relative;
       }
 
-      .tab.has-dropdown::after {
-        content: "▾";
-        margin-left: 6px;
-        font-size: .7rem;
-        opacity: .7;
-      }
-
       .dropdown {
         position: absolute;
         top: 100%;
@@ -361,6 +355,30 @@
         z-index: 9999;
       }
 
+      /* ================= MANGA DROPDOWN CARET ================= */
+      .dropdown-caret {
+        margin-left: 8px;
+        font-size: 1rem;
+        /* ⬆ bigger */
+        opacity: .7;
+        cursor: pointer;
+        display: inline-block;
+        transition: transform .25s ease, opacity .25s ease;
+      }
+
+      @media (hover: hover) {
+        .tab.has-dropdown:hover .dropdown-caret {
+          transform: translateY(-3px);
+          /* ⬆ hover up */
+          opacity: 1;
+        }
+      }
+
+      .tab.has-dropdown.open .dropdown-caret {
+        transform: translateY(2px);
+        /* ⬇ when open */
+      }
+
       .dropdown-item {
         padding: 12px 16px;
         font-size: .85rem;
@@ -369,13 +387,22 @@
         white-space: nowrap;
       }
 
+      /* ================= MOBILE DROPDOWN TOGGLE ================= */
       .dropdown-toggle {
-        padding: 6px 8px;
-        border-radius: 6px;
+        display: none;
+        background: none;
+        border: none;
+        color: #ccc;
+        font-size: .9rem;
+        margin-left: 6px;
+        cursor: pointer;
       }
 
-      .dropdown-toggle:active {
-        background: rgba(255, 255, 255, .12);
+      @media (hover: none) {
+        .dropdown-toggle {
+          display: inline-flex;
+          align-items: center;
+        }
       }
 
       .dropdown-item:hover {
@@ -383,10 +410,12 @@
         color: var(--accent);
       }
 
-      .tab.has-dropdown:hover .dropdown {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0);
+      @media (hover: hover) {
+        .tab.has-dropdown:hover .dropdown {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateX(-50%) translateY(0);
+        }
       }
 
       /* Mobile dropdown open state */
@@ -448,9 +477,9 @@
         .tabs {
           flex: 0 0 auto;
           justify-content: flex-start;
-          width: max-content;
+          min-width: 100%;
           padding-left: 16px;
-          padding-right: 16px;
+          padding-right: 24px;
         }
       }
 
@@ -1359,8 +1388,7 @@
 
           <div class="tab has-dropdown" data-tab="manga">
             <span class="tab-label">Manga</span>
-            <button class="dropdown-toggle" aria-label="Open manga menu">▼</button>
-
+            <span class="dropdown-caret" aria-hidden="true">▾</span>
             <div class="dropdown">
               <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
               <div class="dropdown-item" data-tab="manga-characters">Characters</div>
@@ -1779,21 +1807,18 @@
           });
         }
       });
-      // Dropdown arrow toggle — OPEN DROPDOWN ONLY (NO NAVIGATION)
-      document.querySelectorAll(".dropdown-toggle").forEach(btn => {
-        btn.addEventListener("click", e => {
-          e.preventDefault();
+      // Dropdown caret click (mobile + desktop)
+      document.querySelectorAll(".dropdown-caret").forEach(caret => {
+        caret.addEventListener("click", e => {
           e.stopPropagation();
-          const tab = btn.closest(".tab.has-dropdown");
+          const tab = caret.closest(".tab.has-dropdown");
           const isOpen = tab.classList.contains("open");
-          // Close all dropdowns first
+          // Close all dropdowns
           document.querySelectorAll(".tab.has-dropdown").forEach(t => {
             t.classList.remove("open");
           });
-          // Open only this one if it was closed
-          if (!isOpen) {
-            tab.classList.add("open");
-          }
+          // Open only this one
+          if (!isOpen) tab.classList.add("open");
         });
       });
       // Close dropdown when leaving the Manga tab (desktop only)
