@@ -550,7 +550,7 @@
 
       @media (max-width: 768px) {
         .series-cover {
-          float: left;
+          float: right;
           width: 140px;
           margin: 0 16px 8px 0;
         }
@@ -561,25 +561,20 @@
       }
 
       @media (max-width: 768px) {
-        .series-media {
-          display: grid;
-          grid-template-columns: 1fr 140px;
-          /* text | image */
-          gap: 12px;
-          align-items: start;
-        }
-
         .series-cover {
-          float: none;
+          float: right;
           width: 140px;
-          margin: 0;
-          order: 2;
-          /* 🔑 move image to the right */
+          margin: 0 0 8px 12px;
         }
 
-        .series-cover img {
-          width: 100%;
-          display: block;
+        /* Only first paragraph wraps beside image */
+        .series-text p:first-of-type {
+          margin-top: 0;
+        }
+
+        /* Everything after flows BELOW the image */
+        .series-text p:not(:first-of-type) {
+          clear: both;
         }
       }
 
@@ -635,8 +630,8 @@
 
       .series-cover {
         float: right;
-        width: 220px;
-        margin: 0 0 16px 24px;
+        width: 288px;
+        margin: 20px 0 0px -150px;
       }
 
       .series-cover img {
