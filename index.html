@@ -261,6 +261,12 @@
         background: #000;
       }
 
+      .tabs-viewport {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
       .tabs {
         flex: 1;
         display: flex;
@@ -407,11 +413,17 @@
           align-items: center;
         }
 
-        /* disable hover-open on touch devices */
+        /* hover does nothing on mobile */
         .tab.has-dropdown:hover .dropdown {
           opacity: 0;
           pointer-events: none;
-          transform: translateX(-50%) translateY(10px);
+        }
+
+        /* ONLY JS-controlled open state */
+        .tab.has-dropdown.open .dropdown {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateX(-50%) translateY(0);
         }
       }
 
@@ -1767,16 +1779,21 @@
           });
         }
       });
-      // Dropdown arrow toggle (mobile + desktop click support)
+      // Dropdown arrow toggle — OPEN DROPDOWN ONLY (NO NAVIGATION)
       document.querySelectorAll(".dropdown-toggle").forEach(btn => {
         btn.addEventListener("click", e => {
+          e.preventDefault();
           e.stopPropagation();
           const tab = btn.closest(".tab.has-dropdown");
-          tab.classList.toggle("open");
-          // close other dropdowns
+          const isOpen = tab.classList.contains("open");
+          // Close all dropdowns first
           document.querySelectorAll(".tab.has-dropdown").forEach(t => {
-            if (t !== tab) t.classList.remove("open");
+            t.classList.remove("open");
           });
+          // Open only this one if it was closed
+          if (!isOpen) {
+            tab.classList.add("open");
+          }
         });
       });
       // Close dropdown when leaving the Manga tab (desktop only)
