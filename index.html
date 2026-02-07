@@ -259,7 +259,6 @@
         display: flex;
         align-items: center;
         background: #000;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
       }
 
       .tabs {
@@ -402,25 +401,51 @@
         .tabs {
           justify-content: flex-start;
           width: max-content;
-          min-width: 100%;
+          min-width: max-content;
           padding-left: 16px;
-          padding-right: 32px;
+          padding-right: 16px;
         }
       }
 
+      /* ================= TABS SCROLL FADES (MOBILE ONLY) ================= */
       @media (max-width: 768px) {
+
+        .tabs-viewport::before,
         .tabs-viewport::after {
           content: "";
           position: absolute;
           top: 0;
-          right: 0;
-          width: 36px;
+          width: 28px;
           height: 100%;
           pointer-events: none;
+          opacity: 0;
+          transition: opacity .25s ease;
+          z-index: 3;
+        }
+
+        /* LEFT fade */
+        .tabs-viewport::before {
+          left: 0;
           background: linear-gradient(to right,
-              rgba(0, 0, 0, 0),
-              rgba(0, 0, 0, 0.85));
-          box-shadow: inset -8px 0 12px rgba(0, 0, 0, 0.6);
+              rgba(0, 0, 0, 0.85),
+              rgba(0, 0, 0, 0));
+        }
+
+        /* RIGHT fade */
+        .tabs-viewport::after {
+          right: 0;
+          background: linear-gradient(to left,
+              rgba(0, 0, 0, 0.85),
+              rgba(0, 0, 0, 0));
+        }
+
+        /* Activated dynamically via JS */
+        .tabs-viewport.fade-left::before {
+          opacity: 1;
+        }
+
+        .tabs-viewport.fade-right::after {
+          opacity: 1;
         }
       }
 
@@ -2038,6 +2063,26 @@
           behavior: "smooth"
         });
       });
+      /* ================= MOBILE TAB SCROLL INDICATOR ================= */
+      const tabsViewport = document.querySelector(".tabs-viewport");
+
+      function updateTabFades() {
+        if (!tabsViewport) return;
+        const scrollLeft = tabsViewport.scrollLeft;
+        const maxScroll =
+          tabsViewport.scrollWidth - tabsViewport.clientWidth;
+        tabsViewport.classList.toggle("fade-left", scrollLeft > 4);
+        tabsViewport.classList.toggle(
+          "fade-right",
+          scrollLeft < maxScroll - 4
+        );
+      }
+      // Initial check
+      updateTabFades();
+      // Update on scroll
+      tabsViewport.addEventListener("scroll", updateTabFades);
+      // Update on resize (orientation change etc.)
+      window.addEventListener("resize", updateTabFades);
     </script>
 
   </body>
