@@ -381,6 +381,31 @@
         transform: translateX(-50%) translateY(0);
       }
 
+      /* ================= MOBILE DROPDOWN TOGGLE ================= */
+      .dropdown-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: #ccc;
+        font-size: .9rem;
+        margin-left: 6px;
+        cursor: pointer;
+      }
+
+      @media (hover: none) {
+        .dropdown-toggle {
+          display: inline-flex;
+          align-items: center;
+        }
+
+        /* disable hover-open on touch devices */
+        .tab.has-dropdown:hover .dropdown {
+          opacity: 0;
+          pointer-events: none;
+          transform: translateX(-50%) translateY(10px);
+        }
+      }
+
       @media (max-width: 480px) {
         .tab {
           padding: 12px 14px;
@@ -513,15 +538,15 @@
         animation: bannerFade .6s ease forwards;
       }
 
-   .header,
-.section-banner {
-  user-select: none;
-  pointer-events: none;
-}
+      .header,
+      .section-banner {
+        user-select: none;
+        pointer-events: none;
+      }
 
-.header .logo-glitch {
-  pointer-events: auto;
-}
+      .header .logo-glitch {
+        pointer-events: auto;
+      }
 
       @media (max-width: 768px) {
         #about .section-banner {
@@ -1311,10 +1336,10 @@
           <div class="tab active" data-tab="about">About</div>
 
           <div class="tab has-dropdown" data-tab="manga">
-  <span class="tab-label">Manga</span>
-  <button class="dropdown-toggle" aria-label="Open manga menu">▼</button>
+            <span class="tab-label">Manga</span>
+            <button class="dropdown-toggle" aria-label="Open manga menu">▼</button>
 
-  <div class="dropdown">
+            <div class="dropdown">
               <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
               <div class="dropdown-item" data-tab="manga-characters">Characters</div>
             </div>
