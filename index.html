@@ -1807,8 +1807,7 @@
           document.querySelector(".tab.has-dropdown")?.classList.add("active");
         }
       }
-      /* ================= TABS CLICK LOGIC (FIXED) ================= */
-      // Normal tab navigation (label only)
+      /* ================= TABS CLICK LOGIC ================= */
       document.querySelectorAll(".tab").forEach(tab => {
         const label = tab.querySelector(".tab-label");
         // Tabs WITHOUT dropdown
@@ -1820,7 +1819,16 @@
           });
           return;
         }
-        // Tabs WITH dropdown → LABEL navigates
+        // Tabs WITH dropdown → clicking tab navigates
+        tab.addEventListener("click", e => {
+          // Ignore caret clicks (caret handled separately)
+          if (e.target.closest(".dropdown-caret")) return;
+          const id = tab.dataset.tab;
+          history.pushState(null, "", `#${id}`);
+          activateTab(id);
+          tab.classList.remove("open");
+        });
+        // Label explicitly navigates (extra safety)
         if (label) {
           label.addEventListener("click", e => {
             e.stopPropagation();
