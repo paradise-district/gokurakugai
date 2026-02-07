@@ -561,6 +561,29 @@
       }
 
       @media (max-width: 768px) {
+        .series-media {
+          display: grid;
+          grid-template-columns: 1fr 140px;
+          /* text | image */
+          gap: 12px;
+          align-items: start;
+        }
+
+        .series-cover {
+          float: none;
+          width: 140px;
+          margin: 0;
+          order: 2;
+          /* 🔑 move image to the right */
+        }
+
+        .series-cover img {
+          width: 100%;
+          display: block;
+        }
+      }
+
+      @media (max-width: 768px) {
         .frame {
           padding: 20px;
         }
@@ -569,7 +592,7 @@
       /* ================= FRAME ================= */
       .frame {
         background: var(--panel);
-        padding: 28px;
+        padding: 0px;
         margin-bottom: 32px;
         border: 24px solid transparent;
         border-image-source: var(--frame);
@@ -599,8 +622,9 @@
 
       @media (max-width: 768px) {
         #about .section-banner {
-          height: 200px;
+          height: 130px;
           background-size: cover;
+          margin-bottom: 0px;
         }
       }
 
@@ -616,7 +640,8 @@
       }
 
       .series-cover img {
-        width: 100%
+        width: 50%;
+        float: right;
       }
 
       /* ================= TABLE ================= */
@@ -1430,30 +1455,34 @@
             <h2>About the Series</h2>
             <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
 
-            <div class="series-cover">
-              <img src="assets/images/series-cover.jpg">
+            <div class="series-media">
+              <div class="series-cover">
+                <img src="assets/images/series-cover.jpg">
+              </div>
+
+              <div class="series-text">
+                <p><em>
+                    Gokurakugai, a bright and bustling working class district with a hidden dark side.
+                    In this area without order, Tao and Alma work as troubleshooters for hire.
+                    Their missions involve helping a young boy find his lost friend,
+                    a person who disappears without a trace, and disfigured animal corpses.
+                    All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
+                  </em></p>
+
+                <p>
+                  <strong>Gokurakugai</strong> (Japanese: 極楽街, Hepburn: <em>Gokurakugai</em>, lit. “Paradise Street” or “Gokuraku District”)
+                  is a Japanese manga series in the action-supernatural genre, written and illustrated by <strong>Yuto Sano</strong>.
+                  It made its official debut in the pages of <strong>Jump SQ.Rise</strong> on July 4, 2022.
+                </p>
+
+                <p>
+                  Initially introduced as a one-shot, known as <em>Gokurakugai: Trouble on Third Avenue</em>,
+                  it later evolved into a regularly published series within the monthly <strong>Jump SQ Magazine</strong>,
+                  starting from July 4, 2022. This transition happened because of the positive response it received from readers
+                  when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on January 27, 2020.
+                </p>
+              </div>
             </div>
-
-            <p><em>
-                Gokurakugai, a bright and bustling working class district with a hidden dark side.
-                In this area without order, Tao and Alma work as troubleshooters for hire.
-                Their missions involve helping a young boy find his lost friend,
-                a person who disappears without a trace, and disfigured animal corpses.
-                All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
-              </em></p>
-
-            <p>
-              <strong>Gokurakugai</strong> (Japanese: 極楽街, Hepburn: <em>Gokurakugai</em>, lit. “Paradise Street” or “Gokuraku District”)
-              is a Japanese manga series in the action-supernatural genre, written and illustrated by <strong>Yuto Sano</strong>.
-              It made its official debut in the pages of <strong>Jump SQ.Rise</strong> on July 4, 2022.
-            </p>
-
-            <p>
-              Initially introduced as a one-shot, known as <em>Gokurakugai: Trouble on Third Avenue</em>,
-              it later evolved into a regularly published series within the monthly <strong>Jump SQ Magazine</strong>,
-              starting from July 4, 2022. This transition happened because of the positive response it received from readers
-              when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on January 27, 2020.
-            </p>
 
             <table>
               <tr>
