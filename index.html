@@ -2143,6 +2143,15 @@
         });
       });
 
+      function closeStaffModalToStaff() {
+        if (!modal.classList.contains("active")) return;
+        modal.classList.remove("active");
+        // Only change hash if we are in a staff modal URL
+        if (location.hash.startsWith("#staff/")) {
+          history.pushState(null, "", "#staff");
+        }
+      }
+
       function handleStaffHash() {
         const hash = location.hash;
         // #staff/NAME_X → open modal
@@ -2168,13 +2177,19 @@
       window.addEventListener("hashchange", handleStaffHash);
       window.addEventListener("popstate", handleStaffHash);
       modalClose.onclick = () => {
-        modal.classList.remove("active");
-        // Go back ONE history entry instead of pushing a new one
-        history.back();
+        closeStaffModalToStaff();
       };
-      modal.onclick = e => {
-        if (e.target === modal) modal.classList.remove("active");
-      };
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          closeStaffModalToStaff();
+        }
+      });
+      modal.addEventListener("click", e => {
+        // Only close when clicking the overlay, not the card
+        if (e.target === modal) {
+          closeStaffModalToStaff();
+        }
+      });
       const toTop = document.getElementById("toTop");
       window.addEventListener("scroll", () => {
         toTop.classList.toggle("show", window.scrollY > 400);
