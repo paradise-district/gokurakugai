@@ -513,11 +513,15 @@
         animation: bannerFade .6s ease forwards;
       }
 
-      .header,
-      .section-banner {
-        user-select: none;
-        pointer-events: none;
-      }
+   .header,
+.section-banner {
+  user-select: none;
+  pointer-events: none;
+}
+
+.header .logo-glitch {
+  pointer-events: auto;
+}
 
       @media (max-width: 768px) {
         #about .section-banner {
@@ -1307,8 +1311,10 @@
           <div class="tab active" data-tab="about">About</div>
 
           <div class="tab has-dropdown" data-tab="manga">
-            Manga
-            <div class="dropdown">
+  <span class="tab-label">Manga</span>
+  <button class="dropdown-toggle" aria-label="Open manga menu">▼</button>
+
+  <div class="dropdown">
               <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
               <div class="dropdown-item" data-tab="manga-characters">Characters</div>
             </div>
