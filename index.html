@@ -810,6 +810,61 @@
         max-height: 160px
       }
 
+      /* ================= ARTICLES ================= */
+.news-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.news-filter button {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: .75rem;
+}
+
+.news-filter button.active {
+  background: var(--accent);
+  color: #000;
+}
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.article-card {
+  background: var(--panel);
+  border: 1px solid rgba(0,0,0,.1);
+  padding: 16px;
+  position: relative;
+}
+
+.article-meta {
+  font-size: .7rem;
+  opacity: .7;
+  margin-bottom: 6px;
+}
+
+.article-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.article-actions button {
+  font-size: .7rem;
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+}
+
       /* ================= SIDEBAR ================= */
       .sidebar iframe {
         width: 100%;
@@ -1415,7 +1470,28 @@
               <div class="dropdown-item" data-tab="manga-characters">Characters</div>
             </div>
           </div>
+          <div class="tab" data-tab="news">News</div>
+          <div class="section" id="news">
+  <div class="frame">
 
+    <h2>Community News & Discussions</h2>
+
+    <!-- CATEGORY FILTER -->
+    <div class="news-filter">
+      <button data-cat="all" class="active">All</button>
+      <button data-cat="chapter">Chapter Discussion</button>
+      <button data-cat="theory">Fan Theories</button>
+      <button data-cat="announcement">Announcements</button>
+    </div>
+
+    <!-- FEATURED ARTICLE -->
+    <div class="featured-article" id="featuredArticle"></div>
+
+    <!-- ARTICLE GRID -->
+    <div class="article-grid" id="articleGrid"></div>
+
+  </div>
+</div>
           <div class="tab" data-tab="rules">Rules</div>
           <div class="tab" data-tab="info">Info</div>
           <div class="tab" data-tab="staff">Staff</div>
@@ -2221,6 +2297,82 @@
       tabsViewport.addEventListener("scroll", updateTabFades);
       // Update on resize (orientation change etc.)
       window.addEventListener("resize", updateTabFades);
+
+      const articles = [
+  {
+    id: "ch34-discussion",
+    title: "Chapter 34 Discussion",
+    category: "chapter",
+    featured: true,
+    content: "Full article text goes here...",
+    tags: ["Tao", "Alma"],
+    date: "2026-03-04"
+  },
+  {
+    id: "theory-alma",
+    title: "Theory: Alma’s True Nature",
+    category: "theory",
+    featured: false,
+    content: "Long theory text goes here...",
+    tags: ["Alma"],
+    date: "2026-03-02"
+  }
+];
+
+      function readingTime(text) {
+  const words = text.split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+      const grid = document.getElementById("articleGrid");
+const featured = document.getElementById("featuredArticle");
+
+function renderArticles(filter = "all") {
+  grid.innerHTML = "";
+  featured.innerHTML = "";
+
+  articles.forEach(a => {
+    if (filter !== "all" && a.category !== filter) return;
+
+    const time = readingTime(a.content);
+
+    const card = document.createElement("div");
+    card.className = "article-card";
+    card.innerHTML = `
+      <div class="article-meta">${a.date} · ${time} min read</div>
+      <h3>${a.title}</h3>
+      <p>${a.content.slice(0, 120)}...</p>
+      <div class="article-actions">
+        <button onclick="openArticle('${a.id}')">Read More</button>
+        <button onclick="shareArticle('${a.id}')">Share</button>
+        <button onclick="bookmarkArticle('${a.id}')">★ Save</button>
+      </div>
+    `;
+
+    if (a.featured) {
+      featured.appendChild(card.cloneNode(true));
+    }
+
+    grid.appendChild(card);
+  });
+}
+
+renderArticles();
+
+      function shareArticle(id) {
+  const url = `${location.origin}${location.pathname}#news/${id}`;
+  navigator.share
+    ? navigator.share({ title: "Gokurakugai", url })
+    : navigator.clipboard.writeText(url);
+}
+
+      function bookmarkArticle(id) {
+  const saved = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+  if (!saved.includes(id)) saved.push(id);
+  localStorage.setItem("bookmarks", JSON.stringify(saved));
+}
+
+      
     </script>
 
   </body>
