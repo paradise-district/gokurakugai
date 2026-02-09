@@ -134,7 +134,6 @@
         align-items: center;
         color: #fff;
         text-align: center;
-        height: 260px;
       }
 
       /* ================= LOGO GLITCH HOVER ================= */
@@ -220,7 +219,7 @@
       /* Glitch animation */
       .header h1 {
         margin-top: 10px;
-        font-size: 25px;
+        font-size: 2rem;
         border-bottom: 2px solid var(--accent);
       }
 
@@ -231,9 +230,6 @@
       }
 
       .countdown {
-        position: sticky;
-        top: 0;
-        z-index: 2000;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         background: #000;
@@ -254,24 +250,13 @@
 
       /* ================= TABS ================= */
       .tabs-bar {
-        position: sticky;
-        top: 64px;
-        z-index: 1999;
         display: flex;
         align-items: center;
         background: #000;
       }
 
-      .tabs-viewport {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-
-      @media (max-width: 768px) {
-        .tabs-viewport {
-          justify-content: flex-start;
-        }
+      .tabs-bar {
+        overflow: visible;
       }
 
       .tabs {
@@ -281,6 +266,12 @@
         gap: 6px;
         white-space: nowrap;
         padding: 0 12px;
+        position: relative;
+      }
+
+      .tabs-viewport {
+        flex: 1;
+        overflow: visible;
         position: relative;
       }
 
@@ -337,14 +328,18 @@
         color: #fff;
         font-size: 1.3rem;
         cursor: pointer;
-        flex-shrink: 0;
-        position: relative;
-        z-index: 5;
       }
 
       /* ================= MANGA DROPDOWN ================= */
       .tab.has-dropdown {
         position: relative;
+      }
+
+      .tab.has-dropdown::after {
+        content: "▾";
+        margin-left: 6px;
+        font-size: .7rem;
+        opacity: .7;
       }
 
       .dropdown {
@@ -361,30 +356,6 @@
         z-index: 9999;
       }
 
-      /* ================= MANGA DROPDOWN CARET ================= */
-      .dropdown-caret {
-        margin-left: 8px;
-        font-size: 1rem;
-        /* ⬆ bigger */
-        opacity: .7;
-        cursor: pointer;
-        display: inline-block;
-        transition: transform .25s ease, opacity .25s ease;
-      }
-
-      @media (hover: hover) {
-        .tab.has-dropdown:hover .dropdown-caret {
-          transform: translateY(-3px);
-          /* ⬆ hover up */
-          opacity: 1;
-        }
-      }
-
-      .tab.has-dropdown.open .dropdown-caret {
-        transform: translateY(2px);
-        /* ⬇ when open */
-      }
-
       .dropdown-item {
         padding: 12px 16px;
         font-size: .85rem;
@@ -393,35 +364,15 @@
         white-space: nowrap;
       }
 
-      /* ================= MOBILE DROPDOWN TOGGLE ================= */
-      .dropdown-toggle {
-        display: none;
-        background: none;
-        border: none;
-        color: #ccc;
-        font-size: .9rem;
-        margin-left: 6px;
-        cursor: pointer;
-      }
-
-      @media (hover: none) {
-        .dropdown-toggle {
-          display: inline-flex;
-          align-items: center;
-        }
-      }
-
       .dropdown-item:hover {
         background: rgba(255, 255, 255, .08);
         color: var(--accent);
       }
 
-      @media (hover: hover) {
-        .tab.has-dropdown:hover .dropdown {
-          opacity: 1;
-          pointer-events: auto;
-          transform: translateX(-50%) translateY(0);
-        }
+      .tab.has-dropdown:hover .dropdown {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
       }
 
       /* Mobile dropdown open state */
@@ -429,37 +380,6 @@
         opacity: 1;
         pointer-events: auto;
         transform: translateX(-50%) translateY(0);
-      }
-
-      /* ================= MOBILE DROPDOWN TOGGLE ================= */
-      .dropdown-toggle {
-        display: none;
-        background: none;
-        border: none;
-        color: #ccc;
-        font-size: .9rem;
-        margin-left: 6px;
-        cursor: pointer;
-      }
-
-      @media (hover: none) {
-        .dropdown-toggle {
-          display: inline-flex;
-          align-items: center;
-        }
-
-        /* hover does nothing on mobile */
-        .tab.has-dropdown:hover .dropdown {
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        /* ONLY JS-controlled open state */
-        .tab.has-dropdown.open .dropdown {
-          opacity: 1;
-          pointer-events: auto;
-          transform: translateX(-50%) translateY(0);
-        }
       }
 
       @media (max-width: 480px) {
@@ -472,54 +392,9 @@
       }
 
       @media (max-width: 768px) {
-        .tabs-viewport {
-          overflow-x: auto;
-          overflow-y: hidden;
-          -webkit-overflow-scrolling: touch;
-          position: relative;
-          flex: 1;
-        }
-
         .tabs {
-          flex: 0 0 auto;
           justify-content: flex-start;
-          min-width: 100%;
-          padding-left: 16px;
-          padding-right: 24px;
-        }
-      }
-
-      /* ================= TABS SCROLL FADES (MOBILE ONLY) ================= */
-      @media (max-width: 768px) {
-
-        .tabs-viewport::before,
-        .tabs-viewport::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          width: 28px;
-          height: 100%;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity .25s ease;
-          z-index: 3;
-        }
-
-        /* LEFT fade */
-        .tabs-viewport::before {
-          left: 0;
-          background: linear-gradient(to right,
-              rgba(0, 0, 0, 0.85),
-              rgba(0, 0, 0, 0));
-        }
-
-        /* Activated dynamically via JS */
-        .tabs-viewport.fade-left::before {
-          opacity: 1;
-        }
-
-        .tabs-viewport.fade-right::after {
-          opacity: 1;
+          /* 👈 critical */
         }
       }
 
@@ -548,47 +423,10 @@
         }
       }
 
-      @media (max-width: 768px) {
-        .series-cover {
-          float: right;
-          width: 140px;
-          margin: 0 16px 8px 0;
-        }
-
-        .series-info-wrap p {
-          text-align: left;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .series-cover {
-          float: right;
-          width: 140px;
-          margin: 0 0 8px 12px;
-        }
-
-        /* Only first paragraph wraps beside image */
-        .series-text p:first-of-type {
-          margin-top: 0;
-        }
-
-        /* Everything after flows BELOW the image */
-        .series-text p:not(:first-of-type) {
-          clear: both;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .frame {
-          padding: 20px;
-        }
-      }
-
       /* ================= FRAME ================= */
       .frame {
         background: var(--panel);
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 28px;
         margin-bottom: 32px;
         border: 24px solid transparent;
         border-image-source: var(--frame);
@@ -602,26 +440,6 @@
         height: 290px;
         background: center/contain no-repeat;
         margin: 20px 0 30px;
-        opacity: 0;
-        animation: bannerFade .6s ease forwards;
-      }
-
-      .header,
-      .section-banner {
-        user-select: none;
-        pointer-events: none;
-      }
-
-      .header .logo-glitch {
-        pointer-events: auto;
-      }
-
-      @media (max-width: 768px) {
-        #about .section-banner {
-          height: 130px;
-          background-size: cover;
-          margin-bottom: 0px;
-        }
       }
 
       /* ================= SERIES FLOAT ================= */
@@ -631,15 +449,12 @@
 
       .series-cover {
         float: right;
-        width: 280px;
-        margin: 15px 0 0px -130px;
-        padding-left: 5px;
-        padding-bottom: 5px;
+        width: 220px;
+        margin: 0 0 16px 24px;
       }
 
       .series-cover img {
-        width: 50%;
-        float: right;
+        width: 100%
       }
 
       /* ================= TABLE ================= */
@@ -809,61 +624,6 @@
       .staff-card:hover .staff-desc {
         max-height: 160px
       }
-
-      /* ================= ARTICLES ================= */
-.news-filter {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.news-filter button {
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--accent);
-  background: transparent;
-  color: var(--accent);
-  cursor: pointer;
-  font-size: .75rem;
-}
-
-.news-filter button.active {
-  background: var(--accent);
-  color: #000;
-}
-
-.article-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.article-card {
-  background: var(--panel);
-  border: 1px solid rgba(0,0,0,.1);
-  padding: 16px;
-  position: relative;
-}
-
-.article-meta {
-  font-size: .7rem;
-  opacity: .7;
-  margin-bottom: 6px;
-}
-
-.article-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.article-actions button {
-  font-size: .7rem;
-  background: none;
-  border: none;
-  color: var(--accent);
-  cursor: pointer;
-}
 
       /* ================= SIDEBAR ================= */
       .sidebar iframe {
@@ -1382,56 +1142,10 @@
         transform: translateY(-2px);
         box-shadow: 0 0 14px var(--accent);
       }
-
-      #toTop {
-        position: fixed;
-        right: 20px;
-        bottom: 20px;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        border: 1px solid var(--accent);
-        background: var(--panel);
-        color: var(--accent);
-        font-size: 1.2rem;
-        cursor: pointer;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .3s ease, transform .3s ease;
-        z-index: 3000;
-      }
-
-      #toTop.show {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      #toTop:hover {
-        transform: translateY(-4px);
-      }
-
-      @media (max-width: 768px) {
-        .header {
-          height: 220px;
-        }
-      }
-
-      @keyframes bannerFade {
-        from {
-          opacity: 0;
-          transform: translateY(12px);
-        }
-
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
     </style>
   </head>
 
   <body>
-    <button id="toTop" aria-label="Back to top">↑</button>
 
     <!-- HEADER -->
     <div class="header">
@@ -1463,35 +1177,13 @@
           <div class="tab active" data-tab="about">About</div>
 
           <div class="tab has-dropdown" data-tab="manga">
-            <span class="tab-label">Manga</span>
-            <span class="dropdown-caret" aria-hidden="true">▾</span>
+            Manga
             <div class="dropdown">
               <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
               <div class="dropdown-item" data-tab="manga-characters">Characters</div>
             </div>
           </div>
-          <div class="tab" data-tab="news">News</div>
-          <div class="section" id="news">
-  <div class="frame">
 
-    <h2>Community News & Discussions</h2>
-
-    <!-- CATEGORY FILTER -->
-    <div class="news-filter">
-      <button data-cat="all" class="active">All</button>
-      <button data-cat="chapter">Chapter Discussion</button>
-      <button data-cat="theory">Fan Theories</button>
-      <button data-cat="announcement">Announcements</button>
-    </div>
-
-    <!-- FEATURED ARTICLE -->
-    <div class="featured-article" id="featuredArticle"></div>
-
-    <!-- ARTICLE GRID -->
-    <div class="article-grid" id="articleGrid"></div>
-
-  </div>
-</div>
           <div class="tab" data-tab="rules">Rules</div>
           <div class="tab" data-tab="info">Info</div>
           <div class="tab" data-tab="staff">Staff</div>
@@ -1529,34 +1221,30 @@
             <h2>About the Series</h2>
             <div class="section-banner" style="background-image:url('assets/images/banner-series.png')"></div>
 
-            <div class="series-media">
-              <div class="series-cover">
-                <img src="assets/images/series-cover.jpg">
-              </div>
-
-              <div class="series-text">
-                <p><em>
-                    Gokurakugai, a bright and bustling working class district with a hidden dark side.
-                    In this area without order, Tao and Alma work as troubleshooters for hire.
-                    Their missions involve helping a young boy find his lost friend,
-                    a person who disappears without a trace, and disfigured animal corpses.
-                    All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
-                  </em></p>
-
-                <p>
-                  <strong>Gokurakugai</strong> (Japanese: 極楽街, Hepburn: <em>Gokurakugai</em>, lit. “Paradise Street” or “Gokuraku District”)
-                  is a Japanese manga series in the action-supernatural genre, written and illustrated by <strong>Yuto Sano</strong>.
-                  It made its official debut in the pages of <strong>Jump SQ.Rise</strong> on July 4, 2022.
-                </p>
-
-                <p>
-                  Initially introduced as a one-shot, known as <em>Gokurakugai: Trouble on Third Avenue</em>,
-                  it later evolved into a regularly published series within the monthly <strong>Jump SQ Magazine</strong>,
-                  starting from July 4, 2022. This transition happened because of the positive response it received from readers
-                  when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on January 27, 2020.
-                </p>
-              </div>
+            <div class="series-cover">
+              <img src="assets/images/series-cover.jpg">
             </div>
+
+            <p><em>
+                Gokurakugai, a bright and bustling working class district with a hidden dark side.
+                In this area without order, Tao and Alma work as troubleshooters for hire.
+                Their missions involve helping a young boy find his lost friend,
+                a person who disappears without a trace, and disfigured animal corpses.
+                All the while, the evil spirits who live in the shadows bring out a different side to these troubleshooters!
+              </em></p>
+
+            <p>
+              <strong>Gokurakugai</strong> (Japanese: 極楽街, Hepburn: <em>Gokurakugai</em>, lit. “Paradise Street” or “Gokuraku District”)
+              is a Japanese manga series in the action-supernatural genre, written and illustrated by <strong>Yuto Sano</strong>.
+              It made its official debut in the pages of <strong>Jump SQ.Rise</strong> on July 4, 2022.
+            </p>
+
+            <p>
+              Initially introduced as a one-shot, known as <em>Gokurakugai: Trouble on Third Avenue</em>,
+              it later evolved into a regularly published series within the monthly <strong>Jump SQ Magazine</strong>,
+              starting from July 4, 2022. This transition happened because of the positive response it received from readers
+              when it was featured in the <strong>Jump SQ RISE Winter 2020 Issue</strong> on January 27, 2020.
+            </p>
 
             <table>
               <tr>
@@ -1884,61 +1572,44 @@
           document.querySelector(".tab.has-dropdown")?.classList.add("active");
         }
       }
-      /* ================= TABS CLICK LOGIC ================= */
+      // Tab clicks
       document.querySelectorAll(".tab").forEach(tab => {
-        const label = tab.querySelector(".tab-label");
-        // Tabs WITHOUT dropdown
-        if (!tab.classList.contains("has-dropdown")) {
-          tab.addEventListener("click", () => {
+        tab.addEventListener("click", e => {
+          // If this tab has a dropdown, TOGGLE it instead of navigating
+          if (tab.classList.contains("has-dropdown")) {
             const id = tab.dataset.tab;
+            // Mobile: tap once opens dropdown, second tap navigates
+            if (window.matchMedia("(hover: none)").matches) {
+              if (!tab.classList.contains("open")) {
+                e.preventDefault();
+                tab.classList.add("open");
+                return;
+              }
+            }
+            // Desktop or second tap → navigate to Manga page
             history.pushState(null, "", `#${id}`);
             activateTab(id);
-          });
-          return;
-        }
-        // Tabs WITH dropdown → clicking tab navigates
-        tab.addEventListener("click", e => {
-          // Ignore caret clicks (caret handled separately)
-          if (e.target.closest(".dropdown-caret")) return;
+            document.querySelectorAll(".tab.has-dropdown").forEach(t => {
+              t.classList.remove("open");
+            });
+            return;
+          }
+          // Normal tabs
           const id = tab.dataset.tab;
           history.pushState(null, "", `#${id}`);
           activateTab(id);
-          tab.classList.remove("open");
-        });
-        // Label explicitly navigates (extra safety)
-        if (label) {
-          label.addEventListener("click", e => {
-            e.stopPropagation();
-            const id = tab.dataset.tab;
-            history.pushState(null, "", `#${id}`);
-            activateTab(id);
-            tab.classList.remove("open");
-          });
-        }
-      });
-      // Dropdown caret click (mobile + desktop)
-      document.querySelectorAll(".dropdown-caret").forEach(caret => {
-        caret.addEventListener("click", e => {
-          e.preventDefault(); // 🔑 required on mobile
-          e.stopPropagation();
-          const tab = caret.closest(".tab.has-dropdown");
-          const isOpen = tab.classList.contains("open");
+          // Close any open dropdowns
           document.querySelectorAll(".tab.has-dropdown").forEach(t => {
             t.classList.remove("open");
           });
-          if (!isOpen) {
-            tab.classList.add("open");
-          }
         });
       });
-      // Close dropdown on mouse leave — DESKTOP ONLY
-      if (window.matchMedia("(hover: hover)").matches) {
-        document.querySelectorAll(".tab.has-dropdown").forEach(tab => {
-          tab.addEventListener("mouseleave", () => {
-            tab.classList.remove("open");
-          });
+      // Close dropdown when leaving the Manga tab (desktop only)
+      document.querySelectorAll(".tab.has-dropdown").forEach(tab => {
+        tab.addEventListener("mouseleave", () => {
+          tab.classList.remove("open");
         });
-      }
+      });
       document.querySelectorAll(".dropdown-item").forEach(item => {
         item.addEventListener("click", e => {
           e.stopPropagation();
@@ -2220,15 +1891,6 @@
         });
       });
 
-      function closeStaffModalToStaff() {
-        if (!modal.classList.contains("active")) return;
-        modal.classList.remove("active");
-        // Only change hash if we are in a staff modal URL
-        if (location.hash.startsWith("#staff/")) {
-          history.pushState(null, "", "#staff");
-        }
-      }
-
       function handleStaffHash() {
         const hash = location.hash;
         // #staff/NAME_X → open modal
@@ -2254,125 +1916,13 @@
       window.addEventListener("hashchange", handleStaffHash);
       window.addEventListener("popstate", handleStaffHash);
       modalClose.onclick = () => {
-        closeStaffModalToStaff();
+        modal.classList.remove("active");
+        // Go back ONE history entry instead of pushing a new one
+        history.back();
       };
-      document.addEventListener("keydown", e => {
-        if (e.key === "Escape") {
-          closeStaffModalToStaff();
-        }
-      });
-      modal.addEventListener("click", e => {
-        // Only close when clicking the overlay, not the card
-        if (e.target === modal) {
-          closeStaffModalToStaff();
-        }
-      });
-      const toTop = document.getElementById("toTop");
-      window.addEventListener("scroll", () => {
-        toTop.classList.toggle("show", window.scrollY > 400);
-      });
-      toTop.addEventListener("click", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-      });
-      /* ================= MOBILE TAB SCROLL INDICATOR ================= */
-      const tabsViewport = document.querySelector(".tabs-viewport");
-
-      function updateTabFades() {
-        if (!tabsViewport) return;
-        const scrollLeft = tabsViewport.scrollLeft;
-        const maxScroll =
-          tabsViewport.scrollWidth - tabsViewport.clientWidth;
-        tabsViewport.classList.toggle("fade-left", scrollLeft > 4);
-        tabsViewport.classList.toggle(
-          "fade-right",
-          scrollLeft < maxScroll - 4
-        );
-      }
-      // Initial check
-      updateTabFades();
-      // Update on scroll
-      tabsViewport.addEventListener("scroll", updateTabFades);
-      // Update on resize (orientation change etc.)
-      window.addEventListener("resize", updateTabFades);
-
-      const articles = [
-  {
-    id: "ch34-discussion",
-    title: "Chapter 34 Discussion",
-    category: "chapter",
-    featured: true,
-    content: "Full article text goes here...",
-    tags: ["Tao", "Alma"],
-    date: "2026-03-04"
-  },
-  {
-    id: "theory-alma",
-    title: "Theory: Alma’s True Nature",
-    category: "theory",
-    featured: false,
-    content: "Long theory text goes here...",
-    tags: ["Alma"],
-    date: "2026-03-02"
-  }
-];
-
-      function readingTime(text) {
-  const words = text.split(/\s+/).length;
-  return Math.max(1, Math.ceil(words / 200));
-}
-
-      const grid = document.getElementById("articleGrid");
-const featured = document.getElementById("featuredArticle");
-
-function renderArticles(filter = "all") {
-  grid.innerHTML = "";
-  featured.innerHTML = "";
-
-  articles.forEach(a => {
-    if (filter !== "all" && a.category !== filter) return;
-
-    const time = readingTime(a.content);
-
-    const card = document.createElement("div");
-    card.className = "article-card";
-    card.innerHTML = `
-      <div class="article-meta">${a.date} · ${time} min read</div>
-      <h3>${a.title}</h3>
-      <p>${a.content.slice(0, 120)}...</p>
-      <div class="article-actions">
-        <button onclick="openArticle('${a.id}')">Read More</button>
-        <button onclick="shareArticle('${a.id}')">Share</button>
-        <button onclick="bookmarkArticle('${a.id}')">★ Save</button>
-      </div>
-    `;
-
-    if (a.featured) {
-      featured.appendChild(card.cloneNode(true));
-    }
-
-    grid.appendChild(card);
-  });
-}
-
-renderArticles();
-
-      function shareArticle(id) {
-  const url = `${location.origin}${location.pathname}#news/${id}`;
-  navigator.share
-    ? navigator.share({ title: "Gokurakugai", url })
-    : navigator.clipboard.writeText(url);
-}
-
-      function bookmarkArticle(id) {
-  const saved = JSON.parse(localStorage.getItem("bookmarks") || "[]");
-  if (!saved.includes(id)) saved.push(id);
-  localStorage.setItem("bookmarks", JSON.stringify(saved));
-}
-
-      
+      modal.onclick = e => {
+        if (e.target === modal) modal.classList.remove("active");
+      };
     </script>
 
   </body>
