@@ -2026,9 +2026,10 @@
         newsList.innerHTML = `<li class="news-loading">Loading news…</li>`;
         // Language-aware RSS source
         const isJapanese = query === "極楽街";
+        const timeFilter = "when:7d"; // force recent-only results
         const rssURL = isJapanese ?
-          `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=ja&gl=JP&ceid=JP:ja` :
-          `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+          `https://news.google.com/rss/search?q=${encodeURIComponent(query + " " + timeFilter)}&hl=ja&gl=JP&ceid=JP:ja` :
+          `https://news.google.com/rss/search?q=${encodeURIComponent(query + " " + timeFilter)}&hl=en-US&gl=US&ceid=US:en`;
         const proxy =
           `https://api.allorigins.win/get?url=${encodeURIComponent(rssURL)}`;
         fetch(proxy)
@@ -2036,7 +2037,13 @@
           .then(data => {
             const parser = new DOMParser();
             const xml = parser.parseFromString(data.contents, "text/xml");
-            const items = [...xml.querySelectorAll("item")].slice(0, 5);
+            const items = [...xml.querySelectorAll("item")]
+              .sort((a, b) => {
+                const dateA = new Date(a.querySelector("pubDate")?.textContent || 0);
+                const dateB = new Date(b.querySelector("pubDate")?.textContent || 0);
+                return dateB - dateA; // NEWEST FIRST
+              })
+              .slice(0, 5);
             if (!items.length) {
               newsList.innerHTML = `<li>No news found.</li>`;
               return;
