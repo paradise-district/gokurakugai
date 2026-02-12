@@ -2187,9 +2187,12 @@
         modalIntro.innerHTML =
   (card.dataset.intro || "No introduction provided.")
     .replace(/\n/g, "<br><br>");
-        if (!skipHistory) {
-          history.pushState(null, "", `#staff/${card.dataset.id}`);
-        }
+
+modal.classList.add("active");
+
+if (!skipHistory) {
+  history.pushState(null, "", `#staff/${card.dataset.id}`);
+}
       }
       // Staff card click → open modal
       document.querySelectorAll(".staff-card").forEach(card => {
