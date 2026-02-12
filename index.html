@@ -1212,14 +1212,11 @@
       }
 
       .staff-modal-intro p {
-        font-size: .8rem;
-        line-height: 1.6;
-        max-height: 110px;
-        /* prevents awkward long blocks */
-        overflow-y: auto;
-        margin: 0;
-        padding-right: 6px;
-      }
+  font-size: .8rem;
+  line-height: 1.6;
+  margin: 0;
+  white-space: normal;
+}
 
       /* CLOSE BUTTON */
       .staff-modal-close {
@@ -1640,7 +1637,7 @@
               <h3>RION</h3>
               <div>Founder · Admin</div>
             </div>
-            <p class="staff-desc">Wiki hyperfixation turned layout designer.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 2 — ANDY -->
@@ -1650,7 +1647,7 @@
               <h3>ANDY</h3>
               <div>Admin</div>
             </div>
-            <p class="staff-desc">Leadership-driven and community-focused.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 3 — TORTOL -->
@@ -1660,7 +1657,7 @@
               <h3>TORTOL</h3>
               <div>Admin</div>
             </div>
-            <p class="staff-desc">Music, bass, anime, turtles.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 4 — rwottenhrts -->
@@ -1670,7 +1667,7 @@
               <h3>rwottenhrts</h3>
               <div>Admin</div>
             </div>
-            <p class="staff-desc">Behind-the-scenes support.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 5 — NAZARETH -->
@@ -1680,7 +1677,7 @@
               <h3>NAZARETH</h3>
               <div>Admin</div>
             </div>
-            <p class="staff-desc">Community builder & manga reader.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 6 — AKKI -->
@@ -1690,7 +1687,7 @@
               <h3>AKKI</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">Creative & structured.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 7 — MOON -->
@@ -1700,7 +1697,7 @@
               <h3>MOON</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">Editing & design focused.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 8 — SPRING -->
@@ -1710,7 +1707,7 @@
               <h3>SPRING</h3>
               <div>Moderator</div>
             </div>
-            <p class="staff-desc">Coming soon…<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
           <!-- 9 — ARABELLA -->
@@ -1720,7 +1717,7 @@
               <h3>ARABELLA</h3>
               <div>Trial Moderator</div>
             </div>
-            <p class="staff-desc">Plants & games.<span class="read-more"> Read more</span></p>
+            <p class="staff-desc"><span class="staff-preview"></span><span class="read-more"> Read more</span></p>
           </div>
 
         </div>
@@ -2187,9 +2184,9 @@
   <div><strong>Timezone:</strong> ${card.dataset.timezone || "—"}</div>
   <div><strong>Birthday:</strong> ${card.dataset.birthday || "—"}</div>
 `;
-        modalIntro.textContent =
-          card.dataset.intro || "No introduction provided.";
-        modal.classList.add("active");
+        modalIntro.innerHTML =
+  (card.dataset.intro || "No introduction provided.")
+    .replace(/\n/g, "<br><br>");
         if (!skipHistory) {
           history.pushState(null, "", `#staff/${card.dataset.id}`);
         }
@@ -2200,6 +2197,22 @@
           openStaffModal(card);
         });
       });
+      /* ================= STAFF PREVIEW AUTO-GENERATION ================= */
+document.querySelectorAll(".staff-card").forEach(card => {
+  const previewEl = card.querySelector(".staff-preview");
+  if (!previewEl) return;
+
+  const fullIntro = card.dataset.intro || "";
+  
+  // Take first 180 characters cleanly
+  let previewText = fullIntro.trim().replace(/\n/g, " ");
+  previewText = previewText.substring(0, 180);
+
+  // Avoid cutting mid-word
+  previewText = previewText.substring(0, previewText.lastIndexOf(" "));
+
+  previewEl.textContent = previewText + "...";
+});
       // "Read more" click (mobile-safe)
       document.querySelectorAll(".read-more").forEach(link => {
         link.addEventListener("click", e => {
