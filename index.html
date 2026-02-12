@@ -712,7 +712,7 @@
         justify-content: center;
       }
 
-      .staff-gender-row {
+ .staff-gender-row {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -728,12 +728,15 @@
   width: 14px;
   height: 14px;
   object-fit: contain;
+  transition: filter .25s ease, opacity .25s ease;
 }
 
+/* DARK MODE — convert black icons to white */
 body.dark .staff-gender-row img {
-  filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1) contrast(1.5);
   opacity: .95;
 }
+      
       /* ================= STAFF IMAGE OVERLAY ================= */
       .staff-card::before {
         content: "";
@@ -2252,14 +2255,32 @@ body.dark .staff-gender-row img {
             modalRoles.appendChild(pill);
           });
         }
-        modalMeta.innerHTML = `
+      const genderRaw = card.dataset.gender || "";
+let genderIcon = "";
+
+switch (genderRaw.toLowerCase()) {
+  case "male":
+    genderIcon = "assets/icons/gender-male.png";
+    break;
+  case "female":
+    genderIcon = "assets/icons/gender-female.png";
+    break;
+  case "non-binary":
+  case "nonbinary":
+    genderIcon = "assets/icons/gender-nonbinary.png";
+    break;
+  default:
+    genderIcon = "assets/icons/gender-unspecified.png";
+}
+
+modalMeta.innerHTML = `
   <div><strong>Age:</strong> ${card.dataset.age || "—"}</div>
 
   <div class="staff-gender-row">
     <strong>Gender:</strong>
     <span class="gender-value">
-      <img src="assets/icons/gender.png" alt="">
-      ${card.dataset.gender || "—"}
+      <img src="${genderIcon}" alt="">
+      ${genderRaw || "—"}
     </span>
   </div>
 
