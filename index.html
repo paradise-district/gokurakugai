@@ -1064,6 +1064,8 @@
       /* RIGHT INFO */
       .staff-modal-info {
         padding: 24px;
+        max-height: 500px;
+        overflow-y: auto;
       }
 
       .staff-modal-info h3 {
@@ -1201,10 +1203,12 @@
         margin-top: 16px;
         padding-top: 12px;
         border-top: 1px solid rgba(0, 0, 0, .15);
+        display: flex;
+        flex-direction: column;
       }
 
       .staff-modal-intro h4 {
-        margin: 0 0 6px;
+        margin: 0 0 8px;
         font-size: .8rem;
         letter-spacing: .15em;
         text-transform: uppercase;
@@ -1216,6 +1220,29 @@
         line-height: 1.6;
         margin: 0;
         white-space: normal;
+        max-height: 220px;
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+
+      /* ================= INTRO SCROLLBAR ================= */
+      .staff-modal-intro p::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .staff-modal-intro p::-webkit-scrollbar-thumb {
+        background: var(--accent);
+        border-radius: 6px;
+      }
+
+      .staff-modal-intro p::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, .08);
+      }
+
+      /* Firefox */
+      .staff-modal-intro p {
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent) rgba(0, 0, 0, .08);
       }
 
       /* CLOSE BUTTON */
