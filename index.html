@@ -1524,11 +1524,28 @@
           <!-- THEORIES -->
 <div class="section" id="theories">
   <div class="frame">
-    <h2>Community Theories</h2>
+  <h2>Community Theories</h2>
 
-    <button id="submitTheoryBtn" class="leaderboard-btn">
-      Submit a Theory
-    </button>
+<!-- 🔐 DISCORD LOGIN AREA -->
+<div id="discordLoginArea" style="margin-bottom:20px;">
+
+  <button id="discordLoginBtn" class="leaderboard-btn">
+    Login with Discord
+  </button>
+
+  <div id="loggedInUser" style="display:none; margin-top:10px;">
+    <strong>Logged in as:</strong>
+    <span id="displayName"></span>
+    (<span id="username"></span>)
+    <br>
+    User ID: <span id="userId"></span>
+  </div>
+
+</div>
+
+<button id="submitTheoryBtn" class="leaderboard-btn" disabled>
+  Submit a Theory
+</button>
 
     <h3 style="margin-top:30px;">Popular Community Theories</h3>
 
@@ -2527,6 +2544,44 @@ function handleArticleHash() {
 
 window.addEventListener("hashchange", handleArticleHash);
 window.addEventListener("load", handleArticleHash);
+
+      /* ================= DISCORD LOGIN ================= */
+
+const loginBtn = document.getElementById("discordLoginBtn");
+const loggedInUser = document.getElementById("loggedInUser");
+const submitBtn = document.getElementById("submitTheoryBtn");
+
+if (loginBtn) {
+
+  loginBtn.addEventListener("click", () => {
+    window.open("http://localhost:3000/login", "discordLogin", "width=500,height=700");
+  });
+
+  window.addEventListener("message", (event) => {
+
+    if (!event.data || !event.data.id) return;
+
+    const user = event.data;
+
+    document.getElementById("displayName").textContent =
+      user.global_name || user.username;
+
+    document.getElementById("username").textContent =
+      user.username;
+
+    document.getElementById("userId").textContent =
+      user.id;
+
+    loginBtn.style.display = "none";
+    loggedInUser.style.display = "block";
+
+    submitBtn.disabled = false;
+
+    // Save user globally
+    window.discordUser = user;
+  });
+
+}
       
     </script>
 
