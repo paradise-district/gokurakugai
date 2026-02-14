@@ -2596,7 +2596,7 @@
           }
         });
       renderTheories();
-      /* ================= DISCORD AUTO-FILL ================= */
+
       function autoFillFromURL() {
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
@@ -2606,10 +2606,27 @@
         document.getElementById("displayName").value = display;
         document.getElementById("username").value = username;
         document.getElementById("userId").value = id;
-        // Clean URL after filling
-        window.history.replaceState({}, document.title, window.location.pathname);
+        // Save login state
+        sessionStorage.setItem("discordUser", JSON.stringify({
+          id,
+          username,
+          display
+        }));
+        // Clean URL WITHOUT breaking tabs
+        const cleanURL = window.location.origin + window.location.pathname + window.location.hash;
+        window.history.replaceState({}, document.title, cleanURL);
+      }
+
+      function restoreFromSession() {
+        const saved = sessionStorage.getItem("discordUser");
+        if (!saved) return;
+        const user = JSON.parse(saved);
+        document.getElementById("displayName").value = user.display;
+        document.getElementById("username").value = user.username;
+        document.getElementById("userId").value = user.id;
       }
       autoFillFromURL();
+      restoreFromSession();
 
       function requireLogin() {
         const params = new URLSearchParams(window.location.search);
