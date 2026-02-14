@@ -1792,6 +1792,16 @@
 
           <form id="theoryForm">
 
+  <!-- DISCORD AUTO-FILL USER INFO -->
+  <label>Displayed Name *</label><br>
+  <input type="text" id="displayName" readonly style="width:100%; margin-bottom:15px;">
+
+  <label>Username *</label><br>
+  <input type="text" id="username" readonly style="width:100%; margin-bottom:15px;">
+
+  <label>User ID *</label><br>
+  <input type="text" id="userId" readonly style="width:100%; margin-bottom:15px;">
+
             <label>Theory Title *</label><br>
             <input type="text" required style="width:100%; margin-bottom:15px;">
 
@@ -2579,6 +2589,27 @@
           }
         });
       renderTheories();
+
+      /* ================= DISCORD AUTO-FILL ================= */
+
+function autoFillFromURL() {
+  const params = new URLSearchParams(window.location.search);
+
+  const id = params.get("id");
+  const username = params.get("username");
+  const display = params.get("display");
+
+  if (!id || !username) return;
+
+  document.getElementById("displayName").value = display;
+  document.getElementById("username").value = username;
+  document.getElementById("userId").value = id;
+
+  // Clean URL after filling
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+autoFillFromURL();
     </script>
 
   </body>
