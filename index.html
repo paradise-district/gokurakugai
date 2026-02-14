@@ -2139,7 +2139,7 @@
       });
       // Hash navigation (direct links & refresh)
       function handleHash() {
-        const raw = location.hash.replace("#", "");
+        const raw = location.hash.replace("#", "").split("?")[0];
         // Ignore dropdown-only parent
         if (raw === "manga" || raw === "") {
           activateTab("about");
@@ -2597,26 +2597,6 @@
         });
       renderTheories();
 
-      function autoFillFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        const username = params.get("username");
-        const display = params.get("display");
-        if (!id || !username) return;
-        document.getElementById("displayName").value = display;
-        document.getElementById("username").value = username;
-        document.getElementById("userId").value = id;
-        // Save login state
-        sessionStorage.setItem("discordUser", JSON.stringify({
-          id,
-          username,
-          display
-        }));
-        // Clean URL WITHOUT breaking tabs
-        const cleanURL = window.location.origin + window.location.pathname + window.location.hash;
-        window.history.replaceState({}, document.title, cleanURL);
-      }
-
       function restoreFromSession() {
         const saved = sessionStorage.getItem("discordUser");
         if (!saved) return;
@@ -2625,21 +2605,43 @@
         document.getElementById("username").value = user.username;
         document.getElementById("userId").value = user.id;
       }
+
+      function autoFillFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        const username = params.get("username");
+        const display = params.get("display");
+        if (id && username && display) {
+          document.getElementById("displayName").value = display;
+          document.getElementById("username").value = username;
+          document.getElementById("userId").value = id;
+          sessionStorage.setItem(
+            "discordUser",
+            JSON.stringify({
+              id,
+              username,
+              display
+            })
+          );
+        }
+      }
       autoFillFromURL();
       restoreFromSession();
 
       function requireLogin() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
         const form = document.getElementById("theoryForm");
         const loginArea = document.getElementById("loginArea");
-        if (!id) {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        const saved = sessionStorage.getItem("discordUser");
+        if (!id && !saved) {
           form.style.display = "none";
+          loginArea.style.display = "block";
         } else {
+          form.style.display = "block";
           loginArea.style.display = "none";
         }
       }
-      requireLogin();
     </script>
 
   </body>
