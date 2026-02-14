@@ -868,61 +868,50 @@
         transition: opacity .25s ease, transform .25s ease;
       }
 
-      /* ================= ARTICLE SYSTEM ================= */
+      /* ================= ELEGANT ARTICLE LIST ================= */
+      .article-list {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
 
-.article-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-}
+      .article-item {
+        padding: 18px 20px;
+        border-left: 6px solid var(--accent);
+        background: rgba(0, 0, 0, .05);
+        cursor: pointer;
+        transition: background .25s ease, transform .25s ease;
+      }
 
-.article-card {
-  background: var(--panel);
-  border: 2px solid var(--accent);
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform .25s ease, box-shadow .25s ease;
-}
+      body.dark .article-item {
+        background: rgba(255, 255, 255, .05);
+      }
 
-.article-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 20px var(--accent);
-}
+      .article-item:hover {
+        background: rgba(196, 49, 40, .12);
+        transform: translateX(6px);
+      }
 
-.article-thumb {
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
+      body.dark .article-item:hover {
+        background: rgba(214, 178, 94, .18);
+      }
 
-.article-readtime {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  background: rgba(0,0,0,.8);
-  color: #fff;
-  padding: 4px 8px;
-  font-size: .7rem;
-  border-radius: 999px;
-}
+      .article-item h3 {
+        margin: 0 0 6px;
+        font-family: Georgia, serif;
+        color: var(--accent);
+      }
 
-.article-body {
-  padding: 18px;
-}
+      .article-meta {
+        font-size: .75rem;
+        opacity: .7;
+        margin-bottom: 6px;
+      }
 
-.article-title {
-  font-family: Georgia, serif;
-  color: var(--accent);
-  margin: 0 0 8px;
-}
-
-.article-meta {
-  font-size: .75rem;
-  opacity: .7;
-  margin-bottom: 10px;
-}
+      .article-preview {
+        font-size: .85rem;
+        line-height: 1.5;
+      }
 
       /* ================= NEWS FEED ================= */
       .news-tabs {
@@ -1522,67 +1511,67 @@
 
           <div class="tab" data-tab="theories">Theories</div>
           <!-- THEORIES -->
-<div class="section" id="theories">
-  <div class="frame">
-  <h2>Community Theories</h2>
+          <div class="section" id="theories">
+            <div class="frame">
+              <h2>Community Theories</h2>
 
-<!-- 🔐 DISCORD LOGIN AREA -->
-<div id="discordLoginArea" style="margin-bottom:20px;">
+              <!-- 🔐 DISCORD LOGIN AREA -->
+              <div id="discordLoginArea" style="margin-bottom:20px;">
 
-  <button id="discordLoginBtn" class="leaderboard-btn">
-    Login with Discord
-  </button>
+                <button id="discordLoginBtn" class="leaderboard-btn">
+                  Login with Discord
+                </button>
 
-  <div id="loggedInUser" style="display:none; margin-top:10px;">
-    <strong>Logged in as:</strong>
-    <span id="displayName"></span>
-    (<span id="username"></span>)
-    <br>
-    User ID: <span id="userId"></span>
-  </div>
+                <div id="loggedInUser" style="display:none; margin-top:10px;">
+                  <strong>Logged in as:</strong>
+                  <span id="displayName"></span>
+                  (<span id="username"></span>)
+                  <br>
+                  User ID: <span id="userId"></span>
+                </div>
 
-</div>
+              </div>
 
-<button id="submitTheoryBtn" class="leaderboard-btn" disabled>
-  Submit a Theory
-</button>
+              <button id="submitTheoryBtn" class="leaderboard-btn" disabled>
+                Submit a Theory
+              </button>
 
-    <h3 style="margin-top:30px;">Popular Community Theories</h3>
+              <h3 style="margin-top:30px;">Popular Community Theories</h3>
 
-    <div id="theoriesContainer"></div>
+              <div id="theoriesContainer"></div>
 
-    <div style="text-align:center; margin-top:20px;">
-      <button id="loadMoreTheories" class="leaderboard-btn">
-        See More
-      </button>
-    </div>
+              <div style="text-align:center; margin-top:20px;">
+                <button id="loadMoreTheories" class="leaderboard-btn">
+                  See More
+                </button>
+              </div>
 
-  </div>
-</div>
+            </div>
+          </div>
 
           <div class="tab" data-tab="articles">News</div>
           <!-- ARTICLES -->
-<div class="section" id="articles">
-  <div class="frame">
-    <h2>News & Articles</h2>
+          <div class="section" id="articles">
+            <div class="frame">
+              <h2>News & Articles</h2>
 
-    <div id="articlesContainer"></div>
+              <div id="articlesContainer"></div>
 
-    <div style="text-align:center; margin-top:20px;">
-      <button id="loadMoreArticles" class="leaderboard-btn">
-        See More
-      </button>
-    </div>
+              <div style="text-align:center; margin-top:20px;">
+                <button id="loadMoreArticles" class="leaderboard-btn">
+                  See More
+                </button>
+              </div>
 
-  </div>
+            </div>
 
-  <!-- ARTICLE VIEW -->
-<div class="section" id="article-view">
-  <div class="frame">
-    <div id="articleContent"></div>
-  </div>
-</div>
-</div>
+            <!-- ARTICLE VIEW -->
+            <div class="section" id="article-view">
+              <div class="frame">
+                <div id="articleContent"></div>
+              </div>
+            </div>
+          </div>
 
           <div class="tab" data-tab="rules">Rules</div>
           <div class="tab" data-tab="info">Info</div>
@@ -2442,147 +2431,117 @@
       tabsViewport.addEventListener("scroll", updateTabFades);
       // Update on resize (orientation change etc.)
       window.addEventListener("resize", updateTabFades);
-
       /* ================= THEORIES SECTION ================= */
+      const theoriesContainer = document.getElementById("theoriesContainer");
+      const loadMoreBtn = document.getElementById("loadMoreTheories");
+      let fakeTheories = [{
+          title: "Alma's True Origin",
+          author: "jetnoire",
+          status: "Approved"
+        },
+        {
+          title: "Tao Is Hiding Something",
+          author: "resoluteroyalty",
+          status: "Approved"
+        },
+        {
+          title: "The Third Avenue Incident",
+          author: "vyrmoon",
+          status: "Pending"
+        }
+      ];
 
-const theoriesContainer = document.getElementById("theoriesContainer");
-const loadMoreBtn = document.getElementById("loadMoreTheories");
-
-let fakeTheories = [
-  { title: "Alma's True Origin", author: "jetnoire", status: "Approved" },
-  { title: "Tao Is Hiding Something", author: "resoluteroyalty", status: "Approved" },
-  { title: "The Third Avenue Incident", author: "vyrmoon", status: "Pending" }
-];
-
-function renderTheories() {
-  theoriesContainer.innerHTML = "";
-
-  fakeTheories.forEach(theory => {
-    const card = document.createElement("div");
-    card.className = "rule";
-    card.innerHTML = `
+      function renderTheories() {
+        theoriesContainer.innerHTML = "";
+        fakeTheories.forEach(theory => {
+          const card = document.createElement("div");
+          card.className = "rule";
+          card.innerHTML = `
       <strong>${theory.title}</strong>
       <p>By ${theory.author}</p>
       <p>Status: ${theory.status}</p>
     `;
-    theoriesContainer.appendChild(card);
-  });
-}
+          theoriesContainer.appendChild(card);
+        });
+      }
+      renderTheories();
+      /* ================= NEW ARTICLE SYSTEM ================= */
+      const articlesContainer = document.getElementById("articlesContainer");
+      const articles = [{
+        id: "chapter-34-breakdown",
+        title: "Chapter 34 Breakdown",
+        author: "RION",
+        date: "March 2026",
+        category: "Chapter Discussion",
+        preview: "In this chapter, Alma's past begins to unravel...",
+        image: "assets/images/banner-series.png",
+        readTime: "4 min"
+      }];
 
-renderTheories();
-
-/* ================= NEW ARTICLE SYSTEM ================= */
-
-const articlesContainer = document.getElementById("articlesContainer");
-
-const articles = [
-  {
-    id: "chapter-34-breakdown",
-    title: "Chapter 34 Breakdown",
-    author: "RION",
-    date: "March 2026",
-    category: "Chapter Discussion",
-    preview: "In this chapter, Alma's past begins to unravel...",
-    image: "assets/images/banner-series.png",
-    readTime: "4 min"
-  }
-];
-
-function renderArticles() {
-  if (!articlesContainer) return;
-
-  articlesContainer.innerHTML = "";
-  articlesContainer.className = "article-grid";
-
-  articles.forEach(article => {
-    const card = document.createElement("div");
-    card.className = "article-card";
-
-    card.innerHTML = `
-      <div class="article-thumb" style="background-image:url('${article.image}')">
-        <div class="article-readtime">${article.readTime}</div>
+      function renderArticles() {
+        if (!articlesContainer) return;
+        articlesContainer.innerHTML = "";
+        articlesContainer.className = "article-list";
+        articles.forEach(article => {
+          const item = document.createElement("div");
+          item.className = "article-item";
+          item.innerHTML = `
+      <h3>${article.title}</h3>
+      <div class="article-meta">
+        ${article.date} · ${article.author} · ${article.category}
       </div>
-
-      <div class="article-body">
-        <h3 class="article-title">${article.title}</h3>
-        <div class="article-meta">
-          ${article.date} · ${article.author} · ${article.category}
-        </div>
-        <p>${article.preview}</p>
+      <div class="article-preview">
+        ${article.preview}
       </div>
     `;
-
-    card.addEventListener("click", () => {
-      window.location.hash = "article/" + article.id;
-    });
-
-    articlesContainer.appendChild(card);
-  });
-}
-
-renderArticles();
-
+          item.addEventListener("click", () => {
+            window.location.hash = "article/" + article.id;
+          });
+          articlesContainer.appendChild(item);
+        });
+      }
+      renderArticles();
       /* ================= ARTICLE ROUTING ================= */
-
-function handleArticleHash() {
-  if (!location.hash.startsWith("#article/")) return;
-
-  const id = location.hash.split("/")[1];
-  const article = articles.find(a => a.id === id);
-  if (!article) return;
-
-  activateTab("article-view");
-
-  document.getElementById("articleContent").innerHTML = `
+      function handleArticleHash() {
+        if (!location.hash.startsWith("#article/")) return;
+        const id = location.hash.split("/")[1];
+        const article = articles.find(a => a.id === id);
+        if (!article) return;
+        activateTab("article-view");
+        document.getElementById("articleContent").innerHTML = `
     <h2>${article.title}</h2>
     <p><em>${article.date} · ${article.author}</em></p>
     <img src="${article.image}" style="width:100%; margin:20px 0;">
     <p>This is placeholder full article content.</p>
     <button class="leaderboard-btn" onclick="history.back()">← Back</button>
   `;
-}
-
-window.addEventListener("hashchange", handleArticleHash);
-window.addEventListener("load", handleArticleHash);
-
+      }
+      window.addEventListener("hashchange", handleArticleHash);
+      window.addEventListener("load", handleArticleHash);
       /* ================= DISCORD LOGIN ================= */
-
-const loginBtn = document.getElementById("discordLoginBtn");
-const loggedInUser = document.getElementById("loggedInUser");
-const submitBtn = document.getElementById("submitTheoryBtn");
-
-if (loginBtn) {
-
-  loginBtn.addEventListener("click", () => {
-    window.open("http://localhost:3000/login", "discordLogin", "width=500,height=700");
-  });
-
-  window.addEventListener("message", (event) => {
-
-    if (!event.data || !event.data.id) return;
-
-    const user = event.data;
-
-    document.getElementById("displayName").textContent =
-      user.global_name || user.username;
-
-    document.getElementById("username").textContent =
-      user.username;
-
-    document.getElementById("userId").textContent =
-      user.id;
-
-    loginBtn.style.display = "none";
-    loggedInUser.style.display = "block";
-
-    submitBtn.disabled = false;
-
-    // Save user globally
-    window.discordUser = user;
-  });
-
-}
-      
+      const loginBtn = document.getElementById("discordLoginBtn");
+      const loggedInUser = document.getElementById("loggedInUser");
+      const submitBtn = document.getElementById("submitTheoryBtn");
+      if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+          window.open("http://localhost:3000/login", "discordLogin", "width=500,height=700");
+        });
+        window.addEventListener("message", (event) => {
+          if (!event.data || !event.data.id) return;
+          const user = event.data;
+          document.getElementById("displayName").textContent =
+            user.global_name || user.username;
+          document.getElementById("username").textContent =
+            user.username;
+          document.getElementById("userId").textContent =
+            user.id;
+          loginBtn.style.display = "none";
+          loggedInUser.style.display = "block";
+          submitBtn.disabled = false;
+          // Save user globally
+          window.discordUser = user;
+        });
+      }
     </script>
 
   </body>
