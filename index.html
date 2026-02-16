@@ -342,6 +342,87 @@
         z-index: 5;
       }
 
+      /* ================= AUTH AREA ================= */
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 16px;
+      }
+
+      .auth-btn,
+      .user-display {
+        background: none;
+        border: 1px solid var(--accent);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: .85rem;
+        transition: all .25s ease;
+      }
+
+      .auth-btn:hover,
+      .user-display:hover {
+        background: var(--accent);
+        color: #000;
+      }
+
+      .user-area {
+        position: relative;
+      }
+
+      .user-display {
+        min-width: 70px;
+        overflow: hidden;
+      }
+
+      #userText {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      /* Username scroll animation */
+      @keyframes slideUsername {
+        0% {
+          transform: translateX(0);
+        }
+
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .user-dropdown {
+        position: absolute;
+        top: 120%;
+        right: 0;
+        background: #000;
+        border: 1px solid rgba(255, 255, 255, .15);
+        min-width: 140px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .25s ease;
+        z-index: 9999;
+      }
+
+      .user-dropdown.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .user-dropdown-item {
+        padding: 10px 14px;
+        font-size: .8rem;
+        cursor: pointer;
+        color: #ccc;
+      }
+
+      .user-dropdown-item:hover {
+        background: rgba(255, 255, 255, .1);
+        color: var(--accent);
+      }
+
       /* ================= MANGA DROPDOWN ================= */
       .tab.has-dropdown {
         position: relative;
@@ -1559,7 +1640,26 @@
         </div>
       </div>
 
-      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <div class="top-actions">
+
+        <button id="loginBtn" class="auth-btn">
+          Login
+        </button>
+
+        <div class="user-area" id="userArea" style="display:none;">
+          <button id="userDisplay" class="user-display">
+            <span id="userText"></span>
+          </button>
+
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-item" id="profileBtn">Profile</div>
+            <div class="user-dropdown-item" id="logoutBtn">Logout</div>
+          </div>
+        </div>
+
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+
+      </div>
     </div>
 
     <!-- ABOUT -->
@@ -2596,6 +2696,58 @@
           }
         });
       renderTheories();
+      renderTheories();
+      /* ================= AUTH SYSTEM ================= */
+      const loginBtn = document.getElementById("loginBtn");
+      const userArea = document.getElementById("userArea");
+      const userText = document.getElementById("userText");
+      const userDropdown = document.getElementById("userDropdown");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const userDisplay = document.getElementById("userDisplay");
+      /* ===== Detect Login ===== */
+      function updateAuthUI() {
+        const saved = sessionStorage.getItem("discordUser");
+        if (!saved) {
+          loginBtn.style.display = "inline-block";
+          userArea.style.display = "none";
+          return;
+        }
+        const user = JSON.parse(saved);
+        loginBtn.style.display = "none";
+        userArea.style.display = "block";
+        setUsernameDisplay(user.username);
+      }
+      /* ===== Username Animation Logic ===== */
+      function setUsernameDisplay(name) {
+        if (name.length <= 6) {
+          userText.textContent = name;
+          userText.style.animation = "none";
+          return;
+        }
+        const doubled = name + "   " + name;
+        userText.textContent = doubled;
+        userText.style.animation = "slideUsername 6s linear infinite";
+      }
+      /* ===== Login Button ===== */
+      loginBtn.onclick = () => {
+        startDiscordLogin();
+      };
+      /* ===== Dropdown Toggle ===== */
+      userDisplay.onclick = (e) => {
+        e.stopPropagation();
+        userDropdown.classList.toggle("open");
+      };
+      /* ===== Close dropdown on outside click ===== */
+      document.addEventListener("click", () => {
+        userDropdown.classList.remove("open");
+      });
+      /* ===== Logout ===== */
+      logoutBtn.onclick = () => {
+        sessionStorage.removeItem("discordUser");
+        window.location.href = window.location.pathname;
+      };
+      /* ===== Initialize ===== */
+      updateAuthUI();
 
       function restoreFromSession() {
         const saved = sessionStorage.getItem("discordUser");
@@ -2627,20 +2779,20 @@
       }
       autoFillFromURL();
       restoreFromSession();
+      requireLogin();
 
       function requireLogin() {
         const form = document.getElementById("theoryForm");
         const loginArea = document.getElementById("loginArea");
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
         const saved = sessionStorage.getItem("discordUser");
-        if (!id && !saved) {
+        if (!saved) {
           form.style.display = "none";
           loginArea.style.display = "block";
         } else {
           form.style.display = "block";
           loginArea.style.display = "none";
         }
+        updateAuthUI(); // very important
       }
     </script>
 
