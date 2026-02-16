@@ -1836,6 +1836,42 @@
         transition: box-shadow .25s ease, transform .2s ease;
       }
 
+      /* ===== FORM GRID SYSTEM ===== */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-full {
+        grid-column: 1 / -1;
+      }
+
+      @media (max-width: 768px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ===== DARK MODE FIXES ===== */
+      body.dark #theories input,
+      body.dark #theories textarea,
+      body.dark #theories select {
+        background: #111;
+        color: #fff;
+      }
+
+      body.dark #theories select option {
+        background: #111;
+        color: #fff;
+      }
+
+      /* Placeholder visibility */
+      body.dark #theories input::placeholder,
+      body.dark #theories textarea::placeholder {
+        color: rgba(255, 255, 255, .6);
+      }
+
       #theories input:focus,
       #theories textarea:focus,
       #theories select:focus {
@@ -2201,49 +2237,82 @@
 
           <form id="theoryForm">
 
-            <!-- DISCORD AUTO-FILL USER INFO -->
-            <label>Displayed Name *</label><br>
-            <input type="text" id="displayName" readonly style="width:100%; margin-bottom:15px;">
+            <div class="form-grid">
 
-            <label>Username *</label><br>
-            <input type="text" id="username" readonly style="width:100%; margin-bottom:15px;">
+              <!-- DISPLAY NAME + USERNAME -->
+              <div>
+                <label>Displayed Name *</label>
+                <input type="text" id="displayName" readonly>
+              </div>
 
-            <label>User ID *</label><br>
-            <input type="text" id="userId" readonly style="width:100%; margin-bottom:15px;">
+              <div>
+                <label>Username *</label>
+                <input type="text" id="username" readonly>
+              </div>
 
-            <label>Theory Title *</label><br>
-            <input type="text" required style="width:100%; margin-bottom:15px;">
+              <!-- USER ID -->
+              <div class="form-full">
+                <label>User ID *</label>
+                <input type="text" id="userId" readonly>
+              </div>
 
-            <label>Category *</label><br>
-            <select required style="width:100%; margin-bottom:15px;">
-              <option value="">Select a category</option>
-              <option>Character Origins</option>
-              <option>Plot Predictions</option>
-              <option>Power System Analysis</option>
-              <option>World Building</option>
-              <option>Character Relationships</option>
-              <option>Hidden Symbolism</option>
-              <option>Villain Theories</option>
-              <option>Ending Predictions</option>
-              <option>Other</option>
-            </select>
+              <!-- CATEGORY + RELATED CHAPTER -->
+              <div>
+                <label>Category *</label>
+                <select required>
+                  <option value="">Select a category</option>
+                  <option>Character Origins</option>
+                  <option>Plot Predictions</option>
+                  <option>Power System Analysis</option>
+                  <option>World Building</option>
+                  <option>Character Relationships</option>
+                  <option>Hidden Symbolism</option>
+                  <option>Villain Theories</option>
+                  <option>Ending Predictions</option>
+                  <option>Other</option>
+                </select>
+              </div>
 
-            <label>Your Theory *</label><br>
-            <textarea required maxlength="500" style="width:100%; height:120px; margin-bottom:15px;"></textarea>
+              <div>
+                <label>Related Chapter (optional)</label>
+                <input type="text" placeholder="e.g. Chapter 32">
+              </div>
 
-            <label>Supporting Evidence</label><br>
-            <textarea maxlength="500" style="width:100%; height:100px; margin-bottom:15px;"></textarea>
+              <!-- THEORY TITLE -->
+              <div class="form-full">
+                <label>Theory Title *</label>
+                <input type="text" required>
+              </div>
 
-            <div class="checkbox-row">
-              <input type="checkbox"> <span>Contains Spoilers</span>
+              <!-- THEORY CONTENT -->
+              <div class="form-full">
+                <label>Your Theory *</label>
+                <textarea required maxlength="1000"></textarea>
+              </div>
+
+              <!-- IMAGE UPLOAD -->
+              <div class="form-full">
+                <label>Upload Image(s)</label>
+                <input type="file" multiple accept="image/*">
+              </div>
+
+              <!-- CHECKBOXES -->
+              <div class="form-full checkbox-row">
+                <input type="checkbox">
+                <span>Contains Spoilers</span>
+              </div>
+
+              <div class="form-full checkbox-row">
+                <input type="checkbox" required>
+                <span>I agree to the community guidelines *</span>
+              </div>
+
+              <!-- SUBMIT BUTTON -->
+              <div class="form-full">
+                <button type="submit">Submit Theory</button>
+              </div>
+
             </div>
-
-            <div class="checkbox-row">
-              <input type="checkbox" required>
-              <span>I agree to the community guidelines *</span>
-            </div>
-
-            <button type="submit" class="news-btn">Submit Theory</button>
 
           </form>
         </div>
