@@ -2939,24 +2939,36 @@
       }
 
       function autoFillFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        const username = params.get("username");
-        const display = params.get("display");
-        if (id && username && display) {
-          document.getElementById("displayName").value = display;
-          document.getElementById("username").value = username;
-          document.getElementById("userId").value = id;
-          sessionStorage.setItem(
-            "discordUser",
-            JSON.stringify({
-              id,
-              username,
-              display
-            })
-          );
-        }
-      }
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const username = params.get("username");
+  const display = params.get("display");
+
+  if (id && username && display) {
+
+    // Save to session first
+    sessionStorage.setItem(
+      "discordUser",
+      JSON.stringify({
+        id,
+        username,
+        display
+      })
+    );
+
+    // Fill form
+    document.getElementById("displayName").value = display;
+    document.getElementById("username").value = username;
+    document.getElementById("userId").value = id;
+
+    const cleanURL =
+      window.location.pathname +
+      "?username=" + encodeURIComponent(username) +
+      window.location.hash;
+
+    window.history.replaceState({}, document.title, cleanURL);
+  }
+}
       autoFillFromURL();
       restoreFromSession();
       requireLogin();
