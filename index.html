@@ -350,24 +350,6 @@
         margin-right: 16px;
       }
 
-      .auth-btn,
-      .user-display {
-        background: none;
-        border: 1px solid var(--accent);
-        color: #fff;
-        padding: 6px 14px;
-        border-radius: 999px;
-        cursor: pointer;
-        font-size: .85rem;
-        transition: all .25s ease;
-      }
-
-      .auth-btn:hover,
-      .user-display:hover {
-        background: var(--accent);
-        color: #000;
-      }
-
       .user-area {
         position: relative;
       }
@@ -379,14 +361,6 @@
         min-width: 90px;
         overflow: hidden;
         padding-right: 10px;
-      }
-
-      .user-display::after {
-        content: "▾";
-        font-size: .65rem;
-        opacity: .6;
-        padding-left: 8px;
-        border-left: 1px solid rgba(255, 255, 255, .25);
       }
 
       #userText {
@@ -433,6 +407,85 @@
       .user-dropdown-item:hover {
         background: rgba(255, 255, 255, .1);
         color: var(--accent);
+      }
+
+      /* ===== AUTH – DISCORD STYLE ===== */
+      .auth-btn,
+      .user-display {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #111;
+        border: none;
+        padding: 8px 14px;
+        font-size: .85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .2s ease;
+      }
+
+      body:not(.dark) .auth-btn,
+      body:not(.dark) .user-display {
+        background: #f1eee8;
+      }
+
+      .auth-btn:hover,
+      .user-display:hover {
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
+      }
+
+      .auth-icon {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        filter: brightness(0) saturate(100%);
+      }
+
+      /* Make icon use accent color */
+      body.dark .auth-icon {
+        filter: brightness(0) saturate(100%) invert(1);
+      }
+
+      .auth-btn span,
+      .user-display span {
+        color: var(--accent);
+      }
+
+      /* Caret */
+      .user-caret {
+        font-size: .7rem;
+        opacity: .7;
+      }
+
+      /* Dropdown */
+      .user-dropdown {
+        top: 110%;
+        right: 0;
+        background: #111;
+        border: 1px solid rgba(255, 255, 255, .1);
+        min-width: 160px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+      }
+
+      body:not(.dark) .user-dropdown {
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, .1);
+      }
+
+      .user-dropdown-item {
+        padding: 10px 14px;
+        font-size: .85rem;
+        color: var(--text);
+      }
+
+      .user-dropdown-item:hover {
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
+        color: var(--accent);
+      }
+
+      .user-display {
+        border-left: 1px solid rgba(255, 255, 255, .08);
+        padding-left: 16px;
       }
 
       /* ================= MANGA DROPDOWN ================= */
@@ -1721,12 +1774,15 @@
       <div class="top-actions">
 
         <button id="loginBtn" class="auth-btn">
-          Login
+          <img src="assets/icons/login.png" class="auth-icon" alt="">
+          <span>Sign In</span>
         </button>
 
         <div class="user-area" id="userArea" style="display:none;">
           <button id="userDisplay" class="user-display">
+            <img src="assets/icons/user.png" class="auth-icon" alt="">
             <span id="userText"></span>
+            <span class="user-caret">▾</span>
           </button>
 
           <div class="user-dropdown" id="userDropdown">
