@@ -270,8 +270,9 @@
 
       .count-box span {
         display: block;
-        color: #fff;
+        color: var(--text);
         font-size: 1.15rem;
+        font-weight: 600;
       }
 
       /* ================= TABS ================= */
@@ -381,17 +382,26 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        max-width: 140px;
-        padding: 6px 12px;
+        padding: 6px 10px;
         border-radius: 999px;
+        max-width: 120px;
+        /* smaller overall */
         overflow: hidden;
-        background: color-mix(in srgb, var(--accent) 10%, transparent);
-        transition: background .25s ease, box-shadow .25s ease;
+        background: var(--panel);
+        border: 1px solid var(--nav-border);
       }
 
       .user-display:hover {
         background: color-mix(in srgb, var(--accent) 20%, transparent);
         box-shadow: 0 0 8px var(--accent);
+      }
+
+      .username-wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 60px;
+        /* 5 letters approx */
+        flex-shrink: 0;
       }
 
       #userText {
@@ -446,7 +456,8 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        background: #111;
+        background: var(--panel);
+        border: 1px solid var(--nav-border);
         border: none;
         padding: 8px 14px;
         font-size: .85rem;
@@ -455,8 +466,10 @@
         transition: background .2s ease;
       }
 
-      body:not(.dark) .auth-btn,
-      body:not(.dark) .user-display {}
+      body.dark .auth-btn,
+      body.dark .user-display {
+        background: #111;
+      }
 
       .auth-btn:hover,
       .user-display:hover {
@@ -1812,7 +1825,9 @@
         <div class="user-area" id="userArea" style="display:none;">
           <button id="userDisplay" class="user-display">
             <img src="assets/icons/user.png" class="auth-icon" alt="">
-            <span id="userText"></span>
+            <div class="username-wrapper">
+              <span id="userText"></span>
+            </div>
             <span class="user-caret">▾</span>
           </button>
 
@@ -2891,7 +2906,7 @@
         }
         const doubled = name + "   " + name;
         userText.textContent = doubled;
-        userText.style.animation = "slideUsername 6s linear infinite";
+        userText.style.animation = "slideUsername 8s linear infinite";
       }
       /* ===== Login Button ===== */
       loginBtn.onclick = () => {
