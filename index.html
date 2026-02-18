@@ -419,7 +419,6 @@
         font-size: .8rem;
         text-transform: uppercase;
         cursor: pointer;
-        border-bottom: 2px solid transparent;
         transition: color .25s ease, border .25s ease;
       }
 
@@ -438,7 +437,6 @@
 
       .tab.active {
         color: var(--accent);
-        border-color: var(--accent);
       }
 
       .tab.has-dropdown {
@@ -476,10 +474,13 @@
 
       /* ================= AUTH AREA ================= */
       .top-actions {
+        position: absolute;
+        top: 20px;
+        right: 30px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-right: 16px;
+        gap: 14px;
+        z-index: 20;
       }
 
       .user-area {
@@ -2005,70 +2006,76 @@
     <!-- HEADER -->
     <div class="header">
       <div class="header-content">
+
         <div class="logo-glitch">
           <img src="assets/images/logo-en.png" class="logo base" alt="Gokurakugai Community Logo">
           <img src="assets/images/logo-jp.png" class="logo glitch" alt="極楽街">
         </div>
+
         <h1>Gokurakugai Community</h1>
-      </div>
-    </div>
 
-    <!-- COUNTDOWN -->
-    <div class="countdown">
-      <div class="count-box">
-        <div id="chapterLabel" class="count-title">Chapter 34 (JP/EN)</div>
-        <span id="chapter"></span>
-      </div>
-      <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
-      <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
-    </div>
+        <div class="top-actions">
 
-    <!-- TABS -->
-    <!-- TABS -->
-    <div class="tabs-bar">
-      <button class="menu-toggle" id="menuToggle">☰</button>
-      <div class="mobile-nav-label">NAVIGATION</div>
-      <div class="tabs-viewport">
+          <button id="loginBtn" class="auth-btn">
+            <img src="assets/icons/login.png" class="auth-icon" alt="">
+            <span>Sign In</span>
+          </button>
 
-        <div class="tab active" data-tab="about">About</div>
+          <div class="user-area" id="userArea" style="display:none;">
+            <button id="userDisplay" class="user-display">
+              <img src="assets/icons/user.png" class="auth-icon" alt="">
+              <div class="username-wrapper">
+                <span id="userText"></span>
+              </div>
+              <span class="user-caret">▾</span>
+            </button>
 
-        <div class="tab has-dropdown" data-tab="manga">
-          <span class="tab-label">Manga</span>
-          <span class="dropdown-caret" aria-hidden="true">▾</span>
-          <div class="dropdown">
-            <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
-            <div class="dropdown-item" data-tab="manga-characters">Characters</div>
+            <div class="user-dropdown" id="userDropdown">
+              <div class="user-dropdown-item" id="profileBtn">Profile</div>
+              <div class="user-dropdown-item" id="logoutBtn">Logout</div>
+            </div>
           </div>
+
+          <button class="theme-toggle" id="themeToggle">🌙</button>
+
         </div>
-        <div class="tab" data-tab="news">News</div>
-        <div class="tab" data-tab="theories">Theories</div>
-        <div class="tab" data-tab="rules">Rules</div>
-        <div class="tab" data-tab="info">Info</div>
-        <div class="tab" data-tab="staff">Staff</div>
-        <div class="tab" data-tab="leaderboard">Leaderboard</div>
 
       </div>
-    </div>
 
-    <div class="top-actions">
+      <!-- COUNTDOWN -->
+      <div class="countdown">
+        <div class="count-box">
+          <div id="chapterLabel" class="count-title">Chapter 34 (JP/EN)</div>
+          <span id="chapter"></span>
+        </div>
+        <div class="count-box">Volume 6 (Japan)<span id="v6jp"></span></div>
+        <div class="count-box">Volume 5 (English)<span id="v5en"></span></div>
+      </div>
 
-      <button id="loginBtn" class="auth-btn">
-        <img src="assets/icons/login.png" class="auth-icon" alt="">
-        <span>Sign In</span>
-      </button>
+      <!-- TABS -->
+      <!-- TABS -->
+      <div class="tabs-bar">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="mobile-nav-label">NAVIGATION</div>
+        <div class="tabs-viewport">
 
-      <div class="user-area" id="userArea" style="display:none;">
-        <button id="userDisplay" class="user-display">
-          <img src="assets/icons/user.png" class="auth-icon" alt="">
-          <div class="username-wrapper">
-            <span id="userText"></span>
+          <div class="tab active" data-tab="about">About</div>
+
+          <div class="tab has-dropdown" data-tab="manga">
+            <span class="tab-label">Manga</span>
+            <span class="dropdown-caret" aria-hidden="true">▾</span>
+            <div class="dropdown">
+              <div class="dropdown-item" data-tab="manga-gallery">Gallery</div>
+              <div class="dropdown-item" data-tab="manga-characters">Characters</div>
+            </div>
           </div>
-          <span class="user-caret">▾</span>
-        </button>
+          <div class="tab" data-tab="news">News</div>
+          <div class="tab" data-tab="theories">Theories</div>
+          <div class="tab" data-tab="rules">Rules</div>
+          <div class="tab" data-tab="info">Info</div>
+          <div class="tab" data-tab="staff">Staff</div>
+          <div class="tab" data-tab="leaderboard">Leaderboard</div>
 
-        <div class="user-dropdown" id="userDropdown">
-          <div class="user-dropdown-item" id="profileBtn">Profile</div>
-          <div class="user-dropdown-item" id="logoutBtn">Logout</div>
         </div>
       </div>
 
