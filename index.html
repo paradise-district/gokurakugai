@@ -327,15 +327,32 @@
           padding: 16px 20px;
           border-bottom: 1px solid var(--nav-border);
         }
+      }
 
-        .dropdown {
-          position: static;
-          transform: none;
-          border: none;
-          opacity: 1;
-          pointer-events: auto;
-          margin-top: 6px;
-        }
+      .tabs-viewport.open {
+        display: block;
+      }
+
+      .tabs {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0;
+      }
+
+      .tab {
+        width: 100%;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--nav-border);
+      }
+
+      .dropdown {
+        position: static;
+        transform: none;
+        border: none;
+        opacity: 1;
+        pointer-events: auto;
+        margin-top: 6px;
+      }
       }
 
       /* ================= MOBILE MENU ================= */
@@ -802,24 +819,6 @@
           /* narrower */
           font-size: .85rem;
           /* slightly smaller */
-        }
-      }
-
-      @media (max-width: 768px) {
-        .tabs-viewport {
-          overflow-x: auto;
-          overflow-y: hidden;
-          -webkit-overflow-scrolling: touch;
-          position: relative;
-          flex: 1;
-        }
-
-        .tabs {
-          flex: 0 0 auto;
-          justify-content: flex-start;
-          min-width: 100%;
-          padding-left: 16px;
-          padding-right: 24px;
         }
       }
 
@@ -3062,7 +3061,6 @@
         tabsViewport.classList.toggle("open");
       });
       /* ================= MOBILE MENU TOGGLE ================= */
-      const menuToggle = document.getElementById("menuToggle");
       menuToggle.addEventListener("click", () => {
         tabsViewport.classList.toggle("open");
       });
