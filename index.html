@@ -296,6 +296,48 @@
         box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
       }
 
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .tabs-viewport {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: var(--nav-bg);
+          border-bottom: 1px solid var(--nav-border);
+          z-index: 2000;
+        }
+
+        .tabs-viewport.open {
+          display: block;
+        }
+
+        .tabs {
+          flex-direction: column;
+          align-items: stretch;
+          padding: 0;
+        }
+
+        .tab {
+          width: 100%;
+          padding: 16px 20px;
+          border-bottom: 1px solid var(--nav-border);
+        }
+
+        .dropdown {
+          position: static;
+          transform: none;
+          border: none;
+          opacity: 1;
+          pointer-events: auto;
+          margin-top: 6px;
+        }
+      }
+
       /* ================= MOBILE MENU ================= */
       .menu-toggle {
         display: none;
@@ -360,22 +402,6 @@
         flex: 1;
         display: flex;
         justify-content: center;
-      }
-
-      @media (max-width: 768px) {
-        .tabs-viewport {
-          justify-content: flex-start;
-        }
-      }
-
-      .tabs {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        white-space: nowrap;
-        padding: 0 12px;
-        position: relative;
       }
 
       .tabs {
@@ -798,37 +824,22 @@
       }
 
       /* ================= TABS SCROLL FADES (MOBILE ONLY) ================= */
-      @media (max-width: 768px) {
+      /* LEFT fade */
+      .tabs-viewport::before {
+        left: 0;
+        background: linear-gradient(to right,
+            rgba(0, 0, 0, 0.85),
+            rgba(0, 0, 0, 0));
+      }
 
-        .tabs-viewport::before,
-        .tabs-viewport::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          width: 28px;
-          height: 100%;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity .25s ease;
-          z-index: 3;
-        }
+      /* Activated dynamically via JS */
+      .tabs-viewport.fade-left::before {
+        opacity: 1;
+      }
 
-        /* LEFT fade */
-        .tabs-viewport::before {
-          left: 0;
-          background: linear-gradient(to right,
-              rgba(0, 0, 0, 0.85),
-              rgba(0, 0, 0, 0));
-        }
-
-        /* Activated dynamically via JS */
-        .tabs-viewport.fade-left::before {
-          opacity: 1;
-        }
-
-        .tabs-viewport.fade-right::after {
-          opacity: 1;
-        }
+      .tabs-viewport.fade-right::after {
+        opacity: 1;
+      }
       }
 
       /* ================= SECTIONS ================= */
@@ -3045,26 +3056,11 @@
           behavior: "smooth"
         });
       });
-      /* ================= MOBILE TAB SCROLL INDICATOR ================= */
+      const menuToggle = document.getElementById("menuToggle");
       const tabsViewport = document.querySelector(".tabs-viewport");
-
-      function updateTabFades() {
-        if (!tabsViewport) return;
-        const scrollLeft = tabsViewport.scrollLeft;
-        const maxScroll =
-          tabsViewport.scrollWidth - tabsViewport.clientWidth;
-        tabsViewport.classList.toggle("fade-left", scrollLeft > 4);
-        tabsViewport.classList.toggle(
-          "fade-right",
-          scrollLeft < maxScroll - 4
-        );
-      }
-      // Initial check
-      updateTabFades();
-      // Update on scroll
-      tabsViewport.addEventListener("scroll", updateTabFades);
-      // Update on resize (orientation change etc.)
-      window.addEventListener("resize", updateTabFades);
+      menuToggle.addEventListener("click", () => {
+        tabsViewport.classList.toggle("open");
+      });
       /* ================= MOBILE MENU TOGGLE ================= */
       const menuToggle = document.getElementById("menuToggle");
       menuToggle.addEventListener("click", () => {
