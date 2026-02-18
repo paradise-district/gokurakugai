@@ -161,7 +161,6 @@
         align-items: center;
         color: #fff;
         text-align: center;
-        height: 260px;
       }
 
       /* ================= LOGO GLITCH HOVER ================= */
@@ -284,7 +283,7 @@
       /* ================= TABS ================= */
       .tabs-bar {
         position: sticky;
-        top: 64px;
+        top: 82px;
         z-index: 1999;
         display: flex;
         align-items: center;
@@ -351,6 +350,10 @@
         border-bottom: 1px solid var(--nav-border);
       }
 
+      body:not(.dark) .mobile-nav-label {
+        background: var(--nav-bg);
+      }
+
       @media (max-width: 768px) {
         .mobile-nav-label {
           display: block;
@@ -394,6 +397,7 @@
 
       .tabs-viewport {
         flex: 1;
+        display: flex;
         justify-content: center;
       }
 
@@ -407,19 +411,21 @@
       .tabs {
         display: flex;
         justify-content: center;
-        gap: 6px;
+        gap: 12px;
         white-space: nowrap;
-        padding: 0 12px;
+        padding: 0 24px;
       }
 
       .tab {
-        padding: 18px 22px;
+        padding: 20px 28px;
         font-family: "Cormorant Garamond", serif;
-        letter-spacing: .18em;
-        font-size: .8rem;
+        letter-spacing: .12em;
+        font-size: .95rem;
+        font-weight: 600;
         text-transform: uppercase;
         cursor: pointer;
-        transition: color .25s ease, border .25s ease;
+        color: var(--nav-text);
+        transition: color .25s ease;
       }
 
       .tab::after {
@@ -437,6 +443,10 @@
 
       .tab.active {
         color: var(--accent);
+      }
+
+      body:not(.dark) .tab {
+        color: #2b2b2b;
       }
 
       .tab.has-dropdown {
