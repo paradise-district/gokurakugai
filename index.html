@@ -3,33 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Gokurakugai Community · Discord Hub &amp; Fan Site</title>
-<meta name="description" content="A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.">
-<meta name="keywords" content="Gokurakugai, 極楽街, manga, Yuto Sano, Jump SQ, Gokurakugai community, Gokurakugai Discord, Gokurakugai server, Gokurakugai Discord Server, Gokurakugai anime, Gokurakugai manga, Gokurakugai anime manga fans">
-<meta name="robots" content="index, follow">
-<meta name="author" content="Gokurakugai Community">
-<link rel="canonical" href="">
-<!-- Favicons -->
-<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="">
-<meta property="og:title" content="Gokurakugai Community · Discord Hub &amp; Fan Site">
-<meta property="og:description" content="A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.">
-<meta property="og:image" content="assets/images/og-image.jpg">
-<meta property="og:site_name" content="Gokurakugai Community">
-<meta property="og:locale" content="en_US">
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Gokurakugai Community · Discord Hub &amp; Fan Site">
-<meta name="twitter:description" content="Fan-run Gokurakugai community and Discord hub. News, releases, countdowns, and resources">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
-<!-- Schema.org JSON-LD -->
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Gokurakugai Community","url":"","description":"A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.","publisher":{"@type":"Organization","name":"Gokurakugai Community"}}
-</script>
+<title>極楽街 — Gokurakugai Fan Community</title>
+<link rel="icon" href="favicon-180.png" id="fav">
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 /* ════════════════════════════════════════
@@ -43,9 +18,9 @@
   --bg:#0A0303;--bg2:#130808;--surface:#1A0808;--surface2:#220D0D;--surface3:#2C1010;
   --text:#F0DFC0;--text-dim:#A08060;--text-muted:#6B4A30;
   --accent:var(--gold);--accent2:var(--gold-light);
-  --border-img:url('https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/light-border.png');
-  --pattern:url('https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/pattern-dark.png');
-  --header-bg:url('https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/header-bg-dark.jpg');
+  --border-img:url('assets/images/light-border.png');
+  --pattern:url('assets/images/pattern-dark.png');
+  --header-bg:url('assets/images/header-bg-dark.jpg');
   --nav-bg:rgba(10,3,3,0.97);
   --card-bg:rgba(26,8,8,0.93);
   --glow:0 0 18px rgba(201,168,76,0.3);
@@ -60,9 +35,9 @@
   --bg:#FFF5E8;--bg2:#FAE8D0;--surface:#FFF0E0;--surface2:#FAE5CE;--surface3:#F5D8B8;
   --text:#1A0505;--text-dim:#5C2020;--text-muted:#8B3A3A;
   --accent:var(--crimson);--accent2:var(--crimson-bright);
-  --border-img:url('https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/dark-border.png');
-  --pattern:url('https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/pattern-light.png');
-  --header-bg:url('https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/header-bg-light.jpg');
+  --border-img:url('assets/images/dark-border.png');
+  --pattern:url('assets/images/pattern-light.png');
+  --header-bg:url('assets/images/header-bg-light.jpg');
   --nav-bg:rgba(255,245,232,0.97);
   --card-bg:rgba(255,240,224,0.93);
   --glow:0 0 18px rgba(139,26,26,0.2);
@@ -311,8 +286,7 @@ p{line-height:1.8;}
    MAIN CONTENT
 ════════════════════════════════════════ */
 #content{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2.8rem 1.5rem 6rem;}
-.sec{display:block;}
-.sec:not(.active){display:none;}
+.sec{display:none;}
 .sec.active{display:block;animation:fi .32s ease;}
 .subsec{display:none;}
 .subsec.active{display:block;animation:fi .32s ease;}
@@ -1208,396 +1182,6 @@ p{line-height:1.8;}
   background:rgba(88,101,242,.2);color:#818cf8;border:1px solid rgba(88,101,242,.3);
 }
 .ac-role.staff{background:rgba(201,168,76,.15);color:var(--accent);border-color:rgba(201,168,76,.3);}
-
-/* ════════════════════════════════════════
-   SITE ICONS (image-based, theme-adaptive)
-════════════════════════════════════════ */
-:root{
-  --icon-filter: invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(1.1);
-  /* Dark mode: icons turn gold/accent */
-}
-[data-theme="light"]{
-  --icon-filter: invert(1) sepia(1) saturate(3) hue-rotate(345deg) brightness(.7);
-  /* Light mode: icons turn dark crimson */
-}
-.site-icon{
-  width:28px;height:28px;object-fit:contain;
-  filter:var(--icon-filter);
-  display:block;
-}
-.site-icon-lg{
-  width:42px;height:42px;object-fit:contain;
-  filter:var(--icon-filter);
-  display:block;margin:0 auto;
-}
-.site-icon-btn{
-  width:18px;height:18px;object-fit:contain;
-  filter:brightness(0) invert(1);
-}
-.stat-icon .site-icon{width:36px;height:36px;}
-.offer-icon .site-icon{width:32px;height:32px;}
-.nm-icon .site-icon{width:48px;height:48px;}
-.news-empty-ico .site-icon{width:44px;height:44px;opacity:.5;}
-.gate-ico .site-icon-lg{width:48px;height:48px;}
-.rc-ico .site-icon{width:26px;height:26px;}
-.rule-card-icon .site-icon{width:36px;height:36px;}
-
-/* Footer icons */
-.ft-social-icon{
-  width:18px;height:18px;object-fit:contain;
-  filter:var(--icon-filter);opacity:.7;
-  vertical-align:middle;margin-right:.35rem;
-  transition:opacity .2s;
-}
-a:hover .ft-social-icon{opacity:1;}
-
-/* Nav icon */
-.nav-icon{
-  width:15px;height:15px;object-fit:contain;
-  filter:var(--icon-filter);vertical-align:middle;
-}
-
-/* ════════════════════════════════════════
-   MOBILE NAVIGATION DRAWER
-════════════════════════════════════════ */
-
-/* Hide desktop nav on mobile */
-@media(max-width:768px){
-  #nav-desktop{ display:none !important; }
-  .mob-bar{ display:flex !important; }
-}
-@media(min-width:769px){
-  .mob-bar{ display:none !important; }
-  .mob-drawer,.mob-drawer-ov{ display:none !important; }
-  #mob-drawer-ctrl{ display:none; }
-}
-
-/* Mobile sticky bar */
-.mob-bar{
-  display:none;
-  align-items:center;justify-content:space-between;
-  padding:.65rem 1.1rem;
-  background:var(--nav-bg);border-bottom:1px solid var(--accent);
-  min-height:48px;
-}
-.mob-bar-label{
-  font-family:'Cinzel',serif;font-size:.64rem;letter-spacing:.25em;
-  color:var(--accent);text-transform:uppercase;
-}
-.mob-menu-btn{
-  background:none;border:1px solid var(--accent);
-  color:var(--accent);font-size:1.1rem;
-  padding:.28rem .6rem;cursor:pointer;
-  line-height:1;transition:background .2s;
-}
-.mob-menu-btn:hover{background:var(--tag-bg);}
-
-/* Overlay */
-.mob-drawer-ov{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.72);z-index:900;
-}
-.mob-drawer-ov.open{ display:block; }
-
-/* Drawer */
-.mob-drawer{
-  position:fixed;top:0;left:0;
-  width:100%;max-width:100%;
-  background:var(--nav-bg);
-  z-index:901;
-  transform:translateY(-100%);
-  transition:transform .3s cubic-bezier(.4,0,.2,1);
-  border-bottom:2px solid var(--accent);
-  max-height:90vh;overflow-y:auto;
-}
-.mob-drawer.open{ transform:translateY(0); }
-
-/* Drawer header */
-.mob-drawer-hdr{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.8rem 1.2rem;
-  border-bottom:1px solid var(--hr);
-}
-.mob-drawer-title{
-  font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.28em;
-  color:var(--accent);text-transform:uppercase;
-}
-.mob-drawer-close{
-  background:none;border:none;color:var(--accent);
-  font-size:1.1rem;cursor:pointer;padding:.2rem .4rem;
-  transition:opacity .2s;
-}
-.mob-drawer-close:hover{opacity:.7;}
-
-/* Nav list */
-.mob-nav-list{list-style:none;padding:0;margin:0;}
-.mob-nav-item{
-  border-bottom:1px solid var(--hr);
-  cursor:pointer;
-  transition:background .15s;
-}
-.mob-nav-item:last-child{ border-bottom:none; }
-.mob-nav-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1rem 1.2rem;
-}
-.mob-nav-label{
-  font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;
-  color:var(--text-dim);text-transform:uppercase;
-  display:block;padding:1rem 1.2rem;
-  transition:color .15s;
-}
-.mob-nav-item.has-sub .mob-nav-label{ padding:0; }
-.mob-nav-item.active{ background:var(--tag-bg); }
-.mob-nav-item.active .mob-nav-label{ color:var(--accent); }
-.mob-nav-item:hover:not(.active){ background:rgba(255,255,255,.04); }
-.mob-nav-item:hover .mob-nav-label{ color:var(--accent); }
-.mob-nav-arrow{
-  font-size:1.1rem;color:var(--text-muted);
-  transition:transform .22s;
-}
-.mob-nav-item.sub-open .mob-nav-arrow{ transform:rotate(180deg); }
-
-/* Sub-items (Gallery, Characters) */
-.mob-sub-list{ list-style:none;padding:0;margin:0; background:rgba(0,0,0,.18); }
-.mob-sub-item{
-  font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.12em;
-  color:var(--text-muted);text-transform:capitalize;
-  padding:.75rem 1.2rem .75rem 2.2rem;
-  cursor:pointer;transition:all .15s;
-  border-top:1px solid var(--hr);
-}
-.mob-sub-item:hover{ color:var(--accent); padding-left:2.6rem; }
-
-/* Controls area in drawer */
-.mob-drawer-ctrl{
-  padding:.85rem 1.2rem;border-top:1px solid var(--hr);
-  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
-}
-
-
-/* ════════════════════════════════════════
-   GALLERY FOLDER SYSTEM
-════════════════════════════════════════ */
-.gal-folders{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;
-  margin-bottom:2rem;
-}
-@media(max-width:760px){.gal-folders{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:480px){.gal-folders{grid-template-columns:1fr;}}
-
-.gal-folder{
-  background:var(--surface);border:1px solid var(--hr);
-  padding:1.4rem 1.2rem;text-align:center;cursor:pointer;
-  transition:all .22s;position:relative;overflow:hidden;
-}
-.gal-folder:hover{border-color:var(--accent);box-shadow:var(--glow2);transform:translateY(-2px);}
-.gal-folder::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:var(--accent);transform:scaleX(0);transform-origin:center;transition:transform .3s;
-}
-.gal-folder:hover::after{transform:scaleX(1);}
-.gal-folder-icon{margin-bottom:.7rem;}
-.gal-folder-icon .site-icon{width:38px;height:38px;margin:0 auto;}
-.gal-folder-name{
-  font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.1em;
-  color:var(--text);margin-bottom:.3rem;line-height:1.4;
-}
-.gal-folder-count{font-size:.74rem;color:var(--text-muted);}
-
-/* Folder view */
-.gal-folder-view{margin-bottom:2rem;}
-.gal-folder-nav{
-  display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;
-  padding-bottom:.9rem;border-bottom:1px solid var(--hr);
-}
-.gal-back-btn{
-  background:none;border:1px solid var(--hr);color:var(--text-muted);
-  font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em;
-  padding:.38rem .75rem;cursor:pointer;transition:all .2s;text-transform:uppercase;
-}
-.gal-back-btn:hover{border-color:var(--accent);color:var(--accent);}
-.gal-folder-current{
-  font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.12em;
-  color:var(--accent);text-transform:uppercase;
-}
-.gal-thumb-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;
-  margin-bottom:1rem;
-}
-.gal-thumb{
-  position:relative;overflow:hidden;border:1px solid var(--hr);
-  cursor:pointer;transition:all .25s;background:var(--surface);
-  aspect-ratio:3/4;
-}
-.gal-thumb:hover{border-color:var(--accent);box-shadow:var(--glow2);}
-.gal-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
-.gal-thumb:hover img{transform:scale(1.06);}
-.gal-thumb-ov{
-  position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(0,0,0,.82));
-  padding:.5rem .6rem;transform:translateY(100%);transition:transform .25s;
-  font-family:'Cinzel',serif;font-size:.62rem;color:#fff;letter-spacing:.06em;
-}
-.gal-thumb:hover .gal-thumb-ov{transform:translateY(0);}
-
-.gal-folder-empty{
-  text-align:center;padding:3rem 1rem;
-  background:var(--surface);border:1px dashed var(--hr);color:var(--text-muted);
-  font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.08em;
-  display:flex;flex-direction:column;align-items:center;gap:.4rem;
-}
-
-/* Image lightbox / viewer */
-.gal-viewer-ov{
-  position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .25s;
-}
-.gal-viewer-ov.open{opacity:1;pointer-events:all;}
-.gal-viewer{
-  position:relative;max-width:min(92vw,900px);width:100%;
-  display:flex;flex-direction:column;align-items:center;gap:.9rem;
-}
-.gal-viewer-img{
-  max-height:72vh;max-width:100%;object-fit:contain;
-  border:1px solid var(--accent);display:block;
-}
-.gal-viewer-close{
-  position:fixed;top:1.2rem;right:1.4rem;
-  background:none;border:1px solid var(--hr);
-  color:var(--text);font-size:1.2rem;width:34px;height:34px;
-  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;
-}
-.gal-viewer-close:hover{border-color:var(--accent);color:var(--accent);}
-.gal-viewer-info{
-  font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;
-  color:var(--text-muted);text-align:center;
-}
-.gal-viewer-nav{display:flex;align-items:center;gap:1.5rem;}
-.gal-viewer-arrow{
-  background:none;border:1px solid var(--hr);
-  color:var(--text);font-size:1.4rem;width:40px;height:40px;
-  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;
-}
-.gal-viewer-arrow:hover{border-color:var(--accent);color:var(--accent);}
-.gal-viewer-counter{
-  font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.1em;
-  color:var(--text-muted);min-width:80px;text-align:center;
-}
-.gal-viewer-dl{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:.3rem;}
-.gal-dl-btn{
-  font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
-  padding:.28rem .7rem;border:1px solid var(--hr);background:none;color:var(--text-muted);
-  cursor:pointer;transition:all .2s;
-}
-.gal-dl-btn:hover{border-color:var(--accent);color:var(--accent);}
-.gal-dl-btn.hi{border-color:var(--accent);color:var(--accent);}
-
-
-/* ════════════════════════════════════════
-   DISCORD-STYLE STAFF MODAL
-════════════════════════════════════════ */
-.dc-modal-ov{
-  position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:800;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem;
-}
-.dc-modal-ov.open{opacity:1;pointer-events:all;}
-.dc-modal{
-  background:var(--surface);width:100%;max-width:480px;
-  position:relative;overflow:hidden;
-  border:1px solid var(--hr);
-  animation:dcModalIn .22s ease;
-  max-height:90vh;overflow-y:auto;
-}
-@keyframes dcModalIn{from{transform:scale(.94);opacity:0;}to{transform:scale(1);opacity:1;}}
-.dc-modal-close{
-  position:absolute;top:.8rem;right:.8rem;z-index:10;
-  background:rgba(0,0,0,.5);border:none;color:#fff;
-  width:28px;height:28px;border-radius:50%;cursor:pointer;
-  font-size:.9rem;display:flex;align-items:center;justify-content:center;
-  transition:background .2s;
-}
-.dc-modal-close:hover{background:rgba(0,0,0,.8);}
-
-/* Banner */
-.dc-modal-banner{
-  height:100px;background:linear-gradient(135deg,var(--crimson-deep),#3a0505);
-  position:relative;overflow:hidden;flex-shrink:0;
-}
-.dc-modal-banner img.banner-img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-.dc-modal-banner .banner-blur{
-  width:100%;height:100%;object-fit:cover;filter:blur(18px) brightness(.6);display:block;
-}
-
-/* Avatar row */
-.dc-modal-av-row{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  padding:0 1.1rem;margin-top:-36px;margin-bottom:.5rem;position:relative;z-index:2;
-}
-.dc-modal-av-wrap{position:relative;}
-.dc-modal-av{
-  width:72px;height:72px;border-radius:50%;
-  border:4px solid var(--surface);background:var(--surface2);
-  overflow:hidden;display:flex;align-items:center;justify-content:center;
-  font-family:'Cinzel',serif;font-size:1.4rem;color:var(--accent);
-}
-.dc-modal-av img{width:100%;height:100%;object-fit:cover;}
-.dc-modal-av-status{
-  position:absolute;bottom:4px;right:4px;
-  width:16px;height:16px;border-radius:50%;
-  background:#57F287;border:3px solid var(--surface);
-}
-.dc-modal-badges-row{
-  display:flex;align-items:center;gap:.4rem;padding-bottom:.5rem;
-}
-.dc-modal-badge{
-  font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.1em;
-  padding:.2rem .55rem;border:1px solid var(--accent);
-  background:var(--tag-bg);color:var(--accent);white-space:nowrap;
-}
-.dc-modal-badge.founder{background:rgba(201,168,76,.25);border-color:var(--accent);}
-.dc-modal-badge.admin{background:rgba(192,39,45,.18);border-color:var(--crimson-bright);color:var(--crimson-bright);}
-.dc-modal-badge.mod{background:rgba(88,101,242,.18);border-color:#818cf8;color:#818cf8;}
-.dc-modal-badge.trial{background:rgba(87,242,135,.12);border-color:#57F287;color:#57F287;}
-
-/* Body */
-.dc-modal-body{padding:.4rem 1.1rem 1.4rem;}
-.dc-modal-displayname{
-  font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;
-  color:var(--text);letter-spacing:.04em;margin-bottom:.08rem;
-}
-.dc-modal-username{
-  font-size:.82rem;color:var(--text-muted);margin-bottom:.65rem;
-}
-.dc-modal-divider{height:1px;background:var(--hr);margin:.75rem 0;}
-.dc-modal-section{margin-bottom:.9rem;}
-.dc-modal-section-label{
-  font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.18em;
-  color:var(--text-muted);text-transform:uppercase;margin-bottom:.38rem;
-}
-.dc-modal-section-val{
-  font-size:.9rem;color:var(--text-dim);line-height:1.65;
-}
-.dc-modal-section-val p{margin-bottom:.5rem;}
-.dc-modal-section-val p:last-child{margin-bottom:0;}
-.dc-modal-roles{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:.3rem;}
-.dc-modal-role{
-  font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.08em;
-  padding:.2rem .55rem;border-radius:3px;font-weight:600;
-}
-.dc-modal-meta-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:.6rem;
-}
-.dc-modal-meta-item{}
-.dc-modal-userid{
-  font-family:monospace;font-size:.78rem;color:var(--text-muted);
-  background:var(--surface2);padding:.22rem .5rem;display:inline-block;margin-top:.2rem;
-}
-
 </style>
 </head>
 <body>
@@ -1622,10 +1206,11 @@ a:hover .ft-social-icon{opacity:1;}
 <header id="hdr">
   <div class="hdr-inner">
     <div class="glitch-wrap" id="gl">
-      <img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/logo-en.png" alt="Gokurakugai" class="logo-en-gl" id="logo-main">
-      <img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/logo-jp.png" alt="極楽街" class="logo-jp-gl" id="logo-jp-gl">
-      <div class="gl-r"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/logo-en.png" alt="" aria-hidden="true"></div>
-      <div class="gl-b"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/logo-en.png" alt="" aria-hidden="true"></div>
+      <img src="assets/images/logo-en.png" alt="Gokurakugai" class="logo-en-gl" id="logo-main">
+      <img src="assets/images/logo-jp.png" alt="極楽街" class="logo-jp-gl" id="logo-jp-gl">
+      <div class="gl-r"><img src="
+      <div class="gl-r"><img src="assets/images/logo-en.png" alt="" aria-hidden="true"></div>
+      <div class="gl-b"><img src="assets/images/logo-en.png" alt="" aria-hidden="true"></div>
     </div>
     <p class="hdr-tag">Fan Community · Est. 2024</p>
   </div>
@@ -1633,8 +1218,7 @@ a:hover .ft-social-icon{opacity:1;}
 
 <!-- ════ NAV ════ -->
 <nav id="nav">
-  <!-- Desktop nav (hidden on mobile) -->
-  <div class="nav-in" id="nav-desktop">
+  <div class="nav-in">
     <ul class="nav-tabs">
       <li><a href="#" class="tab active" data-tab="about">About</a></li>
       <li>
@@ -1648,103 +1232,84 @@ a:hover .ft-social-icon{opacity:1;}
       <li><a href="#" class="tab" data-tab="info">Info</a></li>
       <li><a href="#" class="tab" data-tab="staff">Staff</a></li>
     </ul>
-    <!-- Nav right controls (theme + Discord) -->
-<div class="nav-ctrl" id="nav-ctrl-desktop">
-    <div class="tt">
-      <span class="tt-icon">☾</span>
-      <div class="tt-track" onclick="toggleTheme()" role="switch" aria-label="Toggle theme" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleTheme()"><div class="tt-thumb"></div></div>
-      <span class="tt-icon">☀</span>
-    </div>
-    <div class="dc-zone">
-      <button id="dc-login-btn" onclick="dcLogin()">
-        <svg viewBox="0 0 127 96" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
-        <span>Login with Discord</span>
-      </button>
-      <div id="dc-user-wrap" style="display:none;position:relative;">
-        <button class="dc-btn" id="dc-btn">
-          <div class="dc-av-ph" id="dc-av-ph"></div>
-          <span class="dc-uname" id="dc-uname"></span>
-          <div class="dc-dot" id="dc-dot" style="display:none;"></div>
+    <div class="nav-ctrl">
+      <div class="tt" title="Toggle theme">
+        <span class="tt-icon">🌙</span>
+        <div class="tt-track" id="tt" role="switch" tabindex="0">
+          <div class="tt-thumb"></div>
+        </div>
+        <span class="tt-icon">☀️</span>
+      </div>
+      <div class="dc-zone" id="dc-zone">
+        <button id="dc-login-btn" title="Login with Discord">
+          <svg viewBox="0 0 71 55" fill="currentColor"><path d="M60.1 4.9A58.5 58.5 0 0 0 45.4.6a.2.2 0 0 0-.2.1c-.6 1.1-1.3 2.5-1.8 3.7a54.1 54.1 0 0 0-16.2 0 38 38 0 0 0-1.8-3.7.22.22 0 0 0-.2-.1A58.4 58.4 0 0 0 10.5 4.9a.2.2 0 0 0-.1.1C1.6 18.1-.9 31 .3 43.6a.2.2 0 0 0 .1.2 58.8 58.8 0 0 0 17.7 8.9.22.22 0 0 0 .2-.1 42 42 0 0 0 3.6-5.9.2.2 0 0 0-.1-.3 38.7 38.7 0 0 1-5.5-2.6.2.2 0 0 1 0-.3l1.1-.9a.2.2 0 0 1 .2 0c11.5 5.3 24 5.3 35.4 0a.2.2 0 0 1 .2 0l1.1.9a.2.2 0 0 1 0 .3 36.1 36.1 0 0 1-5.5 2.6.2.2 0 0 0-.1.3 47.1 47.1 0 0 0 3.6 5.9.2.2 0 0 0 .2.1 58.6 58.6 0 0 0 17.7-8.9.2.2 0 0 0 .1-.2c1.5-14.8-2.5-27.7-10.4-39.1a.2.2 0 0 0-.1-.1zM23.7 36.2c-3.5 0-6.4-3.2-6.4-7.1s2.9-7.1 6.4-7.1c3.5 0 6.4 3.2 6.4 7.1-.1 3.9-2.9 7.1-6.4 7.1zm23.6 0c-3.5 0-6.4-3.2-6.4-7.1s2.9-7.1 6.4-7.1c3.5 0 6.4 3.2 6.4 7.1 0 3.9-2.9 7.1-6.4 7.1z"/></svg>
+          <span>Login</span>
         </button>
-        <div class="dc-dd" id="dc-dd">
-          <div class="dc-profile-card">
-            <div class="dpc-banner" id="dpc-banner"></div>
-            <div class="dpc-avatar-row">
-              <div class="dpc-av-wrap">
-                <div class="dpc-av" id="dpc-av"></div>
-                <div class="dpc-status"></div>
+        <div id="dc-user-wrap">
+          <div class="dc-btn" id="dc-btn">
+            <div class="dc-av-ph" id="dc-av-ph">?</div>
+            <img class="dc-av" id="dc-av-img" src="" alt="" style="display:none">
+            <span class="dc-uname" id="dc-uname">User</span>
+            <div class="dc-dot" id="dc-dot" style="display:none" title="Server Member"></div>
+          </div>
+          <div class="dc-dd" id="dc-dd">
+            <!-- Profile Card -->
+            <div class="dc-profile-card" id="dc-profile-card">
+              <div class="dpc-banner" id="dpc-banner"></div>
+              <div class="dpc-avatar-row">
+                <div class="dpc-av-wrap">
+                  <div class="dpc-av" id="dpc-av"></div>
+                  <span class="dpc-status"></span>
+                </div>
+                <div class="dpc-badges" id="dpc-badges">
+                  <span class="dpc-badge">🔮 Member</span>
+                </div>
               </div>
-              <div class="dpc-badges" id="dpc-badges">
-                <span class="dpc-badge">Member</span>
+              <div class="dpc-body">
+                <div class="dpc-displayname" id="dpc-displayname">—</div>
+                <div class="dpc-username" id="dpc-username">@—</div>
+                <div class="dpc-divider"></div>
+                <div class="dpc-fields">
+                  <div class="dpc-field" id="dpc-pronouns-row" style="display:none">
+                    <div class="dpc-label">PRONOUNS</div>
+                    <div class="dpc-val" id="dpc-pronouns">—</div>
+                  </div>
+                  <div class="dpc-field">
+                    <div class="dpc-label">USER ID</div>
+                    <div class="dpc-val dpc-mono" id="dpc-uid">—</div>
+                  </div>
+                  <div class="dpc-field">
+                    <div class="dpc-label">SERVER MEMBER SINCE</div>
+                    <div class="dpc-val" id="dpc-joined">—</div>
+                  </div>
+                </div>
+                <div id="dpc-bio-row" style="display:none">
+                  <div class="dpc-divider"></div>
+                  <div class="dpc-label" style="margin-bottom:.3rem">ABOUT ME</div>
+                  <div class="dpc-bio" id="dpc-bio">—</div>
+                </div>
+                <div class="dpc-divider"></div>
+                <div class="dpc-label" style="margin-bottom:.4rem">ROLES</div>
+                <div class="dpc-roles" id="dpc-roles">
+                  <span class="dpc-role dpc-role-member">Member</span>
+                </div>
               </div>
             </div>
-            <div class="dpc-body">
-              <div class="dpc-displayname" id="dpc-displayname">—</div>
-              <div class="dpc-username" id="dpc-username">—</div>
-              <div class="dpc-divider"></div>
-              <div class="dpc-fields">
-                <div>
-                  <div class="dpc-label">USER ID</div>
-                  <div class="dpc-mono" id="dpc-userid">—</div>
-                </div>
-                <div>
-                  <div class="dpc-label">MEMBER SINCE</div>
-                  <div class="dpc-val" id="dpc-since">—</div>
-                </div>
-              </div>
-              <div class="dpc-divider"></div>
-              <div class="dpc-label">ROLES</div>
-              <div class="dpc-roles" id="dpc-roles"></div>
-              <div class="dpc-divider"></div>
-              <button id="dc-logout" style="width:100%;background:none;border:1px solid var(--hr);color:var(--text-muted);font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.09em;padding:.42rem;cursor:pointer;transition:all .2s;margin-top:.3rem;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--hr)';this.style.color='var(--text-muted)'">Logout</button>
+            <div class="dpc-actions">
+              <button class="dc-out" id="dc-logout">⬡ Logout</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
-  <!-- Mobile nav bar -->
-  <div class="mob-bar" id="mob-bar">
-    <span class="mob-bar-label">NAVIGATION</span>
-    <button class="mob-menu-btn" id="mob-menu-btn" aria-label="Open navigation menu">&#9776;</button>
-  </div>
-</nav>
-
-<!-- Mobile nav drawer -->
-<div class="mob-drawer-ov" id="mob-drawer-ov" onclick="closeMobDrawer()"></div>
-<div class="mob-drawer" id="mob-drawer">
-  <div class="mob-drawer-hdr">
-    <span class="mob-drawer-title">NAVIGATION</span>
-    <button class="mob-drawer-close" id="mob-drawer-close" onclick="closeMobDrawer()">&#10005;</button>
-  </div>
-  <ul class="mob-nav-list" id="mob-nav-list">
-    <li class="mob-nav-item active" data-tab="about"><span class="mob-nav-label">ABOUT</span></li>
-    <li class="mob-nav-item has-sub" data-tab="manga">
-      <div class="mob-nav-row">
-        <span class="mob-nav-label">MANGA</span>
-        <span class="mob-nav-arrow">&#8964;</span>
-      </div>
-      <ul class="mob-sub-list" id="mob-manga-sub" style="display:none;">
-        <li class="mob-sub-item" data-tab="manga" data-sub="gallery">Gallery</li>
-        <li class="mob-sub-item" data-tab="manga" data-sub="chars">Characters</li>
-      </ul>
-    </li>
-    <li class="mob-nav-item" data-tab="rules"><span class="mob-nav-label">RULES</span></li>
-    <li class="mob-nav-item" data-tab="info"><span class="mob-nav-label">INFO</span></li>
-    <li class="mob-nav-item" data-tab="news"><span class="mob-nav-label">NEWS</span></li>
-    <li class="mob-nav-item" data-tab="theories"><span class="mob-nav-label">THEORIES</span></li>
-    <li class="mob-nav-item" data-tab="staff"><span class="mob-nav-label">STAFF</span></li>
-  </ul>
-  <!-- Nav controls inside drawer -->
-  <div class="mob-drawer-ctrl" id="mob-drawer-ctrl"></div>
 </nav>
 
 <!-- ════ MAIN ════ -->
 <main id="content">
 
 <!-- ══ ABOUT ══ -->
-<section id="about" class="sec">
+<section id="about" class="sec active">
   <div class="sec-hdr">
     <span class="jp">極楽街へようこそ</span>
     <span class="en">Welcome to Gokurakugai</span>
@@ -1782,32 +1347,32 @@ a:hover .ft-social-icon{opacity:1;}
   <div class="orn">❧ Read Online ❧</div>
   <p style="text-align:center;max-width:540px;margin:0 auto 1.4rem;font-size:.97rem;color:var(--text-dim);">Support the official release. Read Gokurakugai through legitimate platforms.</p>
   <div class="read-grid">
-    <a href="https://mangaplus.shueisha.co.jp/titles/100230" target="_blank" class="rc"><div class="rc-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div><div><div class="rc-title">Manga Plus</div><div class="rc-sub">Free · Official · English</div></div></a>
-    <a href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank" class="rc"><div class="rc-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div><div><div class="rc-title">VIZ Media</div><div class="rc-sub">Official English Release</div></div></a>
-    <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank" class="rc"><div class="rc-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div><div><div class="rc-title">Jump SQ</div><div class="rc-sub">Official Japanese</div></div></a>
-    <a href="https://jumpsq.shueisha.co.jp/sqrise/2020winter/gokuraku.html" target="_blank" class="rc"><div class="rc-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div><div><div class="rc-title">Original Oneshot</div><div class="rc-sub">Winter 2020 · Jump SQ Rise</div></div></a>
+    <a href="https://mangaplus.shueisha.co.jp/titles/100230" target="_blank" class="rc"><div class="rc-ico">📖</div><div><div class="rc-title">Manga Plus</div><div class="rc-sub">Free · Official · English</div></div></a>
+    <a href="https://www.viz.com/shonenjump/chapters/gokurakugai" target="_blank" class="rc"><div class="rc-ico">🇺🇸</div><div><div class="rc-title">VIZ Media</div><div class="rc-sub">Official English Release</div></div></a>
+    <a href="https://jumpsq.shueisha.co.jp/rensai/gokurakugai/" target="_blank" class="rc"><div class="rc-ico">🇯🇵</div><div><div class="rc-title">Jump SQ</div><div class="rc-sub">Official Japanese</div></div></a>
+    <a href="https://jumpsq.shueisha.co.jp/sqrise/2020winter/gokuraku.html" target="_blank" class="rc"><div class="rc-ico">✨</div><div><div class="rc-title">Original Oneshot</div><div class="rc-sub">Winter 2020 · Jump SQ Rise</div></div></a>
   </div>
 
   <!-- ── Community Stats ── -->
   <div class="orn">❧ Community Stats ❧</div>
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/discord-user.png" alt="" class="site-icon"></div>
-      <div class="stat-val" id="stat-discord">1.4K+</div>
+      <div class="stat-icon">🎮</div>
+      <div class="stat-val" id="stat-discord">—</div>
       <div class="stat-label">Discord Members</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="stat-icon">📖</div>
       <div class="stat-val" id="stat-chapters">—</div>
       <div class="stat-label">Chapters Released</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="stat-icon">📚</div>
       <div class="stat-val" id="stat-volumes">6</div>
       <div class="stat-label">Volumes Published</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/user.png" alt="" class="site-icon"></div>
+      <div class="stat-icon">⚔️</div>
       <div class="stat-val" id="stat-staff">—</div>
       <div class="stat-label">Staff Members</div>
     </div>
@@ -1817,32 +1382,32 @@ a:hover .ft-social-icon{opacity:1;}
   <div class="orn">❧ What We Offer ❧</div>
   <div class="offer-grid">
     <div class="offer-card">
-      <div class="offer-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/discord-user.png" alt="" class="site-icon"></div>
+      <div class="offer-icon">💬</div>
       <h4>Chapter Discussions</h4>
       <p>Dive into in-depth discussions for every new chapter the moment it drops, with dedicated spoiler-safe channels for every reading pace.</p>
     </div>
     <div class="offer-card">
-      <div class="offer-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="offer-icon">🔮</div>
       <h4>Fan Theories</h4>
       <p>Submit and explore community fan theories on characters, plot, and hidden symbolism — upvote your favorites and spark new conversations.</p>
     </div>
     <div class="offer-card">
-      <div class="offer-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/user.png" alt="" class="site-icon"></div>
+      <div class="offer-icon">🎨</div>
       <h4>Fan Art Gallery</h4>
       <p>Browse and share original fan artwork celebrating the world of Gokurakugai, with regular community art contests and showcases.</p>
     </div>
     <div class="offer-card">
-      <div class="offer-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="offer-icon">📰</div>
       <h4>News & Updates</h4>
       <p>Stay up to date with the latest official announcements, volume releases, author news, and community milestones all in one place.</p>
     </div>
     <div class="offer-card">
-      <div class="offer-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="offer-icon">📋</div>
       <h4>Community Rules</h4>
       <p>A welcoming, well-moderated space with clear, fair rules enforced by a dedicated volunteer staff team passionate about Gokurakugai.</p>
     </div>
     <div class="offer-card">
-      <div class="offer-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/user.png" alt="" class="site-icon"></div>
+      <div class="offer-icon">🤝</div>
       <h4>Join the Team</h4>
       <p>Passionate about the series? Apply to join our staff team and help shape the community as a moderator or content creator.</p>
     </div>
@@ -1860,64 +1425,31 @@ a:hover .ft-social-icon{opacity:1;}
     <button class="sn-btn" data-sub="chars" data-parent="manga">Characters</button>
   </div>
   <div id="gallery" class="subsec active">
-    <div class="sec-hdr" style="padding-top:0;">
-      <span class="jp">ギャラリー</span>
-      <span class="en">Gallery</span>
-      <span class="sub">Browse official artwork organized by category. Click a folder to view its contents.</span>
-    </div>
+    <h2 class="st">Gallery</h2><p class="st-jp">ギャラリー</p>
     <div class="sdiv"><span>✦</span></div>
-    <p style="text-align:center;font-size:.82rem;color:var(--text-muted);font-style:italic;margin-bottom:1.5rem;">All artwork © Yuto Sano / Shueisha. Fan use only.</p>
-
-    <!-- Gallery Folders -->
-    <div class="gal-folders" id="gal-folders">
-      <div class="gal-folder" onclick="openGalFolder('chapter-covers')">
-        <div class="gal-folder-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
-        <div class="gal-folder-name">Chapter Colored Covers</div>
-        <div class="gal-folder-count" id="fc-chapter-covers">0 images</div>
-      </div>
-      <div class="gal-folder" onclick="openGalFolder('volume-covers')">
-        <div class="gal-folder-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
-        <div class="gal-folder-name">Volume Covers</div>
-        <div class="gal-folder-count" id="fc-volume-covers">0 images</div>
-      </div>
-      <div class="gal-folder" onclick="openGalFolder('official-illustrations')">
-        <div class="gal-folder-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
-        <div class="gal-folder-name">Official Illustrations</div>
-        <div class="gal-folder-count" id="fc-official-illustrations">0 images</div>
-      </div>
-      <div class="gal-folder" onclick="openGalFolder('extra-illustrations')">
-        <div class="gal-folder-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
-        <div class="gal-folder-name">Extra Illustrations</div>
-        <div class="gal-folder-count" id="fc-extra-illustrations">0 images</div>
-      </div>
-      <div class="gal-folder" onclick="openGalFolder('magazines')">
-        <div class="gal-folder-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
-        <div class="gal-folder-name">Magazines</div>
-        <div class="gal-folder-count" id="fc-magazines">0 images</div>
-      </div>
-      <div class="gal-folder" onclick="openGalFolder('archived-illustrations')">
-        <div class="gal-folder-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
-        <div class="gal-folder-name">Archived Illustrations</div>
-        <div class="gal-folder-count" id="fc-archived-illustrations">0 images</div>
-      </div>
+    <div class="gal-grid">
+      <div class="gal-item"><img src="assets/images/staff1.png" alt="Key Art Dark" loading="lazy"><div class="gal-ov"><p>Key Visual — Dark Ver.</p></div></div>
+      <div class="gal-item"><img src="assets/images/staff2.png" alt="Key Art Light" loading="lazy"><div class="gal-ov"><p>Key Visual — Light Ver.</p></div></div>
+      <div class="gal-item"><img src="assets/images/staff3.png" alt="Alma" loading="lazy" style="object-position:top"><div class="gal-ov"><p>Alma</p></div></div>
+      <div class="gal-item"><img src="assets/images/staff4.png" alt="Tao" loading="lazy" style="object-position:top"><div class="gal-ov"><p>Tao</p></div></div>
+      <div class="gal-item"><img src="assets/images/staff5.png" alt="Shinju" loading="lazy" style="object-position:top"><div class="gal-ov"><p>Chiba Shinju</p></div></div>
+      <div class="gal-item"><img src="assets/images/staff6.png" alt="Author Art" loading="lazy"><div class="gal-ov"><p>Yuto Sano — Author Art</p></div></div>
     </div>
-
-    <!-- Folder View (shown when a folder is open) -->
-    <div class="gal-folder-view" id="gal-folder-view" style="display:none;">
-      <div class="gal-folder-nav">
-        <button class="gal-back-btn" onclick="closeGalFolder()">&#8592; Back to Gallery</button>
-        <span class="gal-folder-current" id="gal-folder-current">Folder Name</span>
-      </div>
-      <div class="gal-thumb-grid" id="gal-thumb-grid">
-        <!-- Images rendered by JS -->
-      </div>
-      <div class="gal-folder-empty" id="gal-folder-empty">
-        <img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" style="width:42px;height:42px;opacity:.3;filter:var(--icon-filter);margin-bottom:.8rem;">
-        <p>No images added yet.</p>
-        <p style="font-size:.82rem;margin-top:.3rem;">Images will appear here once uploaded.</p>
-      </div>
+    <p style="text-align:center;margin-top:1.3rem;font-size:.82rem;color:var(--text-muted);font-style:italic;">All artwork © Yuto Sano / Shueisha. Fan use only.</p>
+  </div>
+  <div id="chars" class="subsec">
+    <h2 class="st">Characters</h2><p class="st-jp">登場人物</p>
+    <div class="sdiv"><span>✦</span></div>
+    <div class="ch-grid">
+      <div class="ch"><img src="assets/images/staff1.png" alt="Alma" class="ch-img"><div class="ch-info"><h3>Alma</h3><div class="ct">アルマ — The Ghoul</div><p>A young ghoul with exceptional combat abilities and an insatiable craving for taiyaki. Good-natured and fiercely loyal, Alma serves as Tao's partner in the district.</p><span class="ch-tag">Protagonist</span></div></div>
+      <div class="ch"><img src="assets/images/staff2.png" alt="Tao" class="ch-img"><div class="ch-info"><h3>Tao</h3><div class="ct">タオ — The Exterminator</div><p>A composed and enigmatic exterminator armed with a powerful firearm and deep knowledge of the district's supernatural underworld. Serves as Alma's caretaker and partner.</p><span class="ch-tag">Protagonist</span></div></div>
+      <div class="ch"><img src="assets/images/staff3.png" alt="Shinju" class="ch-img"><div class="ch-info"><h3>Chiba Shinju</h3><div class="ct">千葉真珠 — The Restaurateur</div><p>Energetic proprietor of the district's beloved dim sum restaurant. A key figure in Gokurakugai's community life, with more ties to the supernatural than she lets on.</p><span class="ch-tag">Supporting</span></div></div>
+      <div class="ch"><img src="assets/images/staff4.png" alt="???" class="ch-img"><div class="ch-info"><h3>???</h3><div class="ct">Unknown Affiliation</div><p>A pale-eyed figure whose allegiances remain shrouded in mystery. Their calm demeanor conceals a power that commands both respect and dread within Gokurakugai.</p><span class="ch-tag">Unknown</span></div></div>
+      <div class="ch"><img src="assets/images/staff5.png" alt="Elder" class="ch-img"><div class="ch-info"><h3>???</h3><div class="ct">Elder of the District</div><p>A world-weary figure who has seen Gokurakugai in its earliest, darkest days. Slow to speak, impossible to ignore.</p><span class="ch-tag">Side Character</span></div></div>
+      <div class="ch"><img src="assets/images/staff6.png" alt="Shadow" class="ch-img"><div class="ch-info"><h3>???</h3><div class="ct">Shadow of the District</div><p>A dark, gothic presence who moves through Gokurakugai with quiet menace. The eyepatch conceals a power that few have lived to describe.</p><span class="ch-tag">Antagonist</span></div></div>
     </div>
-  </div><!-- end gallery subsec -->
+    <div style="margin-top:1.8rem;padding:.9rem 1.2rem;background:var(--surface);border-left:3px solid var(--accent);font-size:.85rem;color:var(--text-muted);font-style:italic;">✦ Community interpretations only. Official lore belongs to Yuto Sano / Shueisha.</div>
+  </div><!-- end chars subsec -->
 </section>
 
 <!-- ══ NEWS ══ -->
@@ -1947,7 +1479,7 @@ a:hover .ft-social-icon{opacity:1;}
 
     <!-- Empty state — shown when no articles exist -->
     <div class="news-empty" id="news-empty" style="display:none;">
-      <div class="news-empty-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="news-empty-ico">📰</div>
       <h3>No Posts Yet</h3>
       <p>Community news and announcements will appear here. Check back soon!</p>
     </div>
@@ -1957,10 +1489,10 @@ a:hover .ft-social-icon{opacity:1;}
 
     <!-- Never miss updates -->
     <div class="never-miss">
-      <div class="nm-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/discord-user.png" alt="" class="site-icon"></div>
+      <div class="nm-icon">🔔</div>
       <h3>Never Miss an Update</h3>
       <p>Join our Discord server for real-time chapter drops, event announcements, and community discussions.</p>
-      <a href="https://x.com/i/communities/1923913403464286699" target="_blank" class="btn btn-p" style="margin:0 auto;display:flex;align-items:center;gap:.5rem;justify-content:center;"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/discord-user.png" alt="" class="site-icon-btn"> Join Discord</a>
+      <a href="https://x.com/i/communities/1923913403464286699" target="_blank" class="btn btn-p" style="margin:0 auto;">🎮 Join Discord</a>
     </div>
   </div>
 
@@ -1973,7 +1505,7 @@ a:hover .ft-social-icon{opacity:1;}
     </div>
     <!-- Empty state -->
     <div class="news-empty" id="articles-empty" style="display:none;">
-      <div class="news-empty-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="news-empty-ico">✍️</div>
       <h3>No Articles Yet</h3>
       <p>Community articles and analyses will appear here.</p>
     </div>
@@ -1990,7 +1522,7 @@ a:hover .ft-social-icon{opacity:1;}
 
     <!-- Not-a-member gate -->
     <div id="disc-gate" class="gate" style="display:none;">
-      <div class="gate-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/discord-user.png" alt="" class="site-icon-lg"></div>
+      <div class="gate-ico">💬</div>
       <h3>Join the Discord server to comment</h3>
       <p>You must be a verified member of our Discord server to participate in discussions.</p>
       <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;">
@@ -2026,12 +1558,10 @@ a:hover .ft-social-icon{opacity:1;}
 
 <!-- ══ THEORIES ══ -->
 <section id="theories" class="sec">
-  <div class="sec-hdr">
-    <span class="jp">謎と考察</span>
-    <span class="en">Fan Theories</span>
-    <span class="sub">Share your theories about Gokurakugai with the community. Character backstories, plot predictions, hidden symbolism — we want to hear your ideas.</span>
+  <div class="th-page-header">
+    <h2>🔮 Fan Theory Submission</h2>
+    <p>Share your theories about Gokurakugai with the community. Character backstories, plot predictions, hidden symbolism — we want to hear your ideas.</p>
   </div>
-  <div class="sdiv"><span>✦</span></div>
 
   <!-- Discord widget -->
   <div class="dc-wgt-v2">
@@ -2047,7 +1577,7 @@ a:hover .ft-social-icon{opacity:1;}
 
   <!-- Submission guidelines -->
   <div class="th-guidelines">
-    <h3 style="display:flex;align-items:center;gap:.5rem;">Submission Guidelines</h3>
+    <h3>📋 Submission Guidelines</h3>
     <ul class="th-gl-list">
       <li>Theories must be original and your own work</li>
       <li>Include evidence from the manga to support your theory</li>
@@ -2059,7 +1589,7 @@ a:hover .ft-social-icon{opacity:1;}
 
   <!-- Login/Join gate (shown when NOT logged in or NOT a member) -->
   <div id="theory-gate" class="gate" style="display:none;">
-    <div class="gate-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/login.png" alt="Login" style="filter:var(--icon-filter);"></div>
+    <div class="gate-ico">🔒</div>
     <h3>Server Members Only</h3>
     <p>Submitting theories is exclusive to members of our Discord server. Join and log in to share your theories!</p>
     <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;">
@@ -2150,7 +1680,7 @@ a:hover .ft-social-icon{opacity:1;}
   <!-- Popular theories grid — no placeholders, only real submitted theories -->
   <div class="th-popular-title">🔥 Community Theories</div>
   <div id="theories-empty" style="text-align:center;padding:2.5rem;background:var(--surface);border:1px dashed var(--hr);margin-bottom:1.5rem;">
-    <div style="margin-bottom:.8rem;"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" style="width:36px;height:36px;opacity:.4;filter:var(--icon-filter);" alt=""></div>
+    <div style="font-size:2rem;margin-bottom:.6rem;">🔮</div>
     <p style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--text-muted);letter-spacing:.1em;">No theories yet — be the first to submit one!</p>
   </div>
   <div class="th-grid" id="theories-list"></div>
@@ -2158,79 +1688,77 @@ a:hover .ft-social-icon{opacity:1;}
 
 <!-- ══ RULES ══ -->
 <section id="rules" class="sec">
-  <div class="sec-hdr">
-    <span class="jp">コミュニティ規則</span>
-    <span class="en">Community Rules</span>
-    <span class="sub">To maintain a welcoming and positive environment for all Gokurakugai fans, please follow these guidelines. These rules govern all our spaces — Discord, Reddit, social media, and this website.</span>
+  <div class="rules-page-hdr">
+    <h2>Community Rules</h2>
+    <p>To maintain a welcoming and positive environment for all <strong style="color:var(--accent)">Gokurakugai</strong> fans, please follow these community guidelines. These are the extended rules that govern all our spaces — Discord, Reddit, social media, and this website.</p>
   </div>
-  <div class="sdiv"><span>✦</span></div>
 
   <div class="rules-card-grid">
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/user.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">🛡️</div>
       <div class="rule-card-body">
         <h4>1. Be Respectful</h4>
         <p>Treat all community members with respect and kindness. Harassment, hate speech, discrimination, or personal attacks of any kind will not be tolerated. We are all here because we love Gokurakugai — and that shared love should bring us together, not divide us. This applies across all platforms and channels, whether you're a new member or a founding one. No rank exempts anyone from basic decency.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/discord-user.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">💬</div>
       <div class="rule-card-body">
         <h4>2. Stay On Topic</h4>
         <p>Keep discussions relevant to Gokurakugai and related topics. While off-topic conversations are fine in designated channels, please maintain focus in manga discussion areas. Flooding serious discussion channels with unrelated content makes it harder for members to find what they're looking for and disrupts the community's organization.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">⚠️</div>
       <div class="rule-card-body">
         <h4>3. No Spoilers Without Warning</h4>
         <p>Always use spoiler tags when discussing recent chapters or plot developments. Not everyone reads at the same pace, and not everyone has access to chapters at the same time globally. Use Discord's ||spoiler tags||, Reddit flair, and clear labels on this site. Members who deliberately spoil content will be treated as violating Rule 1 — ruining someone's experience is a form of disrespect.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">🚫</div>
       <div class="rule-card-body">
         <h4>4. No Spam or Self-Promotion</h4>
         <p>Avoid excessive posting, spam, or unsolicited self-promotion. Sharing your Gokurakugai fan content is encouraged in the right channels, but repeatedly dropping links, flooding chat with short messages, or advertising unrelated projects without staff approval is prohibited. If you'd like to collaborate or promote something, reach out to an admin directly.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">📖</div>
       <div class="rule-card-body">
         <h4>5. Support the Official Release</h4>
         <p>Do not share or request pirated scans, unauthorized translations, or illegal aggregator links. Gokurakugai is an ongoing series whose publication depends on reader engagement with official platforms. Read on Manga Plus (free) or VIZ Media, purchase volumes when you're able, and always direct members asking "where to read" toward official sources. Sano's work deserves to be supported.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/user.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">🎨</div>
       <div class="rule-card-body">
         <h4>6. Credit Artists &amp; Creators</h4>
         <p>Always credit the original artist when sharing fan art — name, link to source, and explicit permission where required. Many artists have requested their work not be reshared without permission; those wishes must be respected. Do not use artwork as avatars or banners without permission. When sharing manga content, keep it to brief excerpts only and always link to official platforms.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">🌐</div>
       <div class="rule-card-body">
         <h4>7. Keep Content Age-Appropriate</h4>
         <p>All content shared in community spaces must be appropriate for a general audience including members as young as thirteen. Explicit sexual content involving characters is strictly prohibited regardless of perceived character age. Extremely graphic violence beyond the manga's own content, shock content with no artistic merit, and content designed purely to disturb are not welcome. Mature thematic discussions are fine — graphic depictions are not.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">🏛️</div>
       <div class="rule-card-body">
         <h4>8. Respect Staff Decisions</h4>
         <p>Our administrators and moderators volunteer their time to maintain this space. If staff issue a warning, remove a message, or take moderation action, respect that decision — do not argue publicly, circumvent it, or retaliate. If you genuinely believe a decision was wrong, contact staff privately with a calm, constructive message. Public campaigns against staff authority are treated as a serious violation.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">🔇</div>
       <div class="rule-card-body">
         <h4>9. No Divisive Real-World Topics</h4>
         <p>Discussions of real-world politics, political figures, religious doctrine, or other divisive non-manga topics are not appropriate in any community channel. This community exists to be a shared space for all fans regardless of political or ideological background. If the manga explores themes with social resonance — which it does — those may be discussed as literary analysis, not as a vehicle for real-world argument.</p>
       </div>
     </div>
     <div class="rule-card">
-      <div class="rule-card-icon"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/wiki.png" alt="" class="site-icon"></div>
+      <div class="rule-card-icon">📋</div>
       <div class="rule-card-body">
         <h4>10. Platform Terms of Service</h4>
         <p>All members must abide by the Terms of Service of whatever platform they are using — Discord, Reddit, Instagram, Twitter/X, etc. This includes age requirements, prohibited content, and acceptable use policies. ToS violations may result in your account being reported to the platform in addition to community consequences. The community does not end at the server border; we represent it everywhere we interact publicly in connection with it.</p>
@@ -2298,7 +1826,7 @@ a:hover .ft-social-icon{opacity:1;}
   <div class="sdiv"><span>✦</span></div>
   <div class="orn">❧ About the Author ❧</div>
   <div class="au-card" style="margin-bottom:2.5rem;">
-    <img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/Yuto_Sano_Profile.png" alt="Yuto Sano" class="au-img" id="au-img">
+    <img src="assets/images/yuto-sano.jpg" alt="Yuto Sano" class="au-img" id="au-img">
     <div class="au-info">
       <h3>Yuto Sano</h3>
       <div class="au-jp">佐野勇斗</div>
@@ -2347,51 +1875,51 @@ a:hover .ft-social-icon{opacity:1;}
   <div class="orn">❧ Administration ❧</div>
   <div class="staff-grid">
     <div class="sc" onclick="openModal('m1')">
-      <img src="https://cdn.discordapp.com/embed/avatars/3.png" alt="RION" id="s1-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff1.png'">
-      <div class="sc-body"><div class="sc-role">Founder · Admin</div><div class="sc-name">RION</div><div class="sc-handle">@jetnoire</div></div>
+      <img src="assets/images/staff1.png" alt="Ichirou" id="s1-img">
+      <div class="sc-body"><div class="sc-role">Founder · Administrator</div><div class="sc-name">Ichirou</div><div class="sc-handle">@ichirou_gkg</div></div>
       <button class="sc-view">View Profile</button>
     </div>
     <div class="sc" onclick="openModal('m2')">
-      <img src="https://cdn.discordapp.com/embed/avatars/3.png" alt="ANDY" id="s2-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff2.png'">
-      <div class="sc-body"><div class="sc-role">Admin</div><div class="sc-name">ANDY</div><div class="sc-handle">@resoluteroyalty</div></div>
+      <img src="assets/images/staff2.png" alt="Shirogane" id="s2-img">
+      <div class="sc-body"><div class="sc-role">Co-Founder · Administrator</div><div class="sc-name">Shirogane</div><div class="sc-handle">@shirogane_gkg</div></div>
       <button class="sc-view">View Profile</button>
     </div>
     <div class="sc" onclick="openModal('m3')">
-      <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="TORTOL" id="s3-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff3.png'">
-      <div class="sc-body"><div class="sc-role">Admin</div><div class="sc-name">TORTOL</div><div class="sc-handle">@tortilinni</div></div>
-      <button class="sc-view">View Profile</button>
-    </div>
-    <div class="sc" onclick="openModal('m4')">
-      <img src="https://cdn.discordapp.com/embed/avatars/4.png" alt="rwottenhrts" id="s4-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff4.png'">
-      <div class="sc-body"><div class="sc-role">Admin</div><div class="sc-name">rwottenhrts</div><div class="sc-handle">@rwottenhrts</div></div>
-      <button class="sc-view">View Profile</button>
-    </div>
-    <div class="sc" onclick="openModal('m5')">
-      <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="NAZARETH" id="s5-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff5.png'">
-      <div class="sc-body"><div class="sc-role">Admin</div><div class="sc-name">NAZARETH</div><div class="sc-handle">@thenazar3th</div></div>
+      <img src="assets/images/staff3.png" alt="Kanzaki" id="s8-img">
+      <div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">Kanzaki</div><div class="sc-handle">@kanzaki_gkg</div></div>
       <button class="sc-view">View Profile</button>
     </div>
   </div>
   <div class="orn">❧ Moderation Team ❧</div>
   <div class="staff-grid">
+    <div class="sc" onclick="openModal('m4')">
+      <img src="assets/images/staff4.png" alt="Shiro" id="s3-img">
+      <div class="sc-body"><div class="sc-role">Senior Moderator</div><div class="sc-name">Shiro</div><div class="sc-handle">@shiro_gkg</div></div>
+      <button class="sc-view">View Profile</button>
+    </div>
+    <div class="sc" onclick="openModal('m5')">
+      <img src="assets/images/staff5.png" alt="Nagi" id="s4-img">
+      <div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">Nagi</div><div class="sc-handle">@nagi_gkg</div></div>
+      <button class="sc-view">View Profile</button>
+    </div>
     <div class="sc" onclick="openModal('m6')">
-      <img src="https://cdn.discordapp.com/embed/avatars/4.png" alt="AKKI" id="s6-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff6.png'">
-      <div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">AKKI</div><div class="sc-handle">@siakki</div></div>
+      <img src="assets/images/staff6.png" alt="Shinju" id="s5-img">
+      <div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">Shinju</div><div class="sc-handle">@shinju_gkg</div></div>
       <button class="sc-view">View Profile</button>
     </div>
     <div class="sc" onclick="openModal('m7')">
-      <img src="https://cdn.discordapp.com/embed/avatars/1.png" alt="MOON" id="s7-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff7.png'">
-      <div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">MOON</div><div class="sc-handle">@vyrmoon</div></div>
+      <img src="assets/images/staff7.png" alt="Kurona" id="s6-img">
+      <div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">Kurona</div><div class="sc-handle">@kurona_gkg</div></div>
       <button class="sc-view">View Profile</button>
     </div>
     <div class="sc" onclick="openModal('m8')">
-      <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="SPRING" id="s8-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff8.png'">
-      <div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">SPRING</div><div class="sc-handle">@userspring</div></div>
+      <img src="assets/images/staff8.png" alt="Momo" id="s7-img">
+      <div class="sc-body"><div class="sc-role">Content Creator</div><div class="sc-name">Momo</div><div class="sc-handle">@momo_gkg</div></div>
       <button class="sc-view">View Profile</button>
     </div>
     <div class="sc" onclick="openModal('m9')">
-      <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="ARABELLA" id="s9-img" style="object-position:center;" onerror="this.src='https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/staff/staff9.png'">
-      <div class="sc-body"><div class="sc-role">Trial Moderator</div><div class="sc-name">ARABELLA</div><div class="sc-handle">@ara679</div></div>
+      <img src="assets/images/staff9.png" alt="Yomi" id="s9-img">
+      <div class="sc-body"><div class="sc-role">Content Creator</div><div class="sc-name">Yomi</div><div class="sc-handle">@yomi_gkg</div></div>
       <button class="sc-view">View Profile</button>
     </div>
   </div>
@@ -2405,7 +1933,7 @@ a:hover .ft-social-icon{opacity:1;}
   </div>
   <div class="apply-wrap">
     <div id="apply-gate" class="gate" style="display:none">
-      <div class="gate-ico"><img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/icons/login.png" alt="" class="site-icon-lg"></div>
+      <div class="gate-ico">🔒</div>
       <h3>Discord Login Required</h3>
       <p>To submit a staff application, you must be logged in with Discord and be a member of our server.</p>
       <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;">
@@ -2472,7 +2000,7 @@ a:hover .ft-social-icon{opacity:1;}
       </div>
     </form>
     <div class="apply-ok" id="apply-ok">
-      <div class="ao-ico" style="color:var(--accent);font-size:2rem;">✦</div>
+      <div class="ao-ico">✦</div>
       <h3>Application Submitted!</h3>
       <p>Thank you for applying to join the Gokurakugai staff team. We review all applications carefully and will reach out to you via Discord within 1–2 weeks.</p>
     </div>
@@ -2483,66 +2011,24 @@ a:hover .ft-social-icon{opacity:1;}
 
 </main>
 
-<!-- ════ STAFF MODAL — DISCORD STYLE ════ -->
-<div class="dc-modal-ov" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="dc-modal" id="modal-box">
-    <button class="dc-modal-close" onclick="closeModal()">✕</button>
-    <!-- Banner (user banner or blurred header) -->
-    <div class="dc-modal-banner" id="m-banner">
-      <!-- filled by JS: real banner img or blurred header fallback -->
+<!-- ════ STAFF MODALS ════ -->
+<div class="m-ov" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal-box">
+    <button class="m-close" onclick="closeModal()">✕</button>
+    <div class="m-hdr">
+      <img src="" alt="" class="m-hdr-img" id="m-img">
+      <div class="m-hdr-info">
+        <div class="m-role" id="m-role">Role</div>
+        <div class="m-name" id="m-name">Name</div>
+        <div class="m-handle" id="m-handle">@handle</div>
+        <span class="m-badge" id="m-badge">Staff</span>
+      </div>
     </div>
-    <!-- Avatar + badges row -->
-    <div class="dc-modal-av-row">
-      <div class="dc-modal-av-wrap">
-        <div class="dc-modal-av" id="m-av">
-          <!-- filled by JS: real Discord avatar or initials -->
-        </div>
-        <div class="dc-modal-av-status"></div>
-      </div>
-      <div class="dc-modal-badges-row" id="m-badges-row"></div>
-    </div>
-    <!-- Profile body -->
-    <div class="dc-modal-body">
-      <div class="dc-modal-displayname" id="m-name">Display Name</div>
-      <div class="dc-modal-username" id="m-username">@username</div>
-      <div class="dc-modal-divider"></div>
-      <!-- About me -->
-      <div class="dc-modal-section" id="m-about-sec">
-        <div class="dc-modal-section-label">About Me</div>
-        <div class="dc-modal-section-val" id="m-about"></div>
-      </div>
-      <div class="dc-modal-divider"></div>
-      <!-- Staff Details grid -->
-      <div class="dc-modal-meta-grid">
-        <div class="dc-modal-section">
-          <div class="dc-modal-section-label">Role</div>
-          <div class="dc-modal-section-val" id="m-role"></div>
-        </div>
-        <div class="dc-modal-section">
-          <div class="dc-modal-section-label">Age</div>
-          <div class="dc-modal-section-val" id="m-age"></div>
-        </div>
-        <div class="dc-modal-section">
-          <div class="dc-modal-section-label">Timezone</div>
-          <div class="dc-modal-section-val" id="m-timezone"></div>
-        </div>
-        <div class="dc-modal-section">
-          <div class="dc-modal-section-label">Birthday</div>
-          <div class="dc-modal-section-val" id="m-birthday"></div>
-        </div>
-      </div>
-      <div class="dc-modal-divider"></div>
-      <!-- User ID -->
-      <div class="dc-modal-section">
-        <div class="dc-modal-section-label">Discord User ID</div>
-        <div class="dc-modal-userid" id="m-userid"></div>
-      </div>
-      <div class="dc-modal-divider"></div>
-      <!-- Roles -->
-      <div class="dc-modal-section">
-        <div class="dc-modal-section-label">Roles</div>
-        <div class="dc-modal-roles" id="m-roles"></div>
-      </div>
+    <div class="m-body">
+      <div class="m-sec"><h4>About</h4><p id="m-about"></p></div>
+      <div class="m-sec"><h4>Responsibilities</h4><p id="m-resp"></p></div>
+      <div class="m-sec"><h4>Favorite Aspect of Gokurakugai</h4><p id="m-fav"></p></div>
+      <div class="m-sec"><h4>Specialties</h4><div class="m-tags" id="m-tags"></div></div>
     </div>
   </div>
 </div>
@@ -3166,181 +2652,66 @@ async function submitApplication(e){
 /* ════════════════════════════════════════
    STAFF MODAL DATA
 ════════════════════════════════════════ */
-const BASE = "https://raw.githubusercontent.com/paradise-district/gokurakugai/main/";
-// ════ STAFF DATA (Discord-style) ════
-// discordId: used to build avatar URL via Discord CDN
-// avatarHash: if null, uses Discord's default avatar (index based on userId)
-// bannerId: Discord banner hash — set null if no banner (uses blurred header fallback)
 const STAFF_DATA = {
-  m1:{
-    name:'RION', displayName:'Rion', username:'jetnoire',
-    discordId:'861651187949633547', avatarHash:null, bannerId:null,
-    roles:['Founder','Admin'],
-    age:'18+', timezone:'GMT+1, GMT+9', birthday:'January 14',
-    about:`Hi hi! I'm Rion (jetnoire), mostly active around shonen animanga spaces and wiki projects. You can call me Rion, Jet, or just Noire if that's easier.
-
-I started editing wikis out of pure hyperfixation energy (you know how it goes). What began as simply loving a series slowly turned into diving deep into how wikis actually work. I spent weeks learning the ins and outs — from the basics of formatting to more advanced layout work using CSS and HTML — until I was confident enough to start properly revamping and organizing pages.
-
-After my first major project, I expanded into handling and managing other series as well. I'm especially drawn to shonen (with a soft spot for darker themes). My main strength lies in designing layouts that actually feel like the series — matching themes, refining navigation, cleaning structures, and making everything look cohesive rather than chaotic.
-
-As I gained more experience, I started connecting with more editors and communities. That's when things became less of a solo project and more of a collaborative space for growth.`
-  },
-  m2:{
-    name:'ANDY', displayName:'Andy', username:'resoluteroyalty',
-    discordId:'727231548255895743', avatarHash:null, bannerId:null,
-    roles:['Admin'],
-    age:'18+', timezone:'CET', birthday:'August 13',
-    about:`I am a dedicated enthusiast and loyal administrator of the Gokurakugai manga community. I have consistently worked to foster a positive, inclusive, and engaging environment for all members.
-
-I embrace responsibility, express my views thoughtfully, and take genuine pleasure in sharing my knowledge, experiences, and advice with others. I pride myself on being proud, loyal, and honest.
-
-Occupation: Founder & CEO of a small company, Software Developer, Graphic Designer.
-
-Hobbies: Video games, Digital Design, Music, Content creation.
-
-Skills: Web Design, 3D Modeling, 3D Animation, Software Design, Indie Game Development, Video Editing, Image Editing, Digital Art, Music Production.`
-  },
-  m3:{
-    name:'TORTOL', displayName:'Tortol', username:'tortilinni',
-    discordId:'932931370894884924', avatarHash:null, bannerId:null,
-    roles:['Admin'],
-    age:'18+', timezone:'EST', birthday:'April 10',
-    about:`I am a heavy music lover, video game lover, and anime lover with the recent addiction to Gokurakugai. I also play bass.
-
-Favourite bands: Architects, Knocked Loose, 156/Silence, and Archspire.
-
-Favourite anime: Gachiakuta, Welcome to Demon School Iruma-Kun, and Demon Slayer.
-
-What I love about Gokurakugai: the characters, art, concepts and world building. Also a big fan of the official arts and bonus panels.
-
-Other: I like turtles.`
-  },
-  m4:{
-    name:'rwottenhrts', displayName:'rwottenhrts', username:'rwottenhrts',
-    discordId:'1114585051515080704', avatarHash:null, bannerId:null,
-    roles:['Admin'],
-    age:'Under 18', timezone:'GMT+8', birthday:'December 8',
-    about:`Mostly a behind-the-scenes staff member. I've been a big fan of Gokurakugai since the very first simul-pubbed chapter and have followed up with it to this day.
-
-I enjoy volunteering, and I spend my free time playing the piano and guitar.`
-  },
-  m5:{
-    name:'NAZARETH', displayName:'Nazareth', username:'thenazar3th',
-    discordId:'1324486337650360380', avatarHash:null, bannerId:null,
-    roles:['Admin'],
-    age:'18+', timezone:'GMT', birthday:'January 29',
-    about:`Hey! I really enjoy building communities and helping give them a strong start. I care a lot about making spaces that feel comfortable, safe, and welcoming for everyone.
-
-I love animals, and I try to live by strong ethical and moral values in how I treat both people and the world around me.
-
-I'm currently studying Dentistry, so I might be a bit busy or slow to respond sometimes — but I'm still around!
-
-I also love reading manga, manhua, manhwa, and novels, so feel free to talk to me about recommendations anytime.`
-  },
-  m6:{
-    name:'AKKI', displayName:'Akki', username:'siakki',
-    discordId:'448594891568709652', avatarHash:null, bannerId:null,
-    roles:['Moderator'],
-    age:'18+', timezone:'GMT+3', birthday:'October 19',
-    about:`Full time project manager and content editor, self taught traditional artist, spending free time at the gym, playing video games or watching anime. Love travelling, writing, collecting manga and all the cats of the world.
-
-Gokurakugai: I think the story is interesting so far, love the attention to character designs and the overall clean and pretty manga style.`
-  },
-  m7:{
-    name:'MOON', displayName:'Moon', username:'vyrmoon',
-    discordId:'717012902275448845', avatarHash:null, bannerId:null,
-    roles:['Moderator'],
-    age:'Under 18', timezone:'GMT+3', birthday:'September 23',
-    about:`I like video editing and designing. I'm a big fan of reading manhwa/manga.
-
-Gokurakugai: I got drawn into it mainly because of the art and covers, but I enjoy the overall theme and story too.`
-  },
-  m8:{
-    name:'SPRING', displayName:'Spring', username:'userspring',
-    discordId:'456747461323784202', avatarHash:null, bannerId:null,
-    roles:['Moderator'],
-    age:'18+', timezone:'TBA', birthday:'TBA',
-    about:`To be added...`
-  },
-  m9:{
-    name:'ARABELLA', displayName:'Arabella', username:'ara679',
-    discordId:'808887501418266624', avatarHash:null, bannerId:null,
-    roles:['Trial Moderator'],
-    age:'18', timezone:'GMT-5', birthday:'September 10',
-    about:`My brother recommended I read Gokurakugai over a year ago, and I quickly fell in love with the series. I've gotten busy with school and work in the past few months but in my free time I enjoy going for walks, taking care of my many houseplants, and playing games, typically the Sims 4 or One Piece Bounty Rush.`
-  }
+  m1:{img:'staff1.png',role:'Founder · Administrator',name:'Ichirou',handle:'@ichirou_gkg',badge:'Founder',
+    about:'Ichirou founded the Gokurakugai Fan Community after discovering the series during its oneshot debut in 2020. A lifelong manga reader with a particular love for dark fantasy and atmospheric storytelling, they built this community from the ground up with the vision of creating a respectful, passionate, and creatively vibrant space for fans worldwide.',
+    resp:'Oversees all aspects of community operation, sets long-term direction, manages staff team, handles escalated moderation cases, manages official partnerships and collaborations.',
+    fav:'The relationship between Tao and Alma — specifically the way Sano conveys their dynamic through body language and visual storytelling rather than exposition.',
+    tags:['Community Design','Moderation Policy','Partnerships','Long-form Analysis']},
+  m2:{img:'staff2.png',role:'Co-Founder · Administrator',name:'Shirogane',handle:'@shirogane_gkg',badge:'Co-Founder',
+    about:'Shirogane joined Ichirou as co-founder in the community\'s earliest days, bringing expertise in community management and a deep encyclopedic knowledge of the manga. They have been instrumental in shaping the community\'s culture of thoughtful, evidence-based discussion and creative enthusiasm.',
+    resp:'Co-administers the community alongside Ichirou, manages the Discord server structure and channels, leads the theory and discussion culture, oversees event planning.',
+    fav:'The worldbuilding. The way Sano has constructed the district as a living ecosystem of supernatural and human elements, with its own internal logic and history, is genuinely remarkable.',
+    tags:['Worldbuilding Deep Dives','Discord Management','Event Planning','Theory Curation']},
+  m3:{img:'staff8.png',role:'Administrator',name:'Kanzaki',handle:'@kanzaki_gkg',badge:'Admin',
+    about:'Kanzaki joined the staff team as a moderator and quickly rose to administrator thanks to their exceptional consistency, level-headedness under pressure, and deep familiarity with community management challenges. They are often the first point of contact for complex moderation situations.',
+    resp:'Handles day-to-day server administration, manages moderation escalations, maintains community documentation and rules, onboards new staff members.',
+    fav:'The antagonists. Sano writes villains with genuine menace and internal logic — they\'re not evil for evil\'s sake, they have coherent worldviews that happen to collide catastrophically with the protagonists.',
+    tags:['Escalation Management','Staff Training','Documentation','Conflict Resolution']},
+  m4:{img:'staff3.png',role:'Senior Moderator',name:'Shiro',handle:'@shiro_gkg',badge:'Sr. Mod',
+    about:'Shiro has been a community member since near the beginning and earned the Senior Moderator role through consistent, fair, and thorough moderation. Known for their patient and measured approach to difficult situations, Shiro serves as a mentor to newer moderators on the team.',
+    resp:'Moderates all primary community channels, mentors junior moderators, handles spoiler violations and content flags, assists with event moderation.',
+    fav:'The art direction. Every chapter has at least one panel that stops me completely — Sano\'s use of negative space and shadow to create atmosphere is unlike anything else in current shōnen.',
+    tags:['Channel Moderation','Spoiler Enforcement','Mentorship','Visual Analysis']},
+  m5:{img:'staff4.png',role:'Moderator',name:'Nagi',handle:'@nagi_gkg',badge:'Moderator',
+    about:'Nagi brings a warm and welcoming energy to the moderation team, specializing in community engagement and making new members feel at home. Their approachable style helps de-escalate tensions before they become major issues.',
+    resp:'Moderates community channels with a focus on tone and culture, welcomes new members, maintains community engagement, handles low-to-medium tier moderation cases.',
+    fav:'Alma, obviously. Her character writing is so carefully balanced — genuinely terrifying potential, genuine sweetness, genuine loneliness. She\'s the emotional core of the whole series.',
+    tags:['Community Engagement','New Member Welcome','Culture Maintenance']},
+  m6:{img:'staff5.png',role:'Moderator',name:'Shinju',handle:'@shinju_gkg',badge:'Moderator',
+    about:'Shinju is the community\'s unofficial food and aesthetics enthusiast — fittingly named after the series\' beloved dim sum restaurateur. They bring a creative eye to content curation and maintain the fan art channels with consistent enthusiasm.',
+    resp:'Moderates fan art and creative content channels, curates gallery content, enforces artist credit policies, assists with community events and content contests.',
+    fav:'The food. I\'m serious. Every time taiyaki appears in the manga I immediately need to eat. But also Shinju\'s restaurant scenes have some of the warmest linework in the whole series.',
+    tags:['Fan Art Curation','Artist Credit Enforcement','Content Contests','Creative Events']},
+  m7:{img:'staff6.png',role:'Moderator',name:'Kurona',handle:'@kurona_gkg',badge:'Moderator',
+    about:'Kurona joined the staff team with a background in online community management and brings analytical rigor to moderation decisions. Known for thorough, documented approaches to complex situations, they are invaluable in cases that require careful review.',
+    resp:'Handles moderation escalations requiring documentation, maintains the moderation log, reviews ban appeals, enforces platform ToS compliance.',
+    fav:'The power system. The more I analyze it the more I\'m convinced Sano has everything meticulously planned — there are rules to how the supernatural works in this universe that are hinted at long before they\'re explained.',
+    tags:['Documentation','Ban Appeals','ToS Compliance','Power System Analysis']},
+  m8:{img:'staff7.png',role:'Content Creator',name:'Momo',handle:'@momo_gkg',badge:'Creator',
+    about:'Momo is the community\'s lead content creator, responsible for social media posts, graphics, and community announcements. Their eye for design and knack for condensing complex information into engaging, shareable content has been instrumental in growing the community\'s social media presence.',
+    resp:'Creates social media content for all platforms, designs community graphics and banners, writes announcement posts, manages content calendar.',
+    fav:'The character designs. Each character is visually distinct and their outfits communicate so much about their personalities and roles before a single word of dialogue. Tao\'s whole look is just perfect.',
+    tags:['Graphic Design','Social Media','Content Calendar','Announcements']},
+  m9:{img:'staff9.png',role:'Content Creator',name:'Yomi',handle:'@yomi_gkg',badge:'Creator',
+    about:'Yomi specializes in long-form written content — analysis articles, theory write-ups, and community newsletters. Their deep readings of the manga have become some of the community\'s most-shared content, drawing new readers and deepening existing fans\' appreciation of the series.',
+    resp:'Writes featured analysis articles and theory posts, produces the community newsletter, creates long-form engagement content, assists with community documentation.',
+    fav:'The themes. Gokurakugai is fundamentally about belonging and the cost of existing outside the boundaries of what society considers acceptable. As someone who thinks a lot about those questions, it hits differently.',
+    tags:['Long-form Analysis','Theory Writing','Newsletter','Community Documentation']}
 };
-
-const ROLE_COLORS = {
-  'Founder':{'bg':'rgba(201,168,76,.25)','color':'var(--accent)','border':'var(--accent)'},
-  'Admin':{'bg':'rgba(192,39,45,.18)','color':'var(--crimson-bright)','border':'var(--crimson-bright)'},
-  'Moderator':{'bg':'rgba(88,101,242,.18)','color':'#818cf8','border':'#818cf8'},
-  'Senior Moderator':{'bg':'rgba(88,101,242,.25)','color':'#a5b4fc','border':'#a5b4fc'},
-  'Trial Moderator':{'bg':'rgba(87,242,135,.12)','color':'#57F287','border':'#57F287'},
-  'Content Creator':{'bg':'rgba(255,180,90,.12)','color':'#fb923c','border':'#fb923c'}
-};
-
-function getDiscordAvatarUrl(userId, avatarHash, size=256){
-  if(avatarHash) return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=${size}`;
-  // Default Discord avatar (index based on user id)
-  const idx = parseInt(userId) % 6;
-  return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
-}
-
-function getDiscordBannerUrl(userId, bannerId){
-  if(!bannerId) return null;
-  return `https://cdn.discordapp.com/banners/${userId}/${bannerId}.png?size=1024`;
-}
 
 function openModal(id){
   const d = STAFF_DATA[id];
   if(!d) return;
-
-  // Banner: real banner or blurred header fallback
-  const bannerEl = document.getElementById('m-banner');
-  const bannerUrl = getDiscordBannerUrl(d.discordId, d.bannerId);
-  if(bannerUrl){
-    bannerEl.innerHTML = `<img src="https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/header-bg-dark.jpg" class="banner-blur" alt="">`;
-  } else {
-    // Blurred header area
-    bannerEl.innerHTML = `<img src="$https://raw.githubusercontent.com/paradise-district/gokurakugai/main/assets/images/header-bg-dark.jpg" class="banner-blur" alt="">`;
-    bannerEl.style.background = '';
-  }
-
-  // Avatar
-  const avEl = document.getElementById('m-av');
-  const avUrl = getDiscordAvatarUrl(d.discordId, d.avatarHash, 256);
-  avEl.innerHTML = `<img src="${avUrl}" alt="${d.displayName}" onerror="this.parentElement.innerHTML='${d.displayName[0]}'">`;
-
-  // Badges
-  const badgesEl = document.getElementById('m-badges-row');
-  badgesEl.innerHTML = d.roles.map(r => {
-    const rc = ROLE_COLORS[r]||{'bg':'var(--surface2)','color':'var(--text-muted)','border':'var(--hr)'};
-    return `<span class="dc-modal-badge" style="background:${rc.bg};color:${rc.color};border-color:${rc.border};">${r}</span>`;
-  }).join('');
-
-  // Name / username
+  document.getElementById('m-img').src = d.img;
+  document.getElementById('m-role').textContent = d.role;
   document.getElementById('m-name').textContent = d.name;
-  document.getElementById('m-username').textContent = '@' + d.username;
-
-  // About
-  const aboutEl = document.getElementById('m-about');
-  aboutEl.innerHTML = d.about.split(/\n\n/).map(p=>`<p>${escHtml(p.trim())}</p>`).filter(p=>p!=='<p></p>').join('');
-
-  // Meta
-  document.getElementById('m-role').textContent = d.roles.join(', ');
-  document.getElementById('m-age').textContent = d.age;
-  document.getElementById('m-timezone').textContent = d.timezone;
-  document.getElementById('m-birthday').textContent = d.birthday;
-  document.getElementById('m-userid').textContent = d.discordId;
-
-  // Roles chips
-  const rolesEl = document.getElementById('m-roles');
-  rolesEl.innerHTML = d.roles.map(r => {
-    const rc = ROLE_COLORS[r]||{'bg':'var(--surface2)','color':'var(--text-muted)','border':'var(--hr)'};
-    return `<span class="dc-modal-role" style="background:${rc.bg};color:${rc.color};border:1px solid ${rc.border};">${r}</span>`;
-  }).join('');
-
+  document.getElementById('m-handle').textContent = d.handle;
+  document.getElementById('m-badge').textContent = d.badge;
+  document.getElementById('m-about').textContent = d.about;
+  document.getElementById('m-resp').textContent = d.resp;
+  document.getElementById('m-fav').textContent = d.fav;
+  document.getElementById('m-tags').innerHTML = d.tags.map(t=>`<span class="m-tag">${t}</span>`).join('');
   document.getElementById('modal-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -3682,7 +3053,7 @@ function openArtModal(id, data){
     formWrap.innerHTML = `
       <div class="art-disc-cta">
         <p>Join the Discord server to comment.</p>
-        <a href="https://x.com/i/communities/1923913403464286699" target="_blank" class="btn btn-p"> Join Server</a>
+        <a href="https://x.com/i/communities/1923913403464286699" target="_blank" class="btn btn-p">🎮 Join Server</a>
       </div>`;
   } else {
     formWrap.innerHTML = `
@@ -3781,232 +3152,6 @@ function closeArtModal(){
 function closeArtModalOutside(e){
   if(e.target===document.getElementById('art-modal-ov')) closeArtModal();
 }
-</script>
-<!-- ════ GALLERY IMAGE VIEWER ════ -->
-<div class="gal-viewer-ov" id="gal-viewer-ov" onclick="galViewerClickOutside(event)">
-  <button class="gal-viewer-close" onclick="closeGalViewer()">✕</button>
-  <div class="gal-viewer">
-    <img src="" alt="" class="gal-viewer-img" id="gal-viewer-img">
-    <div class="gal-viewer-info" id="gal-viewer-info"></div>
-    <div class="gal-viewer-nav">
-      <button class="gal-viewer-arrow" onclick="galViewerPrev()" title="Previous (←)">&#8592;</button>
-      <span class="gal-viewer-counter" id="gal-viewer-counter">1 / 1</span>
-      <button class="gal-viewer-arrow" onclick="galViewerNext()" title="Next (→)">&#8594;</button>
-    </div>
-    <div class="gal-viewer-dl" id="gal-viewer-dl">
-      <button class="gal-dl-btn hi" onclick="galDownload('hi')">High Res</button>
-      <button class="gal-dl-btn" onclick="galDownload('md')">Medium</button>
-      <button class="gal-dl-btn" onclick="galDownload('lo')">Low Res</button>
-    </div>
-  </div>
-</div>
-
-
-<script>
-/* ════════════════════════════════════════
-   GALLERY FOLDER SYSTEM
-   To add images, add entries to GALLERY_DATA:
-   { folder: 'chapter-covers', src: 'https://...image.jpg', title: 'Ch. 1 Cover', srcHi: '...', srcMd: '...', srcLo: '...' }
-════════════════════════════════════════ */
-const GALLERY_DATA = [
-  /* Example format — add real images here:
-  { folder:'chapter-covers', title:'Chapter 1', src:'URL', srcHi:'URL_HI', srcMd:'URL_MD', srcLo:'URL_LO' },
-  */
-];
-
-const GALLERY_FOLDERS = {
-  'chapter-covers':       'Chapter Colored Covers',
-  'volume-covers':        'Volume Covers',
-  'official-illustrations':'Official Illustrations',
-  'extra-illustrations':  'Extra Illustrations',
-  'magazines':            'Magazines',
-  'archived-illustrations':'Archived Illustrations'
-};
-
-let galCurrentFolder = null;
-let galCurrentIdx    = 0;
-let galFolderImages  = [];
-
-// Update folder counts on load
-(function(){
-  Object.keys(GALLERY_FOLDERS).forEach(key => {
-    const imgs = GALLERY_DATA.filter(i=>i.folder===key);
-    const el = document.getElementById('fc-' + key);
-    if(el) el.textContent = imgs.length + (imgs.length===1?' image':' images');
-  });
-})();
-
-function openGalFolder(folderKey){
-  galCurrentFolder = folderKey;
-  galFolderImages = GALLERY_DATA.filter(i=>i.folder===folderKey);
-  document.getElementById('gal-folders').style.display = 'none';
-  document.getElementById('gal-folder-view').style.display = 'block';
-  document.getElementById('gal-folder-current').textContent = GALLERY_FOLDERS[folderKey]||folderKey;
-  renderGalThumbs();
-}
-
-function closeGalFolder(){
-  document.getElementById('gal-folders').style.display = '';
-  document.getElementById('gal-folder-view').style.display = 'none';
-  galCurrentFolder = null;
-}
-
-function renderGalThumbs(){
-  const grid  = document.getElementById('gal-thumb-grid');
-  const empty = document.getElementById('gal-folder-empty');
-  if(!galFolderImages.length){
-    grid.innerHTML = '';
-    empty.style.display = 'flex';
-    return;
-  }
-  empty.style.display = 'none';
-  grid.innerHTML = galFolderImages.map((img,i)=>`
-    <div class="gal-thumb" onclick="openGalViewer(${i})">
-      <img src="${img.src}" alt="${img.title||''}" loading="lazy">
-      <div class="gal-thumb-ov">${img.title||''}</div>
-    </div>`).join('');
-}
-
-function openGalViewer(idx){
-  galCurrentIdx = idx;
-  const ov = document.getElementById('gal-viewer-ov');
-  ov.classList.add('open');
-  document.body.style.overflow='hidden';
-  renderGalViewer();
-}
-
-function renderGalViewer(){
-  const img = galFolderImages[galCurrentIdx];
-  if(!img) return;
-  document.getElementById('gal-viewer-img').src = img.src;
-  document.getElementById('gal-viewer-info').textContent = img.title||'';
-  document.getElementById('gal-viewer-counter').textContent = `${galCurrentIdx+1} / ${galFolderImages.length}`;
-}
-
-function galViewerPrev(){
-  galCurrentIdx = (galCurrentIdx - 1 + galFolderImages.length) % galFolderImages.length;
-  renderGalViewer();
-}
-
-function galViewerNext(){
-  galCurrentIdx = (galCurrentIdx + 1) % galFolderImages.length;
-  renderGalViewer();
-}
-
-function closeGalViewer(){
-  document.getElementById('gal-viewer-ov').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-function galViewerClickOutside(e){
-  if(e.target===document.getElementById('gal-viewer-ov')) closeGalViewer();
-}
-
-function galDownload(res){
-  const img = galFolderImages[galCurrentIdx];
-  if(!img) return;
-  const url = res==='hi'?(img.srcHi||img.src) : res==='md'?(img.srcMd||img.src) : (img.srcLo||img.src);
-  const a = document.createElement('a');
-  a.href = url; a.download = img.title||'image'; a.target='_blank';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
-
-// Keyboard: arrow keys for gallery viewer + escape
-document.addEventListener('keydown', e=>{
-  if(document.getElementById('gal-viewer-ov').classList.contains('open')){
-    if(e.key==='ArrowLeft')  galViewerPrev();
-    if(e.key==='ArrowRight') galViewerNext();
-    if(e.key==='Escape')     closeGalViewer();
-  }
-});
-
-/* ════════════════════════════════════════
-   MOBILE NAVIGATION DRAWER
-════════════════════════════════════════ */
-(function(){
-  const menuBtn  = document.getElementById('mob-menu-btn');
-  const drawerOv = document.getElementById('mob-drawer-ov');
-  const drawer   = document.getElementById('mob-drawer');
-  const closeBtn = document.getElementById('mob-drawer-close');
-
-  if(!menuBtn) return;
-
-  function openMobDrawer(){
-    drawer.classList.add('open');
-    drawerOv.classList.add('open');
-    document.body.style.overflow='hidden';
-  }
-  window.closeMobDrawer = function(){
-    drawer.classList.remove('open');
-    drawerOv.classList.remove('open');
-    document.body.style.overflow='';
-  };
-
-  menuBtn.addEventListener('click', openMobDrawer);
-
-  // Move nav-ctrl clone into drawer
-  const desktopCtrl = document.getElementById('nav-ctrl-desktop') || document.querySelector('.nav-ctrl');
-  const drawerCtrl  = document.getElementById('mob-drawer-ctrl');
-  if(desktopCtrl && drawerCtrl){
-    drawerCtrl.innerHTML = desktopCtrl.innerHTML;
-    // Keep desktop ctrl too (shown on desktop)
-  }
-
-  // Wire up mobile nav items
-  const mobItems = document.querySelectorAll('.mob-nav-item');
-  mobItems.forEach(item=>{
-    const tab = item.dataset.tab;
-    // Handle Manga sub-menu toggle
-    if(item.classList.contains('has-sub')){
-      item.querySelector('.mob-nav-row').addEventListener('click', e=>{
-        e.stopPropagation();
-        const sub = document.getElementById('mob-manga-sub');
-        const isOpen = item.classList.contains('sub-open');
-        item.classList.toggle('sub-open', !isOpen);
-        if(sub) sub.style.display = isOpen ? 'none' : 'block';
-      });
-    } else {
-      item.addEventListener('click', ()=>{
-        mobItems.forEach(i=>i.classList.remove('active'));
-        item.classList.add('active');
-        if(typeof activateTab === 'function') activateTab(tab);
-        closeMobDrawer();
-      });
-    }
-  });
-
-  // Wire sub-items
-  document.querySelectorAll('.mob-sub-item').forEach(si=>{
-    si.addEventListener('click', ()=>{
-      const tab = si.dataset.tab;
-      const sub = si.dataset.sub;
-      if(typeof activateTab === 'function') activateTab(tab);
-      // Activate sub
-      setTimeout(()=>{
-        document.querySelectorAll('.sn-btn').forEach(b=>{
-          b.classList.toggle('active', b.dataset.sub===sub && b.dataset.parent===tab);
-        });
-        document.querySelectorAll('#manga .subsec').forEach(s=>s.classList.remove('active'));
-        const target = document.getElementById(sub);
-        if(target) target.classList.add('active');
-      }, 50);
-      // Update active state on mob
-      document.querySelectorAll('.mob-nav-item').forEach(i=>i.classList.remove('active'));
-      document.querySelector('.mob-nav-item[data-tab="manga"]')?.classList.add('active');
-      closeMobDrawer();
-    });
-  });
-
-  // Sync active mob item with desktop tab changes
-  document.querySelectorAll('[data-tab]').forEach(el=>{
-    el.addEventListener('click', ()=>{
-      const tab = el.dataset.tab;
-      document.querySelectorAll('.mob-nav-item').forEach(i=>{
-        i.classList.toggle('active', i.dataset.tab===tab);
-      });
-    });
-  });
-})();
 </script>
 </body>
 </html>
