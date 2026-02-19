@@ -279,7 +279,13 @@ p{line-height:1.8;}
 .dc-out{color:var(--crimson-bright)!important;}
 
 /* ── New footer grid layout ── */
-#ft{background:#0d0000;border-top:1px solid rgba(255,255,255,.08);padding:2.8rem 1.5rem 0;}
+#ft{
+  position:relative;
+  z-index:1;
+  background:var(--bg2);
+  border-top:1px solid var(--accent);
+  padding:2.3rem 1.5rem 1.8rem;
+}
 .ft-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr 0.8fr 1fr;gap:2.5rem;padding-bottom:2.2rem;}
 @media(max-width:760px){.ft-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:460px){.ft-grid{grid-template-columns:1fr;}}
@@ -1744,7 +1750,7 @@ a:hover .ft-social-icon{opacity:1;}
 <main id="content">
 
 <!-- ══ ABOUT ══ -->
-<section id="about" class="sec">
+<section id="about" class="sec active">
   <div class="sec-hdr">
     <span class="jp">極楽街へようこそ</span>
     <span class="en">Welcome to Gokurakugai</span>
@@ -1850,7 +1856,7 @@ a:hover .ft-social-icon{opacity:1;}
 </section>
 
 <!-- ══ MANGA ══ -->
-<section id="manga" class="sec">
+<section id="manga" class="sec active">
   <div class="sec-hdr">
     <span class="jp">極楽街</span>
     <span class="en">Manga</span>
@@ -1921,7 +1927,7 @@ a:hover .ft-social-icon{opacity:1;}
 </section>
 
 <!-- ══ NEWS ══ -->
-<section id="news" class="sec">
+<section id="news" class="sec active">
   <div class="subnav" id="news-subnav">
     <button class="sn-btn active" data-sub="nfeed" data-parent="news">News</button>
     <button class="sn-btn" data-sub="articles" data-parent="news">Articles</button>
@@ -2025,7 +2031,7 @@ a:hover .ft-social-icon{opacity:1;}
 </section>
 
 <!-- ══ THEORIES ══ -->
-<section id="theories" class="sec">
+<section id="theories" class="sec active">
   <div class="sec-hdr">
     <span class="jp">謎と考察</span>
     <span class="en">Fan Theories</span>
@@ -2157,7 +2163,7 @@ a:hover .ft-social-icon{opacity:1;}
 </section>
 
 <!-- ══ RULES ══ -->
-<section id="rules" class="sec">
+<section id="rules" class="sec active">
   <div class="sec-hdr">
     <span class="jp">コミュニティ規則</span>
     <span class="en">Community Rules</span>
@@ -2290,7 +2296,7 @@ a:hover .ft-social-icon{opacity:1;}
 </section>
 
 <!-- ══ INFO ══ -->
-<section id="info" class="sec">
+<section id="info" class="sec active">
   <div class="sec-hdr">
     <span class="jp">コミュニティ情報</span>
     <span class="en">Community Info</span>
@@ -2337,7 +2343,7 @@ a:hover .ft-social-icon{opacity:1;}
 </section>
 
 <!-- ══ STAFF ══ -->
-<section id="staff" class="sec">
+<section id="staff" class="sec active">
   <div class="sec-hdr">
     <span class="jp">スタッフ紹介</span>
     <span class="en">Our Staff</span>
