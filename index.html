@@ -3211,11 +3211,56 @@ updateGateUI();
   const desktopCtrl = document.querySelector('.nav-ctrl');
   const drawerCtrl  = document.getElementById('mob-drawer-ctrl');
   if(desktopCtrl && drawerCtrl){
-    drawerCtrl.innerHTML = desktopCtrl.innerHTML;
-    // Re-wire theme toggle clone inside drawer
-    const cloneTrack = drawerCtrl.querySelector('.tt-track');
-    if(cloneTrack) cloneTrack.addEventListener('click', ()=>{ if(typeof toggleTheme==='function') toggleTheme(); });
+
+  // Clone controls safely
+  const clone = desktopCtrl.cloneNode(true);
+  drawerCtrl.innerHTML = '';
+  drawerCtrl.appendChild(clone);
+
+  // ── Re-wire Theme Toggle ──
+  const cloneTrack = drawerCtrl.querySelector('.tt-track');
+  if(cloneTrack){
+    cloneTrack.addEventListener('click', ()=>{
+      if(typeof toggleTheme === 'function') toggleTheme();
+    });
   }
+
+  // ── Re-wire Discord Login ──
+  const cloneLoginBtn = drawerCtrl.querySelector('#dc-login-btn');
+  if(cloneLoginBtn){
+    cloneLoginBtn.addEventListener('click', dcLogin);
+  }
+
+  // ── Re-wire Discord Dropdown ──
+  const cloneDcBtn = drawerCtrl.querySelector('#dc-btn');
+  const cloneDcDd  = drawerCtrl.querySelector('#dc-dd');
+
+  if(cloneDcBtn && cloneDcDd){
+    cloneDcBtn.addEventListener('click', e=>{
+      e.stopPropagation();
+      cloneDcDd.classList.toggle('open');
+    });
+
+    document.addEventListener('click', ()=>{
+      cloneDcDd.classList.remove('open');
+    });
+  }
+
+  // ── Re-wire Logout ──
+  const cloneLogout = drawerCtrl.querySelector('#dc-logout');
+  if(cloneLogout){
+    cloneLogout.addEventListener('click', ()=>{
+      localStorage.removeItem('gkg-dc-token');
+      localStorage.removeItem('gkg-dc-user');
+      localStorage.removeItem('gkg-dc-member');
+      dcUser=null; 
+      isMember=false;
+
+      updateGateUI();
+      showToast('Logged out successfully.');
+    });
+  }
+}
 
   // Helper: sync mobile active state
   function syncMobActive(tab){
