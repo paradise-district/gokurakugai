@@ -1305,6 +1305,45 @@ p{line-height:1.8;}
   </div>
 </nav>
 
+<!-- Mobile nav bar -->
+<div class="mob-bar" id="mob-bar">
+  <span class="mob-bar-label">NAVIGATION</span>
+  <button class="mob-menu-btn" id="mob-menu-btn" aria-label="Open navigation menu">&#9776;</button>
+</div>
+
+<!-- Mobile nav drawer -->
+<div class="mob-drawer-ov" id="mob-drawer-ov" onclick="closeMobDrawer()"></div>
+
+<div class="mob-drawer" id="mob-drawer">
+  <div class="mob-drawer-hdr">
+    <span class="mob-drawer-title">NAVIGATION</span>
+    <button class="mob-drawer-close" onclick="closeMobDrawer()">&#10005;</button>
+  </div>
+
+  <ul class="mob-nav-list" id="mob-nav-list">
+    <li class="mob-nav-item active" data-tab="about">ABOUT</li>
+
+    <li class="mob-nav-item has-sub" data-tab="manga">
+      <div class="mob-nav-row">
+        <span>MANGA</span>
+        <span class="mob-nav-arrow">&#8964;</span>
+      </div>
+      <ul class="mob-sub-list" id="mob-manga-sub" style="display:none;">
+        <li class="mob-sub-item" data-tab="manga" data-sub="gallery">Gallery</li>
+        <li class="mob-sub-item" data-tab="manga" data-sub="chars">Characters</li>
+      </ul>
+    </li>
+
+    <li class="mob-nav-item" data-tab="rules">RULES</li>
+    <li class="mob-nav-item" data-tab="info">INFO</li>
+    <li class="mob-nav-item" data-tab="news">NEWS</li>
+    <li class="mob-nav-item" data-tab="theories">THEORIES</li>
+    <li class="mob-nav-item" data-tab="staff">STAFF</li>
+  </ul>
+
+  <div class="mob-drawer-ctrl" id="mob-drawer-ctrl"></div>
+</div>
+
 <!-- ════ MAIN ════ -->
 <main id="content">
 
@@ -2802,8 +2841,58 @@ updateGateUI();
         }
       })
       .catch(()=>{/* keep default 6 */});
-  }
+    }
 })();
+
+/* ════════════════════════════════════════
+   MOBILE NAVIGATION
+════════════════════════════════════════ */
+
+const mobBtn = document.getElementById('mob-menu-btn');
+const mobDrawer = document.getElementById('mob-drawer');
+const mobOverlay = document.getElementById('mob-drawer-ov');
+
+function openMobDrawer(){
+  mobDrawer.classList.add('open');
+  mobOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobDrawer(){
+  mobDrawer.classList.remove('open');
+  mobOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+mobBtn?.addEventListener('click', openMobDrawer);
+
+document.querySelectorAll('.mob-nav-item:not(.has-sub)').forEach(item=>{
+  item.addEventListener('click', ()=>{
+    const tab = item.dataset.tab;
+    if(tab){
+      activateTab(tab);
+      closeMobDrawer();
+    }
+  });
+});
+
+document.querySelector('.mob-nav-item.has-sub')?.addEventListener('click', function(e){
+  if(e.target.classList.contains('mob-sub-item')) return;
+  this.classList.toggle('sub-open');
+  const sub = document.getElementById('mob-manga-sub');
+  sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
+});
+
+document.querySelectorAll('.mob-sub-item').forEach(sub=>{
+  sub.addEventListener('click', ()=>{
+    const tab = sub.dataset.tab;
+    const subId = sub.dataset.sub;
+
+    activeSubs[tab] = subId;
+    activateTab(tab);
+    closeMobDrawer();
+  });
+});
 
 /* ════════════════════════════════════════
    NEWS RENDERING SYSTEM
