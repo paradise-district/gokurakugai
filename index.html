@@ -653,170 +653,106 @@ p{line-height:1.8;}
    MOBILE NAV
 ════════════════════════════════════════ */
 
+/* Hidden by default on desktop */
 .mob-bar,
 .mob-drawer,
+.mob-drawer-ov{ display:none; }
+
+/* Overlay — fixed full-screen dim */
 .mob-drawer-ov{
-  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:998;display:none;
+}
+.mob-drawer-ov.open{ display:block; }
+
+/* Drawer — slides in from left */
+.mob-drawer{
+  position:fixed;top:0;left:0;
+  width:82%;max-width:360px;height:100%;
+  background:#140404;
+  border-right:2px solid var(--accent);
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+  z-index:999;display:flex;flex-direction:column;
+}
+.mob-drawer.open{ transform:translateX(0); }
+
+/* Drawer header */
+.mob-drawer-hdr{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem 1.4rem;
+  border-bottom:1px solid var(--accent);
+}
+.mob-drawer-title{
+  font-family:'Cinzel',serif;font-size:.75rem;
+  letter-spacing:.4em;color:var(--accent);
+}
+.mob-drawer-close{
+  background:none;border:none;color:var(--accent);
+  font-size:1.2rem;cursor:pointer;line-height:1;
+}
+.mob-drawer-close:hover{ opacity:.7; }
+
+/* Nav list */
+.mob-nav-list{ list-style:none;padding:0;margin:0;flex:1;overflow-y:auto; }
+
+.mob-nav-item{ border-bottom:1px solid rgba(201,168,76,.22);cursor:pointer; }
+
+.mob-nav-label,
+.mob-nav-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem 1.4rem;
+  font-family:'Cinzel',serif;font-size:.78rem;
+  letter-spacing:.25em;text-transform:uppercase;
+  color:var(--text-dim);cursor:pointer;
+}
+.mob-nav-item.active{ background:rgba(201,168,76,.08); }
+.mob-nav-item.active .mob-nav-label{ color:var(--accent); }
+
+.mob-nav-arrow{ font-size:1rem;transition:transform .2s; }
+.mob-nav-item.sub-open .mob-nav-arrow{ transform:rotate(180deg); }
+
+.mob-sub-list{ display:none;background:#1a0606; }
+.mob-sub-item{
+  padding:1rem 2rem;
+  font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.18em;
+  border-top:1px solid rgba(201,168,76,.15);
+  color:var(--text-muted);cursor:pointer;
+}
+.mob-sub-item:hover{ color:var(--accent); }
+
+/* Bottom controls bar inside drawer */
+.mob-drawer-ctrl{
+  border-top:1px solid var(--accent);
+  padding:1.1rem 1.4rem;
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
 }
 
 @media(max-width:768px){
+  /* Hide desktop nav, show mobile bar */
+  #nav .nav-tabs,
+  #nav .nav-ctrl{ display:none !important; }
 
-  #nav,
-  .nav-in,
-  .nav-tabs,
-  .nav-ctrl{
-    display:none !important;
-  }
-
-  /* Top bar */
   .mob-bar{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
+    align-items:center;justify-content:space-between;
     padding:1rem 1.3rem;
     background:var(--nav-bg);
     border-top:2px solid var(--accent);
     border-bottom:1px solid var(--accent);
-    position:relative;
-    z-index:150;
+    position:sticky;top:0;z-index:150;
   }
-
   .mob-bar-label{
-    font-family:'Cinzel',serif;
-    font-size:.75rem;
-    letter-spacing:.35em;
-    color:var(--accent);
+    font-family:'Cinzel',serif;font-size:.75rem;
+    letter-spacing:.35em;color:var(--accent);
   }
-
   .mob-menu-btn{
-    background:none;
-    border:1px solid var(--accent);
-    color:var(--accent);
-    font-size:1rem;
-    padding:.35rem .7rem;
-    cursor:pointer;
+    background:none;border:1px solid var(--accent);
+    color:var(--accent);font-size:1.1rem;
+    padding:.35rem .7rem;cursor:pointer;line-height:1;
   }
-
-  /* Overlay */
-  .mob-drawer-ov{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    z-index:998;
-  }
-  .mob-drawer-ov.open{display:block;}
-
-  /* Drawer */
-  .mob-drawer{
-    position:fixed;
-    top:0;
-    left:0;
-    width:82%;
-    max-width:360px;
-    height:100%;
-    background:#140404;
-    border-right:2px solid var(--accent);
-    transform:translateX(-100%);
-    transition:transform .3s ease;
-    z-index:999;
-    display:flex;
-    flex-direction:column;
-  }
-  .mob-drawer.open{transform:translateX(0);}
-
-  /* Drawer header */
-  .mob-drawer-hdr{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1.2rem 1.4rem;
-    border-bottom:1px solid var(--accent);
-  }
-
-  .mob-drawer-title{
-    font-family:'Cinzel',serif;
-    font-size:.75rem;
-    letter-spacing:.4em;
-    color:var(--accent);
-  }
-
-  .mob-drawer-close{
-    background:none;
-    border:none;
-    color:var(--accent);
-    font-size:1.2rem;
-    cursor:pointer;
-  }
-
-  /* Nav list */
-  .mob-nav-list{
-    list-style:none;
-    padding:0;
-    margin:0;
-    flex:1;
-  }
-
-  .mob-nav-item{
-    border-bottom:1px solid rgba(201,168,76,.22);
-  }
-
-  .mob-nav-label,
-  .mob-nav-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1.2rem 1.4rem;
-    font-family:'Cinzel',serif;
-    font-size:.78rem;
-    letter-spacing:.25em;
-    text-transform:uppercase;
-    color:var(--text-dim);
-  }
-
-  .mob-nav-item.active{
-    background:rgba(201,168,76,.08);
-  }
-
-  .mob-nav-item.active .mob-nav-label{
-    color:var(--accent);
-  }
-
-  .mob-nav-arrow{
-    font-size:1rem;
-    transition:transform .2s;
-  }
-
-  .mob-nav-item.sub-open .mob-nav-arrow{
-    transform:rotate(180deg);
-  }
-
-  .mob-sub-list{
-    display:none;
-    background:#1a0606;
-  }
-
-  .mob-sub-item{
-    padding:1rem 2rem;
-    font-family:'Cinzel',serif;
-    font-size:.7rem;
-    letter-spacing:.18em;
-    border-top:1px solid rgba(201,168,76,.15);
-    color:var(--text-muted);
-  }
-
-  .mob-sub-item:hover{
-    color:var(--accent);
-  }
-
-  /* Bottom controls area */
-  .mob-drawer-ctrl{
-    border-top:1px solid var(--accent);
-    padding:1.1rem 1.4rem;
-    display:flex;
-    align-items:center;
-    gap:1rem;
-  }
-
+  .mob-menu-btn:hover{ background:rgba(201,168,76,.1); }
 }
    
 /* ════════════════════════════════════════
@@ -1320,6 +1256,7 @@ p{line-height:1.8;}
 .th-gc-footer{font-size:.76rem;color:var(--text-muted)!important;opacity:1!important;}
 /* ac-name readable */
 .ac-name{font-family:'Cinzel',serif;font-size:.78rem;color:var(--text)!important;}
+.th-autofill-notice{
   display:flex;align-items:center;gap:.5rem;
   font-size:.82rem;color:var(--text-muted);font-style:italic;
   margin-bottom:1rem;padding:.55rem .85rem;
@@ -1613,9 +1550,9 @@ p{line-height:1.8;}
   </div>
 </header>
 
-<div class="mob-bar">
+<div class="mob-bar" id="mob-bar">
   <span class="mob-bar-label">NAVIGATION</span>
-  <button class="mob-menu-btn" onclick="openMobDrawer()">&#9776;</button>
+  <button class="mob-menu-btn" id="mob-menu-btn" aria-label="Open navigation">&#9776;</button>
 </div>
 
 <nav id="nav">
@@ -1705,28 +1642,18 @@ p{line-height:1.8;}
     </div>
   </div>
 </nav>
-<div class="mob-drawer-ctrl">
-  <div class="tt">
-    <div class="tt-track" onclick="toggleTheme()">
-      <div class="tt-thumb"></div>
-    </div>
-    <span class="tt-icon">☀</span>
-  </div>
-
-  <button id="dc-login-btn">Discord</button>
-</div>
 <!-- Mobile nav drawer -->
 <div class="mob-drawer-ov" id="mob-drawer-ov" onclick="closeMobDrawer()"></div>
 
 <div class="mob-drawer" id="mob-drawer">
   <div class="mob-drawer-hdr">
     <span class="mob-drawer-title">NAVIGATION</span>
-    <button class="mob-drawer-close" onclick="closeMobDrawer()">&#10005;</button>
+    <button class="mob-drawer-close" id="mob-drawer-close" onclick="closeMobDrawer()">&#10005;</button>
   </div>
-
   <ul class="mob-nav-list" id="mob-nav-list">
-    <li class="mob-nav-item active" data-tab="about">ABOUT</li>
-
+    <li class="mob-nav-item active" data-tab="about">
+      <span class="mob-nav-label">ABOUT</span>
+    </li>
     <li class="mob-nav-item has-sub" data-tab="manga">
       <div class="mob-nav-row">
         <span>MANGA</span>
@@ -1737,14 +1664,22 @@ p{line-height:1.8;}
         <li class="mob-sub-item" data-tab="manga" data-sub="chars">Characters</li>
       </ul>
     </li>
-
-    <li class="mob-nav-item" data-tab="rules">RULES</li>
-    <li class="mob-nav-item" data-tab="info">INFO</li>
-    <li class="mob-nav-item" data-tab="news">NEWS</li>
-    <li class="mob-nav-item" data-tab="theories">THEORIES</li>
-    <li class="mob-nav-item" data-tab="staff">STAFF</li>
+    <li class="mob-nav-item" data-tab="rules">
+      <span class="mob-nav-label">RULES</span>
+    </li>
+    <li class="mob-nav-item" data-tab="info">
+      <span class="mob-nav-label">INFO</span>
+    </li>
+    <li class="mob-nav-item" data-tab="news">
+      <span class="mob-nav-label">NEWS</span>
+    </li>
+    <li class="mob-nav-item" data-tab="theories">
+      <span class="mob-nav-label">THEORIES</span>
+    </li>
+    <li class="mob-nav-item" data-tab="staff">
+      <span class="mob-nav-label">STAFF</span>
+    </li>
   </ul>
-
   <div class="mob-drawer-ctrl" id="mob-drawer-ctrl"></div>
 </div>
 
@@ -3251,52 +3186,92 @@ updateGateUI();
 /* ════════════════════════════════════════
    MOBILE NAVIGATION
 ════════════════════════════════════════ */
+(function(){
+  const menuBtn  = document.getElementById('mob-menu-btn');
+  const drawerOv = document.getElementById('mob-drawer-ov');
+  const drawer   = document.getElementById('mob-drawer');
 
-const mobBtn = document.getElementById('mob-menu-btn');
-const mobDrawer = document.getElementById('mob-drawer');
-const mobOverlay = document.getElementById('mob-drawer-ov');
+  if(!menuBtn || !drawer) return;
 
-function openMobDrawer(){
-  mobDrawer.classList.add('open');
-  mobOverlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
+  function openMobDrawer(){
+    drawer.classList.add('open');
+    drawerOv.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  window.closeMobDrawer = function(){
+    drawer.classList.remove('open');
+    drawerOv.classList.remove('open');
+    document.body.style.overflow='';
+  };
+  window.openMobDrawer = openMobDrawer;
 
-function closeMobDrawer(){
-  mobDrawer.classList.remove('open');
-  mobOverlay.classList.remove('open');
-  document.body.style.overflow = '';
-}
+  menuBtn.addEventListener('click', openMobDrawer);
 
-mobBtn?.addEventListener('click', openMobDrawer);
+  // Clone desktop controls (theme toggle + Discord) into drawer footer
+  const desktopCtrl = document.querySelector('.nav-ctrl');
+  const drawerCtrl  = document.getElementById('mob-drawer-ctrl');
+  if(desktopCtrl && drawerCtrl){
+    drawerCtrl.innerHTML = desktopCtrl.innerHTML;
+    // Re-wire theme toggle clone inside drawer
+    const cloneTrack = drawerCtrl.querySelector('.tt-track');
+    if(cloneTrack) cloneTrack.addEventListener('click', ()=>{ if(typeof toggleTheme==='function') toggleTheme(); });
+  }
 
-document.querySelectorAll('.mob-nav-item:not(.has-sub)').forEach(item=>{
-  item.addEventListener('click', ()=>{
-    const tab = item.dataset.tab;
-    if(tab){
-      activateTab(tab);
+  // Helper: sync mobile active state
+  function syncMobActive(tab){
+    document.querySelectorAll('.mob-nav-item').forEach(i=>{
+      i.classList.toggle('active', i.dataset.tab===tab);
+    });
+  }
+
+  // Wire non-submenu items
+  document.querySelectorAll('.mob-nav-item:not(.has-sub)').forEach(item=>{
+    item.addEventListener('click', ()=>{
+      const tab = item.dataset.tab;
+      if(!tab) return;
+      syncMobActive(tab);
+      if(typeof activateTab==='function') activateTab(tab);
       closeMobDrawer();
-    }
+    });
   });
-});
 
-document.querySelector('.mob-nav-item.has-sub')?.addEventListener('click', function(e){
-  if(e.target.classList.contains('mob-sub-item')) return;
-  this.classList.toggle('sub-open');
-  const sub = document.getElementById('mob-manga-sub');
-  sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
-});
+  // Wire Manga submenu toggle
+  const mangaItem = document.querySelector('.mob-nav-item.has-sub');
+  if(mangaItem){
+    mangaItem.querySelector('.mob-nav-row').addEventListener('click', e=>{
+      e.stopPropagation();
+      const sub = document.getElementById('mob-manga-sub');
+      const isOpen = mangaItem.classList.contains('sub-open');
+      mangaItem.classList.toggle('sub-open', !isOpen);
+      if(sub) sub.style.display = isOpen ? 'none' : 'block';
+    });
+  }
 
-document.querySelectorAll('.mob-sub-item').forEach(sub=>{
-  sub.addEventListener('click', ()=>{
-    const tab = sub.dataset.tab;
-    const subId = sub.dataset.sub;
-
-    activeSubs[tab] = subId;
-    activateTab(tab);
-    closeMobDrawer();
+  // Wire sub-items (Gallery, Characters)
+  document.querySelectorAll('.mob-sub-item').forEach(si=>{
+    si.addEventListener('click', ()=>{
+      const tab = si.dataset.tab;
+      const sub = si.dataset.sub;
+      syncMobActive(tab);
+      if(typeof activateTab==='function') activateTab(tab);
+      // Switch to correct sub-section
+      setTimeout(()=>{
+        document.querySelectorAll('.sn-btn').forEach(b=>{
+          b.classList.toggle('active', b.dataset.sub===sub && b.dataset.parent===tab);
+        });
+        document.querySelectorAll('#manga .subsec').forEach(s=>s.classList.remove('active'));
+        const target = document.getElementById(sub);
+        if(target) target.classList.add('active');
+      }, 50);
+      closeMobDrawer();
+    });
   });
-});
+
+  // Keep mobile active state in sync when desktop tabs are clicked
+  document.querySelectorAll('a.tab[data-tab], button.tab[data-tab]').forEach(el=>{
+    el.addEventListener('click', ()=> syncMobActive(el.dataset.tab));
+  });
+})();
 
 /* ════════════════════════════════════════
    NEWS RENDERING SYSTEM
@@ -3610,6 +3585,7 @@ function openArtModal(id, data){
   </div>
 </div>
 
+<script>
 function submitArtComment(articleId){
   if(!dcUser||!isMember){ showToast('Server members only.','err'); return; }
   const text = document.getElementById('am-comment-text').value.trim();
@@ -3646,5 +3622,3 @@ function closeArtModalOutside(e){
   if(e.target===document.getElementById('art-modal-ov')) closeArtModal();
 }
 </script>
-</body>
-</html>
