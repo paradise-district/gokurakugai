@@ -1182,6 +1182,63 @@ p{line-height:1.8;}
   background:rgba(88,101,242,.2);color:#818cf8;border:1px solid rgba(88,101,242,.3);
 }
 .ac-role.staff{background:rgba(201,168,76,.15);color:var(--accent);border-color:rgba(201,168,76,.3);}
+
+   /* existing responsive styles above */
+
+@media(max-width:380px){
+  .nav-tabs li>a,.nav-tabs li>button{padding:.68rem .35rem;font-size:.52rem;}
+  .staff-grid{grid-template-columns:repeat(2,1fr);}
+  .cd-ev{display:none;}
+}
+
+/* ════════════════════════════════════════
+   MOBILE NAVIGATION DRAWER
+════════════════════════════════════════ */
+
+/* Hide desktop nav on mobile */
+@media(max-width:768px){
+  #nav{ display:none !important; }
+  .mob-bar{ display:flex !important; }
+}
+@media(min-width:769px){
+  .mob-bar{ display:none !important; }
+  .mob-drawer,.mob-drawer-ov{ display:none !important; }
+}
+
+/* Mobile sticky bar */
+.mob-bar{
+  display:none;
+  position:sticky;top:0;z-index:500;
+  align-items:center;justify-content:space-between;
+  padding:.55rem 1.1rem;
+  background:var(--nav-bg);
+  border-bottom:1px solid var(--accent);
+}
+
+/* Overlay */
+.mob-drawer-ov{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  z-index:900;
+}
+.mob-drawer-ov.open{ display:block; }
+
+/* Drawer */
+.mob-drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:min(82vw,360px);
+  height:100%;
+  background:var(--nav-bg);
+  z-index:901;
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+}
+.mob-drawer.open{ transform:translateX(0); }
+
 </style>
 </head>
 <body>
