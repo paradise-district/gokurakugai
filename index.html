@@ -1239,6 +1239,176 @@ p{line-height:1.8;}
 }
 .mob-drawer.open{ transform:translateX(0); }
 
+   /* ════════════════════════════════════════
+   MOBILE NAVIGATION — DRAWER STYLE
+════════════════════════════════════════ */
+
+@media(max-width:768px){
+
+  /* Hide desktop nav */
+  #nav{display:none !important;}
+
+  /* Top mobile bar */
+  .mob-bar{
+    display:flex;
+    position:sticky;
+    top:0;
+    z-index:500;
+    align-items:center;
+    justify-content:space-between;
+    padding:.9rem 1.2rem;
+    background:var(--nav-bg);
+    border-top:2px solid var(--accent);
+    border-bottom:1px solid var(--accent);
+  }
+
+  .mob-bar-label{
+    font-family:'Cinzel',serif;
+    font-size:.7rem;
+    letter-spacing:.35em;
+    color:var(--accent);
+  }
+
+  .mob-menu-btn{
+    background:none;
+    border:1px solid var(--accent);
+    color:var(--accent);
+    padding:.35rem .7rem;
+    font-size:1.1rem;
+    cursor:pointer;
+  }
+
+  /* Overlay */
+  .mob-drawer-ov{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    z-index:900;
+  }
+
+  .mob-drawer-ov.open{display:block;}
+
+  /* Drawer */
+  .mob-drawer{
+    position:fixed;
+    top:0;
+    left:0;
+    width:85%;
+    max-width:360px;
+    height:100%;
+    background:#140404;
+    border-right:2px solid var(--accent);
+    transform:translateX(-100%);
+    transition:transform .3s ease;
+    z-index:901;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .mob-drawer.open{transform:translateX(0);}
+
+  /* Drawer header */
+  .mob-drawer-hdr{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.2rem 1.4rem;
+    border-bottom:1px solid var(--accent);
+  }
+
+  .mob-drawer-title{
+    font-family:'Cinzel',serif;
+    font-size:.75rem;
+    letter-spacing:.4em;
+    color:var(--accent);
+  }
+
+  .mob-drawer-close{
+    background:none;
+    border:none;
+    color:var(--accent);
+    font-size:1.2rem;
+    cursor:pointer;
+  }
+
+  /* Nav list */
+  .mob-nav-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+    flex:1;
+  }
+
+  .mob-nav-item{
+    border-bottom:1px solid rgba(201,168,76,.25);
+  }
+
+  .mob-nav-row,
+  .mob-nav-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.15rem 1.4rem;
+    font-family:'Cinzel',serif;
+    font-size:.78rem;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    cursor:pointer;
+  }
+
+  .mob-nav-item.active{
+    background:rgba(201,168,76,.08);
+  }
+
+  .mob-nav-item.active .mob-nav-label{
+    color:var(--accent);
+  }
+
+  .mob-nav-arrow{
+    font-size:1rem;
+    transition:transform .2s;
+  }
+
+  .mob-nav-item.sub-open .mob-nav-arrow{
+    transform:rotate(180deg);
+  }
+
+  /* Sub items */
+  .mob-sub-list{
+    display:none;
+    list-style:none;
+    padding:0;
+    margin:0;
+    background:#1a0606;
+  }
+
+  .mob-sub-item{
+    padding:1rem 1.8rem;
+    font-family:'Cinzel',serif;
+    font-size:.7rem;
+    letter-spacing:.18em;
+    color:var(--text-muted);
+    border-top:1px solid rgba(201,168,76,.15);
+    cursor:pointer;
+  }
+
+  .mob-sub-item:hover{
+    color:var(--accent);
+  }
+
+  /* Bottom controls */
+  .mob-drawer-ctrl{
+    padding:1rem 1.4rem;
+    border-top:1px solid var(--accent);
+    display:flex;
+    gap:.8rem;
+    align-items:center;
+  }
+
+}
+   
 </style>
 </head>
 <body>
@@ -1274,6 +1444,7 @@ p{line-height:1.8;}
 </header>
 
 <!-- ════ NAV ════ -->
+   <div class="mob-bar">
 <nav id="nav">
   <div class="nav-in">
     <ul class="nav-tabs">
