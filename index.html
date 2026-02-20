@@ -2496,7 +2496,12 @@ function setTheme(t){
   html.setAttribute('data-theme',t);
   localStorage.setItem('gkg-theme',t);
 }
-tt.addEventListener('click',()=> setTheme(html.getAttribute('data-theme')==='dark'?'light':'dark'));
+function toggleTheme(){
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  setTheme(next);
+}
+tt.addEventListener('click', toggleTheme);
 tt.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();tt.click();}});
 setTheme(localStorage.getItem('gkg-theme')||'dark');
 
@@ -3219,11 +3224,9 @@ updateGateUI();
 
   // ── Re-wire Theme Toggle ──
   const cloneTrack = drawerCtrl.querySelector('.tt-track');
-  if(cloneTrack){
-    cloneTrack.addEventListener('click', ()=>{
-      if(typeof toggleTheme === 'function') toggleTheme();
-    });
-  }
+if(cloneTrack){
+  cloneTrack.addEventListener('click', toggleTheme);
+}
 
   // ── Re-wire Discord Login ──
   const cloneLoginBtn = drawerCtrl.querySelector('#dc-login-btn');
