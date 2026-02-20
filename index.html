@@ -649,6 +649,87 @@ p{line-height:1.8;}
   .cd-ev{display:none;}
 }
 
+   /* ════════════════════════════════════════
+   MOBILE NAV (SAFE VERSION)
+════════════════════════════════════════ */
+
+.mob-bar,
+.mob-drawer,
+.mob-drawer-ov{
+  display:none;
+}
+
+@media(max-width:768px){
+
+  /* Hide desktop nav completely */
+  #nav{
+    display:none !important;
+  }
+
+  /* Mobile bar */
+  .mob-bar{
+    display:flex;
+    position:relative;
+    z-index:120;
+    align-items:center;
+    justify-content:space-between;
+    padding:.9rem 1.2rem;
+    background:var(--nav-bg);
+    border-top:2px solid var(--accent);
+    border-bottom:1px solid var(--accent);
+  }
+
+  .mob-bar-label{
+    font-family:'Cinzel',serif;
+    font-size:.7rem;
+    letter-spacing:.35em;
+    color:var(--accent);
+  }
+
+  .mob-menu-btn{
+    background:none;
+    border:1px solid var(--accent);
+    color:var(--accent);
+    padding:.35rem .7rem;
+    font-size:1.1rem;
+    cursor:pointer;
+  }
+
+  /* Overlay */
+  .mob-drawer-ov{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    z-index:998;
+  }
+
+  .mob-drawer-ov.open{
+    display:block;
+  }
+
+  /* Drawer */
+  .mob-drawer{
+    position:fixed;
+    top:0;
+    left:0;
+    width:85%;
+    max-width:360px;
+    height:100%;
+    background:#140404;
+    border-right:2px solid var(--accent);
+    transform:translateX(-100%);
+    transition:transform .3s ease;
+    z-index:999;
+    overflow-y:auto;
+  }
+
+  .mob-drawer.open{
+    transform:translateX(0);
+    display:block;
+  }
+
+}
+   
 /* ════════════════════════════════════════
    NEWS REDESIGN
 ════════════════════════════════════════ */
@@ -1439,12 +1520,15 @@ p{line-height:1.8;}
       <div class="gl-r"><img src="assets/images/logo-en.png" alt="" aria-hidden="true"></div>
       <div class="gl-b"><img src="assets/images/logo-en.png" alt="" aria-hidden="true"></div>
     </div>
-    <p class="hdr-tag">Fan Community · Est. 2024</p>
+    <p class="hdr-tag">Fan Community · Est. 2022</p>
   </div>
 </header>
 
-<!-- ════ NAV ════ -->
-   <div class="mob-bar">
+<div class="mob-bar">
+  <span class="mob-bar-label">NAVIGATION</span>
+  <button class="mob-menu-btn" onclick="openMobDrawer()">&#9776;</button>
+</div>
+
 <nav id="nav">
   <div class="nav-in">
     <ul class="nav-tabs">
