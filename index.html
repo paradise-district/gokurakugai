@@ -101,7 +101,7 @@ p{line-height:1.8;}
 .hdr-inner{position:relative;z-index:2;text-align:center;padding:1.5rem 1rem;}
 
 /* ── Glitch logo: EN default → glitch → JP → glitch → EN loop ── */
-.glitch-wrap{position:relative;display:inline-block;cursor:pointer;height:60px;min-width:200px;}
+.glitch-wrap{position:relative;display:inline-block;cursor:pointer;height:82px;min-width:180px;}
 .logo-en-gl,.logo-jp-gl{
   max-height:82px;width:auto;display:block;
   position:absolute;top:0;left:50%;transform:translateX(-50%);
@@ -670,7 +670,7 @@ p{line-height:1.8;}
 .mob-drawer{
   position:fixed;top:0;left:0;
   width:82%;max-width:360px;height:100%;
-  background:var(--bg);
+  background:#140404;
   border-right:2px solid var(--accent);
   transform:translateX(-100%);
   transition:transform .3s ease;
@@ -713,7 +713,7 @@ p{line-height:1.8;}
 .mob-nav-arrow{ font-size:1rem;transition:transform .2s; }
 .mob-nav-item.sub-open .mob-nav-arrow{ transform:rotate(180deg); }
 
-.mob-sub-list{ display:none;background:var(--bg); }
+.mob-sub-list{ display:none;background:#1a0606; }
 .mob-sub-item{
   padding:1rem 2rem;
   font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.18em;
@@ -1404,7 +1404,7 @@ p{line-height:1.8;}
     width:85%;
     max-width:360px;
     height:100%;
-    background:var(--bg);
+    background:#140404;
     border-right:2px solid var(--accent);
     transform:translateX(-100%);
     transition:transform .3s ease;
@@ -1488,7 +1488,7 @@ p{line-height:1.8;}
     list-style:none;
     padding:0;
     margin:0;
-    background:var(--bg);
+    background:#1a0606;
   }
 
   .mob-sub-item{
@@ -2496,12 +2496,7 @@ function setTheme(t){
   html.setAttribute('data-theme',t);
   localStorage.setItem('gkg-theme',t);
 }
-function toggleTheme(){
-  const current = html.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  setTheme(next);
-}
-tt.addEventListener('click', toggleTheme);
+tt.addEventListener('click',()=> setTheme(html.getAttribute('data-theme')==='dark'?'light':'dark'));
 tt.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();tt.click();}});
 setTheme(localStorage.getItem('gkg-theme')||'dark');
 
@@ -2836,17 +2831,10 @@ function loadDiscordWidget(){
   if(widgetLoaded) return;
   widgetLoaded=true;
   const ctTargets = ['dc-online-ct'];
-  fetch('https://discord.com/api/v10/invites/YSJqevBZfr?with_counts=true')
-  .then(r=>r.json())
-  .then(data=>{
-    const total = data.approximate_member_count;
-    const el = document.getElementById('dc-total-members');
-    if(el) el.textContent = total.toLocaleString();
-  })
-  .catch(()=>{
-    const el = document.getElementById('dc-total-members');
-    if(el) el.textContent = 'Unavailable';
-  });
+  fetch(CFG.WIDGET_API)
+    .then(r=>r.json())
+    .then(data=>{
+      const count = data.presence_count || (data.members||[]).length;
       ctTargets.forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=count+' members online'; });
     })
     .catch(()=>{
@@ -3146,22 +3134,18 @@ updateGateUI();
   const statStaff = document.getElementById('stat-staff');
   if(statStaff) statStaff.textContent = staffCount || '9';
 
-  // 2. Discord TOTAL member count via Invite API
-fetch('https://discord.com/api/v10/invites/YSJqevBZfr?with_counts=true')
-  .then(r=>r.json())
-  .then(data=>{
-    const el = document.getElementById('stat-discord');
-    if(el){
-      const total = data.approximate_member_count;
-      el.textContent = typeof total === 'number'
-        ? total.toLocaleString()
-        : '—';
-    }
-  })
-  .catch(()=>{
-    const el = document.getElementById('stat-discord');
-    if(el) el.textContent = '—';
-  });
+  // 2. Discord member count via widget
+  fetch(CFG.WIDGET_API)
+    .then(r=>r.json())
+    .then(data=>{
+      const el = document.getElementById('stat-discord');
+      if(el){
+        // approximate_member_count or presence_count
+        const count = data.approximate_member_count || data.presence_count || '—';
+        el.textContent = typeof count==='number' ? count.toLocaleString() : count;
+      }
+    })
+    .catch(()=>{ const el=document.getElementById('stat-discord'); if(el) el.textContent='—'; });
 
   // 3. Chapter count — derive from current countdown logic
   // Use same BASE_CHAPTER + months formula as countdown
@@ -3235,9 +3219,11 @@ fetch('https://discord.com/api/v10/invites/YSJqevBZfr?with_counts=true')
 
   // ── Re-wire Theme Toggle ──
   const cloneTrack = drawerCtrl.querySelector('.tt-track');
-if(cloneTrack){
-  cloneTrack.addEventListener('click', toggleTheme);
-}
+  if(cloneTrack){
+    cloneTrack.addEventListener('click', ()=>{
+      if(typeof toggleTheme === 'function') toggleTheme();
+    });
+  }
 
   // ── Re-wire Discord Login ──
   const cloneLoginBtn = drawerCtrl.querySelector('#dc-login-btn');
