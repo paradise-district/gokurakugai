@@ -3146,18 +3146,22 @@ updateGateUI();
   const statStaff = document.getElementById('stat-staff');
   if(statStaff) statStaff.textContent = staffCount || '9';
 
-  // 2. Discord member count via widget
-  fetch(CFG.WIDGET_API)
-    .then(r=>r.json())
-    .then(data=>{
-      const el = document.getElementById('stat-discord');
-      if(el){
-        // approximate_member_count or presence_count
-        const count = data.approximate_member_count || data.presence_count || '—';
-        el.textContent = typeof count==='number' ? count.toLocaleString() : count;
-      }
-    })
-    .catch(()=>{ const el=document.getElementById('stat-discord'); if(el) el.textContent='—'; });
+  // 2. Discord TOTAL member count via Invite API
+fetch('https://discord.com/api/v10/invites/YSJqevBZfr?with_counts=true')
+  .then(r=>r.json())
+  .then(data=>{
+    const el = document.getElementById('stat-discord');
+    if(el){
+      const total = data.approximate_member_count;
+      el.textContent = typeof total === 'number'
+        ? total.toLocaleString()
+        : '—';
+    }
+  })
+  .catch(()=>{
+    const el = document.getElementById('stat-discord');
+    if(el) el.textContent = '—';
+  });
 
   // 3. Chapter count — derive from current countdown logic
   // Use same BASE_CHAPTER + months formula as countdown
