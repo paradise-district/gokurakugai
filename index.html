@@ -649,8 +649,8 @@ p{line-height:1.8;}
   .cd-ev{display:none;}
 }
 
-   /* ════════════════════════════════════════
-   MOBILE NAV (SAFE VERSION)
+/* ════════════════════════════════════════
+   MOBILE NAV
 ════════════════════════════════════════ */
 
 .mob-bar,
@@ -661,27 +661,29 @@ p{line-height:1.8;}
 
 @media(max-width:768px){
 
-  /* Hide desktop nav completely */
-  #nav{
+  #nav,
+  .nav-in,
+  .nav-tabs,
+  .nav-ctrl{
     display:none !important;
   }
 
-  /* Mobile bar */
+  /* Top bar */
   .mob-bar{
     display:flex;
-    position:relative;
-    z-index:120;
     align-items:center;
     justify-content:space-between;
-    padding:.9rem 1.2rem;
+    padding:1rem 1.3rem;
     background:var(--nav-bg);
     border-top:2px solid var(--accent);
     border-bottom:1px solid var(--accent);
+    position:relative;
+    z-index:150;
   }
 
   .mob-bar-label{
     font-family:'Cinzel',serif;
-    font-size:.7rem;
+    font-size:.75rem;
     letter-spacing:.35em;
     color:var(--accent);
   }
@@ -690,8 +692,8 @@ p{line-height:1.8;}
     background:none;
     border:1px solid var(--accent);
     color:var(--accent);
+    font-size:1rem;
     padding:.35rem .7rem;
-    font-size:1.1rem;
     cursor:pointer;
   }
 
@@ -699,20 +701,17 @@ p{line-height:1.8;}
   .mob-drawer-ov{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.7);
+    background:rgba(0,0,0,.75);
     z-index:998;
   }
-
-  .mob-drawer-ov.open{
-    display:block;
-  }
+  .mob-drawer-ov.open{display:block;}
 
   /* Drawer */
   .mob-drawer{
     position:fixed;
     top:0;
     left:0;
-    width:85%;
+    width:82%;
     max-width:360px;
     height:100%;
     background:#140404;
@@ -720,12 +719,102 @@ p{line-height:1.8;}
     transform:translateX(-100%);
     transition:transform .3s ease;
     z-index:999;
-    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+  }
+  .mob-drawer.open{transform:translateX(0);}
+
+  /* Drawer header */
+  .mob-drawer-hdr{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.2rem 1.4rem;
+    border-bottom:1px solid var(--accent);
   }
 
-  .mob-drawer.open{
-    transform:translateX(0);
-    display:block;
+  .mob-drawer-title{
+    font-family:'Cinzel',serif;
+    font-size:.75rem;
+    letter-spacing:.4em;
+    color:var(--accent);
+  }
+
+  .mob-drawer-close{
+    background:none;
+    border:none;
+    color:var(--accent);
+    font-size:1.2rem;
+    cursor:pointer;
+  }
+
+  /* Nav list */
+  .mob-nav-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+    flex:1;
+  }
+
+  .mob-nav-item{
+    border-bottom:1px solid rgba(201,168,76,.22);
+  }
+
+  .mob-nav-label,
+  .mob-nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.2rem 1.4rem;
+    font-family:'Cinzel',serif;
+    font-size:.78rem;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+
+  .mob-nav-item.active{
+    background:rgba(201,168,76,.08);
+  }
+
+  .mob-nav-item.active .mob-nav-label{
+    color:var(--accent);
+  }
+
+  .mob-nav-arrow{
+    font-size:1rem;
+    transition:transform .2s;
+  }
+
+  .mob-nav-item.sub-open .mob-nav-arrow{
+    transform:rotate(180deg);
+  }
+
+  .mob-sub-list{
+    display:none;
+    background:#1a0606;
+  }
+
+  .mob-sub-item{
+    padding:1rem 2rem;
+    font-family:'Cinzel',serif;
+    font-size:.7rem;
+    letter-spacing:.18em;
+    border-top:1px solid rgba(201,168,76,.15);
+    color:var(--text-muted);
+  }
+
+  .mob-sub-item:hover{
+    color:var(--accent);
+  }
+
+  /* Bottom controls area */
+  .mob-drawer-ctrl{
+    border-top:1px solid var(--accent);
+    padding:1.1rem 1.4rem;
+    display:flex;
+    align-items:center;
+    gap:1rem;
   }
 
 }
@@ -1616,13 +1705,16 @@ p{line-height:1.8;}
     </div>
   </div>
 </nav>
+<div class="mob-drawer-ctrl">
+  <div class="tt">
+    <div class="tt-track" onclick="toggleTheme()">
+      <div class="tt-thumb"></div>
+    </div>
+    <span class="tt-icon">☀</span>
+  </div>
 
-<!-- Mobile nav bar -->
-<div class="mob-bar" id="mob-bar">
-  <span class="mob-bar-label">NAVIGATION</span>
-  <button class="mob-menu-btn" id="mob-menu-btn" aria-label="Open navigation menu">&#9776;</button>
+  <button id="dc-login-btn">Discord</button>
 </div>
-
 <!-- Mobile nav drawer -->
 <div class="mob-drawer-ov" id="mob-drawer-ov" onclick="closeMobDrawer()"></div>
 
