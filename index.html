@@ -2145,51 +2145,93 @@ document.getElementById('gal-lightbox-ov').addEventListener('click',function(e){
 /* ════ DISCORD OAUTH2 ════ */
 let dcUser=null, isMember=false;
 
-function dcLogin(){
-  localStorage.setItem('gkg-pretab',getCurrentTab());
-  // IMPORTANT: For implicit (response_type=token) flow, redirect_uri MUST be the
-  // frontend page itself. Browsers never send URL fragments (#) to servers, so
-  // routing through the Render backend swallowed the token. The GitHub Pages URL
-  // must be added to Discord's OAuth2 redirect URIs in the Developer Portal.
-  const siteUrl = 'https://paradise-district.github.io/gokurakugai/';
-  const redirectUri = encodeURIComponent(siteUrl);
-  const scope=encodeURIComponent('identify guilds');
-  window.location.href=`https://discord.com/api/oauth2/authorize?client_id=${CFG.DISCORD_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
-}
 function getCurrentTab(){
   for(const s of document.querySelectorAll('.sec')){ if(s.classList.contains('active'))return s.id; }
   return 'about';
 }
-async function fetchDiscordUser(token){
-  const r=await fetch('https://discord.com/api/users/@me',{headers:{'Authorization':'Bearer '+token}});
-  if(!r.ok)throw new Error('User fetch failed');
+
+function dcLogin(){
+  localStorage.setItem('gkg-pretab', getCurrentTab());
+  // redirect_uri = THIS page (GitHub Pages). Discord appends #access_token=... to it.
+  // This URL must be registered in Discord Developer Portal → OAuth2 → Redirects.
+  const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
+  const scope = encodeURIComponent('identify');
+  window.location.href =
+    `https://discord.com/api/oauth2/authorize?client_id=${CFG.DISCORD_CLIENT_ID}` +
+    `&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+}
+
+async function fetchDiscordUser(token) {
+  const r = await fetch('https://discord.com/api/v10/users/@me', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  if (!r.ok) throw new Error('Discord API ' + r.status);
   return r.json();
 }
-async function checkGuildMembership(token){
-  try{
-    const r=await fetch('https://discord.com/api/users/@me/guilds',{headers:{'Authorization':'Bearer '+token}});
-    if(!r.ok)return false;
-    const guilds=await r.json();
-    return guilds.some(g=>g.id===CFG.GUILD_ID);
-  }catch(e){return false;}
+
+async function checkGuildMembership(token) {
+  try {
+    const r = await fetch('https://discord.com/api/v10/users/@me/guilds', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!r.ok) return false;
+    const guilds = await r.json();
+    return Array.isArray(guilds) && guilds.some(g => g.id === CFG.GUILD_ID);
+  } catch(e) { return false; }
 }
-function setDcUser(user,member){
-  dcUser=user; isMember=member;
-  document.getElementById('dc-login-btn').style.display='none';
-  document.getElementById('dc-user-wrap').style.display='block';
-  const initials=(user.username||'U')[0].toUpperCase();
-  document.getElementById('dc-uname').textContent=user.username||user.global_name||'User';
-  if(user.avatar){
-    const url=`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
-    const img=document.getElementById('dc-av-img');
-    img.src=url; img.style.display='block';
-    document.getElementById('dc-av-ph').style.display='none';
-  }else{ document.getElementById('dc-av-ph').textContent=initials; }
-  if(member)document.getElementById('dc-dot').style.display='block';
+
+/* Apply a user object + membership to the whole UI */
+function setDcUser(user, member) {
+  dcUser = user;
+  isMember = member;
+
+  // ── Nav button swap ──────────────────────────────────────
+  const loginBtn  = document.getElementById('dc-login-btn');
+  const userWrap  = document.getElementById('dc-user-wrap');
+  if (loginBtn) loginBtn.style.display = 'none';
+  if (userWrap) userWrap.style.display = 'block';
+
+  // ── Display name in nav ───────────────────────────────────
+  const uname = document.getElementById('dc-uname');
+  if (uname) uname.textContent = user.global_name || user.username || 'User';
+
+  // ── Avatar ────────────────────────────────────────────────
+  const avImg = document.getElementById('dc-av-img');
+  const avPh  = document.getElementById('dc-av-ph');
+  if (user.avatar) {
+    const url = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
+    if (avImg) { avImg.src = url; avImg.style.display = 'block'; }
+    if (avPh)  avPh.style.display = 'none';
+  } else {
+    const initials = (user.username || 'U')[0].toUpperCase();
+    if (avPh) { avPh.textContent = initials; avPh.style.display = 'flex'; }
+    if (avImg) avImg.style.display = 'none';
+  }
+
+  // ── Green dot ─────────────────────────────────────────────
+  const dot = document.getElementById('dc-dot');
+  if (dot) dot.style.display = member ? 'block' : 'none';
+
+  // ── Persist & update forms/gates ─────────────────────────
+  localStorage.setItem('gkg-dc-user',   JSON.stringify(user));
+  localStorage.setItem('gkg-dc-member', member ? '1' : '0');
   populateProfileCard(user);
+  autofillForms(user);
   updateGateUI();
-  localStorage.setItem('gkg-dc-user',JSON.stringify(user));
-  localStorage.setItem('gkg-dc-member',member?'1':'0');
+}
+
+/* Fill theory + staff form identity fields */
+function autofillForms(user) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+  // Theory form
+  set('th-displayname', user.global_name || user.username || '');
+  set('th-username',    user.username || '');
+  set('th-userid',      user.id || '');
+  // Staff form
+  set('af-displayname', user.global_name || user.username || '');
+  set('af-username',    user.username || '');
+  set('af-userid',      user.id || '');
+  set('af-disc',        user.username || '');
 }
 function updateGateUI(){
 
@@ -2243,71 +2285,132 @@ function updateGateUI(){
   if(applyMemberNote) applyMemberNote.style.display = (loggedIn && !isServerMember) ? 'flex' : 'none';
 
 }
-// OAuth token from URL — checks both hash (#access_token=) and query (?access_token= or ?token=)
-(function handleOAuthRedirect(){
+// ── Extract token from URL (hash or query string) ─────────────────
+(function handleOAuthRedirect() {
   let token = null;
-  // 1. Check URL hash (standard Discord implicit flow back to this page)
-  const hash = window.location.hash;
-  if(hash){
-    const hp = new URLSearchParams(hash.substring(1));
+  const rawHash = window.location.hash; // "#access_token=...&token_type=Bearer&..."
+
+  // Priority 1: URL hash (Discord implicit flow)
+  if (rawHash && rawHash.length > 1) {
+    const hp = new URLSearchParams(rawHash.substring(1));
     token = hp.get('access_token') || hp.get('token');
   }
-  // 2. Check query string (in case a backend server forwarded the token as a query param)
-  if(!token){
+  // Priority 2: query string (Render backend redirect with ?token= or ?access_token=)
+  if (!token) {
     const qp = new URLSearchParams(window.location.search);
     token = qp.get('access_token') || qp.get('token');
   }
-  if(!token) return;
-  // Clean the URL so the token doesn't linger in the address bar
+
+  if (!token) return; // No token — normal page load, restoreSession handles it
+
+  // Clean URL before anything async
   history.replaceState(null, null, window.location.pathname);
   localStorage.setItem('gkg-dc-token', token);
+
+  // Restore the tab the user was on before login
   const preTab = localStorage.getItem('gkg-pretab');
-  if(preTab) activateTab(preTab, false, false);
+  if (preTab && typeof activateTab === 'function') activateTab(preTab, false, false);
+
+  // Show an immediate placeholder logged-in state so the UI reacts NOW
+  const placeholder = { id: 'pending', username: 'Loading…', global_name: 'Loading…', avatar: null };
+  setDcUser(placeholder, false);
   showToast('Logging you in…');
+
+  // Fetch real user data from Discord API
   fetchDiscordUser(token)
     .then(user => {
-      // Immediately update nav so the user sees themselves logged in.
-      // Don't wait for the guild check — it often fails client-side.
-      setDcUser(user, false);
+      setDcUser(user, false); // update nav + forms with real data
       showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
-      // Guild check in background — updates the green dot and member badge if successful
+      // Guild check in background (identify scope only — skip if it fails)
       checkGuildMembership(token).then(member => {
         isMember = member;
         localStorage.setItem('gkg-dc-member', member ? '1' : '0');
-        if(member && document.getElementById('dc-dot')) document.getElementById('dc-dot').style.display = 'block';
+        const dot = document.getElementById('dc-dot');
+        if (dot) dot.style.display = member ? 'block' : 'none';
         populateProfileCard(user);
         updateGateUI();
-      }).catch(() => {}); // silently ignore guild check failure
+      }).catch(() => {});
     })
     .catch(err => {
-      console.error('OAuth error:', err);
-      showToast('Discord login failed — please try again.', 'err');
-      localStorage.removeItem('gkg-dc-token');
+      console.warn('Discord API fetch failed:', err);
+      // Don't remove the token or revert UI — keep "Loading…" placeholder
+      // so the user at least sees they went through auth. The next page load
+      // restoreSession will retry.
+      showToast('Loaded — refreshing profile…');
+      // Retry once after a short delay (sometimes Discord API has transient errors)
+      setTimeout(() => {
+        fetchDiscordUser(token)
+          .then(user => {
+            setDcUser(user, false);
+            showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
+          })
+          .catch(() => showToast('Could not load profile — please refresh.', 'err'));
+      }, 2500);
     });
 })();
-// Restore session
-(function restoreSession(){
-  const token=localStorage.getItem('gkg-dc-token');
-  const userData=localStorage.getItem('gkg-dc-user');
-  if(token&&userData){
-    try{
-      const user=JSON.parse(userData);
-      const member=localStorage.getItem('gkg-dc-member')==='1';
-      setDcUser(user,member);
-      checkGuildMembership(token).then(m=>{ isMember=m; localStorage.setItem('gkg-dc-member',m?'1':'0'); updateGateUI(); populateProfileCard(dcUser); if(m)document.getElementById('dc-dot').style.display='block'; });
-    }catch(e){}
-  }else{ updateGateUI(); }
+
+// ── Restore session from localStorage ─────────────────────────────
+(function restoreSession() {
+  const token    = localStorage.getItem('gkg-dc-token');
+  const userData = localStorage.getItem('gkg-dc-user');
+
+  if (token && userData && userData !== 'undefined' && userData !== 'null') {
+    let user = null;
+    try { user = JSON.parse(userData); } catch(e) {}
+
+    if (user && user.id && user.id !== 'pending') {
+      // We have real cached data — restore immediately
+      const member = localStorage.getItem('gkg-dc-member') === '1';
+      setDcUser(user, member);
+      // Re-validate in background
+      fetchDiscordUser(token)
+        .then(freshUser => {
+          setDcUser(freshUser, member);
+          checkGuildMembership(token).then(m => {
+            isMember = m;
+            localStorage.setItem('gkg-dc-member', m ? '1' : '0');
+            const dot = document.getElementById('dc-dot');
+            if (dot) dot.style.display = m ? 'block' : 'none';
+            populateProfileCard(freshUser);
+            updateGateUI();
+          }).catch(() => {});
+        })
+        .catch(() => {
+          // Token might be expired. Clear it silently.
+          localStorage.removeItem('gkg-dc-token');
+          // Keep showing user data from cache until they explicitly log out
+        });
+      return;
+    }
+  }
+
+  // No valid session — reset UI
+  updateGateUI();
 })();
 document.getElementById('dc-btn')?.addEventListener('click',e=>{ e.stopPropagation(); document.getElementById('dc-dd').classList.toggle('open'); });
 document.addEventListener('click',()=>document.getElementById('dc-dd')?.classList.remove('open'));
 document.getElementById('dc-login-btn')?.addEventListener('click',dcLogin);
 document.getElementById('dc-logout')?.addEventListener('click',()=>{
-  localStorage.removeItem('gkg-dc-token'); localStorage.removeItem('gkg-dc-user'); localStorage.removeItem('gkg-dc-member');
+  localStorage.removeItem('gkg-dc-token');
+  localStorage.removeItem('gkg-dc-user');
+  localStorage.removeItem('gkg-dc-member');
   dcUser=null; isMember=false;
-  document.getElementById('dc-login-btn').style.display='flex';
-  document.getElementById('dc-user-wrap').style.display='none';
-  document.getElementById('dc-dd').classList.remove('open');
-  updateGateUI(); showToast('Logged out successfully.');
+  const loginBtn=document.getElementById('dc-login-btn');
+  const userWrap=document.getElementById('dc-user-wrap');
+  const dd=document.getElementById('dc-dd');
+  const dot=document.getElementById('dc-dot');
+  const avImg=document.getElementById('dc-av-img');
+  const avPh=document.getElementById('dc-av-ph');
+  if(loginBtn)loginBtn.style.display='flex';
+  if(userWrap)userWrap.style.display='none';
+  if(dd)dd.classList.remove('open');
+  if(dot)dot.style.display='none';
+  if(avImg){avImg.src='';avImg.style.display='none';}
+  if(avPh){avPh.textContent='?';avPh.style.display='flex';}
+  const uname=document.getElementById('dc-uname');
+  if(uname)uname.textContent='User';
+  updateGateUI();
+  showToast('Logged out successfully.');
 });
 function snowflakeToDate(id){
   try{
@@ -2316,8 +2419,13 @@ function snowflakeToDate(id){
   }catch(e){return null;}
 }
 function populateProfileCard(user){
+  if(!user||!user.id||user.id==='pending')return;
+  // ── Dropdown profile card ─────────────────────────────────────
   const av=document.getElementById('dpc-av');
-  if(av){ if(user.avatar)av.innerHTML=`<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128" alt="">`;else av.textContent=(user.global_name||user.username||'?')[0].toUpperCase(); }
+  if(av){
+    if(user.avatar)av.innerHTML=`<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128" alt="">`;
+    else av.textContent=(user.global_name||user.username||'?')[0].toUpperCase();
+  }
   // Banner
   const bannerImg=document.getElementById('dpc-banner-img');
   const bannerEl=document.getElementById('dpc-banner');
@@ -2336,8 +2444,7 @@ function populateProfileCard(user){
   const created=document.getElementById('dpc-created');
   if(created&&user.id){
     const d=snowflakeToDate(user.id);
-    if(d)created.textContent=d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    else created.textContent='—';
+    created.textContent=d?d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'—';
   }
   const joined=document.getElementById('dpc-joined'); if(joined)joined.textContent=isMember?'✓ Gokurakugai Community':'Not a server member';
   const rolesEl=document.getElementById('dpc-roles');
@@ -2345,12 +2452,8 @@ function populateProfileCard(user){
     rolesEl.innerHTML='<span class="dpc-role dpc-role-member">Member</span>';
     if(isMember)rolesEl.innerHTML+=' <span class="dpc-role dpc-role-staff">Server Member</span>';
   }
-  // Also autofill staff form fields if they exist
-  const afDn=document.getElementById('af-displayname'); if(afDn)afDn.value=user.global_name||user.username||'';
-  const afUn=document.getElementById('af-username'); if(afUn)afUn.value=user.username||'';
-  const afUid=document.getElementById('af-userid'); if(afUid)afUid.value=user.id||'';
-  // Autofill af-disc with username
-  const afDisc=document.getElementById('af-disc'); if(afDisc&&!afDisc.value)afDisc.value=user.username||'';
+  // ── Autofill forms ────────────────────────────────────────────
+  autofillForms(user);
 }
 
 /* ════ DISCORD WIDGET — TOTAL MEMBERS ════ */
@@ -2786,7 +2889,13 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
     const cloneDcDd=drawerCtrl.querySelector('#dc-dd');
     if(cloneDcBtn&&cloneDcDd){ cloneDcBtn.addEventListener('click',e=>{ e.stopPropagation(); cloneDcDd.classList.toggle('open'); }); document.addEventListener('click',()=>cloneDcDd.classList.remove('open')); }
     const cloneLogout=drawerCtrl.querySelector('#dc-logout');
-    if(cloneLogout){ cloneLogout.addEventListener('click',()=>{ localStorage.removeItem('gkg-dc-token'); localStorage.removeItem('gkg-dc-user'); localStorage.removeItem('gkg-dc-member'); dcUser=null; isMember=false; updateGateUI(); showToast('Logged out successfully.'); }); }
+    if(cloneLogout){ cloneLogout.addEventListener('click',()=>{
+      localStorage.removeItem('gkg-dc-token'); localStorage.removeItem('gkg-dc-user'); localStorage.removeItem('gkg-dc-member');
+      dcUser=null; isMember=false;
+      const lb=document.getElementById('dc-login-btn'); if(lb)lb.style.display='flex';
+      const uw=document.getElementById('dc-user-wrap'); if(uw)uw.style.display='none';
+      updateGateUI(); showToast('Logged out successfully.');
+    }); }
   }
   function syncMobActive(tab){ document.querySelectorAll('.mob-nav-item').forEach(i=>i.classList.toggle('active',i.dataset.tab===tab)); }
   document.querySelectorAll('.mob-nav-item:not(.has-sub)').forEach(item=>{
