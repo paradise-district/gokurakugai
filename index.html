@@ -2070,38 +2070,49 @@ function setDcUser(user,member){
   localStorage.setItem('gkg-dc-member',member?'1':'0');
 }
 function updateGateUI(){
-  const loggedIn = !!dcUser;
-const canPost = loggedIn && isMember;
 
-const showLoginGate = !loggedIn;   // only for login-required areas
-const showFormGate = !canPost;     // for member-only forms
-  
-  const discGate=document.getElementById('disc-gate');
-  const discForm=document.getElementById('disc-post-form');
-  if(discGate)discGate.style.display = showLoginGate ? 'block' : 'none';
-  if(discForm)discForm.style.display = showLoginGate ? 'none' : 'block';
-  if(loggedIn){
-    const av=document.getElementById('disc-form-av');
-    if(av)av.innerHTML=dcUser.avatar?`<img src="https://cdn.discordapp.com/avatars/${dcUser.id}/${dcUser.avatar}.png?size=64" alt="">`:(dcUser.username||'U')[0].toUpperCase();
+  const loggedIn = !!dcUser;
+  const isServerMember = loggedIn && isMember;
+
+  /* =========================
+     PROFILE ACCESS (login only)
+  ========================== */
+
+  const profileSection = document.getElementById('profile-sec');
+  if(profileSection){
+    profileSection.style.display = loggedIn ? 'block' : 'none';
   }
-  const thGate=document.getElementById('theory-gate');
-  const thForm=document.getElementById('theory-submit-form');
-  if(thGate)thGate.style.display = showFormGate ? 'block' : 'none';
-  if(thForm)thForm.style.display=canPost?'block':'none';
-  if(canPost){
-    const unEl=document.getElementById('th-username'),dnEl=document.getElementById('th-displayname'),idEl=document.getElementById('th-userid');
-    if(unEl)unEl.value=dcUser.username||'';
-    if(dnEl)dnEl.value=dcUser.global_name||dcUser.username||'';
-    if(idEl)idEl.value=dcUser.id||'';
-  }
-  const applyGate=document.getElementById('apply-gate');
-  const applyForm=document.getElementById('apply-form');
-  if(applyGate)applyGate.style.display = showFormGate ? 'block' : 'none';
-  if(applyForm)applyForm.style.display=canPost?'block':'none';
-  if(loggedIn&&document.getElementById('af-disc'))document.getElementById('af-disc').value=dcUser.username||'';
-  const tList=document.getElementById('theories-list');
-  const tEmpty=document.getElementById('theories-empty');
-  if(tList&&tEmpty)tEmpty.style.display=tList.children.length===0?'block':'none';
+
+  /* =========================
+     DISCUSSION SECTION
+  ========================== */
+
+  const discGate = document.getElementById('disc-gate');
+  const discForm = document.getElementById('disc-post-form');
+
+  if(discGate) discGate.style.display = loggedIn ? 'none' : 'block';
+  if(discForm) discForm.style.display = isServerMember ? 'block' : 'none';
+
+  /* =========================
+     THEORY SUBMIT SECTION
+  ========================== */
+
+  const thGate = document.getElementById('theory-gate');
+  const thForm = document.getElementById('theory-submit-form');
+
+  if(thGate) thGate.style.display = isServerMember ? 'none' : 'block';
+  if(thForm) thForm.style.display = isServerMember ? 'block' : 'none';
+
+  /* =========================
+     STAFF APPLICATION
+  ========================== */
+
+  const applyGate = document.getElementById('apply-gate');
+  const applyForm = document.getElementById('apply-form');
+
+  if(applyGate) applyGate.style.display = isServerMember ? 'none' : 'block';
+  if(applyForm) applyForm.style.display = isServerMember ? 'block' : 'none';
+
 }
 // OAuth token from URL hash
 (function handleOAuthRedirect(){
