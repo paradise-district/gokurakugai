@@ -2054,7 +2054,12 @@ let dcUser=null, isMember=false;
 
 function dcLogin(){
   localStorage.setItem('gkg-pretab',getCurrentTab());
-  const redirectUri = encodeURIComponent("https://gokurakugai-auth.onrender.com/auth/discord/callback");
+  // IMPORTANT: For implicit (response_type=token) flow, redirect_uri MUST be the
+  // frontend page itself. Browsers never send URL fragments (#) to servers, so
+  // routing through the Render backend swallowed the token. The GitHub Pages URL
+  // must be added to Discord's OAuth2 redirect URIs in the Developer Portal.
+  const siteUrl = 'https://paradise-district.github.io/gokurakugai/';
+  const redirectUri = encodeURIComponent(siteUrl);
   const scope=encodeURIComponent('identify guilds');
   window.location.href=`https://discord.com/api/oauth2/authorize?client_id=${CFG.DISCORD_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
 }
@@ -2138,18 +2143,34 @@ function updateGateUI(){
   if(applyForm) applyForm.style.display = isServerMember ? 'block' : 'none';
 
 }
-// OAuth token from URL hash
+// OAuth token from URL — checks both hash (#access_token=) and query (?access_token= or ?token=)
 (function handleOAuthRedirect(){
-  const hash=window.location.hash;
-  if(!hash)return;
-  const params=new URLSearchParams(hash.substring(1));
-  const token=params.get('access_token');
-  if(!token)return;
-  history.replaceState(null,null,window.location.pathname);
-  localStorage.setItem('gkg-dc-token',token);
-  const preTab=localStorage.getItem('gkg-pretab');
-  if(preTab)activateTab(preTab,false,false);
-  fetchDiscordUser(token).then(user=>checkGuildMembership(token).then(member=>setDcUser(user,member))).catch(()=>showToast('Discord login failed. Please try again.','err'));
+  let token = null;
+  // 1. Check URL hash (standard Discord implicit flow back to this page)
+  const hash = window.location.hash;
+  if(hash){
+    const hp = new URLSearchParams(hash.substring(1));
+    token = hp.get('access_token') || hp.get('token');
+  }
+  // 2. Check query string (in case a backend server forwarded the token as a query param)
+  if(!token){
+    const qp = new URLSearchParams(window.location.search);
+    token = qp.get('access_token') || qp.get('token');
+  }
+  if(!token) return;
+  // Clean the URL so the token doesn't linger in the address bar
+  history.replaceState(null, null, window.location.pathname);
+  localStorage.setItem('gkg-dc-token', token);
+  const preTab = localStorage.getItem('gkg-pretab');
+  if(preTab) activateTab(preTab, false, false);
+  showToast('Logging you in…');
+  fetchDiscordUser(token)
+    .then(user => checkGuildMembership(token).then(member => setDcUser(user, member)))
+    .catch(err => {
+      console.error('OAuth error:', err);
+      showToast('Discord login failed. The token may have expired — please try again.', 'err');
+      localStorage.removeItem('gkg-dc-token');
+    });
 })();
 // Restore session
 (function restoreSession(){
