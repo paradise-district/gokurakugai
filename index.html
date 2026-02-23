@@ -2070,18 +2070,23 @@ function setDcUser(user,member){
   localStorage.setItem('gkg-dc-member',member?'1':'0');
 }
 function updateGateUI(){
-  const loggedIn=!!dcUser, canPost=loggedIn&&isMember, showGate=!canPost;
+  const loggedIn = !!dcUser;
+const canPost = loggedIn && isMember;
+
+const showLoginGate = !loggedIn;   // only for login-required areas
+const showFormGate = !canPost;     // for member-only forms
+  
   const discGate=document.getElementById('disc-gate');
   const discForm=document.getElementById('disc-post-form');
-  if(discGate)discGate.style.display=showGate?'block':'none';
-  if(discForm)discForm.style.display=showGate?'none':'block';
+  if(discGate)discGate.style.display = showLoginGate ? 'block' : 'none';
+  if(discForm)discForm.style.display = showLoginGate ? 'none' : 'block';
   if(loggedIn){
     const av=document.getElementById('disc-form-av');
     if(av)av.innerHTML=dcUser.avatar?`<img src="https://cdn.discordapp.com/avatars/${dcUser.id}/${dcUser.avatar}.png?size=64" alt="">`:(dcUser.username||'U')[0].toUpperCase();
   }
   const thGate=document.getElementById('theory-gate');
   const thForm=document.getElementById('theory-submit-form');
-  if(thGate)thGate.style.display=showGate?'block':'none';
+  if(thGate)thGate.style.display = showFormGate ? 'block' : 'none';
   if(thForm)thForm.style.display=canPost?'block':'none';
   if(canPost){
     const unEl=document.getElementById('th-username'),dnEl=document.getElementById('th-displayname'),idEl=document.getElementById('th-userid');
@@ -2091,7 +2096,7 @@ function updateGateUI(){
   }
   const applyGate=document.getElementById('apply-gate');
   const applyForm=document.getElementById('apply-form');
-  if(applyGate)applyGate.style.display=showGate?'block':'none';
+  if(applyGate)applyGate.style.display = showFormGate ? 'block' : 'none';
   if(applyForm)applyForm.style.display=canPost?'block':'none';
   if(loggedIn&&document.getElementById('af-disc'))document.getElementById('af-disc').value=dcUser.username||'';
   const tList=document.getElementById('theories-list');
