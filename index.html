@@ -1425,6 +1425,9 @@ p{line-height:1.8;}
   <div id="theory-submit-form" style="display:none;">
     <div class="th-submit-wrap">
       <div class="th-form-title">Submit Your Theory</div>
+      <div id="th-member-note" class="th-autofill-notice" style="display:none;background:rgba(192,39,45,.12);border-left-color:var(--crimson-bright);color:var(--text-dim);">
+        <span>⚠</span> <span>You don't appear to be a verified server member yet — <a href="https://discord.gg/gokurakugai" target="_blank" style="color:var(--accent);">join the Discord</a> to get full access.</span>
+      </div>
       <div class="th-autofill-notice"><span>✦</span> Your identity is auto-filled from your Discord account</div>
       <div class="th-form-grid">
         <div class="th-form-group"><label>Display Name</label><input type="text" id="th-displayname" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
@@ -1612,6 +1615,9 @@ p{line-height:1.8;}
     <form id="apply-form" class="af" onsubmit="submitApplication(event)">
       <div class="fbox" style="margin-bottom:1.8rem;padding:1.2rem 1.5rem;">
         <p style="font-size:.9rem;color:var(--text-dim);line-height:1.72;">Your application will be submitted to our private staff channel on Discord. Please answer all questions thoroughly — we value depth over brevity. Review time is typically 1–2 weeks.</p>
+      </div>
+      <div id="apply-member-note" class="th-autofill-notice" style="display:none;background:rgba(192,39,45,.12);border-left-color:var(--crimson-bright);color:var(--text-dim);">
+        <span>⚠</span> <span>You don't appear to be a verified server member — <a href="https://discord.gg/gokurakugai" target="_blank" style="color:var(--accent);">join the Discord</a> to get full access.</span>
       </div>
       <div class="th-autofill-notice" style="margin-bottom:1.2rem;"><span>✦</span> Your identity is auto-filled from your Discord account</div>
       <div class="fg" style="margin-bottom:1rem;">
@@ -1881,34 +1887,66 @@ setTheme(localStorage.getItem('gkg-theme')||'dark');
   tick(); setInterval(tick,1000);
 })();
 
-/* ════ HASH-BASED ROUTING ════ */
+/* ════ DEEP-LINK ROUTING ════
+   Hash format: #tab | #tab/sub | #staff/m1 | #manga/gallery/folder | #manga/gallery/folder/imgIdx
+════════════════════════════════════════════════════════ */
 const VALID_TABS=['about','manga','news','theories','rules','info','staff'];
 const activeSubs={manga:'gallery',news:'nfeed'};
+let _skipHashPush=false; // prevent recursive pushState loops
 
-function getHashTab(){
-  const h=window.location.hash.replace('#','');
-  return VALID_TABS.includes(h)?h:null;
+/* Parse the current URL hash into parts */
+function parseHash(){
+  const raw=window.location.hash.replace(/^#/,'');
+  if(!raw)return{tab:null,sub:null,detail:null,extra:null};
+  // Ignore OAuth token fragments
+  if(raw.startsWith('access_token='))return{tab:null,sub:null,detail:null,extra:null};
+  const parts=raw.split('/');
+  const tab=VALID_TABS.includes(parts[0])?parts[0]:null;
+  return{tab,sub:parts[1]||null,detail:parts[2]||null,extra:parts[3]||null};
 }
 
-function activateTab(tabId,scroll=true,pushHash=true){
+/* Build a hash string */
+function buildHash(tab,sub,detail,extra){
+  if(!tab||tab==='about')return window.location.pathname;
+  let h='#'+tab;
+  if(sub)h+='/'+sub;
+  if(detail)h+='/'+detail;
+  if(extra!==undefined&&extra!==null)h+='/'+extra;
+  return h;
+}
+
+/* Activate a tab without touching subnav or hash */
+function _activateTabOnly(tabId,scroll){
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(l=>l.classList.remove('active'));
   const sec=document.getElementById(tabId);
   if(sec)sec.classList.add('active');
-  document.querySelectorAll('.tab').forEach(l=>{ if(l.dataset.tab===tabId)l.classList.add('active'); });
-  if(activeSubs[tabId]){
-    document.querySelectorAll(`#${tabId} .subsec`).forEach(s=>s.classList.remove('active'));
-    const sub=document.getElementById(activeSubs[tabId]);
-    if(sub)sub.classList.add('active');
-    document.querySelectorAll('.sn-btn').forEach(b=>{ b.classList.toggle('active',b.dataset.sub===activeSubs[tabId]&&b.dataset.parent===tabId); });
-  }
-  if(pushHash&&tabId!=='about'){ history.pushState(null,null,'#'+tabId); }
-  else if(pushHash&&tabId==='about'){ history.pushState(null,null,window.location.pathname); }
-  if(scroll){ const nav=document.getElementById('nav')||document.getElementById('mob-bar'); if(nav)window.scrollTo({top:nav.offsetTop-2,behavior:'smooth'}); }
+  document.querySelectorAll('.tab').forEach(l=>{if(l.dataset.tab===tabId)l.classList.add('active');});
+  if(scroll){const nav=document.getElementById('nav')||document.getElementById('mob-bar');if(nav)window.scrollTo({top:nav.offsetTop-2,behavior:'smooth'});}
   if(tabId==='theories')loadDiscordWidget();
 }
 
-// Wire tab links
+/* Activate a subsection without touching hash */
+function _activateSubOnly(parent,sub){
+  activeSubs[parent]=sub;
+  document.querySelectorAll(`#${parent} .subsec`).forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(sub);
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.sn-btn').forEach(b=>b.classList.toggle('active',b.dataset.sub===sub&&b.dataset.parent===parent));
+}
+
+/* Main entry: activate tab+sub, update URL */
+function activateTab(tabId,scroll=true,pushHash=true){
+  _activateTabOnly(tabId,scroll);
+  const sub=activeSubs[tabId];
+  if(sub)_activateSubOnly(tabId,sub);
+  if(pushHash&&!_skipHashPush){
+    const h=buildHash(tabId,sub||null,null,null);
+    history.pushState({tab:tabId,sub:sub||null},null,h);
+  }
+}
+
+/* Wire tab links */
 document.querySelectorAll('.tab').forEach(l=>{
   l.addEventListener('click',e=>{
     e.preventDefault();
@@ -1916,26 +1954,74 @@ document.querySelectorAll('.tab').forEach(l=>{
   });
 });
 
-// Subnav buttons
+/* Subnav buttons — include sub in URL */
 document.querySelectorAll('.sn-btn').forEach(b=>{
   b.addEventListener('click',()=>{
     const parent=b.dataset.parent, sub=b.dataset.sub;
-    activeSubs[parent]=sub;
-    document.querySelectorAll(`#${parent} .subsec`).forEach(s=>s.classList.remove('active'));
-    const target=document.getElementById(sub);
-    if(target)target.classList.add('active');
-    document.querySelectorAll(`#${parent} .sn-btn`).forEach(x=>x.classList.toggle('active',x===b));
+    _activateSubOnly(parent,sub);
+    const h=buildHash(parent,sub,null,null);
+    history.pushState({tab:parent,sub},null,h);
   });
 });
 
-// Hash change listener
-window.addEventListener('popstate',()=>{
-  const t=getHashTab();
-  if(t)activateTab(t,false,false);
+/* popstate — restore full state from hash */
+window.addEventListener('popstate',e=>{
+  // Close any open modals/lightboxes first
+  document.getElementById('dc-modal-ov')?.classList.remove('open');
+  document.getElementById('gal-lightbox-ov')?.classList.remove('open');
+  document.body.style.overflow='';
+
+  const{tab,sub,detail,extra}=parseHash();
+  if(!tab)return;
+  _skipHashPush=true;
+  _activateTabOnly(tab,false);
+  // Sync mobile nav
+  document.querySelectorAll('.mob-nav-item').forEach(i=>i.classList.toggle('active',i.dataset.tab===tab));
+
+  if(tab==='staff'){
+    if(detail&&STAFF_DATA[detail]){openModal(detail,false);}
+  } else if(tab==='manga'&&sub==='gallery'){
+    if(detail){
+      openGalFolder(detail,false);
+      if(extra!==null&&extra!==''&&!isNaN(parseInt(extra))){
+        const idx=parseInt(extra);
+        if(lbImages[idx]){openLightbox(idx,false);}
+      }
+    } else {
+      closeGalFolder(false);
+    }
+  } else if(sub){
+    _activateSubOnly(tab,sub);
+  }
+  _skipHashPush=false;
 });
 
-// Initial load from hash
-(function(){ const t=getHashTab(); if(t)activateTab(t,false,false); })();
+/* Restore state on first load from hash */
+(function(){
+  const{tab,sub,detail,extra}=parseHash();
+  if(!tab)return;
+  _skipHashPush=true;
+  _activateTabOnly(tab,false);
+  // Sync mobile nav
+  document.querySelectorAll('.mob-nav-item').forEach(i=>i.classList.toggle('active',i.dataset.tab===tab));
+  if(tab==='staff'){
+    if(sub&&STAFF_DATA[sub]){setTimeout(()=>openModal(sub,false),80);}
+    else if(detail&&STAFF_DATA[detail]){setTimeout(()=>openModal(detail,false),80);}
+  } else if(tab==='manga'&&sub==='gallery'){
+    if(detail){
+      setTimeout(()=>{
+        openGalFolder(detail,false);
+        if(extra!==null&&extra!==''&&!isNaN(parseInt(extra))){
+          const idx=parseInt(extra);
+          setTimeout(()=>{if(lbImages[idx])openLightbox(idx,false);},50);
+        }
+      },80);
+    }
+  } else if(sub){
+    _activateSubOnly(tab,sub);
+  }
+  _skipHashPush=false;
+})();
 
 /* ════ GALLERY FOLDER SYSTEM ════ */
 // GAL_DATA structure: { 'folder-key': [{src, title, srcHigh, srcMed, srcLow}] }
@@ -1970,19 +2056,21 @@ function updateFolderCounts(){
 }
 updateFolderCounts();
 
-function openGalFolder(key){
+function openGalFolder(key,pushHash=true){
   currentFolder=key;
   const images=GAL_DATA[key]||[];
   document.getElementById('gal-folders-view').style.display='none';
   document.getElementById('gal-folder-view').style.display='block';
   document.getElementById('gal-folder-title').textContent=GAL_FOLDER_NAMES[key]||key;
   const container=document.getElementById('gal-folder-images');
+  if(pushHash&&!_skipHashPush) history.pushState({tab:'manga',sub:'gallery',folder:key},null,buildHash('manga','gallery',key,null));
   if(!images.length){
     container.innerHTML=`<div class="gal-folder-empty">
       <div class="gal-empty-icon"><svg class="icon-xl icon-accent"><use href="#i-image"/></svg></div>
       <p>This folder is empty</p>
       <p class="gal-empty-sub">Images will appear here once they are added.</p>
     </div>`;
+    lbImages=[];
     return;
   }
   lbImages=images;
@@ -1997,21 +2085,25 @@ function openGalFolder(key){
   });
 }
 
-function closeGalFolder(){
+function closeGalFolder(pushHash=true){
   currentFolder=null;
+  lbImages=[];
   document.getElementById('gal-folder-view').style.display='none';
   document.getElementById('gal-folders-view').style.display='block';
+  if(pushHash&&!_skipHashPush) history.pushState({tab:'manga',sub:'gallery'},null,buildHash('manga','gallery',null,null));
 }
 
-function openLightbox(idx){
+function openLightbox(idx,pushHash=true){
   lbIndex=idx;
   renderLightbox();
   document.getElementById('gal-lightbox-ov').classList.add('open');
   document.body.style.overflow='hidden';
+  if(pushHash&&currentFolder&&!_skipHashPush) history.pushState({tab:'manga',sub:'gallery',folder:currentFolder,img:idx},null,buildHash('manga','gallery',currentFolder,idx));
 }
-function closeLightbox(){
+function closeLightbox(pushHash=true){
   document.getElementById('gal-lightbox-ov').classList.remove('open');
   document.body.style.overflow='';
+  if(pushHash&&currentFolder&&!_skipHashPush) history.pushState({tab:'manga',sub:'gallery',folder:currentFolder},null,buildHash('manga','gallery',currentFolder,null));
 }
 function renderLightbox(){
   const img=lbImages[lbIndex];
@@ -2026,6 +2118,7 @@ function renderLightbox(){
 function lbNav(dir){
   lbIndex=Math.max(0,Math.min(lbImages.length-1,lbIndex+dir));
   renderLightbox();
+  if(currentFolder&&!_skipHashPush) history.replaceState({tab:'manga',sub:'gallery',folder:currentFolder,img:lbIndex},null,buildHash('manga','gallery',currentFolder,lbIndex));
 }
 function lbDownload(qual){
   const img=lbImages[lbIndex];
@@ -2124,23 +2217,30 @@ function updateGateUI(){
 
   /* =========================
      THEORY SUBMIT SECTION
+     Shows for any logged-in user — guild check is unreliable from
+     the client side (Discord often returns empty guilds for privacy).
   ========================== */
 
   const thGate = document.getElementById('theory-gate');
   const thForm = document.getElementById('theory-submit-form');
+  const thMemberNote = document.getElementById('th-member-note');
 
-  if(thGate) thGate.style.display = isServerMember ? 'none' : 'block';
-  if(thForm) thForm.style.display = isServerMember ? 'block' : 'none';
+  if(thGate) thGate.style.display = loggedIn ? 'none' : 'block';
+  if(thForm) thForm.style.display = loggedIn ? 'block' : 'none';
+  if(thMemberNote) thMemberNote.style.display = (loggedIn && !isServerMember) ? 'flex' : 'none';
 
   /* =========================
      STAFF APPLICATION
+     Same — show for logged-in users, note non-members inside the form.
   ========================== */
 
   const applyGate = document.getElementById('apply-gate');
   const applyForm = document.getElementById('apply-form');
+  const applyMemberNote = document.getElementById('apply-member-note');
 
-  if(applyGate) applyGate.style.display = isServerMember ? 'none' : 'block';
-  if(applyForm) applyForm.style.display = isServerMember ? 'block' : 'none';
+  if(applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
+  if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
+  if(applyMemberNote) applyMemberNote.style.display = (loggedIn && !isServerMember) ? 'flex' : 'none';
 
 }
 // OAuth token from URL — checks both hash (#access_token=) and query (?access_token= or ?token=)
@@ -2165,10 +2265,23 @@ function updateGateUI(){
   if(preTab) activateTab(preTab, false, false);
   showToast('Logging you in…');
   fetchDiscordUser(token)
-    .then(user => checkGuildMembership(token).then(member => setDcUser(user, member)))
+    .then(user => {
+      // Immediately update nav so the user sees themselves logged in.
+      // Don't wait for the guild check — it often fails client-side.
+      setDcUser(user, false);
+      showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
+      // Guild check in background — updates the green dot and member badge if successful
+      checkGuildMembership(token).then(member => {
+        isMember = member;
+        localStorage.setItem('gkg-dc-member', member ? '1' : '0');
+        if(member && document.getElementById('dc-dot')) document.getElementById('dc-dot').style.display = 'block';
+        populateProfileCard(user);
+        updateGateUI();
+      }).catch(() => {}); // silently ignore guild check failure
+    })
     .catch(err => {
       console.error('OAuth error:', err);
-      showToast('Discord login failed. The token may have expired — please try again.', 'err');
+      showToast('Discord login failed — please try again.', 'err');
       localStorage.removeItem('gkg-dc-token');
     });
 })();
@@ -2296,7 +2409,7 @@ function handleThImgUpload(input){
 const theoryVotes=new Map();
 let theoryCounter=0;
 function submitTheory(){
-  if(!dcUser||!isMember){showToast('Server members only.','err');return;}
+  if(!dcUser){showToast('Please log in with Discord first.','err');return;}
   const title=document.getElementById('th-title').value.trim();
   const body=document.getElementById('th-body').value.trim();
   const tag=document.getElementById('th-tag').value;
@@ -2361,7 +2474,7 @@ function updateCount(textareaId,countId,max){
 /* ════ STAFF APPLICATION ════ */
 async function submitApplication(e){
   e.preventDefault();
-  if(!dcUser||!isMember){showToast('Server members only.','err');return;}
+  if(!dcUser){showToast('Please log in with Discord first.','err');return;}
   const data={discord:document.getElementById('af-disc').value,age:document.getElementById('af-age').value,timezone:document.getElementById('af-tz').value,position:document.getElementById('af-pos').value,tenure:document.getElementById('af-tenure').value,hours:document.getElementById('af-hours').value,experience:document.getElementById('af-exp').value,why:document.getElementById('af-why').value,scenario:document.getElementById('af-scenario').value,extra:document.getElementById('af-extra').value||'None'};
   const embed={title:'📋 New Staff Application',color:0xC9A84C,fields:[{name:'Discord',value:data.discord,inline:true},{name:'Age',value:data.age,inline:true},{name:'Timezone',value:data.timezone,inline:true},{name:'Position',value:data.position,inline:true},{name:'Tenure',value:data.tenure,inline:true},{name:'Hours/Week',value:data.hours,inline:true},{name:'Experience',value:data.experience||'None',inline:false},{name:'Why They Want to Join',value:data.why,inline:false},{name:'Conflict Scenario',value:data.scenario,inline:false},{name:'Additional Notes',value:data.extra,inline:false}],footer:{text:'Submitted via Gokurakugai Fan Site'},timestamp:new Date().toISOString()};
   if(CFG.WEBHOOK_URL&&CFG.WEBHOOK_URL!=='YOUR_WEBHOOK_URL_HERE'){
@@ -2433,7 +2546,7 @@ const STAFF_DATA={
 
 const ROLE_CLASS_MAP={founder:'dc-sm-role-founder',admin:'dc-sm-role-admin',senior:'dc-sm-role-senior',mod:'dc-sm-role-mod',creator:'dc-sm-role-creator'};
 
-function openModal(id){
+function openModal(id,pushHash=true){
   const d=STAFF_DATA[id];
   if(!d)return;
   
@@ -2471,8 +2584,9 @@ function openModal(id){
   document.getElementById('dc-modal-ov').classList.add('open');
   document.body.style.overflow='hidden';
   setTimeout(()=>document.getElementById('dc-staff-modal').scrollTop=0,10);
+  if(pushHash&&!_skipHashPush) history.pushState({tab:'staff',modal:id},null,buildHash('staff',id,null,null));
 }
-function closeModal(){ document.getElementById('dc-modal-ov').classList.remove('open'); document.body.style.overflow=''; }
+function closeModal(pushHash=true){ document.getElementById('dc-modal-ov').classList.remove('open'); document.body.style.overflow=''; if(pushHash&&!_skipHashPush)history.pushState({tab:'staff'},null,buildHash('staff',null,null,null)); }
 function closeModalOutside(e){ if(e.target===document.getElementById('dc-modal-ov'))closeModal(); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeLightbox(); closeArtModal(); } });
 
@@ -2631,7 +2745,7 @@ function openArtModal(id,data){
   setTimeout(()=>document.getElementById('art-modal-box').scrollTop=0,10);
 }
 function submitArtComment(articleId){
-  if(!dcUser||!isMember){showToast('Server members only.','err');return;}
+  if(!dcUser){showToast('Please log in with Discord first.','err');return;}
   const text=document.getElementById('am-comment-text').value.trim();
   if(!text){showToast('Please write something.','err');return;}
   const list=document.getElementById('am-comments-list');
