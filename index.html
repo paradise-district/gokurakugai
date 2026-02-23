@@ -2030,7 +2030,7 @@ let dcUser=null, isMember=false;
 
 function dcLogin(){
   localStorage.setItem('gkg-pretab',getCurrentTab());
-  const redirectUri=encodeURIComponent(window.location.href.split('#')[0].split('?')[0]);
+  const redirectUri = encodeURIComponent("https://gokurakugai-auth.onrender.com/auth/discord/callback");
   const scope=encodeURIComponent('identify guilds');
   window.location.href=`https://discord.com/api/oauth2/authorize?client_id=${CFG.DISCORD_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
 }
