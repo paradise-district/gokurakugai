@@ -2032,7 +2032,7 @@ function dcLogin(){
   localStorage.setItem('gkg-pretab',getCurrentTab());
   const redirectUri = encodeURIComponent("https://gokurakugai-auth.onrender.com/auth/discord/callback");
   const scope=encodeURIComponent('identify guilds');
-  window.location.href=`https://discord.com/api/oauth2/authorize?client_id=${CFG.DISCORD_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+  window.location.href=`https://discord.com/api/oauth2/authorize?client_id=${CFG.DISCORD_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
 }
 function getCurrentTab(){
   for(const s of document.querySelectorAll('.sec')){ if(s.classList.contains('active'))return s.id; }
