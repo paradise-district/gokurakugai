@@ -612,6 +612,10 @@ p{line-height:1.8;}
 .dc-sm-field{margin-bottom:.9rem;}
 .dc-sm-field:last-child{margin-bottom:0;}
 
+.th-img-drop{border:2px dashed var(--in-border);background:var(--in-bg);padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:border-color .2s;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.th-img-drop:hover{border-color:var(--accent);}
+.th-img-thumb-mini{width:60px;height:60px;object-fit:cover;border:1px solid var(--hr);border-radius:2px;}
+
 /* ════════════════════════════════════════
    APPLY
 ════════════════════════════════════════ */
@@ -1035,7 +1039,9 @@ p{line-height:1.8;}
           </div>
           <div class="dc-dd" id="dc-dd">
             <div class="dc-profile-card" id="dc-profile-card">
-              <div class="dpc-banner" id="dpc-banner"></div>
+              <div class="dpc-banner" id="dpc-banner" style="position:relative;overflow:hidden;">
+                <img id="dpc-banner-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+              </div>
               <div class="dpc-avatar-row">
                 <div class="dpc-av-wrap">
                   <div class="dpc-av" id="dpc-av"></div>
@@ -1049,7 +1055,8 @@ p{line-height:1.8;}
                 <div class="dpc-divider"></div>
                 <div class="dpc-fields">
                   <div class="dpc-field"><div class="dpc-label">USER ID</div><div class="dpc-val dpc-mono" id="dpc-uid">—</div></div>
-                  <div class="dpc-field"><div class="dpc-label">SERVER MEMBER SINCE</div><div class="dpc-val" id="dpc-joined">—</div></div>
+                  <div class="dpc-field"><div class="dpc-label">ACCOUNT CREATED</div><div class="dpc-val" id="dpc-created">—</div></div>
+                  <div class="dpc-field"><div class="dpc-label">SERVER MEMBER</div><div class="dpc-val" id="dpc-joined">—</div></div>
                 </div>
                 <div class="dpc-divider"></div>
                 <div class="dpc-label" style="margin-bottom:.4rem">ROLES</div>
@@ -1420,8 +1427,8 @@ p{line-height:1.8;}
       <div class="th-form-title">Submit Your Theory</div>
       <div class="th-autofill-notice"><span>✦</span> Your identity is auto-filled from your Discord account</div>
       <div class="th-form-grid">
-        <div class="th-form-group"><label>Username</label><input type="text" id="th-username" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
         <div class="th-form-group"><label>Display Name</label><input type="text" id="th-displayname" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+        <div class="th-form-group"><label>Username</label><input type="text" id="th-username" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
       </div>
       <div class="th-form-group"><label>User ID</label><input type="text" id="th-userid" class="th-readonly" readonly placeholder="Auto-filled from Discord" style="font-family:monospace;font-size:.88rem;"></div>
       <div class="th-hr"></div>
@@ -1439,7 +1446,17 @@ p{line-height:1.8;}
         <div class="th-form-group"><label>Related Chapters</label><input type="text" id="th-chapters" placeholder="e.g., Ch. 1–5, Ch. 42"></div>
       </div>
       <div class="th-form-group"><label>Your Theory <span style="color:var(--accent)">*</span></label><textarea id="th-body" placeholder="Explain your theory in detail..." oninput="updateCount('th-body','th-body-count',500)"></textarea><div class="th-char-count"><span id="th-body-count">0</span>/500 characters</div></div>
-      <div class="th-form-group"><label>Supporting Evidence</label><textarea id="th-evidence" placeholder="List manga panels, dialogue, or other evidence..." oninput="updateCount('th-evidence','th-ev-count',500)"></textarea><div class="th-char-count"><span id="th-ev-count">0</span>/500 characters</div></div>
+      <div class="th-form-group">
+        <label>Supporting Images <span style="color:var(--text-muted);font-size:.82em;font-family:'Crimson Pro',serif;letter-spacing:0;text-transform:none;">(Optional)</span></label>
+        <div class="th-img-drop" id="th-img-drop" onclick="document.getElementById('th-images').click()">
+          <svg class="icon-md icon-accent" style="margin-bottom:.55rem;"><use href="#i-palette"/></svg>
+          <div style="font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;color:var(--accent);margin-bottom:.2rem;">Click to upload images</div>
+          <div style="font-size:.8rem;color:var(--text-muted);">PNG, JPG, WEBP — up to 4 images</div>
+          <div id="th-img-preview" style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem;justify-content:center;"></div>
+        </div>
+        <input type="file" id="th-images" multiple accept="image/*" style="display:none" onchange="handleThImgUpload(this)">
+        <div id="th-img-names" style="font-size:.76rem;color:var(--text-muted);margin-top:.3rem;font-style:italic;"></div>
+      </div>
       <div class="th-hr"></div>
       <div class="th-check-row"><input type="checkbox" id="th-spoilers"><label for="th-spoilers"><span><strong>Contains Spoilers</strong> — Check if discussing recent chapters</span></label></div>
       <div class="th-check-row"><input type="checkbox" id="th-agree"><label for="th-agree"><span><strong>I agree to the community guidelines</strong> <span style="color:var(--accent)">*</span></span></label></div>
@@ -1596,6 +1613,13 @@ p{line-height:1.8;}
       <div class="fbox" style="margin-bottom:1.8rem;padding:1.2rem 1.5rem;">
         <p style="font-size:.9rem;color:var(--text-dim);line-height:1.72;">Your application will be submitted to our private staff channel on Discord. Please answer all questions thoroughly — we value depth over brevity. Review time is typically 1–2 weeks.</p>
       </div>
+      <div class="th-autofill-notice" style="margin-bottom:1.2rem;"><span>✦</span> Your identity is auto-filled from your Discord account</div>
+      <div class="fg" style="margin-bottom:1rem;">
+        <div class="fr"><label>Display Name</label><input type="text" id="af-displayname" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+        <div class="fr"><label>Username</label><input type="text" id="af-username" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+      </div>
+      <div class="fr" style="margin-bottom:1.4rem;"><label>User ID</label><input type="text" id="af-userid" class="th-readonly" readonly placeholder="Auto-filled from Discord" style="font-family:monospace;font-size:.9rem;"></div>
+      <div style="border-top:1px solid var(--hr);margin-bottom:1.4rem;"></div>
       <div class="fg">
         <div class="fr"><label>Discord Username *</label><input type="text" id="af-disc" placeholder="e.g. username#0000" required></div>
         <div class="fr"><label>Age *</label><input type="number" id="af-age" placeholder="Must be 15+" min="15" required></div>
@@ -2151,15 +2175,48 @@ document.getElementById('dc-logout')?.addEventListener('click',()=>{
   document.getElementById('dc-dd').classList.remove('open');
   updateGateUI(); showToast('Logged out successfully.');
 });
+function snowflakeToDate(id){
+  try{
+    const ms=Number(BigInt(id)>>22n)+1420070400000;
+    return new Date(ms);
+  }catch(e){return null;}
+}
 function populateProfileCard(user){
   const av=document.getElementById('dpc-av');
   if(av){ if(user.avatar)av.innerHTML=`<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128" alt="">`;else av.textContent=(user.global_name||user.username||'?')[0].toUpperCase(); }
+  // Banner
+  const bannerImg=document.getElementById('dpc-banner-img');
+  const bannerEl=document.getElementById('dpc-banner');
+  if(bannerImg&&user.banner){
+    const ext=user.banner.startsWith('a_')?'gif':'png';
+    bannerImg.src=`https://cdn.discordapp.com/banners/${user.id}/${user.banner}.${ext}?size=480`;
+    bannerImg.style.display='block';
+    if(bannerEl)bannerEl.style.background='none';
+  }else if(bannerEl&&user.banner_color){
+    bannerEl.style.background=user.banner_color;
+  }
   const dn=document.getElementById('dpc-displayname'); if(dn)dn.textContent=user.global_name||user.username||'—';
   const un=document.getElementById('dpc-username'); if(un)un.textContent='@'+(user.username||'—');
   const uid=document.getElementById('dpc-uid'); if(uid)uid.textContent=user.id||'—';
-  const joined=document.getElementById('dpc-joined'); if(joined)joined.textContent=isMember?'Gokurakugai Community':'Not a server member';
+  // Account created from snowflake
+  const created=document.getElementById('dpc-created');
+  if(created&&user.id){
+    const d=snowflakeToDate(user.id);
+    if(d)created.textContent=d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    else created.textContent='—';
+  }
+  const joined=document.getElementById('dpc-joined'); if(joined)joined.textContent=isMember?'✓ Gokurakugai Community':'Not a server member';
   const rolesEl=document.getElementById('dpc-roles');
-  if(rolesEl){ rolesEl.innerHTML='<span class="dpc-role dpc-role-member">Member</span>'; if(isMember)rolesEl.innerHTML+=' <span class="dpc-role dpc-role-staff">Server Member</span>'; }
+  if(rolesEl){
+    rolesEl.innerHTML='<span class="dpc-role dpc-role-member">Member</span>';
+    if(isMember)rolesEl.innerHTML+=' <span class="dpc-role dpc-role-staff">Server Member</span>';
+  }
+  // Also autofill staff form fields if they exist
+  const afDn=document.getElementById('af-displayname'); if(afDn)afDn.value=user.global_name||user.username||'';
+  const afUn=document.getElementById('af-username'); if(afUn)afUn.value=user.username||'';
+  const afUid=document.getElementById('af-userid'); if(afUid)afUid.value=user.id||'';
+  // Autofill af-disc with username
+  const afDisc=document.getElementById('af-disc'); if(afDisc&&!afDisc.value)afDisc.value=user.username||'';
 }
 
 /* ════ DISCORD WIDGET — TOTAL MEMBERS ════ */
@@ -2194,6 +2251,26 @@ function submitDiscussion(){
   showToast('Comment posted!');
 }
 
+function handleThImgUpload(input){
+  const preview=document.getElementById('th-img-preview');
+  const names=document.getElementById('th-img-names');
+  if(!preview||!names)return;
+  preview.innerHTML='';
+  const files=Array.from(input.files).slice(0,4);
+  if(!files.length){names.textContent='';return;}
+  names.textContent=files.map(f=>f.name).join(', ');
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=document.createElement('img');
+      img.src=e.target.result;
+      img.className='th-img-thumb-mini';
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 /* ════ THEORY SUBMIT & VOTING ════ */
 const theoryVotes=new Map();
 let theoryCounter=0;
@@ -2216,12 +2293,14 @@ function submitTheory(){
   const list=document.getElementById('theories-list');
   list.insertBefore(el,list.firstChild);
   const empty=document.getElementById('theories-empty'); if(empty)empty.style.display='none';
-  ['th-title','th-body','th-evidence','th-chapters'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  ['th-title','th-body','th-chapters'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   document.getElementById('th-tag').value='';
   document.getElementById('th-agree').checked=false;
   document.getElementById('th-spoilers').checked=false;
   document.getElementById('th-body-count').textContent='0';
-  document.getElementById('th-ev-count').textContent='0';
+  const thImgIn=document.getElementById('th-images'); if(thImgIn)thImgIn.value='';
+  const thPrev=document.getElementById('th-img-preview'); if(thPrev)thPrev.innerHTML='';
+  const thNm=document.getElementById('th-img-names'); if(thNm)thNm.textContent='';
   showToast('Theory submitted! ✦');
 }
 function castVote(btn,dir,tid){
