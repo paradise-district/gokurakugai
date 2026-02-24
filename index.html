@@ -210,36 +210,88 @@ p{line-height:1.8;}
 .dc-av-ph{width:24px;height:24px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.62rem;font-family:'Cinzel',serif;flex-shrink:0;}
 .dc-uname{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.05em;color:var(--text);max-width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .dc-dot{width:7px;height:7px;background:#57F287;border-radius:50%;flex-shrink:0;box-shadow:0 0 5px #57F287;}
-.dc-dd{position:absolute;top:calc(100% + 4px);right:0;background:var(--surface);border:1px solid var(--hr);min-width:280px;max-width:300px;z-index:300;display:none;box-shadow:0 8px 32px rgba(0,0,0,.65);overflow:hidden;}
-.dc-dd.open{display:block;animation:fadeUp .18s ease;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-.dc-profile-card{}
-.dpc-banner{height:60px;background:linear-gradient(135deg,var(--crimson-deep) 0%,var(--crimson) 50%,#3a0505 100%);}
-.dpc-avatar-row{display:flex;align-items:flex-end;justify-content:space-between;padding:0 .9rem;margin-top:-24px;margin-bottom:.4rem;}
-.dpc-av-wrap{position:relative;}
-.dpc-av{width:52px;height:52px;border-radius:50%;background:var(--surface2);border:3px solid var(--surface);overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:1.1rem;color:var(--accent);}
-.dpc-av img{width:100%;height:100%;object-fit:cover;}
-.dpc-status{position:absolute;bottom:2px;right:2px;width:13px;height:13px;border-radius:50%;background:#57F287;border:2px solid var(--surface);}
-.dpc-badges{display:flex;gap:.3rem;flex-wrap:wrap;align-items:center;padding-bottom:.3rem;}
-.dpc-badge{font-size:.65rem;background:var(--surface2);border:1px solid var(--hr);padding:.15rem .42rem;color:var(--text-muted);}
-.dpc-body{padding:.25rem .9rem .7rem;}
-.dpc-displayname{font-family:'Cinzel',serif;font-size:.9rem;color:var(--text);font-weight:700;letter-spacing:.04em;margin-bottom:.08rem;}
-.dpc-username{font-size:.76rem;color:var(--text-muted);margin-bottom:.05rem;}
-.dpc-divider{height:1px;background:var(--hr);margin:.55rem 0;}
-.dpc-label{font-size:.58rem;font-family:'Cinzel',serif;letter-spacing:.14em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.2rem;}
-.dpc-val{font-size:.82rem;color:var(--text-dim);}
-.dpc-mono{font-family:monospace;font-size:.76rem;color:var(--text-muted);}
-.dpc-fields{display:flex;flex-direction:column;gap:.42rem;}
-.dpc-bio{font-size:.83rem;color:var(--text-dim);line-height:1.55;}
-.dpc-roles{display:flex;flex-wrap:wrap;gap:.3rem;}
-.dpc-role{font-size:.63rem;padding:.16rem .48rem;border-radius:3px;font-weight:600;letter-spacing:.04em;}
-.dpc-role-member{background:rgba(88,101,242,.22);color:#818cf8;border:1px solid rgba(88,101,242,.38);}
-.dpc-role-staff{background:rgba(201,168,76,.18);color:var(--accent);border:1px solid rgba(201,168,76,.32);}
-.dpc-role-og{background:rgba(192,39,45,.18);color:var(--crimson-bright);border:1px solid rgba(192,39,45,.32);}
-.dpc-actions{border-top:1px solid var(--hr);}
-.dpc-actions button{display:block;width:100%;padding:.58rem .95rem;background:none;border:none;text-align:left;cursor:pointer;font-size:.82rem;font-family:'Cinzel',serif;letter-spacing:.07em;color:var(--text-dim);transition:all .14s;}
-.dpc-actions button:hover{background:var(--surface2);color:var(--accent);padding-left:1.3rem;}
-.dc-out{color:var(--crimson-bright)!important;}
+
+/* ── Mini popout dropdown (Profile + Logout only) ─────── */
+.dc-dd{position:absolute;top:calc(100% + 8px);right:0;width:168px;z-index:300;display:none;
+  background:rgba(14,7,7,.72);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(201,168,76,.22);
+  border-radius:6px;
+  box-shadow:0 12px 40px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.04) inset;
+  overflow:hidden;}
+.dc-dd.open{display:block;animation:fadeUp .16s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.dc-dd-item{display:flex;align-items:center;gap:.6rem;width:100%;padding:.65rem 1rem;background:none;border:none;text-align:left;cursor:pointer;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(220,200,160,.85);transition:background .14s,color .14s;box-sizing:border-box;}
+.dc-dd-item:hover{background:rgba(201,168,76,.12);color:var(--accent);}
+.dc-dd-item svg{width:14px;height:14px;flex-shrink:0;opacity:.7;}
+.dc-dd-sep{height:1px;background:rgba(201,168,76,.15);margin:0;}
+.dc-dd-item.dc-out{color:rgba(220,90,90,.85);}
+.dc-dd-item.dc-out:hover{background:rgba(192,39,45,.14);color:#f87171;}
+
+/* ── Profile modal overlay ────────────────────────────── */
+#prof-ov{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);}
+#prof-ov.open{display:flex;animation:ovIn .2s ease;}
+@keyframes ovIn{from{opacity:0;}to{opacity:1;}}
+#prof-modal{
+  width:min(420px,94vw);
+  max-height:90vh;
+  overflow-y:auto;
+  background:var(--surface);
+  border:1px solid rgba(201,168,76,.28);
+  border-radius:10px;
+  box-shadow:0 24px 80px rgba(0,0,0,.85);
+  position:relative;
+  animation:modalIn .22s cubic-bezier(.22,.61,.36,1);
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(12px);}to{opacity:1;transform:none;}}
+#prof-modal::-webkit-scrollbar{width:4px;}
+#prof-modal::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+
+/* Banner */
+.pm-banner{height:120px;background:linear-gradient(135deg,var(--crimson-deep) 0%,var(--crimson) 60%,#3a0505 100%);position:relative;overflow:hidden;border-radius:10px 10px 0 0;}
+.pm-banner img{width:100%;height:100%;object-fit:cover;display:none;}
+
+/* Close btn */
+.pm-close{position:absolute;top:.6rem;right:.7rem;background:rgba(0,0,0,.45);border:none;color:#fff;cursor:pointer;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:background .15s;z-index:2;}
+.pm-close:hover{background:rgba(192,39,45,.6);}
+
+/* Avatar zone */
+.pm-av-zone{display:flex;align-items:flex-end;justify-content:space-between;padding:0 1.4rem;margin-top:-38px;margin-bottom:.6rem;}
+.pm-av-wrap{position:relative;}
+.pm-av{width:76px;height:76px;border-radius:50%;background:var(--surface2);border:4px solid var(--surface);overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:1.7rem;color:var(--accent);}
+.pm-av img{width:100%;height:100%;object-fit:cover;}
+.pm-av-dot{position:absolute;bottom:4px;right:4px;width:16px;height:16px;border-radius:50%;background:#57F287;border:3px solid var(--surface);}
+
+/* Member badge */
+.pm-badge{display:inline-flex;align-items:center;gap:.35rem;font-family:'Cinzel',serif;font-size:.64rem;letter-spacing:.1em;padding:.32rem .72rem;border-radius:20px;margin-bottom:.4rem;}
+.pm-badge-member{background:rgba(87,242,135,.14);color:#57F287;border:1px solid rgba(87,242,135,.35);}
+.pm-badge-none{background:rgba(192,39,45,.14);color:#f87171;border:1px solid rgba(192,39,45,.35);}
+.pm-badge svg{width:11px;height:11px;}
+
+/* Name block */
+.pm-body{padding:.1rem 1.4rem 1.4rem;}
+.pm-displayname{font-family:'Cinzel',serif;font-size:1.18rem;font-weight:700;color:var(--text);letter-spacing:.04em;margin-bottom:.18rem;}
+.pm-sub{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-bottom:1rem;}
+.pm-sub span{display:flex;align-items:center;gap:.2rem;}
+.pm-uid{font-family:monospace;font-size:.74rem;color:var(--text-muted);background:var(--surface2);padding:.1rem .35rem;border-radius:3px;}
+
+/* Info rows */
+.pm-divider{height:1px;background:var(--hr);margin:.85rem 0;}
+.pm-info-grid{display:flex;flex-direction:column;gap:.7rem;}
+.pm-info-row{display:flex;flex-direction:column;gap:.15rem;}
+.pm-info-label{font-family:'Cinzel',serif;font-size:.57rem;letter-spacing:.16em;color:var(--text-muted);text-transform:uppercase;}
+.pm-info-val{font-size:.86rem;color:var(--text-dim);line-height:1.4;}
+
+/* Roles */
+.pm-roles-wrap{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.2rem;}
+.pm-role-pill{font-size:.67rem;font-weight:700;padding:.22rem .6rem;border-radius:3px;letter-spacing:.03em;display:flex;align-items:center;gap:.3rem;}
+.pm-role-pill::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.8;}
+
+/* Footer action */
+.pm-footer{border-top:1px solid var(--hr);padding:.8rem 1.4rem;display:flex;justify-content:flex-end;}
+.pm-logout-btn{display:flex;align-items:center;gap:.5rem;font-family:'Cinzel',serif;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:#f87171;background:rgba(192,39,45,.1);border:1px solid rgba(192,39,45,.3);border-radius:4px;padding:.45rem .9rem;cursor:pointer;transition:all .15s;}
+.pm-logout-btn:hover{background:rgba(192,39,45,.22);border-color:#f87171;}
 
 /* ════════════════════════════════════════
    FOOTER
@@ -1065,34 +1117,65 @@ p{line-height:1.8;}
             <span class="dc-uname" id="dc-uname">User</span>
             <div class="dc-dot" id="dc-dot" style="display:none" title="Server Member"></div>
           </div>
+          <!-- Mini dropdown: Profile + Logout only -->
           <div class="dc-dd" id="dc-dd">
-            <div class="dc-profile-card" id="dc-profile-card">
-              <div class="dpc-banner" id="dpc-banner" style="position:relative;overflow:hidden;">
-                <img id="dpc-banner-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <button class="dc-dd-item" id="dc-profile-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              Profile
+            </button>
+            <div class="dc-dd-sep"></div>
+            <button class="dc-dd-item dc-out" id="dc-logout">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Logout
+            </button>
+          </div>
+        </div>
+
+        <!-- ═══ PROFILE MODAL ═══ -->
+        <div id="prof-ov" onclick="if(event.target===this)closeProfile()">
+          <div id="prof-modal">
+            <div class="pm-banner" id="pm-banner">
+              <img id="pm-banner-img" src="" alt="">
+              <button class="pm-close" onclick="closeProfile()">✕</button>
+            </div>
+            <div class="pm-av-zone">
+              <div class="pm-av-wrap">
+                <div class="pm-av" id="pm-av"></div>
+                <div class="pm-av-dot" id="pm-av-dot" style="display:none"></div>
               </div>
-              <div class="dpc-avatar-row">
-                <div class="dpc-av-wrap">
-                  <div class="dpc-av" id="dpc-av"></div>
-                  <span class="dpc-status"></span>
-                </div>
-                <div class="dpc-badges" id="dpc-badges"><span class="dpc-badge">Member</span></div>
+              <div id="pm-badge-wrap"></div>
+            </div>
+            <div class="pm-body">
+              <div class="pm-displayname" id="pm-displayname">—</div>
+              <div class="pm-sub">
+                <span id="pm-username">@—</span>
+                <span class="pm-uid" id="pm-uid">—</span>
               </div>
-              <div class="dpc-body">
-                <div class="dpc-displayname" id="dpc-displayname">—</div>
-                <div class="dpc-username" id="dpc-username">@—</div>
-                <div class="dpc-divider"></div>
-                <div class="dpc-fields">
-                  <div class="dpc-field"><div class="dpc-label">USER ID</div><div class="dpc-val dpc-mono" id="dpc-uid">—</div></div>
-                  <div class="dpc-field"><div class="dpc-label">ACCOUNT CREATED</div><div class="dpc-val" id="dpc-created">—</div></div>
-                  <div class="dpc-field"><div class="dpc-label">SERVER MEMBER</div><div class="dpc-val" id="dpc-joined">—</div></div>
+              <div class="pm-divider"></div>
+              <div class="pm-info-grid">
+                <div class="pm-info-row">
+                  <div class="pm-info-label">Account Created</div>
+                  <div class="pm-info-val" id="pm-created">—</div>
                 </div>
-                <div class="dpc-divider"></div>
-                <div class="dpc-label" style="margin-bottom:.4rem">ROLES</div>
-                <div class="dpc-roles" id="dpc-roles"><span class="dpc-role dpc-role-member">Member</span></div>
+                <div class="pm-info-row">
+                  <div class="pm-info-label">Joined Server</div>
+                  <div class="pm-info-val" id="pm-joined">—</div>
+                </div>
+                <div class="pm-info-row">
+                  <div class="pm-info-label">Position</div>
+                  <div class="pm-info-val" id="pm-position">—</div>
+                </div>
+                <div class="pm-info-row">
+                  <div class="pm-info-label">Roles</div>
+                  <div class="pm-roles-wrap" id="pm-roles"></div>
+                </div>
               </div>
             </div>
-            <div class="dpc-actions">
-              <button class="dc-out" id="dc-logout">⬡ Logout</button>
+            <div class="pm-footer">
+              <button class="pm-logout-btn" onclick="doLogout();closeProfile();">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Logout
+              </button>
             </div>
           </div>
         </div>
@@ -2177,309 +2260,415 @@ document.getElementById('gal-lightbox-ov').addEventListener('click',function(e){
 });
 
 /* ════ DISCORD OAUTH2 ════ */
-let dcUser = null, isMember = false;
+let dcUser = null, isMember = false, memberData = null;
 
-function getCurrentTab() {
-  for (const s of document.querySelectorAll('.sec')) { if (s.classList.contains('active')) return s.id; }
+function getCurrentTab(){
+  for(const s of document.querySelectorAll('.sec')){ if(s.classList.contains('active'))return s.id; }
   return 'about';
 }
 
-function dcLogin() {
+/* ── Login redirect ──────────────────────────────────────── */
+function dcLogin(){
   localStorage.setItem('gkg-pretab', getCurrentTab());
-  // redirect_uri = this GitHub Pages URL. Must be registered in Discord Dev Portal → OAuth2 → Redirects.
   const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
-  // identify = user info, guilds = server membership check
-  const scope = encodeURIComponent('identify guilds');
+  const scope = encodeURIComponent('identify guilds guilds.members.read');
   window.location.href =
-    `https://discord.com/api/oauth2/authorize?client_id=${CFG.DISCORD_CLIENT_ID}` +
-    `&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+    'https://discord.com/api/oauth2/authorize?client_id=' + CFG.DISCORD_CLIENT_ID +
+    '&redirect_uri=' + redirectUri + '&response_type=token&scope=' + scope;
 }
 
-async function fetchDiscordUser(token) {
-  const r = await fetch('https://discord.com/api/v10/users/@me', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  });
-  if (!r.ok) throw new Error('Discord API returned ' + r.status);
+/* ── Discord API ─────────────────────────────────────────── */
+async function fetchDiscordUser(token){
+  const r = await fetch('https://discord.com/api/users/@me',
+    { headers: { Authorization: 'Bearer ' + token } });
+  if(!r.ok) throw new Error('user-fetch-' + r.status);
   return r.json();
 }
 
-async function checkGuildMembership(token) {
+/* Returns { isMember, memberObj } — memberObj has joined_at and roles[] */
+async function fetchMemberData(token){
   try {
-    const r = await fetch('https://discord.com/api/v10/users/@me/guilds', {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-    if (!r.ok) return false;
-    const guilds = await r.json();
-    return Array.isArray(guilds) && guilds.some(g => g.id === CFG.GUILD_ID);
-  } catch(e) { return false; }
+    // Try direct member endpoint first (needs guilds.members.read scope)
+    const r = await fetch('https://discord.com/api/users/@me/guilds/' + CFG.GUILD_ID + '/member',
+      { headers: { Authorization: 'Bearer ' + token } });
+    if(r.ok){
+      const data = await r.json();
+      return { isMember: true, memberObj: data };
+    }
+    if(r.status === 404) return { isMember: false, memberObj: null };
+    // 403 = scope missing — fall back to guilds list
+  } catch(e){}
+  // Fallback: check via guilds list
+  try {
+    const r2 = await fetch('https://discord.com/api/users/@me/guilds',
+      { headers: { Authorization: 'Bearer ' + token } });
+    if(r2.ok){
+      const guilds = await r2.json();
+      if(Array.isArray(guilds)){
+        const inGuild = guilds.some(g => g.id === CFG.GUILD_ID);
+        return { isMember: inGuild, memberObj: null };
+      }
+    }
+  } catch(e){}
+  return { isMember: false, memberObj: null };
 }
 
-/* Update everything in the UI that depends on user + membership */
-function setDcUser(user, member) {
-  // Never store the loading placeholder to localStorage
-  if (user && user.id && user.id !== 'pending') {
-    localStorage.setItem('gkg-dc-user', JSON.stringify(user));
-    localStorage.setItem('gkg-dc-member', member ? '1' : '0');
-  }
+/* ── Apply user to nav UI (called immediately with real data) ── */
+function setDcUser(user, member, mData){
+  if(!user || !user.id) return;
+  dcUser     = user;
+  isMember   = member;
+  memberData = mData || null;
 
-  dcUser = user;
-  isMember = member;
-
-  // ── Nav: hide login button, show avatar + username ────────────
+  // Nav chip
   const loginBtn = document.getElementById('dc-login-btn');
   const userWrap = document.getElementById('dc-user-wrap');
-  if (loginBtn) loginBtn.style.display = 'none';
-  if (userWrap) userWrap.style.display = 'block';
+  if(loginBtn) loginBtn.style.display = 'none';
+  if(userWrap) userWrap.style.display = 'block';
 
-  const displayName = user.global_name || user.username || 'User';
-  const uname = document.getElementById('dc-uname');
-  if (uname) uname.textContent = displayName;
+  // Username
+  const unameEl = document.getElementById('dc-uname');
+  if(unameEl) unameEl.textContent = user.global_name || user.username || 'User';
 
+  // Avatar in nav
   const avImg = document.getElementById('dc-av-img');
   const avPh  = document.getElementById('dc-av-ph');
-  if (user.avatar && user.id !== 'pending') {
-    const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
-    if (avImg) { avImg.src = avatarUrl; avImg.style.display = 'block'; }
-    if (avPh)  avPh.style.display = 'none';
+  if(user.avatar){
+    const url = 'https://cdn.discordapp.com/avatars/'+user.id+'/'+user.avatar+'.png?size=64';
+    if(avImg){ avImg.src = url; avImg.style.display = 'block'; }
+    if(avPh)  avPh.style.display = 'none';
   } else {
-    const initials = (user.username || displayName || 'U')[0].toUpperCase();
-    if (avPh) { avPh.textContent = initials; avPh.style.display = 'flex'; }
-    if (avImg) avImg.style.display = 'none';
+    if(avPh){ avPh.textContent = (user.username||'U')[0].toUpperCase(); avPh.style.display = 'flex'; }
+    if(avImg) avImg.style.display = 'none';
   }
 
+  // Green member dot
   const dot = document.getElementById('dc-dot');
-  if (dot) dot.style.display = member ? 'block' : 'none';
+  if(dot) dot.style.display = member ? 'block' : 'none';
 
-  if (user.id !== 'pending') {
-    autofillForms(user);
-    populateProfileCard(user);
-  }
+  // Persist
+  localStorage.setItem('gkg-dc-user',   JSON.stringify(user));
+  localStorage.setItem('gkg-dc-member', member ? '1' : '0');
+  if(mData) localStorage.setItem('gkg-dc-mdata', JSON.stringify(mData));
+
+  // Autofill forms + gates
+  autofillForms(user);
   updateGateUI();
 }
 
-/* Fill identity fields in theory + staff forms */
-function autofillForms(user) {
-  if (!user || user.id === 'pending') return;
-  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+/* ── Autofill identity fields on theory + staff forms ─── */
+function autofillForms(user){
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
   set('th-displayname', user.global_name || user.username || '');
   set('th-username',    user.username || '');
   set('th-userid',      user.id || '');
   set('af-displayname', user.global_name || user.username || '');
   set('af-username',    user.username || '');
   set('af-userid',      user.id || '');
-  const afDisc = document.getElementById('af-disc');
-  if (afDisc && !afDisc.value) afDisc.value = user.username || '';
+  set('af-disc',        user.username || '');
 }
 
-/* Lock/unlock form inputs based on membership */
-function applyFormLock() {
-  const thFields   = document.getElementById('th-form-fields');
-  const thNote     = document.getElementById('th-member-note');
-  const afFields   = document.getElementById('af-form-fields');
-  const afNote     = document.getElementById('apply-member-note');
-  const afBtn      = document.getElementById('af-submit-btn');
-  const thBtn      = document.getElementById('th-submit-btn');
-  const locked = dcUser && !isMember;
+/* ── Gate / form visibility ─────────────────────────────── */
+function updateGateUI(){
+  const loggedIn = !!dcUser && !!dcUser.id;
+  const isMem    = loggedIn && isMember;
 
-  if (thFields)  thFields.classList.toggle('form-member-locked', locked);
-  if (thNote)    thNote.classList.toggle('visible', locked);
-  if (thBtn)     thBtn.classList.toggle('form-member-locked', locked);
-  if (afFields)  afFields.classList.toggle('form-member-locked', locked);
-  if (afNote)    afNote.classList.toggle('visible', locked);
-  if (afBtn)     afBtn.classList.toggle('form-member-locked', locked);
-}
-function updateGateUI() {
-  const loggedIn      = !!dcUser && dcUser.id !== 'pending';
-  const isServerMember = loggedIn && isMember;
+  const profileSec = document.getElementById('profile-sec');
+  if(profileSec) profileSec.style.display = loggedIn ? 'block' : 'none';
 
-  /* Profile dropdown section */
-  const profileSection = document.getElementById('profile-sec');
-  if (profileSection) profileSection.style.display = loggedIn ? 'block' : 'none';
-
-  /* Discussion */
   const discGate = document.getElementById('disc-gate');
   const discForm = document.getElementById('disc-post-form');
-  if (discGate) discGate.style.display = loggedIn ? 'none' : 'block';
-  if (discForm) discForm.style.display = isServerMember ? 'block' : 'none';
+  if(discGate) discGate.style.display = loggedIn ? 'none' : 'block';
+  if(discForm) discForm.style.display = isMem ? 'block' : 'none';
 
-  /* Theory form — visible to logged-in users, but LOCKED to non-members */
+  // Theory form
   const thGate = document.getElementById('theory-gate');
   const thForm = document.getElementById('theory-submit-form');
-  if (thGate) thGate.style.display = loggedIn ? 'none' : 'block';
-  if (thForm) thForm.style.display = loggedIn ? 'block' : 'none';
+  const thNote = document.getElementById('th-member-note');
+  if(thGate) thGate.style.display = loggedIn ? 'none' : 'block';
+  if(thForm) thForm.style.display = loggedIn ? 'block' : 'none';
+  if(thNote) thNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
+  ['th-title','th-tag','th-chapters','th-body','th-images','th-spoilers','th-agree'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.disabled = loggedIn && !isMem;
+  });
+  const imgDrop = document.getElementById('th-img-drop');
+  if(imgDrop) imgDrop.style.pointerEvents = (loggedIn && !isMem) ? 'none' : 'auto';
+  const thBtn = document.querySelector('.th-submit-btn');
+  if(thBtn){ thBtn.disabled = loggedIn && !isMem; thBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
 
-  /* Staff application — same */
+  // Staff form
   const applyGate = document.getElementById('apply-gate');
   const applyForm = document.getElementById('apply-form');
-  if (applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
-  if (applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
-
-  /* Apply lock/unlock to form fields based on membership */
-  applyFormLock();
+  const applyNote = document.getElementById('apply-member-note');
+  if(applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
+  if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
+  if(applyNote) applyNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
+  ['af-disc','af-age','af-tz','af-pos','af-tenure','af-hours','af-exp','af-why','af-scenario','af-extra'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.disabled = loggedIn && !isMem;
+  });
+  const applyBtn = document.querySelector('.af button[type="submit"]');
+  if(applyBtn){ applyBtn.disabled = loggedIn && !isMem; applyBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
 }
-// ── OAuth redirect handler ────────────────────────────────────────
-// Discord appends #access_token=TOKEN to whatever redirect_uri you set.
-// Since redirect_uri = this page, we read it directly from window.location.hash.
-(function handleOAuthRedirect() {
-  let token = null;
 
-  // Check hash first (Discord implicit flow standard)
-  const rawHash = window.location.hash;
-  if (rawHash && rawHash.length > 1) {
-    const hp = new URLSearchParams(rawHash.substring(1));
-    token = hp.get('access_token') || hp.get('token');
+/* ── Full login sequence ─────────────────────────────────── */
+async function doLogin(token){
+  try {
+    const [user, { isMember: mem, memberObj }] = await Promise.all([
+      fetchDiscordUser(token),
+      fetchMemberData(token).catch(() => ({ isMember: false, memberObj: null }))
+    ]);
+    setDcUser(user, mem, memberObj);
+    showToast('Welcome, '+(user.global_name||user.username||'there')+'! ✦');
+  } catch(err){
+    console.error('Discord login error:', err);
+    localStorage.removeItem('gkg-dc-token');
+    updateGateUI();
+    showToast('Login failed — please try again.', 'err');
   }
-  // Fallback: query string (if a backend forwarded the token)
-  if (!token) {
+}
+
+/* ── OAuth redirect handler ──────────────────────────────── */
+(function handleOAuthRedirect(){
+  let token = null;
+  const rawHash = window.location.hash;
+  if(rawHash && rawHash.length > 1){
+    const hp = new URLSearchParams(rawHash.substring(1));
+    token = hp.get('access_token');
+  }
+  if(!token){
     const qp = new URLSearchParams(window.location.search);
     token = qp.get('access_token') || qp.get('token');
   }
-
-  if (!token) return; // Normal page load — let restoreSession handle it
-
-  // Clean the URL immediately so the token isn't visible or bookmarked
+  if(!token) return;
   history.replaceState(null, null, window.location.pathname);
   localStorage.setItem('gkg-dc-token', token);
-
-  // Restore the tab the user was on before clicking login
   const preTab = localStorage.getItem('gkg-pretab');
-  if (preTab && typeof activateTab === 'function') activateTab(preTab, false, false);
-
-  showToast('Connecting to Discord…');
-
-  fetchDiscordUser(token)
-    .then(user => {
-      // Fetch guild membership in parallel
-      checkGuildMembership(token).then(member => {
-        setDcUser(user, member);
-        showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
-      }).catch(() => {
-        // Guild check failed — still log the user in, just not as member yet
-        setDcUser(user, false);
-        showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
-      });
-    })
-    .catch(err => {
-      console.error('Discord user fetch failed:', err);
-      showToast('Login failed — please try again.', 'err');
-      localStorage.removeItem('gkg-dc-token');
-    });
+  if(preTab && typeof activateTab === 'function') activateTab(preTab, false, false);
+  showToast('Logging you in…');
+  doLogin(token);
 })();
 
-// ── Session restore ────────────────────────────────────────────────
-// Runs on every page load. If a valid token + cached user exist,
-// restores the logged-in state immediately WITHOUT waiting for the API.
-// Then re-validates in the background so data stays fresh.
-(function restoreSession() {
-  const token = localStorage.getItem('gkg-dc-token');
-  if (!token) { updateGateUI(); return; }
+/* ── Restore session on page reload ─────────────────────── */
+(function restoreSession(){
+  const token   = localStorage.getItem('gkg-dc-token');
+  const rawUser = localStorage.getItem('gkg-dc-user');
+  if(!token || !rawUser || rawUser === 'null') { updateGateUI(); return; }
+  let user = null;
+  try { user = JSON.parse(rawUser); } catch(e){}
+  if(!user || !user.id) { updateGateUI(); return; }
+  const mem     = localStorage.getItem('gkg-dc-member') === '1';
+  const rawMD   = localStorage.getItem('gkg-dc-mdata');
+  let mData = null;
+  try { mData = rawMD ? JSON.parse(rawMD) : null; } catch(e){}
+  // Restore immediately from cache
+  setDcUser(user, mem, mData);
+  // Silently refresh in background
+  fetchDiscordUser(token)
+    .then(fresh => fetchMemberData(token)
+      .catch(() => ({ isMember: mem, memberObj: mData }))
+      .then(({ isMember: m2, memberObj: md2 }) => setDcUser(fresh, m2, md2)))
+    .catch(() => {}); // keep cache if token expired
+})();
 
-  // Try to restore from cache first (instant — no API wait)
-  let cachedUser = null;
-  try {
-    const raw = localStorage.getItem('gkg-dc-user');
-    const parsed = raw ? JSON.parse(raw) : null;
-    // Only use cached data if it's a real user, not the 'pending' placeholder
-    if (parsed && parsed.id && parsed.id !== 'pending' && parsed.username) {
-      cachedUser = parsed;
+/* ── Dropdown toggle ─────────────────────────────────────── */
+document.getElementById('dc-btn')?.addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('dc-dd')?.classList.toggle('open');
+});
+document.addEventListener('click', () => {
+  document.getElementById('dc-dd')?.classList.remove('open');
+});
+document.getElementById('dc-login-btn')?.addEventListener('click', dcLogin);
+
+/* ── Profile modal open/close ─────────────────────────────── */
+document.getElementById('dc-profile-btn')?.addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('dc-dd')?.classList.remove('open');
+  openProfile();
+});
+
+function openProfile(){
+  if(!dcUser) return;
+  populateProfileModal(dcUser, isMember, memberData);
+  document.getElementById('prof-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProfile(){
+  document.getElementById('prof-ov').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── Populate the profile modal ─────────────────────────── */
+function snowflakeToDate(id){
+  try{ return new Date(Number(BigInt(id)>>22n)+1420070400000); } catch(e){ return null; }
+}
+
+function roleColor(hexColor){
+  if(!hexColor || hexColor === 0) return 'rgba(180,160,120,.7)';
+  const hex = typeof hexColor === 'number'
+    ? '#'+hexColor.toString(16).padStart(6,'0')
+    : hexColor;
+  return hex;
+}
+
+function getPosition(roles){
+  // roles = array of role objects from the member endpoint
+  if(!roles || !roles.length) return 'Member';
+  const names = roles.map(r => (r.name||'').toLowerCase());
+  if(names.some(n => n.includes('owner') || n.includes('founder'))) return 'Owner / Founder';
+  if(names.some(n => n.includes('admin'))) return 'Administrator';
+  if(names.some(n => n.includes('senior mod') || n.includes('senior'))) return 'Senior Moderator';
+  if(names.some(n => n.includes('mod'))) return 'Moderator';
+  if(names.some(n => n.includes('staff') || n.includes('team'))) return 'Staff';
+  if(names.some(n => n.includes('content') || n.includes('creator'))) return 'Content Creator';
+  return 'Member';
+}
+
+function populateProfileModal(user, member, mData){
+  // Banner
+  const bannerImg = document.getElementById('pm-banner-img');
+  const bannerEl  = document.getElementById('pm-banner');
+  if(bannerImg){
+    if(user.banner){
+      const ext = user.banner.startsWith('a_') ? 'gif' : 'png';
+      bannerImg.src = 'https://cdn.discordapp.com/banners/'+user.id+'/'+user.banner+'.'+ext+'?size=960';
+      bannerImg.style.display = 'block';
+      if(bannerEl) bannerEl.style.background = 'none';
+    } else {
+      bannerImg.style.display = 'none';
+      if(bannerEl && user.banner_color){
+        bannerEl.style.background = user.banner_color;
+      } else if(bannerEl){
+        bannerEl.style.background = '';
+      }
     }
-  } catch(e) {}
-
-  const cachedMember = localStorage.getItem('gkg-dc-member') === '1';
-
-  if (cachedUser) {
-    // Instantly restore UI from cache
-    setDcUser(cachedUser, cachedMember);
   }
 
-  // Re-validate with Discord in the background (keeps data fresh & catches expired tokens)
-  fetchDiscordUser(token)
-    .then(freshUser => {
-      checkGuildMembership(token).then(member => {
-        setDcUser(freshUser, member);
-      }).catch(() => {
-        setDcUser(freshUser, cachedMember);
-      });
-    })
-    .catch(() => {
-      if (!cachedUser) {
-        // No cache and API failed — token is likely expired, clear it
-        localStorage.removeItem('gkg-dc-token');
-        localStorage.removeItem('gkg-dc-user');
-        localStorage.removeItem('gkg-dc-member');
-        updateGateUI();
-      }
-      // If we have cachedUser, keep showing them as logged in (network blip)
-    });
-})();
-document.getElementById('dc-btn')?.addEventListener('click',e=>{ e.stopPropagation(); document.getElementById('dc-dd').classList.toggle('open'); });
-document.addEventListener('click',()=>document.getElementById('dc-dd')?.classList.remove('open'));
-document.getElementById('dc-login-btn')?.addEventListener('click',dcLogin);
-document.getElementById('dc-logout')?.addEventListener('click',()=>{
-  // Clear all auth state
+  // Avatar
+  const pmAv = document.getElementById('pm-av');
+  if(pmAv){
+    if(user.avatar){
+      pmAv.innerHTML = '<img src="https://cdn.discordapp.com/avatars/'+user.id+'/'+user.avatar+'.png?size=256" alt="">';
+    } else {
+      pmAv.innerHTML = '';
+      pmAv.textContent = (user.global_name||user.username||'?')[0].toUpperCase();
+    }
+  }
+
+  // Online dot (show green if member)
+  const pmDot = document.getElementById('pm-av-dot');
+  if(pmDot) pmDot.style.display = member ? 'block' : 'none';
+
+  // Member badge
+  const badgeWrap = document.getElementById('pm-badge-wrap');
+  if(badgeWrap){
+    if(member){
+      badgeWrap.innerHTML = '<span class="pm-badge pm-badge-member">✓ Verified Member</span>';
+    } else {
+      badgeWrap.innerHTML = '<span class="pm-badge pm-badge-none">✕ Not a Member</span>';
+    }
+  }
+
+  // Name
+  const pmDn = document.getElementById('pm-displayname');
+  if(pmDn) pmDn.textContent = user.global_name || user.username || '—';
+  const pmUn = document.getElementById('pm-username');
+  if(pmUn) pmUn.textContent = '@'+(user.username||'—');
+  const pmUid = document.getElementById('pm-uid');
+  if(pmUid) pmUid.textContent = user.id || '—';
+
+  // Account created
+  const pmCreated = document.getElementById('pm-created');
+  if(pmCreated && user.id){
+    const d = snowflakeToDate(user.id);
+    pmCreated.textContent = d ? d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '—';
+  }
+
+  // Joined server
+  const pmJoined = document.getElementById('pm-joined');
+  if(pmJoined){
+    if(!member){
+      pmJoined.textContent = 'Not a member of the server';
+    } else if(mData && mData.joined_at){
+      const jd = new Date(mData.joined_at);
+      pmJoined.textContent = jd.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    } else {
+      pmJoined.textContent = 'Joined (date unavailable)';
+    }
+  }
+
+  // Position
+  const pmPos = document.getElementById('pm-position');
+  if(pmPos){
+    if(!member){
+      pmPos.textContent = 'Not a member of the server';
+    } else {
+      const roles = mData && mData.roles ? mData.roles : [];
+      pmPos.textContent = getPosition(roles);
+    }
+  }
+
+  // Roles
+  const pmRoles = document.getElementById('pm-roles');
+  if(pmRoles){
+    if(!member){
+      pmRoles.innerHTML = '<span style="font-size:.82rem;color:var(--text-muted)">Not a member of the server</span>';
+    } else if(mData && mData.roles && mData.roles.length){
+      // mData.roles from /guilds/:id/member contains role IDs, not full objects.
+      // We don't have role names/colors here without fetching /guilds/:id/roles (requires bot).
+      // Show role IDs as pill placeholders with generic color, or show "Member" default.
+      // Since we can show position, show a generic Member role pill + position-based role.
+      const position = getPosition(mData.roles);
+      const colorMap = {
+        'Owner / Founder':  '#e85d5d',
+        'Administrator':    '#C9A84C',
+        'Senior Moderator': '#a855f7',
+        'Moderator':        '#5865F2',
+        'Staff':            '#C9A84C',
+        'Content Creator':  '#2ecc71',
+        'Member':           '#818cf8',
+      };
+      const c = colorMap[position] || '#818cf8';
+      pmRoles.innerHTML =
+        '<span class="pm-role-pill" style="color:'+c+';background:'+c+'22;border:1px solid '+c+'55">'+position+'</span>' +
+        '<span class="pm-role-pill" style="color:#818cf8;background:#818cf822;border:1px solid #818cf855">Member</span>';
+    } else if(member){
+      pmRoles.innerHTML = '<span class="pm-role-pill" style="color:#818cf8;background:#818cf822;border:1px solid #818cf855">Member</span>';
+    }
+  }
+}
+
+/* ── Logout ──────────────────────────────────────────────── */
+function doLogout(){
   localStorage.removeItem('gkg-dc-token');
   localStorage.removeItem('gkg-dc-user');
   localStorage.removeItem('gkg-dc-member');
-  dcUser = null; isMember = false;
-  // Reset nav
-  const lb = document.getElementById('dc-login-btn');
-  const uw = document.getElementById('dc-user-wrap');
-  const dd = document.getElementById('dc-dd');
-  const dot = document.getElementById('dc-dot');
-  const avImg = document.getElementById('dc-av-img');
-  const avPh = document.getElementById('dc-av-ph');
-  if (lb) lb.style.display = 'flex';
-  if (uw) uw.style.display = 'none';
-  if (dd) dd.classList.remove('open');
-  if (dot) dot.style.display = 'none';
-  if (avImg) { avImg.src = ''; avImg.style.display = 'none'; }
-  if (avPh) { avPh.textContent = '?'; avPh.style.display = 'flex'; }
+  localStorage.removeItem('gkg-dc-mdata');
+  dcUser = null; isMember = false; memberData = null;
+  const loginBtn = document.getElementById('dc-login-btn');
+  const userWrap = document.getElementById('dc-user-wrap');
+  const dot      = document.getElementById('dc-dot');
+  const dd       = document.getElementById('dc-dd');
+  const avImg    = document.getElementById('dc-av-img');
+  const avPh     = document.getElementById('dc-av-ph');
+  if(loginBtn) loginBtn.style.display = 'flex';
+  if(userWrap) userWrap.style.display = 'none';
+  if(dot)      dot.style.display = 'none';
+  if(dd)       dd.classList.remove('open');
+  if(avImg){ avImg.src = ''; avImg.style.display = 'none'; }
+  if(avPh)  avPh.textContent = '?';
+  closeProfile();
   updateGateUI();
-  showToast('Logged out.');
+  showToast('Logged out successfully.');
+}
+document.getElementById('dc-logout')?.addEventListener('click', doLogout);
+
+// Escape key closes profile modal
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeProfile();
 });
-function snowflakeToDate(id){
-  try{
-    const ms=Number(BigInt(id)>>22n)+1420070400000;
-    return new Date(ms);
-  }catch(e){return null;}
-}
-function populateProfileCard(user){
-  const av=document.getElementById('dpc-av');
-  if(av){ if(user.avatar)av.innerHTML=`<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128" alt="">`;else av.textContent=(user.global_name||user.username||'?')[0].toUpperCase(); }
-  // Banner
-  const bannerImg=document.getElementById('dpc-banner-img');
-  const bannerEl=document.getElementById('dpc-banner');
-  if(bannerImg&&user.banner){
-    const ext=user.banner.startsWith('a_')?'gif':'png';
-    bannerImg.src=`https://cdn.discordapp.com/banners/${user.id}/${user.banner}.${ext}?size=480`;
-    bannerImg.style.display='block';
-    if(bannerEl)bannerEl.style.background='none';
-  }else if(bannerEl&&user.banner_color){
-    bannerEl.style.background=user.banner_color;
-  }
-  const dn=document.getElementById('dpc-displayname'); if(dn)dn.textContent=user.global_name||user.username||'—';
-  const un=document.getElementById('dpc-username'); if(un)un.textContent='@'+(user.username||'—');
-  const uid=document.getElementById('dpc-uid'); if(uid)uid.textContent=user.id||'—';
-  // Account created from snowflake
-  const created=document.getElementById('dpc-created');
-  if(created&&user.id){
-    const d=snowflakeToDate(user.id);
-    if(d)created.textContent=d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    else created.textContent='—';
-  }
-  const joined=document.getElementById('dpc-joined'); if(joined)joined.textContent=isMember?'✓ Gokurakugai Community':'Not a server member';
-  const rolesEl=document.getElementById('dpc-roles');
-  if(rolesEl){
-    rolesEl.innerHTML='<span class="dpc-role dpc-role-member">Member</span>';
-    if(isMember)rolesEl.innerHTML+=' <span class="dpc-role dpc-role-staff">Server Member</span>';
-  }
-  // Also autofill staff form fields if they exist
-  const afDn=document.getElementById('af-displayname'); if(afDn)afDn.value=user.global_name||user.username||'';
-  const afUn=document.getElementById('af-username'); if(afUn)afUn.value=user.username||'';
-  const afUid=document.getElementById('af-userid'); if(afUid)afUid.value=user.id||'';
-  // Autofill af-disc with username
-  const afDisc=document.getElementById('af-disc'); if(afDisc&&!afDisc.value)afDisc.value=user.username||'';
-}
 
 /* ════ DISCORD WIDGET — TOTAL MEMBERS ════ */
 let widgetLoaded=false;
@@ -2918,13 +3107,7 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
     const cloneDcDd=drawerCtrl.querySelector('#dc-dd');
     if(cloneDcBtn&&cloneDcDd){ cloneDcBtn.addEventListener('click',e=>{ e.stopPropagation(); cloneDcDd.classList.toggle('open'); }); document.addEventListener('click',()=>cloneDcDd.classList.remove('open')); }
     const cloneLogout=drawerCtrl.querySelector('#dc-logout');
-    if(cloneLogout){ cloneLogout.addEventListener('click',()=>{
-      localStorage.removeItem('gkg-dc-token'); localStorage.removeItem('gkg-dc-user'); localStorage.removeItem('gkg-dc-member');
-      dcUser=null; isMember=false;
-      const lb=document.getElementById('dc-login-btn'); if(lb)lb.style.display='flex';
-      const uw=document.getElementById('dc-user-wrap'); if(uw)uw.style.display='none';
-      updateGateUI(); showToast('Logged out.');
-    }); }
+    if(cloneLogout){ cloneLogout.addEventListener('click', doLogout); }
   }
   function syncMobActive(tab){ document.querySelectorAll('.mob-nav-item').forEach(i=>i.classList.toggle('active',i.dataset.tab===tab)); }
   document.querySelectorAll('.mob-nav-item:not(.has-sub)').forEach(item=>{
