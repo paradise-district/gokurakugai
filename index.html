@@ -2065,7 +2065,12 @@ const CFG = {
   DISCORD_CLIENT_ID: '1472093876369100820',
   GUILD_ID: '995737046725443686',
   WIDGET_API: 'https://discord.com/api/guilds/995737046725443686/widget.json',
-  WEBHOOK_URL: 'YOUR_WEBHOOK_URL_HERE',
+// ADD THIS SECTION:
+  ROLES: {
+    ADMIN: '995742535358107688', 
+    MOD:   '1001749397555654707',
+    STAFF: '995870854481203241'
+  }
 };
 
 /* ════ THEME ════ */
@@ -2414,9 +2419,10 @@ async function fetchMemberData(token){
         return { isMember: inGuild, memberObj: null };
       }
     }
-  } catch(e){ console.warn('fetchMemberData error:', e); }
+  } catch(e){ 
+    console.warn('fetchMemberData error:', e); 
+  }
   return { isMember: false, memberObj: null };
-}
 }
 
 /* ── Apply user to nav UI (called immediately with real data) ── */
