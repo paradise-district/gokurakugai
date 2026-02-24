@@ -2362,123 +2362,95 @@ document.getElementById('gal-lightbox-ov').addEventListener('click',function(e){
   if(e.target===this)closeLightbox();
 });
 
-/* ════ DISCORD OAUTH2 — v3 (bulletproof) ════ */
+/* ════ DISCORD OAUTH2 ════ */
 let dcUser = null, isMember = false, memberData = null;
-
-console.log('[GKG-AUTH v3] Discord auth module loaded');
 
 function getCurrentTab(){
   for(const s of document.querySelectorAll('.sec')){ if(s.classList.contains('active'))return s.id; }
   return 'about';
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Internal helpers
-───────────────────────────────────────────────────────────── */
-
-/* Restores the nav to its logged-out state. Called in every failure path. */
-function _restoreLoginBtn(){
-  const loginBtn = document.getElementById('dc-login-btn');
-  const userWrap = document.getElementById('dc-user-wrap');
-  if(loginBtn){ loginBtn.style.display = ''; loginBtn.style.removeProperty('display'); loginBtn.style.display = 'flex'; }
-  if(userWrap){ userWrap.style.display = 'none'; }
-  dcUser = null; isMember = false; memberData = null;
-  updateGateUI();
+/* ── Login redirect ──────────────────────────────────────────
+   SCOPE: only 'identify guilds' — guilds.members.read is a
+   privileged scope requiring Discord app verification and
+   breaks the implicit flow for unverified apps.
+   The guilds list is sufficient to check server membership.
+─────────────────────────────────────────────────────────────*/
+function dcLogin(){
+  localStorage.setItem('gkg-pretab', getCurrentTab());
+  const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
+  const scope       = encodeURIComponent('identify guilds');
+  window.location.href =
+    'https://discord.com/api/oauth2/authorize?client_id=' + CFG.DISCORD_CLIENT_ID +
+    '&redirect_uri=' + redirectUri + '&response_type=token&scope=' + scope;
 }
 
-/* Timed fetch — rejects after `ms` milliseconds via AbortController.
-   This is the only reliable way to prevent fetch() hanging forever. */
+/* ── Discord API ─────────────────────────────────────────── */
+
+/* Cancels the fetch after `ms` ms using AbortController — prevents infinite hangs */
 function _timedFetch(url, opts, ms){
   const ctrl = new AbortController();
   const tid  = setTimeout(() => ctrl.abort(), ms);
   return fetch(url, Object.assign({}, opts, { signal: ctrl.signal }))
-    .finally(() => clearTimeout(tid));
+         .finally(() => clearTimeout(tid));
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Discord API calls
-───────────────────────────────────────────────────────────── */
 async function fetchDiscordUser(token){
-  console.log('[GKG-AUTH] fetchDiscordUser: starting (10s timeout)…');
   let r;
   try {
-    r = await _timedFetch(
-      'https://discord.com/api/v10/users/@me',
-      { headers: { 'Authorization': 'Bearer ' + token } },
-      10000
-    );
+    r = await _timedFetch('https://discord.com/api/users/@me',
+          { headers: { Authorization: 'Bearer ' + token } }, 12000);
   } catch(e){
-    if(e.name === 'AbortError'){
-      console.error('[GKG-AUTH] fetchDiscordUser: TIMED OUT after 10s');
-      const t = new TypeError('Discord API timed out (10 s). Check network.'); t.isTimeout = true; throw t;
-    }
-    console.error('[GKG-AUTH] fetchDiscordUser: network error:', e.message);
+    if(e.name === 'AbortError'){ const t = new Error('Timed out'); t.isTimeout = true; throw t; }
     throw e;
   }
-  console.log('[GKG-AUTH] fetchDiscordUser: HTTP', r.status);
   if(r.status === 401 || r.status === 403){
-    const e = new Error('Token rejected by Discord (HTTP ' + r.status + ')'); e.isAuth = true; throw e;
+    const e = new Error('Token rejected (HTTP ' + r.status + ')'); e.isAuth = true; throw e;
   }
-  if(!r.ok){
-    throw new Error('Discord API returned HTTP ' + r.status);
-  }
+  if(!r.ok) throw new Error('Discord API HTTP ' + r.status);
   const user = await r.json();
-  if(!user || !user.id){ throw new Error('Discord returned empty/invalid user object'); }
-  console.log('[GKG-AUTH] fetchDiscordUser: success — username:', user.username || user.id);
+  if(!user || !user.id) throw new Error('Empty user object from Discord');
   return user;
 }
 
 /* Always resolves — never throws. Returns { isMember, memberObj }. */
 async function fetchMemberData(token){
-  console.log('[GKG-AUTH] fetchMemberData: checking guild membership…');
   try {
-    const r = await _timedFetch(
-      'https://discord.com/api/v10/users/@me/guilds',
-      { headers: { 'Authorization': 'Bearer ' + token } },
-      8000
-    );
+    const r = await _timedFetch('https://discord.com/api/users/@me/guilds',
+                { headers: { Authorization: 'Bearer ' + token } }, 10000);
     if(r.ok){
       const guilds = await r.json();
       if(Array.isArray(guilds)){
         const inGuild = guilds.some(g => String(g.id) === String(CFG.GUILD_ID));
-        console.log('[GKG-AUTH] fetchMemberData: in guild =', inGuild,
-          '| guilds checked:', guilds.length);
         return { isMember: inGuild, memberObj: null };
       }
-    } else {
-      console.warn('[GKG-AUTH] fetchMemberData: HTTP', r.status, '(non-fatal)');
     }
-  } catch(e){
-    console.warn('[GKG-AUTH] fetchMemberData: failed (non-fatal):', e.name, e.message);
-  }
+  } catch(e){ console.warn('[GKG] fetchMemberData failed (non-fatal):', e.message); }
   return { isMember: false, memberObj: null };
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Apply a successfully-retrieved user to the whole UI
-───────────────────────────────────────────────────────────── */
+/* ── Apply user to nav UI (called immediately with real data) ── */
 function setDcUser(user, member, mData){
-  if(!user || !user.id){ console.warn('[GKG-AUTH] setDcUser: user invalid, skipping'); return; }
+  if(!user || !user.id) return;
   dcUser     = user;
-  isMember   = !!member;
+  isMember   = member;
   memberData = mData || null;
 
-  /* ── Nav chip ── */
+  // Nav chip
   const loginBtn = document.getElementById('dc-login-btn');
   const userWrap = document.getElementById('dc-user-wrap');
   if(loginBtn) loginBtn.style.display = 'none';
   if(userWrap) userWrap.style.display = 'block';
 
-  /* ── Username label ── */
+  // Username
   const unameEl = document.getElementById('dc-uname');
   if(unameEl) unameEl.textContent = user.global_name || user.username || 'User';
 
-  /* ── Avatar ── */
+  // Avatar in nav
   const avImg = document.getElementById('dc-av-img');
   const avPh  = document.getElementById('dc-av-ph');
   if(user.avatar){
-    const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
-    const url  = 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.' + ext + '?size=64';
+    const url = 'https://cdn.discordapp.com/avatars/'+user.id+'/'+user.avatar+'.png?size=64';
     if(avImg){ avImg.src = url; avImg.style.display = 'block'; }
     if(avPh)  avPh.style.display = 'none';
   } else {
@@ -2486,25 +2458,21 @@ function setDcUser(user, member, mData){
     if(avImg) avImg.style.display = 'none';
   }
 
-  /* ── Online dot ── */
+  // Green member dot
   const dot = document.getElementById('dc-dot');
   if(dot) dot.style.display = member ? 'block' : 'none';
 
-  /* ── Persist to localStorage ── */
-  try {
-    localStorage.setItem('gkg-dc-user',   JSON.stringify(user));
-    localStorage.setItem('gkg-dc-member', member ? '1' : '0');
-    if(mData) localStorage.setItem('gkg-dc-mdata', JSON.stringify(mData));
-  } catch(e){ console.warn('[GKG-AUTH] localStorage write failed:', e.message); }
+  // Persist
+  localStorage.setItem('gkg-dc-user',   JSON.stringify(user));
+  localStorage.setItem('gkg-dc-member', member ? '1' : '0');
+  if(mData) localStorage.setItem('gkg-dc-mdata', JSON.stringify(mData));
 
+  // Autofill forms + gates
   autofillForms(user);
   updateGateUI();
-  console.log('[GKG-AUTH] setDcUser: UI updated for', user.username || user.id, '| member:', member);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Autofill + gate helpers (unchanged)
-───────────────────────────────────────────────────────────── */
+/* ── Autofill identity fields on theory + staff forms ─── */
 function autofillForms(user){
   const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
   set('th-displayname', user.global_name || user.username || '');
@@ -2516,6 +2484,7 @@ function autofillForms(user){
   set('af-disc',        user.username || '');
 }
 
+/* ── Gate / form visibility ─────────────────────────────── */
 function updateGateUI(){
   const loggedIn = !!dcUser && !!dcUser.id;
   const isMem    = loggedIn && isMember;
@@ -2528,6 +2497,7 @@ function updateGateUI(){
   if(discGate) discGate.style.display = loggedIn ? 'none' : 'block';
   if(discForm) discForm.style.display = isMem ? 'block' : 'none';
 
+  // Theory form
   const thGate = document.getElementById('theory-gate');
   const thForm = document.getElementById('theory-submit-form');
   const thNote = document.getElementById('th-member-note');
@@ -2535,13 +2505,15 @@ function updateGateUI(){
   if(thForm) thForm.style.display = loggedIn ? 'block' : 'none';
   if(thNote) thNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
   ['th-title','th-tag','th-chapters','th-body','th-images','th-spoilers','th-agree'].forEach(id => {
-    const el = document.getElementById(id); if(el) el.disabled = loggedIn && !isMem;
+    const el = document.getElementById(id);
+    if(el) el.disabled = loggedIn && !isMem;
   });
   const imgDrop = document.getElementById('th-img-drop');
   if(imgDrop) imgDrop.style.pointerEvents = (loggedIn && !isMem) ? 'none' : 'auto';
   const thBtn = document.querySelector('.th-submit-btn');
   if(thBtn){ thBtn.disabled = loggedIn && !isMem; thBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
 
+  // Staff form
   const applyGate = document.getElementById('apply-gate');
   const applyForm = document.getElementById('apply-form');
   const applyNote = document.getElementById('apply-member-note');
@@ -2549,162 +2521,134 @@ function updateGateUI(){
   if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
   if(applyNote) applyNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
   ['af-disc','af-age','af-tz','af-pos','af-tenure','af-hours','af-exp','af-why','af-scenario','af-extra'].forEach(id => {
-    const el = document.getElementById(id); if(el) el.disabled = loggedIn && !isMem;
+    const el = document.getElementById(id);
+    if(el) el.disabled = loggedIn && !isMem;
   });
   const applyBtn = document.querySelector('.af button[type="submit"]');
   if(applyBtn){ applyBtn.disabled = loggedIn && !isMem; applyBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Login redirect
-───────────────────────────────────────────────────────────── */
-function dcLogin(){
-  // Clear any stale auth data before starting a new login flow
-  ['gkg-dc-token','gkg-dc-user','gkg-dc-member','gkg-dc-mdata'].forEach(k => {
-    try { localStorage.removeItem(k); } catch(e){}
-  });
-  localStorage.setItem('gkg-pretab', getCurrentTab());
-  const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
-  const scope       = encodeURIComponent('identify guilds');
-  console.log('[GKG-AUTH] dcLogin: redirecting to Discord OAuth…');
-  window.location.href =
-    'https://discord.com/api/oauth2/authorize?client_id=' + CFG.DISCORD_CLIENT_ID +
-    '&redirect_uri=' + redirectUri + '&response_type=token&scope=' + scope;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Full login sequence — called after redirect with token
-───────────────────────────────────────────────────────────── */
+/* ── Full login sequence ─────────────────────────────────── */
 async function doLogin(token){
-  console.log('[GKG-AUTH] doLogin: starting…');
-
-  /* Show loading chip in nav immediately */
   const loginBtn = document.getElementById('dc-login-btn');
   const userWrap = document.getElementById('dc-user-wrap');
   const avPh     = document.getElementById('dc-av-ph');
   const uname    = document.getElementById('dc-uname');
+
   if(loginBtn) loginBtn.style.display = 'none';
   if(userWrap) userWrap.style.display = 'block';
   if(avPh){ avPh.textContent = '…'; avPh.style.display = 'flex'; }
   if(uname) uname.textContent = '…';
 
-  /* ── ABSOLUTE SAFETY NET ──────────────────────────────────
-     If ANYTHING hangs beyond 30 seconds (including bugs we
-     haven't caught), this timer guarantees the login button
-     is restored and the user is never stuck forever.
-  ──────────────────────────────────────────────────────────*/
-  const safetyTimer = setTimeout(() => {
-    console.error('[GKG-AUTH] doLogin: 30s safety timer fired — forcing cleanup!');
-    _restoreLoginBtn();
-    showToast('Login timed out. Please try again.', 'err');
+  /* Absolute safety net — restores login button no matter what after 30 s */
+  const safety = setTimeout(() => {
+    console.error('[GKG] doLogin safety timer fired — forcing cleanup');
+    if(loginBtn) loginBtn.style.display = 'flex';
+    if(userWrap) userWrap.style.display = 'none';
+    dcUser = null; isMember = false; memberData = null;
+    updateGateUI();
+    showToast('Login timed out — please try again.', 'err');
   }, 30000);
 
   try {
-    /* Step 1 — get identity */
     const user = await fetchDiscordUser(token);
 
-    /* Step 2 — check membership (failure is non-fatal) */
-    const { isMember: mem, memberObj } = await fetchMemberData(token);
+    let mem = false, memberObj = null;
+    try {
+      const md = await fetchMemberData(token);
+      mem = md.isMember; memberObj = md.memberObj;
+    } catch(e){ console.warn('[GKG] Membership check failed (non-fatal):', e.message); }
 
-    /* Both succeeded — commit */
-    clearTimeout(safetyTimer);
-    localStorage.setItem('gkg-dc-token', token); // persist valid token
+    clearTimeout(safety);
+    localStorage.setItem('gkg-dc-token', token);
     setDcUser(user, mem, memberObj);
     showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
-    console.log('[GKG-AUTH] doLogin: SUCCESS');
 
   } catch(err){
-    clearTimeout(safetyTimer);
-    console.error('[GKG-AUTH] doLogin: FAILED —', err.message, err);
-    _restoreLoginBtn();
-
-    /* Remove token only on definitive auth rejection — keep it on
-       network errors so restoreSession can try again on next load */
+    clearTimeout(safety);
+    console.error('[GKG] doLogin error:', err.message, err);
+    if(loginBtn) loginBtn.style.display = 'flex';
+    if(userWrap) userWrap.style.display = 'none';
     if(err.isAuth){
-      try { localStorage.removeItem('gkg-dc-token'); } catch(e){}
+      localStorage.removeItem('gkg-dc-token');
+      localStorage.removeItem('gkg-dc-user');
+      localStorage.removeItem('gkg-dc-member');
+      localStorage.removeItem('gkg-dc-mdata');
     }
-
-    if(err.isTimeout){
-      showToast('Login timed out — check your internet and try again.', 'err');
-    } else if(err.isAuth){
-      showToast('Discord session expired. Please log in again.', 'err');
-    } else {
-      showToast('Login failed: ' + (err.message || 'unknown error'), 'err');
-    }
+    dcUser = null; isMember = false; memberData = null;
+    updateGateUI();
+    showToast(err.isTimeout ? 'Login timed out — try again.' : err.isAuth ? 'Session expired — please log in again.' : 'Login failed — please try again.', 'err');
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
-   OAuth redirect handler — runs once after Discord redirects back
-───────────────────────────────────────────────────────────── */
+/* ── OAuth redirect handler ──────────────────────────────────
+   Runs once when Discord redirects back with #access_token=...
+   Sets a flag so restoreSession knows to stand down.
+─────────────────────────────────────────────────────────────*/
 let _oauthHandled = false;
 
 (function handleOAuthRedirect(){
-  const rawHash = window.location.hash;
+  // Parse token from URL hash (Discord implicit flow)
   let token = null;
-
+  const rawHash = window.location.hash;
   if(rawHash && rawHash.length > 1){
-    /* Discord returns: #access_token=…&token_type=Bearer&expires_in=…&scope=… */
-    const hp = new URLSearchParams(rawHash.replace(/^#/, ''));
+    const hp = new URLSearchParams(rawHash.substring(1));
     token = hp.get('access_token');
-    const discordErr = hp.get('error');
-    if(discordErr){
-      history.replaceState(null, null, window.location.pathname + window.location.search);
+    // Handle Discord error redirects (e.g. user denied)
+    const err = hp.get('error');
+    if(err){
+      history.replaceState(null, null, window.location.pathname);
       updateGateUI();
-      showToast('Discord auth cancelled or denied.', 'err');
+      showToast('Discord auth cancelled.', 'err');
       return;
     }
   }
-
-  /* Fallback: some redirect configs put token in query string */
   if(!token){
     const qp = new URLSearchParams(window.location.search);
     token = qp.get('access_token') || qp.get('token');
   }
+  if(!token) return;
 
-  if(!token){
-    console.log('[GKG-AUTH] handleOAuthRedirect: no token in URL — normal page load');
-    return;
-  }
+  _oauthHandled = true; // restoreSession will skip
 
-  console.log('[GKG-AUTH] handleOAuthRedirect: token found in URL — starting login flow');
-  _oauthHandled = true;
+  // Wipe any stale cached data from previous sessions
+  localStorage.removeItem('gkg-dc-user');
+  localStorage.removeItem('gkg-dc-member');
+  localStorage.removeItem('gkg-dc-mdata');
 
-  /* Clean the URL before doing anything else */
-  history.replaceState(null, null, window.location.pathname + window.location.search);
+  // Clean the URL immediately
+  history.replaceState(null, null, window.location.pathname);
+  localStorage.setItem('gkg-dc-token', token);
 
-  /* Restore previous tab */
+  // Restore previous tab if navigated away for auth
   const preTab = localStorage.getItem('gkg-pretab');
   if(preTab && typeof activateTab === 'function') activateTab(preTab, false, false);
 
-  showToast('Connecting to Discord…');
+  showToast('Logging you in…');
   doLogin(token);
 })();
 
-/* ─────────────────────────────────────────────────────────────
-   Session restore — runs on normal (non-redirect) page loads
-───────────────────────────────────────────────────────────── */
+/* ── Restore session on page reload ─────────────────────────
+   Runs on every normal page load (not after OAuth redirect).
+─────────────────────────────────────────────────────────────*/
 (function restoreSession(){
-  if(_oauthHandled){ console.log('[GKG-AUTH] restoreSession: skipped (OAuth redirect in progress)'); return; }
+  // Stand down if handleOAuthRedirect is already running a fresh login
+  if(_oauthHandled) return;
 
   const token   = localStorage.getItem('gkg-dc-token');
   const rawUser = localStorage.getItem('gkg-dc-user');
-
-  if(!token || !rawUser || rawUser === 'null'){
-    console.log('[GKG-AUTH] restoreSession: no cached session found');
-    updateGateUI(); return;
-  }
+  if(!token || !rawUser || rawUser === 'null'){ updateGateUI(); return; }
 
   let user = null;
   try { user = JSON.parse(rawUser); } catch(e){}
 
-  /* Validate cached user ID (Discord snowflakes: 17-20 digits) */
-  if(!user || !user.id || !/^\d{15,22}$/.test(String(user.id))){
-    console.warn('[GKG-AUTH] restoreSession: cached user data invalid — clearing');
-    ['gkg-dc-token','gkg-dc-user','gkg-dc-member','gkg-dc-mdata'].forEach(k => {
-      try { localStorage.removeItem(k); } catch(e){}
-    });
-    updateGateUI(); return;
+  // Reject placeholder/corrupt data — real Discord snowflakes are 17-19 digits
+  if(!user || !user.id || !/^\d{15,20}$/.test(String(user.id))){
+    localStorage.removeItem('gkg-dc-user');
+    localStorage.removeItem('gkg-dc-member');
+    localStorage.removeItem('gkg-dc-mdata');
+    updateGateUI();
+    return;
   }
 
   const mem   = localStorage.getItem('gkg-dc-member') === '1';
@@ -2712,23 +2656,17 @@ let _oauthHandled = false;
   let mData = null;
   try { mData = rawMD ? JSON.parse(rawMD) : null; } catch(e){}
 
-  console.log('[GKG-AUTH] restoreSession: restoring cached session for', user.username || user.id);
-  setDcUser(user, mem, mData); /* Show cached state instantly */
+  // Restore UI immediately from cache (no flicker)
+  setDcUser(user, mem, mData);
 
-  /* Re-validate silently in the background (with timeout, non-blocking) */
-  _timedFetch(
-    'https://discord.com/api/v10/users/@me',
-    { headers: { 'Authorization': 'Bearer ' + token } },
-    10000
-  ).then(r => {
-    if(!r.ok) return null;
-    return r.json();
-  }).then(fresh => {
-    if(!fresh || !fresh.id) return;
-    return fetchMemberData(token).then(({ isMember: m2 }) => setDcUser(fresh, m2, null));
-  }).catch(e => {
-    console.warn('[GKG-AUTH] restoreSession background refresh failed (keeping cached):', e.message);
-  });
+  // Re-validate token silently in background
+  fetchDiscordUser(token)
+    .then(fresh => fetchMemberData(token)
+      .catch(() => ({ isMember: mem, memberObj: mData }))
+      .then(({ isMember: m2, memberObj: md2 }) => setDcUser(fresh, m2, md2)))
+    .catch(() => {
+      // Token expired — keep cached UI visible until explicit logout
+    });
 })();
 
 /* ── Dropdown toggle ─────────────────────────────────────── */
@@ -2852,12 +2790,11 @@ function populateProfileModal(user, member, mData){
     }
   }
 
-  /* ── Joined server + Position/Roles (declare elements early so they're
-     available for the non-member early-return below — fixes TDZ ReferenceError) */
+  /* ── Joined server ───────────────────────────────────── */
+  /* pmPos/pmRoles declared here so the early non-member return below can use them */
   const pmPos    = document.getElementById('pm-position');
   const pmRoles  = document.getElementById('pm-roles');
   const pmJoined = document.getElementById('pm-joined');
-
   if(pmJoined){
     if(!member){
       if(pmPos)    pmPos.textContent   = 'Not a member of the server';
@@ -3229,7 +3166,7 @@ function closeModalOutside(e){ if(e.target===document.getElementById('dc-modal-o
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeLightbox(); closeArtModal(); } });
 
 /* ════ TOAST ════ */
-let toastTimer;
+var toastTimer; // var (not let) so it is hoisted — showToast is called before this line executes
 function showToast(msg,type=''){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className='show'+(type?' '+type:'');
