@@ -2065,12 +2065,7 @@ const CFG = {
   DISCORD_CLIENT_ID: '1472093876369100820',
   GUILD_ID: '995737046725443686',
   WIDGET_API: 'https://discord.com/api/guilds/995737046725443686/widget.json',
-// ADD THIS SECTION:
-  ROLES: {
-    ADMIN: '995742535358107688', 
-    MOD:   '1001749397555654707',
-    STAFF: '995870854481203241'
-  }
+  WEBHOOK_URL: 'YOUR_WEBHOOK_URL_HERE',
 };
 
 /* ════ THEME ════ */
@@ -2386,8 +2381,7 @@ function getCurrentTab(){
 ─────────────────────────────────────────────────────────────*/
 function dcLogin(){
   localStorage.setItem('gkg-pretab', getCurrentTab());
-  // Dynamically grab the current URL to prevent URI mismatches
-  const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+  const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
   const scope       = encodeURIComponent('identify guilds');
   window.location.href =
     'https://discord.com/api/oauth2/authorize?client_id=' + CFG.DISCORD_CLIENT_ID +
@@ -2396,7 +2390,7 @@ function dcLogin(){
 
 /* ── Discord API ─────────────────────────────────────────── */
 async function fetchDiscordUser(token){
-  const r = await fetch('https://discord.com/api/v10/users/@me',
+  const r = await fetch('https://discord.com/api/users/@me',
     { headers: { Authorization: 'Bearer ' + token } });
   if(!r.ok) throw new Error('user-fetch-' + r.status);
   return r.json();
@@ -2410,7 +2404,7 @@ async function fetchDiscordUser(token){
 */
 async function fetchMemberData(token){
   try {
-    const r = await fetch('https://discord.com/api/v10/users/@me/guilds',
+    const r = await fetch('https://discord.com/api/users/@me/guilds',
       { headers: { Authorization: 'Bearer ' + token } });
     if(r.ok){
       const guilds = await r.json();
@@ -2419,9 +2413,7 @@ async function fetchMemberData(token){
         return { isMember: inGuild, memberObj: null };
       }
     }
-  } catch(e){ 
-    console.warn('fetchMemberData error:', e); 
-  }
+  } catch(e){ console.warn('fetchMemberData error:', e); }
   return { isMember: false, memberObj: null };
 }
 
@@ -2574,23 +2566,30 @@ async function doLogin(token){
 let _oauthHandled = false;
 
 (function handleOAuthRedirect(){
+  // Parse token from URL hash (Discord implicit flow)
   let token = null;
   const rawHash = window.location.hash;
-  
-  // Safely extract the token using regex
-  const hashMatch = rawHash.match(/access_token=([^&]+)/);
-  if (hashMatch) {
-    token = hashMatch[1];
-  } else {
+  if(rawHash && rawHash.length > 1){
+    const hp = new URLSearchParams(rawHash.substring(1));
+    token = hp.get('access_token');
+    // Handle Discord error redirects (e.g. user denied)
+    const err = hp.get('error');
+    if(err){
+      history.replaceState(null, null, window.location.pathname);
+      updateGateUI();
+      showToast('Discord auth cancelled.', 'err');
+      return;
+    }
+  }
+  if(!token){
     const qp = new URLSearchParams(window.location.search);
     token = qp.get('access_token') || qp.get('token');
   }
-  
   if(!token) return;
 
-  _oauthHandled = true;
+  _oauthHandled = true; // restoreSession will skip
 
-  // Wipe any stale cached data
+  // Wipe any stale cached data from previous sessions
   localStorage.removeItem('gkg-dc-user');
   localStorage.removeItem('gkg-dc-member');
   localStorage.removeItem('gkg-dc-mdata');
@@ -2599,6 +2598,7 @@ let _oauthHandled = false;
   history.replaceState(null, null, window.location.pathname);
   localStorage.setItem('gkg-dc-token', token);
 
+  // Restore previous tab if navigated away for auth
   const preTab = localStorage.getItem('gkg-pretab');
   if(preTab && typeof activateTab === 'function') activateTab(preTab, false, false);
 
