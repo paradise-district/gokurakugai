@@ -276,11 +276,7 @@ p{line-height:1.8;}
 #prof-modal::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
 
 /* Banner */
-.pm-banner{
-  height:130px;
-  background:linear-gradient(135deg,var(--crimson-deep) 0%,var(--crimson) 55%,#1a0303 100%);
-  position:relative;overflow:hidden;
-}
+.pm-banner{height:180px;background:linear-gradient(135deg,var(--crimson-deep) 0%,var(--crimson) 55%,#1a0303 100%);position:relative;overflow:hidden;}
 [data-theme="light"] .pm-banner{background:linear-gradient(135deg,#7a0e0e 0%,var(--crimson) 55%,#4a0808 100%);}
 .pm-banner-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:none;}
 .pm-close{
@@ -696,6 +692,11 @@ p{line-height:1.8;}
 /* ════════════════════════════════════════
    INFO
 ════════════════════════════════════════ */
+  /* Separator between @username and ID */
+.pm-pipe {
+  color: var(--text-muted);font-size: .8rem; margin: 0 .25rem;}
+/* Member badge text uppercase */
+.pm-member-badge {text-transform: uppercase;}
 .sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:.72rem;}
 .sl{display:flex;align-items:center;gap:.72rem;padding:.72rem .95rem;background:var(--surface);border:1px solid var(--hr);color:var(--text);transition:all .2s;font-size:.86rem;}
 .sl:hover{border-color:var(--accent);background:var(--surface2);color:var(--accent);transform:translateX(3px);}
@@ -1217,17 +1218,11 @@ p{line-height:1.8;}
             <div class="dc-dot" id="dc-dot" style="display:none" title="Server Member"></div>
           </div>
           <!-- Mini dropdown: Profile + Logout only -->
-          <div class="dc-dd" id="dc-dd">
-            <button class="dc-dd-item" id="dc-profile-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              Profile
-            </button>
-            <div class="dc-dd-sep"></div>
-            <button class="dc-dd-item dc-out" id="dc-logout">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              Logout
-            </button>
-          </div>
+         <div class="dc-dd" id="dc-dd">
+  <button class="dc-dd-item" id="dc-profile-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
+  <div class="dc-dd-sep"></div>
+  <button class="dc-dd-item dc-out" id="dc-logout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</button>
+</div>
         </div>
 
         <!-- ═══ PROFILE MODAL ═══ -->
@@ -1250,9 +1245,10 @@ p{line-height:1.8;}
             <div class="pm-body">
               <div class="pm-displayname" id="pm-displayname">—</div>
               <div class="pm-sub">
-                <span id="pm-username">@—</span>
-                <span class="pm-uid" id="pm-uid">—</span>
-              </div>
+  <span id="pm-username">@—</span>
+  <span class="pm-pipe">|</span>
+  <span class="pm-uid" id="pm-uid">—</span>
+</div>
               <div class="pm-divider"></div>
               <!-- Info rows -->
               <div class="pm-info-grid">
@@ -2741,12 +2737,10 @@ function populateProfileModal(user, member, mData){
   const badgeWrap = document.getElementById('pm-badge-wrap');
   if(badgeWrap){
     if(member){
-      badgeWrap.innerHTML =
-        '<span class="pm-member-badge pm-badge-yes">✓&nbsp;Verified Member</span>';
-    } else {
-      badgeWrap.innerHTML =
-        '<span class="pm-member-badge pm-badge-no">✕&nbsp;Not a Member</span>';
-    }
+  badgeWrap.innerHTML = '<span class="pm-member-badge pm-badge-yes">✓&nbsp;Verified Member</span>';
+} else {
+  badgeWrap.innerHTML = '<span class="pm-member-badge pm-badge-no">✕&nbsp;Not a member of the server</span>';
+}
   }
 
   /* ── Names ───────────────────────────────────────────── */
@@ -2774,8 +2768,11 @@ function populateProfileModal(user, member, mData){
   const pmJoined = document.getElementById('pm-joined');
   if(pmJoined){
     if(!member){
-      pmJoined.textContent = 'Not a member of this server';
-    } else if(mData && mData.joined_at){
+  if(pmPos) pmPos.textContent = 'Not a member of the server';
+  if(pmRoles) pmRoles.innerHTML =
+    '<span style="font-size:.85rem;color:var(--text-muted);">Not a member of the server</span>';
+  return;
+} else if(mData && mData.joined_at){
       const jd = new Date(mData.joined_at);
       pmJoined.textContent = jd.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
     } else {
