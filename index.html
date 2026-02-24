@@ -244,7 +244,7 @@ p{line-height:1.8;}
 #prof-ov{
   position:fixed;inset:0;z-index:9999;
   display:none;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.72);
+  background:rgba(0,0,0,.75);
   backdrop-filter:blur(18px) saturate(1.5);
   -webkit-backdrop-filter:blur(18px) saturate(1.5);
   padding:1rem;box-sizing:border-box;overflow-y:auto;
@@ -381,11 +381,11 @@ p{line-height:1.8;}
   display:flex;align-items:center;gap:.48rem;
   font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
   color:#fff;background:#1a0808;
-  border:1px solid rgba(255,255,255,.12);border-radius:6px;
-  padding:.52rem 1.1rem;cursor:pointer;transition:all .18s;
+  border:1px solid rgba(255,255,255,.1);border-radius:6px;
+  padding:.54rem 1.15rem;cursor:pointer;transition:all .18s;
 }
-.pm-logout-btn:hover{background:#2d0c0c;border-color:rgba(239,68,68,.5);color:#fca5a5;}
-[data-theme="light"] .pm-logout-btn{color:#fff;background:#1a0505;border-color:rgba(139,26,26,.3);}
+.pm-logout-btn:hover{background:#2d0c0c;border-color:rgba(239,68,68,.45);color:#fca5a5;}
+[data-theme="light"] .pm-logout-btn{color:#fff;background:#1a0505;border-color:rgba(0,0,0,.18);}
 [data-theme="light"] .pm-logout-btn:hover{background:#2d0808;border-color:#b91c1c;}
 
 
@@ -2387,46 +2387,60 @@ function dcLogin(){
 
 /* ── Discord API ─────────────────────────────────────────── */
 
-/* Resolves with the fetch result or rejects after `ms` milliseconds.
-   Prevents the login sequence from hanging indefinitely on slow/dropped connections. */
-function _fetchWithTimeout(resource, options, ms = 10000){
-  const controller = new AbortController();
-  const tid = setTimeout(() => controller.abort(), ms);
-  return fetch(resource, { ...options, signal: controller.signal })
-    .finally(() => clearTimeout(tid));
+/* Promise.race-based timeout. Rejects with err.isTimeout=true after ms.
+   More universally supported than AbortController across all browsers. */
+function _race(fetchPromise, ms){
+  return Promise.race([
+    fetchPromise,
+    new Promise((_, rej) => setTimeout(() => {
+      const e = new Error('Request timed out after ' + ms + 'ms');
+      e.isTimeout = true;
+      rej(e);
+    }, ms))
+  ]);
 }
 
 async function fetchDiscordUser(token){
-  const r = await _fetchWithTimeout(
-    'https://discord.com/api/users/@me',
-    { headers: { Authorization: 'Bearer ' + token } },
-    9000
-  );
-  if(!r.ok) throw new Error('user-fetch-' + r.status);
-  return r.json();
+  let r;
+  try {
+    r = await _race(
+      fetch('https://discord.com/api/users/@me', { headers: { Authorization: 'Bearer ' + token } }),
+      12000
+    );
+  } catch(e){
+    if(e.isTimeout){ const t=new Error('Identity fetch timed out'); t.isTimeout=true; throw t; }
+    throw e;
+  }
+  if(r.status === 401 || r.status === 403){
+    const e = new Error('Unauthorized (' + r.status + ')'); e.isAuth = true; throw e;
+  }
+  if(!r.ok) throw new Error('Discord API HTTP ' + r.status);
+  const user = await r.json();
+  if(!user || !user.id) throw new Error('Discord returned empty user object');
+  return user;
 }
 
 /* Returns { isMember, memberObj }
    Uses /users/@me/guilds (requires 'guilds' scope).
-   memberObj will be null — joined_at and role IDs are only
-   available via guilds.members.read (privileged, needs verification).
-   Position/roles in the profile modal will fall back to inference.
+   Non-fatal: always returns a result even if the request fails.
 */
 async function fetchMemberData(token){
   try {
-    const r = await _fetchWithTimeout(
-      'https://discord.com/api/users/@me/guilds',
-      { headers: { Authorization: 'Bearer ' + token } },
-      8000
+    const r = await _race(
+      fetch('https://discord.com/api/users/@me/guilds', { headers: { Authorization: 'Bearer ' + token } }),
+      10000
     );
     if(r.ok){
       const guilds = await r.json();
       if(Array.isArray(guilds)){
-        const inGuild = guilds.some(g => g.id === CFG.GUILD_ID);
+        // Compare as strings — Discord IDs may arrive as strings or numbers
+        const inGuild = guilds.some(g => String(g.id) === String(CFG.GUILD_ID));
         return { isMember: inGuild, memberObj: null };
       }
+    } else {
+      console.warn('[GKG] fetchMemberData: HTTP', r.status);
     }
-  } catch(e){ console.warn('fetchMemberData error:', e); }
+  } catch(e){ console.warn('[GKG] fetchMemberData failed (non-fatal):', e.message); }
   return { isMember: false, memberObj: null };
 }
 
@@ -2531,45 +2545,77 @@ function updateGateUI(){
 
 /* ── Full login sequence ─────────────────────────────────── */
 async function doLogin(token){
-  // Show nav loading state — hide login btn, show spinner chip
   const loginBtn = document.getElementById('dc-login-btn');
   const userWrap = document.getElementById('dc-user-wrap');
   const avPh     = document.getElementById('dc-av-ph');
   const uname    = document.getElementById('dc-uname');
+
+  // Show loading chip immediately (synchronous — before any await)
   if(loginBtn) loginBtn.style.display = 'none';
   if(userWrap) userWrap.style.display = 'block';
   if(avPh)    { avPh.textContent = '…'; avPh.style.display = 'flex'; }
   if(uname)     uname.textContent = '…';
 
-  try {
-    // Fetch user identity first — this is all we need for basic login
-    const user = await fetchDiscordUser(token);
+  /* ─── ABSOLUTE SAFETY NET ──────────────────────────────────
+     If nothing resolves within 25 s (race timeout + JSON parse),
+     guarantee the UI returns to a usable state. This prevents the
+     "stuck forever on Logging you in…" state under any circumstance.
+  ──────────────────────────────────────────────────────────── */
+  const safetyId = setTimeout(() => {
+    console.error('[GKG] doLogin: 25 s safety timer fired — forcing cleanup');
+    if(loginBtn) loginBtn.style.display = 'flex';
+    if(userWrap) userWrap.style.display = 'none';
+    if(avPh)    avPh.style.display = 'none';
+    dcUser = null; isMember = false; memberData = null;
+    updateGateUI();
+    showToast('Login timed out — please try again.', 'err');
+  }, 25000);
 
-    // Then check membership (won't break login even if it fails)
+  try {
+    console.log('[GKG] doLogin: requesting identity…');
+    const user = await fetchDiscordUser(token);
+    console.log('[GKG] doLogin: got user', user.username || user.id);
+
     let mem = false, memberObj = null;
     try {
+      console.log('[GKG] doLogin: checking membership…');
       const md = await fetchMemberData(token);
       mem = md.isMember;
       memberObj = md.memberObj;
-    } catch(e){ console.warn('Membership check failed:', e); }
+      console.log('[GKG] doLogin: isMember =', mem);
+    } catch(e){ console.warn('[GKG] doLogin: membership check failed (non-fatal):', e.message); }
+
+    clearTimeout(safetyId);
+
+    // Persist valid token for session restore on next page load
+    localStorage.setItem('gkg-dc-token', token);
 
     setDcUser(user, mem, memberObj);
     showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
 
   } catch(err){
-    console.error('Discord login error:', err);
-    // Clean up nav loading state
+    clearTimeout(safetyId);
+    console.error('[GKG] doLogin error:', err.message, err);
+
+    // Restore login button no matter what
     if(loginBtn) loginBtn.style.display = 'flex';
     if(userWrap) userWrap.style.display = 'none';
-    // Clear bad token
-    localStorage.removeItem('gkg-dc-token');
-    localStorage.removeItem('gkg-dc-user');
-    localStorage.removeItem('gkg-dc-member');
-    localStorage.removeItem('gkg-dc-mdata');
+    if(avPh)    avPh.style.display = 'none';
+
+    // Only clear token on definitive auth failures (401/403).
+    // Keep token on network errors so session restore can retry later.
+    if(err.isAuth){
+      localStorage.removeItem('gkg-dc-token');
+      localStorage.removeItem('gkg-dc-user');
+      localStorage.removeItem('gkg-dc-member');
+      localStorage.removeItem('gkg-dc-mdata');
+    }
     dcUser = null; isMember = false; memberData = null;
     updateGateUI();
-    const isTimeout = err.name === 'AbortError' || (err.message||'').includes('timed out');
-    showToast(isTimeout ? 'Login timed out — please try again.' : 'Login failed — please try again.', 'err');
+
+    if(err.isTimeout)     showToast('Login timed out — check your connection and try again.', 'err');
+    else if(err.isAuth)   showToast('Session expired — please log in again.', 'err');
+    else                  showToast('Login failed — please try again.', 'err');
   }
 }
 
@@ -2782,18 +2828,17 @@ function populateProfileModal(user, member, mData){
     }
   }
 
-  /* ── Position + Roles elements (declared here so they are
-     available for the early non-member exit below as well) ─ */
-  const pmPos   = document.getElementById('pm-position');
-  const pmRoles = document.getElementById('pm-roles');
-
   /* ── Joined server ───────────────────────────────────── */
+  /* Declare pmPos/pmRoles here so they're in scope for the
+     early non-member return below (fixes ReferenceError TDZ). */
+  const pmPos    = document.getElementById('pm-position');
+  const pmRoles  = document.getElementById('pm-roles');
   const pmJoined = document.getElementById('pm-joined');
+
   if(pmJoined){
     if(!member){
-      if(pmPos)   pmPos.textContent = 'Not a member of the server';
-      if(pmRoles) pmRoles.innerHTML =
-        '<span style="font-size:.85rem;color:var(--text-muted);">Not a member of the server</span>';
+      if(pmPos)   pmPos.textContent  = 'Not a member of the server';
+      if(pmRoles) pmRoles.innerHTML  = '<span style="font-size:.85rem;color:var(--text-muted);">Not a member of the server</span>';
       if(pmJoined) pmJoined.textContent = 'N/A';
       return;
     } else if(mData && mData.joined_at){
