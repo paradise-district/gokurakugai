@@ -2373,11 +2373,16 @@ function getCurrentTab(){
   return 'about';
 }
 
-/* ── Login redirect ──────────────────────────────────────── */
+/* ── Login redirect ──────────────────────────────────────────
+   SCOPE: only 'identify guilds' — guilds.members.read is a
+   privileged scope requiring Discord app verification and
+   breaks the implicit flow for unverified apps.
+   The guilds list is sufficient to check server membership.
+─────────────────────────────────────────────────────────────*/
 function dcLogin(){
   localStorage.setItem('gkg-pretab', getCurrentTab());
   const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
-  const scope = encodeURIComponent('identify guilds guilds.members.read');
+  const scope       = encodeURIComponent('identify guilds');
   window.location.href =
     'https://discord.com/api/oauth2/authorize?client_id=' + CFG.DISCORD_CLIENT_ID +
     '&redirect_uri=' + redirectUri + '&response_type=token&scope=' + scope;
@@ -2391,31 +2396,24 @@ async function fetchDiscordUser(token){
   return r.json();
 }
 
-/* Returns { isMember, memberObj } — memberObj has joined_at and roles[] */
+/* Returns { isMember, memberObj }
+   Uses /users/@me/guilds (requires 'guilds' scope).
+   memberObj will be null — joined_at and role IDs are only
+   available via guilds.members.read (privileged, needs verification).
+   Position/roles in the profile modal will fall back to inference.
+*/
 async function fetchMemberData(token){
   try {
-    // Try direct member endpoint first (needs guilds.members.read scope)
-    const r = await fetch('https://discord.com/api/users/@me/guilds/' + CFG.GUILD_ID + '/member',
+    const r = await fetch('https://discord.com/api/users/@me/guilds',
       { headers: { Authorization: 'Bearer ' + token } });
     if(r.ok){
-      const data = await r.json();
-      return { isMember: true, memberObj: data };
-    }
-    if(r.status === 404) return { isMember: false, memberObj: null };
-    // 403 = scope missing — fall back to guilds list
-  } catch(e){}
-  // Fallback: check via guilds list
-  try {
-    const r2 = await fetch('https://discord.com/api/users/@me/guilds',
-      { headers: { Authorization: 'Bearer ' + token } });
-    if(r2.ok){
-      const guilds = await r2.json();
+      const guilds = await r.json();
       if(Array.isArray(guilds)){
         const inGuild = guilds.some(g => g.id === CFG.GUILD_ID);
         return { isMember: inGuild, memberObj: null };
       }
     }
-  } catch(e){}
+  } catch(e){ console.warn('fetchMemberData error:', e); }
   return { isMember: false, memberObj: null };
 }
 
@@ -2520,62 +2518,133 @@ function updateGateUI(){
 
 /* ── Full login sequence ─────────────────────────────────── */
 async function doLogin(token){
+  // Show nav loading state — hide login btn, show spinner chip
+  const loginBtn = document.getElementById('dc-login-btn');
+  const userWrap = document.getElementById('dc-user-wrap');
+  const avPh     = document.getElementById('dc-av-ph');
+  const uname    = document.getElementById('dc-uname');
+  if(loginBtn) loginBtn.style.display = 'none';
+  if(userWrap) userWrap.style.display = 'block';
+  if(avPh)    { avPh.textContent = '…'; avPh.style.display = 'flex'; }
+  if(uname)     uname.textContent = '…';
+
   try {
-    const [user, { isMember: mem, memberObj }] = await Promise.all([
-      fetchDiscordUser(token),
-      fetchMemberData(token).catch(() => ({ isMember: false, memberObj: null }))
-    ]);
+    // Fetch user identity first — this is all we need for basic login
+    const user = await fetchDiscordUser(token);
+
+    // Then check membership (won't break login even if it fails)
+    let mem = false, memberObj = null;
+    try {
+      const md = await fetchMemberData(token);
+      mem = md.isMember;
+      memberObj = md.memberObj;
+    } catch(e){ console.warn('Membership check failed:', e); }
+
     setDcUser(user, mem, memberObj);
-    showToast('Welcome, '+(user.global_name||user.username||'there')+'! ✦');
+    showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
+
   } catch(err){
     console.error('Discord login error:', err);
+    // Clean up nav loading state
+    if(loginBtn) loginBtn.style.display = 'flex';
+    if(userWrap) userWrap.style.display = 'none';
+    // Clear bad token
     localStorage.removeItem('gkg-dc-token');
+    localStorage.removeItem('gkg-dc-user');
+    localStorage.removeItem('gkg-dc-member');
+    localStorage.removeItem('gkg-dc-mdata');
+    dcUser = null; isMember = false; memberData = null;
     updateGateUI();
     showToast('Login failed — please try again.', 'err');
   }
 }
 
-/* ── OAuth redirect handler ──────────────────────────────── */
+/* ── OAuth redirect handler ──────────────────────────────────
+   Runs once when Discord redirects back with #access_token=...
+   Sets a flag so restoreSession knows to stand down.
+─────────────────────────────────────────────────────────────*/
+let _oauthHandled = false;
+
 (function handleOAuthRedirect(){
+  // Parse token from URL hash (Discord implicit flow)
   let token = null;
   const rawHash = window.location.hash;
   if(rawHash && rawHash.length > 1){
     const hp = new URLSearchParams(rawHash.substring(1));
     token = hp.get('access_token');
+    // Handle Discord error redirects (e.g. user denied)
+    const err = hp.get('error');
+    if(err){
+      history.replaceState(null, null, window.location.pathname);
+      updateGateUI();
+      showToast('Discord auth cancelled.', 'err');
+      return;
+    }
   }
   if(!token){
     const qp = new URLSearchParams(window.location.search);
     token = qp.get('access_token') || qp.get('token');
   }
   if(!token) return;
+
+  _oauthHandled = true; // restoreSession will skip
+
+  // Wipe any stale cached data from previous sessions
+  localStorage.removeItem('gkg-dc-user');
+  localStorage.removeItem('gkg-dc-member');
+  localStorage.removeItem('gkg-dc-mdata');
+
+  // Clean the URL immediately
   history.replaceState(null, null, window.location.pathname);
   localStorage.setItem('gkg-dc-token', token);
+
+  // Restore previous tab if navigated away for auth
   const preTab = localStorage.getItem('gkg-pretab');
   if(preTab && typeof activateTab === 'function') activateTab(preTab, false, false);
+
   showToast('Logging you in…');
   doLogin(token);
 })();
 
-/* ── Restore session on page reload ─────────────────────── */
+/* ── Restore session on page reload ─────────────────────────
+   Runs on every normal page load (not after OAuth redirect).
+─────────────────────────────────────────────────────────────*/
 (function restoreSession(){
+  // Stand down if handleOAuthRedirect is already running a fresh login
+  if(_oauthHandled) return;
+
   const token   = localStorage.getItem('gkg-dc-token');
   const rawUser = localStorage.getItem('gkg-dc-user');
-  if(!token || !rawUser || rawUser === 'null') { updateGateUI(); return; }
+  if(!token || !rawUser || rawUser === 'null'){ updateGateUI(); return; }
+
   let user = null;
   try { user = JSON.parse(rawUser); } catch(e){}
-  if(!user || !user.id) { updateGateUI(); return; }
-  const mem     = localStorage.getItem('gkg-dc-member') === '1';
-  const rawMD   = localStorage.getItem('gkg-dc-mdata');
+
+  // Reject placeholder/corrupt data — real Discord snowflakes are 17-19 digits
+  if(!user || !user.id || !/^\d{15,20}$/.test(String(user.id))){
+    localStorage.removeItem('gkg-dc-user');
+    localStorage.removeItem('gkg-dc-member');
+    localStorage.removeItem('gkg-dc-mdata');
+    updateGateUI();
+    return;
+  }
+
+  const mem   = localStorage.getItem('gkg-dc-member') === '1';
+  const rawMD = localStorage.getItem('gkg-dc-mdata');
   let mData = null;
   try { mData = rawMD ? JSON.parse(rawMD) : null; } catch(e){}
-  // Restore immediately from cache
+
+  // Restore UI immediately from cache (no flicker)
   setDcUser(user, mem, mData);
-  // Silently refresh in background
+
+  // Re-validate token silently in background
   fetchDiscordUser(token)
     .then(fresh => fetchMemberData(token)
       .catch(() => ({ isMember: mem, memberObj: mData }))
       .then(({ isMember: m2, memberObj: md2 }) => setDcUser(fresh, m2, md2)))
-    .catch(() => {}); // keep cache if token expired
+    .catch(() => {
+      // Token expired — keep cached UI visible until explicit logout
+    });
 })();
 
 /* ── Dropdown toggle ─────────────────────────────────────── */
