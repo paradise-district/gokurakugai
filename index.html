@@ -737,37 +737,76 @@ p{line-height:1.8;}
 ════════════════════════════════════════ */
 .dc-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
 .dc-modal-ov.open{display:flex;animation:fi .22s ease;}
-.dc-staff-modal{background:var(--surface);border:1px solid rgba(255,255,255,.08);max-width:460px;width:100%;max-height:90vh;overflow-y:auto;position:relative;border-radius:6px;box-shadow:0 24px 70px rgba(0,0,0,.75);}
+.dc-staff-modal{background:var(--surface);border:1px solid rgba(255,255,255,.07);max-width:480px;width:100%;max-height:92vh;overflow-y:auto;position:relative;border-radius:10px;box-shadow:0 28px 80px rgba(0,0,0,.82);}
 .dc-staff-modal::-webkit-scrollbar{width:3px;}
 .dc-staff-modal::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
-.dc-sm-banner{height:120px;position:relative;overflow:hidden;flex-shrink:0;}
-.dc-sm-banner-img{width:100%;height:180%;object-fit:cover;filter:blur(14px) brightness(.55) saturate(1.4);transform:scale(1.2);position:absolute;top:0;left:0;}
-.dc-sm-banner-gradient{width:100%;height:100%;position:absolute;inset:0;}
-.dc-sm-close{position:absolute;top:.65rem;right:.65rem;z-index:10;background:rgba(0,0,0,.6);border:none;color:rgba(255,255,255,.7);width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .18s;}
-.dc-sm-close:hover{background:rgba(0,0,0,.85);color:#fff;}
-.dc-sm-avatar-row{display:flex;align-items:flex-start;justify-content:space-between;padding:0 1.1rem;margin-top:-46px;position:relative;z-index:2;}
-.dc-sm-avatar-wrap{position:relative;}
-.dc-sm-avatar{width:88px;height:88px;border-radius:50%;border:5px solid var(--surface);overflow:hidden;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:1.8rem;color:var(--accent);}
-.dc-sm-avatar img{width:100%;height:100%;object-fit:cover;object-position:top;}
-.dc-sm-badges{display:flex;flex-direction:column;align-items:flex-end;gap:.3rem;padding-top:.5rem;}
-.dc-sm-badge{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.1em;padding:.2rem .6rem;border:1px solid var(--accent);color:var(--accent);background:var(--tag-bg);}
-.dc-sm-body{padding:.55rem 1.1rem 1.3rem;}
-.dc-sm-name{font-family:'Cinzel',serif;font-size:1.22rem;font-weight:700;color:var(--text);letter-spacing:.04em;margin-bottom:.06rem;}
-.dc-sm-handle{font-size:.83rem;color:var(--text-muted);margin-bottom:.5rem;}
-.dc-sm-divider{height:1px;background:rgba(255,255,255,.08);margin:.7rem 0;}
-.dc-sm-label{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.2em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.28rem;}
-.dc-sm-val{font-size:.9rem;color:var(--text-dim);line-height:1.65;}
-.dc-sm-roles{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.12rem;}
-.dc-sm-role{font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;padding:.18rem .55rem;letter-spacing:.04em;border-radius:3px;}
-.dc-sm-role-admin{background:rgba(201,168,76,.2);color:#C9A84C;border:1px solid rgba(201,168,76,.45);}
-.dc-sm-role-mod{background:rgba(88,101,242,.2);color:#818cf8;border:1px solid rgba(88,101,242,.38);}
-.dc-sm-role-senior{background:rgba(123,45,139,.2);color:#c084fc;border:1px solid rgba(123,45,139,.4);}
-.dc-sm-role-creator{background:rgba(46,204,113,.2);color:#34d399;border:1px solid rgba(46,204,113,.38);}
-.dc-sm-role-founder{background:rgba(192,39,45,.2);color:#C0272D;border:1px solid rgba(192,39,45,.4);}
-.dc-sm-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
-.dc-sm-tag{padding:.18rem .55rem;border:1px solid var(--hr);font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.05em;color:var(--text-muted);}
-.dc-sm-field{margin-bottom:.9rem;}
+
+/* ── Banner ── */
+.dc-sm-banner{height:160px;position:relative;overflow:hidden;flex-shrink:0;border-radius:10px 10px 0 0;}
+.dc-sm-banner-real{width:100%;height:100%;object-fit:cover;display:block;}
+.dc-sm-banner-fallback{width:100%;height:100%;background:var(--header-bg) center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;}
+.dc-sm-banner-fallback::before{content:'';position:absolute;inset:0;backdrop-filter:blur(10px) saturate(1.3);-webkit-backdrop-filter:blur(10px) saturate(1.3);background:rgba(0,0,0,.48);}
+[data-theme="light"] .dc-sm-banner-fallback::before{background:rgba(255,240,220,.55);}
+.dc-sm-banner-nobanner{position:relative;z-index:1;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.26em;color:rgba(255,255,255,.38);text-transform:uppercase;border:1px solid rgba(255,255,255,.14);padding:.3rem .85rem;border-radius:3px;}
+[data-theme="light"] .dc-sm-banner-nobanner{color:rgba(0,0,0,.3);border-color:rgba(0,0,0,.15);}
+.dc-sm-banner-loading{width:100%;height:100%;background:var(--surface2);display:flex;align-items:center;justify-content:center;}
+.dc-sm-banner-loading::after{content:'';width:22px;height:22px;border:2px solid var(--hr);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── Close ── */
+.dc-sm-close{position:absolute;top:.7rem;right:.7rem;z-index:10;background:rgba(0,0,0,.62);border:none;color:rgba(255,255,255,.75);width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .18s;}
+.dc-sm-close:hover{background:rgba(192,39,45,.8);color:#fff;}
+
+/* ── Avatar row ── */
+.dc-sm-avatar-row{display:flex;align-items:flex-end;justify-content:space-between;padding:0 1.2rem;margin-top:-50px;position:relative;z-index:2;margin-bottom:.6rem;}
+.dc-sm-avatar-wrap{position:relative;flex-shrink:0;}
+.dc-sm-avatar{width:94px;height:94px;border-radius:50%;border:6px solid var(--surface);overflow:hidden;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:var(--accent);}
+.dc-sm-avatar img{width:100%;height:100%;object-fit:cover;}
+.dc-sm-status-dot{position:absolute;bottom:6px;right:6px;width:18px;height:18px;border-radius:50%;border:4px solid var(--surface);background:#747f8d;}
+.dc-sm-status-dot.online{background:#57F287;}
+.dc-sm-status-dot.idle{background:#FEE75C;}
+.dc-sm-status-dot.dnd{background:#ED4245;}
+
+/* ── Badges strip ── */
+.dc-sm-badges{display:flex;gap:.35rem;flex-wrap:wrap;align-items:flex-end;padding-bottom:.55rem;}
+.dc-sm-badge{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.1em;padding:.22rem .65rem;border:1px solid var(--accent);color:var(--accent);background:var(--tag-bg);border-radius:3px;}
+
+/* ── Body ── */
+.dc-sm-body{padding:.2rem 1.2rem 1.4rem;}
+.dc-sm-name{font-family:'Cinzel',serif;font-size:1.22rem;font-weight:700;color:var(--text);letter-spacing:.04em;line-height:1.2;margin-bottom:.1rem;}
+.dc-sm-handle-row{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:.1rem;}
+.dc-sm-handle{font-size:.82rem;color:var(--text-muted);}
+.dc-sm-uid{font-family:monospace;font-size:.68rem;color:var(--text-muted);background:var(--surface2);padding:.1rem .42rem;border-radius:3px;border:1px solid var(--hr);}
+.dc-sm-divider{height:1px;background:var(--hr);margin:.85rem 0;opacity:.5;}
+.dc-sm-label{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.22em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.35rem;display:block;}
+.dc-sm-val{font-size:.92rem;color:var(--text-dim);line-height:1.75;white-space:pre-wrap;}
+.dc-sm-field{margin-bottom:.85rem;}
 .dc-sm-field:last-child{margin-bottom:0;}
+
+/* ── Meta grid (age / tz / birthday) ── */
+.dc-sm-meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;}
+@media(max-width:400px){.dc-sm-meta-grid{grid-template-columns:repeat(2,1fr);}}
+.dc-sm-meta-item{background:var(--surface2);padding:.55rem .75rem;border-radius:5px;border:1px solid var(--hr);}
+.dc-sm-meta-label{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.16em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.18rem;}
+.dc-sm-meta-val{font-size:.84rem;color:var(--text);font-weight:600;}
+
+/* ── Roles ── */
+.dc-sm-roles{display:flex;flex-wrap:wrap;gap:.4rem;}
+.dc-sm-role{font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;padding:.2rem .6rem;letter-spacing:.04em;border-radius:4px;display:inline-flex;align-items:center;gap:.3rem;}
+.dc-sm-role::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.9;flex-shrink:0;}
+.dc-sm-role-admin{background:rgba(201,168,76,.18);color:#C9A84C;border:1px solid rgba(201,168,76,.4);}
+.dc-sm-role-mod{background:rgba(88,101,242,.18);color:#818cf8;border:1px solid rgba(88,101,242,.35);}
+.dc-sm-role-trialmod{background:rgba(120,160,220,.18);color:#93b4e8;border:1px solid rgba(120,160,220,.35);}
+.dc-sm-role-founder{background:rgba(192,39,45,.18);color:#e05a5f;border:1px solid rgba(192,39,45,.38);}
+.dc-sm-role-member{background:rgba(130,130,160,.15);color:#a0a0c0;border:1px solid rgba(130,130,160,.3);}
+
+/* ── Staff card dynamic avatar ── */
+.sc-av-wrap{width:100%;height:158px;overflow:hidden;position:relative;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sc-av-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:saturate(.82);transition:filter .3s,transform .5s;}
+.sc:hover .sc-av-wrap img{filter:saturate(1.1);transform:scale(1.06);}
+.sc-av-initials{font-family:'Cinzel',serif;font-size:2.5rem;font-weight:700;color:var(--accent);opacity:.7;transition:transform .5s;}
+.sc:hover .sc-av-initials{transform:scale(1.06);}
+@media(max-width:768px){.sc-av-wrap{height:140px;}}
 
 .th-img-drop{border:2px dashed var(--in-border);background:var(--in-bg);padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:border-color .2s;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .th-img-drop:hover{border-color:var(--accent);}
@@ -1804,18 +1843,18 @@ p{line-height:1.8;}
   <div class="sdiv"><span>✦</span></div>
   <div class="orn">❧ Administration ❧</div>
   <div class="staff-grid">
-    <div class="sc" onclick="openModal('m1')"><img src="assets/images/staff1.png" alt="Ichirou"><div class="sc-body"><div class="sc-role">Founder · Administrator</div><div class="sc-name">Ichirou</div><div class="sc-handle">@ichirou_gkg</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m2')"><img src="assets/images/staff2.png" alt="Shirogane"><div class="sc-body"><div class="sc-role">Co-Founder · Administrator</div><div class="sc-name">Shirogane</div><div class="sc-handle">@shirogane_gkg</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m3')"><img src="assets/images/staff8.png" alt="Kanzaki"><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">Kanzaki</div><div class="sc-handle">@kanzaki_gkg</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m1')"><div class="sc-av-wrap" id="sc-av-m1"><span class="sc-av-initials">R</span></div><div class="sc-body"><div class="sc-role">Founder · Administrator</div><div class="sc-name">RION</div><div class="sc-handle">@jetnoire</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m2')"><div class="sc-av-wrap" id="sc-av-m2"><span class="sc-av-initials">A</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">ANDY</div><div class="sc-handle">@resoluteroyalty</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m3')"><div class="sc-av-wrap" id="sc-av-m3"><span class="sc-av-initials">T</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">TORTOL</div><div class="sc-handle">@tortilinni</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m4')"><div class="sc-av-wrap" id="sc-av-m4"><span class="sc-av-initials">R</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">rwottenhrts</div><div class="sc-handle">@rwottenhrts</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m5')"><div class="sc-av-wrap" id="sc-av-m5"><span class="sc-av-initials">N</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">NAZARETH</div><div class="sc-handle">@thenazar3th</div></div><button class="sc-view">View Profile</button></div>
   </div>
   <div class="orn">❧ Moderation Team ❧</div>
   <div class="staff-grid">
-    <div class="sc" onclick="openModal('m4')"><img src="assets/images/staff3.png" alt="Shiro"><div class="sc-body"><div class="sc-role">Senior Moderator</div><div class="sc-name">Shiro</div><div class="sc-handle">@shiro_gkg</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m5')"><img src="assets/images/staff4.png" alt="Nagi"><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">Nagi</div><div class="sc-handle">@nagi_gkg</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m6')"><img src="assets/images/staff5.png" alt="Shinju"><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">Shinju</div><div class="sc-handle">@shinju_gkg</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m7')"><img src="assets/images/staff6.png" alt="Kurona"><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">Kurona</div><div class="sc-handle">@kurona_gkg</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m8')"><img src="assets/images/staff7.png" alt="Momo"><div class="sc-body"><div class="sc-role">Content Creator</div><div class="sc-name">Momo</div><div class="sc-handle">@momo_gkg</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m9')"><img src="assets/images/staff9.png" alt="Yomi"><div class="sc-body"><div class="sc-role">Content Creator</div><div class="sc-name">Yomi</div><div class="sc-handle">@yomi_gkg</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m6')"><div class="sc-av-wrap" id="sc-av-m6"><span class="sc-av-initials">A</span></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">AKKI</div><div class="sc-handle">@siakki</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m7')"><div class="sc-av-wrap" id="sc-av-m7"><span class="sc-av-initials">M</span></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">MOON</div><div class="sc-handle">@vyrmoon</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m8')"><div class="sc-av-wrap" id="sc-av-m8"><span class="sc-av-initials">S</span></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">SPRING</div><div class="sc-handle">@userspring</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m9')"><div class="sc-av-wrap" id="sc-av-m9"><span class="sc-av-initials">A</span></div><div class="sc-body"><div class="sc-role">Trial Moderator</div><div class="sc-name">ARABELLA</div><div class="sc-handle">@ara679</div></div><button class="sc-view">View Profile</button></div>
   </div>
 
   <!-- Join Staff -->
@@ -1901,48 +1940,59 @@ p{line-height:1.8;}
 <!-- ════ DISCORD-STYLE STAFF MODAL ════ -->
 <div class="dc-modal-ov" id="dc-modal-ov" onclick="closeModalOutside(event)">
   <div class="dc-staff-modal" id="dc-staff-modal">
+    <!-- Banner -->
     <div class="dc-sm-banner" id="dc-sm-banner">
-      <img id="dc-sm-banner-img" src="" alt="" class="dc-sm-banner-img" style="display:none;">
-      <div class="dc-sm-banner-gradient" id="dc-sm-banner-gradient"></div>
+      <div class="dc-sm-banner-loading" id="dc-sm-banner-loading"></div>
+      <img id="dc-sm-banner-real" src="" alt="" class="dc-sm-banner-real" style="display:none;" crossorigin="anonymous">
+      <div class="dc-sm-banner-fallback" id="dc-sm-banner-fallback" style="display:none;">
+        <span class="dc-sm-banner-nobanner">No Banner Detected</span>
+      </div>
     </div>
     <button class="dc-sm-close" onclick="closeModal()"><svg class="icon" style="width:14px;height:14px;"><use href="#i-x"/></svg></button>
+    <!-- Avatar + badges row -->
     <div class="dc-sm-avatar-row">
       <div class="dc-sm-avatar-wrap">
         <div class="dc-sm-avatar" id="dc-sm-avatar"></div>
+        <div class="dc-sm-status-dot" id="dc-sm-status-dot"></div>
       </div>
       <div class="dc-sm-badges" id="dc-sm-badges"></div>
     </div>
+    <!-- Body -->
     <div class="dc-sm-body">
       <div class="dc-sm-name" id="dc-sm-name"></div>
-      <div class="dc-sm-handle" id="dc-sm-handle"></div>
-      <div class="dc-sm-divider"></div>
-      <div class="dc-sm-field" id="dc-sm-role-field">
-        <div class="dc-sm-label">COMMUNITY ROLE</div>
-        <div class="dc-sm-val" id="dc-sm-role-val"></div>
+      <div class="dc-sm-handle-row">
+        <span class="dc-sm-handle" id="dc-sm-handle"></span>
+        <span class="dc-sm-uid" id="dc-sm-uid"></span>
       </div>
+      <div class="dc-sm-divider"></div>
+      <!-- Roles -->
       <div class="dc-sm-field">
-        <div class="dc-sm-label">ROLES</div>
+        <span class="dc-sm-label">Roles</span>
         <div class="dc-sm-roles" id="dc-sm-roles"></div>
       </div>
       <div class="dc-sm-divider"></div>
+      <!-- Meta: Age / Timezone / Birthday -->
       <div class="dc-sm-field">
-        <div class="dc-sm-label">ABOUT</div>
+        <div class="dc-sm-meta-grid" id="dc-sm-meta-grid">
+          <div class="dc-sm-meta-item">
+            <div class="dc-sm-meta-label">Age</div>
+            <div class="dc-sm-meta-val" id="dc-sm-age"></div>
+          </div>
+          <div class="dc-sm-meta-item">
+            <div class="dc-sm-meta-label">Timezone</div>
+            <div class="dc-sm-meta-val" id="dc-sm-tz"></div>
+          </div>
+          <div class="dc-sm-meta-item">
+            <div class="dc-sm-meta-label">Birthday</div>
+            <div class="dc-sm-meta-val" id="dc-sm-bday"></div>
+          </div>
+        </div>
+      </div>
+      <div class="dc-sm-divider"></div>
+      <!-- About Me -->
+      <div class="dc-sm-field">
+        <span class="dc-sm-label">About Me</span>
         <div class="dc-sm-val" id="dc-sm-about"></div>
-      </div>
-      <div class="dc-sm-divider"></div>
-      <div class="dc-sm-field">
-        <div class="dc-sm-label">RESPONSIBILITIES</div>
-        <div class="dc-sm-val" id="dc-sm-resp"></div>
-      </div>
-      <div class="dc-sm-divider"></div>
-      <div class="dc-sm-field">
-        <div class="dc-sm-label">FAVORITE ASPECT OF GOKURAKUGAI</div>
-        <div class="dc-sm-val" id="dc-sm-fav"></div>
-      </div>
-      <div class="dc-sm-divider"></div>
-      <div class="dc-sm-field">
-        <div class="dc-sm-label">SPECIALTIES</div>
-        <div class="dc-sm-tags" id="dc-sm-tags"></div>
       </div>
     </div>
   </div>
@@ -2150,6 +2200,7 @@ function _activateTabOnly(tabId,scroll){
   document.querySelectorAll('.tab').forEach(l=>{if(l.dataset.tab===tabId)l.classList.add('active');});
   if(scroll){const nav=document.getElementById('nav')||document.getElementById('mob-bar');if(nav)window.scrollTo({top:nav.offsetTop-2,behavior:'smooth'});}
   if(tabId==='theories')loadDiscordWidget();
+  if(tabId==='staff')loadStaffAvatars();
 }
 
 /* Activate a subsection without touching hash */
@@ -3081,103 +3132,243 @@ async function submitApplication(e){
 
 /* ════ DISCORD-STYLE STAFF MODALS ════ */
 const STAFF_DATA={
-  m1:{img:'assets/images/staff1.png',role:'Founder · Administrator',name:'Ichirou',handle:'@ichirou_gkg',
-    roleTag:'founder',badges:['Founder','Admin'],
-    about:'Ichirou founded the Gokurakugai Fan Community after discovering the series during its oneshot debut in 2020. A lifelong manga reader with a particular love for dark fantasy and atmospheric storytelling, they built this community from the ground up with the vision of creating a respectful, passionate, and creatively vibrant space for fans worldwide.',
-    resp:'Oversees all aspects of community operation, sets long-term direction, manages staff team, handles escalated moderation cases, manages official partnerships and collaborations.',
-    fav:'The relationship between Tao and Alma — specifically the way Sano conveys their dynamic through body language and visual storytelling rather than exposition.',
-    tags:['Community Design','Moderation Policy','Partnerships','Long-form Analysis']},
-  m2:{img:'assets/images/staff2.png',role:'Co-Founder · Administrator',name:'Shirogane',handle:'@shirogane_gkg',
-    roleTag:'founder',badges:['Co-Founder','Admin'],
-    about:'Shirogane joined Ichirou as co-founder in the community\'s earliest days, bringing expertise in community management and a deep encyclopedic knowledge of the manga. They have been instrumental in shaping the community\'s culture of thoughtful, evidence-based discussion.',
-    resp:'Co-administers the community alongside Ichirou, manages the Discord server structure and channels, leads the theory and discussion culture, oversees event planning.',
-    fav:'The worldbuilding. The way Sano has constructed the district as a living ecosystem of supernatural and human elements, with its own internal logic and history, is genuinely remarkable.',
-    tags:['Worldbuilding Deep Dives','Discord Management','Event Planning','Theory Curation']},
-  m3:{img:'assets/images/staff8.png',role:'Administrator',name:'Kanzaki',handle:'@kanzaki_gkg',
-    roleTag:'admin',badges:['Admin'],
-    about:'Kanzaki joined the staff team as a moderator and quickly rose to administrator thanks to their exceptional consistency, level-headedness under pressure, and deep familiarity with community management challenges.',
-    resp:'Handles day-to-day server administration, manages moderation escalations, maintains community documentation and rules, onboards new staff members.',
-    fav:'The antagonists. Sano writes villains with genuine menace and internal logic — they\'re not evil for evil\'s sake, they have coherent worldviews that happen to collide catastrophically with the protagonists.',
-    tags:['Escalation Management','Staff Training','Documentation','Conflict Resolution']},
-  m4:{img:'assets/images/staff3.png',role:'Senior Moderator',name:'Shiro',handle:'@shiro_gkg',
-    roleTag:'senior',badges:['Senior Mod'],
-    about:'Shiro has been a community member since near the beginning and earned the Senior Moderator role through consistent, fair, and thorough moderation. Known for their patient and measured approach to difficult situations, Shiro serves as a mentor to newer moderators.',
-    resp:'Moderates all primary community channels, mentors junior moderators, handles spoiler violations and content flags, assists with event moderation.',
-    fav:'The art direction. Every chapter has at least one panel that stops me completely — Sano\'s use of negative space and shadow to create atmosphere is unlike anything else in current shōnen.',
-    tags:['Channel Moderation','Spoiler Enforcement','Mentorship','Visual Analysis']},
-  m5:{img:'assets/images/staff4.png',role:'Moderator',name:'Nagi',handle:'@nagi_gkg',
-    roleTag:'mod',badges:['Moderator'],
-    about:'Nagi brings a warm and welcoming energy to the moderation team, specializing in community engagement and making new members feel at home. Their approachable style helps de-escalate tensions before they become major issues.',
-    resp:'Moderates community channels with a focus on tone and culture, welcomes new members, maintains community engagement, handles low-to-medium tier moderation cases.',
-    fav:'Alma, obviously. Her character writing is so carefully balanced — genuinely terrifying potential, genuine sweetness, genuine loneliness. She\'s the emotional core of the whole series.',
-    tags:['Community Engagement','New Member Welcome','Culture Maintenance']},
-  m6:{img:'assets/images/staff5.png',role:'Moderator',name:'Shinju',handle:'@shinju_gkg',
-    roleTag:'mod',badges:['Moderator'],
-    about:'Shinju is the community\'s fan art and aesthetics enthusiast — bringing a creative eye to content curation and maintaining the fan art channels with consistent enthusiasm.',
-    resp:'Moderates fan art and creative content channels, curates gallery content, enforces artist credit policies, assists with community events and content contests.',
-    fav:'The food. I\'m serious. Every time taiyaki appears in the manga I immediately need to eat. But also Shinju\'s restaurant scenes have some of the warmest linework in the whole series.',
-    tags:['Fan Art Curation','Artist Credit Enforcement','Content Contests','Creative Events']},
-  m7:{img:'assets/images/staff6.png',role:'Moderator',name:'Kurona',handle:'@kurona_gkg',
-    roleTag:'mod',badges:['Moderator'],
-    about:'Kurona joined the staff team with a background in online community management and brings analytical rigor to moderation decisions. Known for thorough, documented approaches to complex situations.',
-    resp:'Handles moderation escalations requiring documentation, maintains the moderation log, reviews ban appeals, enforces platform ToS compliance.',
-    fav:'The power system. The more I analyze it the more I\'m convinced Sano has everything meticulously planned — there are rules to how the supernatural works in this universe that are hinted at long before they\'re explained.',
-    tags:['Documentation','Ban Appeals','ToS Compliance','Power System Analysis']},
-  m8:{img:'assets/images/staff7.png',role:'Content Creator',name:'Momo',handle:'@momo_gkg',
-    roleTag:'creator',badges:['Content Creator'],
-    about:'Momo is the community\'s lead content creator, responsible for social media posts, graphics, and community announcements. Their eye for design has been instrumental in growing the community\'s social media presence.',
-    resp:'Creates social media content for all platforms, designs community graphics and banners, writes announcement posts, manages content calendar.',
-    fav:'The character designs. Each character is visually distinct and their outfits communicate so much about their personalities and roles before a single word of dialogue. Tao\'s whole look is just perfect.',
-    tags:['Graphic Design','Social Media','Content Calendar','Announcements']},
-  m9:{img:'assets/images/staff9.png',role:'Content Creator',name:'Yomi',handle:'@yomi_gkg',
-    roleTag:'creator',badges:['Content Creator'],
-    about:'Yomi specializes in long-form written content — analysis articles, theory write-ups, and community newsletters. Their deep readings of the manga have become some of the community\'s most-shared content.',
-    resp:'Writes featured analysis articles and theory posts, produces the community newsletter, creates long-form engagement content, assists with community documentation.',
-    fav:'The themes. Gokurakugai is fundamentally about belonging and the cost of existing outside the boundaries of what society considers acceptable.',
-    tags:['Long-form Analysis','Theory Writing','Newsletter','Community Documentation']}
+  m1:{
+    uid:'861651187949633547',
+    displayName:'RION',username:'jetnoire',
+    roles:['Founder','Admin'],roleTags:['founder','admin'],
+    age:'18+',timezone:'GMT+1 · GMT+9',birthday:'January 14',
+    about:`Hi hi! I'm Rion (jetnoire), mostly active around shonen animanga spaces and wiki projects. You can call me Rion, Jet, or just Noire if that's easier. 🖤
+
+I started editing wikis out of pure hyperfixation energy (you know how it goes). What began as simply loving a series slowly turned into diving deep into how wikis actually work. I spent weeks learning the ins and outs, from the basics of formatting to more advanced layout work using CSS and HTML, until I was confident enough to start properly revamping and organizing pages.
+
+After my first major project, I expanded into handling and managing other series as well. I'm especially drawn to shonen (with a soft spot for darker themes), though I occasionally branch out when something catches my interest. My main strength lies in designing layouts that actually *feel* like the series, matching themes, refining navigation, cleaning structures, and making everything look cohesive rather than chaotic.
+
+As I gained more experience (I'd say somewhere around that "I know what I'm doing but still learning" stage 😅), I started connecting with more editors and communities. That's when things became less of a solo project and more of a collaborative space for growth.
+
+There was also a brief "let me just try my luck" phase when I applied for the star program. The first attempt didn't go through, which honestly discouraged me a bit. But after some time (and a little push from someone who believed in me), I reapplied, and this time, it worked out. And yeah, that's me.`
+  },
+  m2:{
+    uid:'727231548255895743',
+    displayName:'ANDY',username:'resoluteroyalty',
+    roles:['Admin'],roleTags:['admin'],
+    age:'18+',timezone:'CET',birthday:'August 13',
+    about:`I am a dedicated enthusiast and loyal administrator/moderator of the Gokurakugai manga community. I have consistently worked to foster a positive, inclusive, and engaging environment for all members.
+
+I embrace responsibility, express my views thoughtfully, and take genuine pleasure in sharing my knowledge, experiences, and advice with others.
+
+I pride myself on being proud, loyal, and honest. I derive deep satisfaction from supporting and assisting those around me.
+
+Motivated by ambition, I am committed to achieving meaningful accomplishments in the years ahead.
+
+My interests span a wide range of subjects, and I approach people, ideas, and life with a distinctive and principled perspective. While I place strong emphasis on health, success, and financial independence, I also value balance, knowing how to relax, enjoy life, and embrace moments of play and leisure.
+
+Occupation: Founder & CEO of a small company, Software Developer, Graphic Designer.
+
+Hobbies: Video games, Digital Design, Music, Content creation.
+
+Skills: Web Design, 3D Modeling, 3D Animation, Software Design, Indie Game Development, Video Editing, Image Editing, Digital Art, Music Production.
+
+Likes: Success, recognition, wealth, personal freedom, roles in leadership, profound and intellectual discussions, politics, psychology, futurism, utopian concepts, and helping others achieve their potential.
+
+Dislikes: Dishonesty, disrespect, disloyalty, low self-worth, betrayal or backstabbing, ingratitude, morally reprehensible behavior, harm to others, apathy toward important topics, and inauthenticity.`
+  },
+  m3:{
+    uid:'932931370894884924',
+    displayName:'TORTOL',username:'tortilinni',
+    roles:['Admin'],roleTags:['admin'],
+    age:'18+',timezone:'EST',birthday:'April 10',
+    about:`I am a heavy music lover, video game lover, and anime lover with the recent addiction to Gokurakugai. I also play bass.
+
+Some of my favorite bands right now include: Architects, Knocked Loose, 156/Silence, and Archspire.
+
+Some of my favorite anime include: Gachiakuta, Welcome to Demon School Iruma-Kun and Demon Slayer.
+
+What I love about Gokurakugai so far are the characters, art, concepts and world building. I'm also a big fan of the official arts and bonus panels that are blessed to us from time to time.
+
+Other: I like turtles.`
+  },
+  m4:{
+    uid:'1114585051515080704',
+    displayName:'rwottenhrts',username:'rwottenhrts',
+    roles:['Admin'],roleTags:['admin'],
+    age:'-18',timezone:'GMT+8',birthday:'December 8',
+    about:`Mostly a behind-the-scenes staff member. I've been a big fan of Gokurakugai since the very first simul-pubbed chapter and have followed up with it to this day. I enjoy volunteering, and I spend my free time playing the piano and guitar.`
+  },
+  m5:{
+    uid:'1324486337650360380',
+    displayName:'NAZARETH',username:'thenazar3th',
+    roles:['Admin'],roleTags:['admin'],
+    age:'18+',timezone:'GMT',birthday:'January 29',
+    about:`Hey! I really enjoy building communities and helping give them a strong start. I care a lot about making spaces that feel comfortable, safe, and welcoming for everyone.
+
+I love animals, and I try to live by strong ethical and moral values in how I treat both people and the world around me.
+
+I'm currently studying Dentistry, so I might be a bit busy or slow to respond sometimes, but I'm still around!
+
+I also love reading manga, manhua, manhwa, and novels, so feel free to talk to me about recommendations anytime :)`
+  },
+  m6:{
+    uid:'448594891568709652',
+    displayName:'AKKI',username:'siakki',
+    roles:['Moderator'],roleTags:['mod'],
+    age:'18+',timezone:'GMT+3',birthday:'October 19',
+    about:`Full time project manager and content editor, self taught traditional artist, spending free time at the gym, playing video games or watching anime. Love travelling, writing, collecting manga and all the cats of the world.
+
+Gokurakugai: I think the story is interesting so far, love the attention to character designs and the overall clean and pretty manga style.`
+  },
+  m7:{
+    uid:'717012902275448845',
+    displayName:'MOON',username:'vyrmoon',
+    roles:['Moderator'],roleTags:['mod'],
+    age:'-18',timezone:'GMT+3',birthday:'September 23',
+    about:`I like video editing, and designing, I'm a big fan of reading manhwa/manga.
+
+Gokurakugai: I got drawn into it mainly because of the art and covers, but I enjoy the overall theme and story too.`
+  },
+  m8:{
+    uid:'456747461323784202',
+    displayName:'SPRING',username:'userspring',
+    roles:['Moderator'],roleTags:['mod'],
+    age:'18+',timezone:'TBA',birthday:'TBA',
+    about:`To be added...`
+  },
+  m9:{
+    uid:'808887501418266624',
+    displayName:'ARABELLA',username:'ara679',
+    roles:['Trial Moderator'],roleTags:['trialmod'],
+    age:'18',timezone:'GMT-5',birthday:'September 10',
+    about:`My brother recommended I read Gokurakugai over a year ago, and I quickly fell in love with the series. I've gotten busy with school and work in the past few months but in my free time I enjoy going for walks, taking care of my many houseplants, and playing games, typically the Sims 4 or One Piece Bounty Rush.`
+  }
 };
 
-const ROLE_CLASS_MAP={founder:'dc-sm-role-founder',admin:'dc-sm-role-admin',senior:'dc-sm-role-senior',mod:'dc-sm-role-mod',creator:'dc-sm-role-creator'};
+const ROLE_CLASS_MAP={founder:'dc-sm-role-founder',admin:'dc-sm-role-admin',mod:'dc-sm-role-mod',trialmod:'dc-sm-role-trialmod',member:'dc-sm-role-member'};
 
-function openModal(id,pushHash=true){
+/* ── Discord profile cache & fetcher ──────────────────────── */
+const _dcProfileCache={};
+
+async function fetchDcProfile(uid){
+  if(_dcProfileCache[uid]) return _dcProfileCache[uid];
+  try{
+    const r=await fetch(`https://api.lanyard.rest/v1/users/${uid}`);
+    if(!r.ok) throw new Error('non-ok');
+    const j=await r.json();
+    if(!j.success) throw new Error('failed');
+    const u=j.data.discord_user;
+    const avatarHash=u.avatar;
+    const bannerHash=u.banner;
+    const isAnimAvatar=avatarHash&&avatarHash.startsWith('a_');
+    const isAnimBanner=bannerHash&&bannerHash.startsWith('a_');
+    const profile={
+      avatarUrl: avatarHash
+        ? `https://cdn.discordapp.com/avatars/${uid}/${avatarHash}.${isAnimAvatar?'gif':'png'}?size=256`
+        : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(uid)>>22n)%6}.png`,
+      bannerUrl: bannerHash
+        ? `https://cdn.discordapp.com/banners/${uid}/${bannerHash}.${isAnimBanner?'gif':'png'}?size=480`
+        : null,
+      status: j.data.discord_status||'offline'
+    };
+    _dcProfileCache[uid]=profile;
+    return profile;
+  }catch(e){
+    const profile={avatarUrl:null,bannerUrl:null,status:'offline'};
+    _dcProfileCache[uid]=profile;
+    return profile;
+  }
+}
+
+/* ── Load avatars into staff cards ──────────────────────────
+   Called once when the staff tab is first shown.
+────────────────────────────────────────────────────────────*/
+let _staffAvatarsLoaded=false;
+async function loadStaffAvatars(){
+  if(_staffAvatarsLoaded) return;
+  _staffAvatarsLoaded=true;
+  for(const[id,d] of Object.entries(STAFF_DATA)){
+    const wrap=document.getElementById(`sc-av-${id}`);
+    if(!wrap) continue;
+    fetchDcProfile(d.uid).then(p=>{
+      if(!p.avatarUrl) return;
+      const img=document.createElement('img');
+      img.alt=d.displayName;
+      img.onload=()=>{ wrap.innerHTML=''; wrap.appendChild(img); };
+      img.onerror=()=>{}; // keep initials on error
+      img.src=p.avatarUrl;
+    });
+  }
+}
+
+/* ── Open staff modal ───────────────────────────────────────*/
+async function openModal(id,pushHash=true){
   const d=STAFF_DATA[id];
-  if(!d)return;
-  
-  // Banner: use staff image as blurred banner
-  const bannerImg=document.getElementById('dc-sm-banner-img');
-  bannerImg.src=d.img;
-  bannerImg.style.display='block';
-  // Gradient overlay based on role
-  const gradMap={founder:'linear-gradient(135deg,rgba(192,39,45,.7),rgba(92,15,15,.85))',admin:'linear-gradient(135deg,rgba(201,168,76,.55),rgba(10,3,3,.8))',senior:'linear-gradient(135deg,rgba(123,45,139,.6),rgba(10,3,3,.8))',mod:'linear-gradient(135deg,rgba(88,101,242,.5),rgba(10,3,3,.8))',creator:'linear-gradient(135deg,rgba(46,204,113,.45),rgba(10,3,3,.8))'};
-  document.getElementById('dc-sm-banner-gradient').style.background=gradMap[d.roleTag]||gradMap.mod;
+  if(!d) return;
 
-  // Avatar
-  const avEl=document.getElementById('dc-sm-avatar');
-  avEl.innerHTML=`<img src="${d.img}" alt="${d.name}" style="width:100%;height:100%;object-fit:cover;object-position:top;">`;
-
-  // Badges
-  const badgesEl=document.getElementById('dc-sm-badges');
-  badgesEl.innerHTML=d.badges.map(b=>`<span class="dc-sm-badge">${escHtml(b)}</span>`).join('');
-
-  document.getElementById('dc-sm-name').textContent=d.name;
-  document.getElementById('dc-sm-handle').textContent=d.handle;
-  document.getElementById('dc-sm-role-val').textContent=d.role;
+  // Show modal immediately with static data + loading state for live parts
+  document.getElementById('dc-sm-name').textContent=d.displayName;
+  document.getElementById('dc-sm-handle').textContent=`@${d.username}`;
+  document.getElementById('dc-sm-uid').textContent=d.uid;
+  document.getElementById('dc-sm-age').textContent=d.age;
+  document.getElementById('dc-sm-tz').textContent=d.timezone;
+  document.getElementById('dc-sm-bday').textContent=d.birthday;
+  document.getElementById('dc-sm-about').textContent=d.about;
 
   // Roles
   const rolesEl=document.getElementById('dc-sm-roles');
-  rolesEl.innerHTML=d.badges.map(b=>`<span class="dc-sm-role ${ROLE_CLASS_MAP[d.roleTag]||'dc-sm-role-mod'}">${escHtml(b)}</span>`).join('');
+  rolesEl.innerHTML=d.roles.map((r,i)=>{
+    const tag=d.roleTags[i]||d.roleTags[0];
+    return `<span class="dc-sm-role ${ROLE_CLASS_MAP[tag]||'dc-sm-role-member'}">${escHtml(r)}</span>`;
+  }).join('');
 
-  document.getElementById('dc-sm-about').textContent=d.about;
-  document.getElementById('dc-sm-resp').textContent=d.resp;
-  document.getElementById('dc-sm-fav').textContent=d.fav;
+  // Badges
+  const badgesEl=document.getElementById('dc-sm-badges');
+  badgesEl.innerHTML=d.roles.map((r,i)=>{
+    const tag=d.roleTags[i]||d.roleTags[0];
+    return `<span class="dc-sm-badge">${escHtml(r)}</span>`;
+  }).join('');
 
-  const tagsEl=document.getElementById('dc-sm-tags');
-  tagsEl.innerHTML=d.tags.map(t=>`<span class="dc-sm-tag">${escHtml(t)}</span>`).join('');
+  // Avatar: show initials while loading
+  const avEl=document.getElementById('dc-sm-avatar');
+  avEl.innerHTML=`<span style="font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:var(--accent);">${escHtml(d.displayName[0])}</span>`;
+
+  // Banner: show loading state
+  document.getElementById('dc-sm-banner-loading').style.display='flex';
+  document.getElementById('dc-sm-banner-real').style.display='none';
+  document.getElementById('dc-sm-banner-fallback').style.display='none';
+
+  // Status dot default
+  const dot=document.getElementById('dc-sm-status-dot');
+  dot.className='dc-sm-status-dot';
 
   document.getElementById('dc-modal-ov').classList.add('open');
   document.body.style.overflow='hidden';
   setTimeout(()=>document.getElementById('dc-staff-modal').scrollTop=0,10);
   if(pushHash&&!_skipHashPush) history.pushState({tab:'staff',modal:id},null,buildHash('staff',id,null,null));
+
+  // Fetch live Discord data
+  const p=await fetchDcProfile(d.uid);
+
+  // Avatar
+  if(p.avatarUrl){
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>{ avEl.innerHTML=''; avEl.appendChild(img); img.style.cssText='width:100%;height:100%;object-fit:cover;'; };
+    img.src=p.avatarUrl;
+  }
+
+  // Status
+  if(p.status&&p.status!=='offline'){
+    dot.classList.add(p.status==='dnd'?'dnd':p.status==='idle'?'idle':'online');
+  }
+
+  // Banner
+  document.getElementById('dc-sm-banner-loading').style.display='none';
+  if(p.bannerUrl){
+    const bannerImg=document.getElementById('dc-sm-banner-real');
+    bannerImg.onload=()=>{ bannerImg.style.display='block'; };
+    bannerImg.onerror=()=>{ bannerImg.style.display='none'; document.getElementById('dc-sm-banner-fallback').style.display='flex'; };
+    bannerImg.src=p.bannerUrl;
+  } else {
+    document.getElementById('dc-sm-banner-fallback').style.display='flex';
+  }
 }
 function closeModal(pushHash=true){ document.getElementById('dc-modal-ov').classList.remove('open'); document.body.style.overflow=''; if(pushHash&&!_skipHashPush)history.pushState({tab:'staff'},null,buildHash('staff',null,null,null)); }
 function closeModalOutside(e){ if(e.target===document.getElementById('dc-modal-ov'))closeModal(); }
