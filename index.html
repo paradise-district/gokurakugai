@@ -800,7 +800,19 @@ p{line-height:1.8;}
 .dc-sm-role-founder{background:rgba(192,39,45,.18);color:#e05a5f;border:1px solid rgba(192,39,45,.38);}
 .dc-sm-role-member{background:rgba(130,130,160,.15);color:#a0a0c0;border:1px solid rgba(130,130,160,.3);}
 
-/* ── Staff card dynamic avatar ── */
+/* ── Live role pill (color from Discord API) ── */
+.dc-sm-role-live{
+  font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;
+  padding:.22rem .62rem;letter-spacing:.04em;border-radius:4px;
+  display:inline-flex;align-items:center;gap:.32rem;
+}
+.dc-sm-role-dot{
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  flex-shrink:0;opacity:.95;
+}
+.dc-sm-roles-loading{
+  font-size:.84rem;color:var(--text-muted);font-style:italic;
+}
 .sc-av-wrap{width:100%;height:158px;overflow:hidden;position:relative;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sc-av-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:saturate(.82);transition:filter .3s,transform .5s;}
 .sc:hover .sc-av-wrap img{filter:saturate(1.1);transform:scale(1.06);}
@@ -1971,20 +1983,20 @@ p{line-height:1.8;}
         <div class="dc-sm-roles" id="dc-sm-roles"></div>
       </div>
       <div class="dc-sm-divider"></div>
-      <!-- Meta: Age / Timezone / Birthday -->
+      <!-- Meta: Account Created / Joined Server / Position -->
       <div class="dc-sm-field">
         <div class="dc-sm-meta-grid" id="dc-sm-meta-grid">
           <div class="dc-sm-meta-item">
-            <div class="dc-sm-meta-label">Age</div>
-            <div class="dc-sm-meta-val" id="dc-sm-age"></div>
+            <div class="dc-sm-meta-label">Account Created</div>
+            <div class="dc-sm-meta-val" id="dc-sm-created">—</div>
           </div>
           <div class="dc-sm-meta-item">
-            <div class="dc-sm-meta-label">Timezone</div>
-            <div class="dc-sm-meta-val" id="dc-sm-tz"></div>
+            <div class="dc-sm-meta-label">Joined Server</div>
+            <div class="dc-sm-meta-val" id="dc-sm-joined">—</div>
           </div>
           <div class="dc-sm-meta-item">
-            <div class="dc-sm-meta-label">Birthday</div>
-            <div class="dc-sm-meta-val" id="dc-sm-bday"></div>
+            <div class="dc-sm-meta-label">Position</div>
+            <div class="dc-sm-meta-val" id="dc-sm-position">—</div>
           </div>
         </div>
       </div>
@@ -2119,6 +2131,8 @@ const CFG = {
   GUILD_ID: '995737046725443686',
   WIDGET_API: 'https://discord.com/api/guilds/995737046725443686/widget.json',
   WEBHOOK_URL: 'YOUR_WEBHOOK_URL_HERE',
+  // Cloudflare Worker proxy — replace after deploying worker.js
+  PROXY_URL: 'YOUR_WORKER_URL_HERE',
 };
 
 /* ════ THEME ════ */
@@ -3136,7 +3150,6 @@ const STAFF_DATA={
     uid:'861651187949633547',
     displayName:'RION',username:'jetnoire',
     roles:['Founder','Admin'],roleTags:['founder','admin'],
-    age:'18+',timezone:'GMT+1 · GMT+9',birthday:'January 14',
     about:`Hi hi! I'm Rion (jetnoire), mostly active around shonen animanga spaces and wiki projects. You can call me Rion, Jet, or just Noire if that's easier. 🖤
 
 I started editing wikis out of pure hyperfixation energy (you know how it goes). What began as simply loving a series slowly turned into diving deep into how wikis actually work. I spent weeks learning the ins and outs, from the basics of formatting to more advanced layout work using CSS and HTML, until I was confident enough to start properly revamping and organizing pages.
@@ -3151,7 +3164,6 @@ There was also a brief "let me just try my luck" phase when I applied for the st
     uid:'727231548255895743',
     displayName:'ANDY',username:'resoluteroyalty',
     roles:['Admin'],roleTags:['admin'],
-    age:'18+',timezone:'CET',birthday:'August 13',
     about:`I am a dedicated enthusiast and loyal administrator/moderator of the Gokurakugai manga community. I have consistently worked to foster a positive, inclusive, and engaging environment for all members.
 
 I embrace responsibility, express my views thoughtfully, and take genuine pleasure in sharing my knowledge, experiences, and advice with others.
@@ -3176,7 +3188,6 @@ Dislikes: Dishonesty, disrespect, disloyalty, low self-worth, betrayal or backst
     uid:'932931370894884924',
     displayName:'TORTOL',username:'tortilinni',
     roles:['Admin'],roleTags:['admin'],
-    age:'18+',timezone:'EST',birthday:'April 10',
     about:`I am a heavy music lover, video game lover, and anime lover with the recent addiction to Gokurakugai. I also play bass.
 
 Some of my favorite bands right now include: Architects, Knocked Loose, 156/Silence, and Archspire.
@@ -3191,14 +3202,12 @@ Other: I like turtles.`
     uid:'1114585051515080704',
     displayName:'rwottenhrts',username:'rwottenhrts',
     roles:['Admin'],roleTags:['admin'],
-    age:'-18',timezone:'GMT+8',birthday:'December 8',
     about:`Mostly a behind-the-scenes staff member. I've been a big fan of Gokurakugai since the very first simul-pubbed chapter and have followed up with it to this day. I enjoy volunteering, and I spend my free time playing the piano and guitar.`
   },
   m5:{
     uid:'1324486337650360380',
     displayName:'NAZARETH',username:'thenazar3th',
     roles:['Admin'],roleTags:['admin'],
-    age:'18+',timezone:'GMT',birthday:'January 29',
     about:`Hey! I really enjoy building communities and helping give them a strong start. I care a lot about making spaces that feel comfortable, safe, and welcoming for everyone.
 
 I love animals, and I try to live by strong ethical and moral values in how I treat both people and the world around me.
@@ -3211,7 +3220,6 @@ I also love reading manga, manhua, manhwa, and novels, so feel free to talk to m
     uid:'448594891568709652',
     displayName:'AKKI',username:'siakki',
     roles:['Moderator'],roleTags:['mod'],
-    age:'18+',timezone:'GMT+3',birthday:'October 19',
     about:`Full time project manager and content editor, self taught traditional artist, spending free time at the gym, playing video games or watching anime. Love travelling, writing, collecting manga and all the cats of the world.
 
 Gokurakugai: I think the story is interesting so far, love the attention to character designs and the overall clean and pretty manga style.`
@@ -3220,7 +3228,6 @@ Gokurakugai: I think the story is interesting so far, love the attention to char
     uid:'717012902275448845',
     displayName:'MOON',username:'vyrmoon',
     roles:['Moderator'],roleTags:['mod'],
-    age:'-18',timezone:'GMT+3',birthday:'September 23',
     about:`I like video editing, and designing, I'm a big fan of reading manhwa/manga.
 
 Gokurakugai: I got drawn into it mainly because of the art and covers, but I enjoy the overall theme and story too.`
@@ -3229,147 +3236,222 @@ Gokurakugai: I got drawn into it mainly because of the art and covers, but I enj
     uid:'456747461323784202',
     displayName:'SPRING',username:'userspring',
     roles:['Moderator'],roleTags:['mod'],
-    age:'18+',timezone:'TBA',birthday:'TBA',
     about:`To be added...`
   },
   m9:{
     uid:'808887501418266624',
     displayName:'ARABELLA',username:'ara679',
     roles:['Trial Moderator'],roleTags:['trialmod'],
-    age:'18',timezone:'GMT-5',birthday:'September 10',
     about:`My brother recommended I read Gokurakugai over a year ago, and I quickly fell in love with the series. I've gotten busy with school and work in the past few months but in my free time I enjoy going for walks, taking care of my many houseplants, and playing games, typically the Sims 4 or One Piece Bounty Rush.`
   }
 };
 
-const ROLE_CLASS_MAP={founder:'dc-sm-role-founder',admin:'dc-sm-role-admin',mod:'dc-sm-role-mod',trialmod:'dc-sm-role-trialmod',member:'dc-sm-role-member'};
+/* ════ DISCORD STAFF MODAL — WORKER-BASED LIVE DATA ════
+   Discord's API does NOT allow client-side code to look up other
+   users' avatars, banners, or guild membership using an OAuth
+   Bearer token. Bearer tokens only work for the logged-in user's
+   OWN data. To look up any other user, a Bot token is required —
+   and bot tokens must NEVER be exposed client-side.
 
-/* ── Discord profile cache & fetcher ──────────────────────── */
-const _dcProfileCache={};
+   SOLUTION: A Cloudflare Worker (worker.js, deployed separately)
+   acts as a secure proxy. It holds the bot token in a secret
+   environment variable and exposes a read-only endpoint:
 
-async function fetchDcProfile(uid){
-  if(_dcProfileCache[uid]) return _dcProfileCache[uid];
+     GET {PROXY_URL}/profile/{userId}
+
+   The Worker fetches user data, guild member data, and all roles
+   from Discord's API using the bot token, then returns a safe
+   JSON payload with avatar URL, banner URL, member info, and
+   full role list with names + colors. No secrets are exposed.
+
+   SETUP (one-time):
+   1. Deploy worker.js to Cloudflare Workers (free tier)
+   2. Add secret: wrangler secret put DISCORD_BOT_TOKEN
+   3. Set CFG.PROXY_URL to your worker URL above
+══════════════════════════════════════════════════════════ */
+
+/* ── Session cache: uid → Worker response ── */
+const _staffProfileCache = {};
+
+/* ── Format a Date as "Month D, YYYY" ── */
+function fmtDate(d){
+  if(!d) return '—';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+/* ── Fetch staff profile from Worker — always resolves ── */
+async function fetchStaffProfile(uid){
+  if(_staffProfileCache[uid] !== undefined) return _staffProfileCache[uid];
+  const url = CFG.PROXY_URL;
+  if(!url || url === 'YOUR_WORKER_URL_HERE'){
+    console.warn('[GKG] PROXY_URL not configured. Set CFG.PROXY_URL to your Cloudflare Worker URL.');
+    _staffProfileCache[uid] = null;
+    return null;
+  }
   try{
-    const r=await fetch(`https://api.lanyard.rest/v1/users/${uid}`);
-    if(!r.ok) throw new Error('non-ok');
-    const j=await r.json();
-    if(!j.success) throw new Error('failed');
-    const u=j.data.discord_user;
-    const avatarHash=u.avatar;
-    const bannerHash=u.banner;
-    const isAnimAvatar=avatarHash&&avatarHash.startsWith('a_');
-    const isAnimBanner=bannerHash&&bannerHash.startsWith('a_');
-    const profile={
-      avatarUrl: avatarHash
-        ? `https://cdn.discordapp.com/avatars/${uid}/${avatarHash}.${isAnimAvatar?'gif':'png'}?size=256`
-        : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(uid)>>22n)%6}.png`,
-      bannerUrl: bannerHash
-        ? `https://cdn.discordapp.com/banners/${uid}/${bannerHash}.${isAnimBanner?'gif':'png'}?size=480`
-        : null,
-      status: j.data.discord_status||'offline'
-    };
-    _dcProfileCache[uid]=profile;
-    return profile;
+    const r = await _timedFetch(`${url}/profile/${uid}`, {}, 12000);
+    if(!r.ok) throw new Error('proxy:'+r.status);
+    const data = await r.json();
+    _staffProfileCache[uid] = data;
+    return data;
   }catch(e){
-    const profile={avatarUrl:null,bannerUrl:null,status:'offline'};
-    _dcProfileCache[uid]=profile;
-    return profile;
+    console.warn('[GKG] fetchStaffProfile '+uid+':', e.message);
+    _staffProfileCache[uid] = null;
+    return null;
   }
 }
 
-/* ── Load avatars into staff cards ──────────────────────────
-   Called once when the staff tab is first shown.
-────────────────────────────────────────────────────────────*/
-let _staffAvatarsLoaded=false;
+/* ── Build role pill HTML with live Discord colors ── */
+function buildRolePillsHtml(roleIds, rolesMap){
+  if(!roleIds || !roleIds.length || !rolesMap){
+    return '<span class="dc-sm-roles-loading">Not a member of the server</span>';
+  }
+  const roles = roleIds
+    .map(id => rolesMap[id])
+    .filter(r => r && r.name !== '@everyone')
+    .sort((a,b) => (b.position||0) - (a.position||0));
+  if(!roles.length) return '<span class="dc-sm-roles-loading">Member</span>';
+  return roles.map(role => {
+    const c = role.colorHex;
+    const style = c
+      ? `color:${c};background:${c}1a;border:1px solid ${c}40;`
+      : `color:var(--text-muted);background:var(--surface2);border:1px solid var(--hr);`;
+    return `<span class="dc-sm-role-live" style="${style}"><span class="dc-sm-role-dot" style="background:${c||'var(--text-muted)'};"></span>${escHtml(role.name)}</span>`;
+  }).join('');
+}
+
+/* ── Show the fallback banner (site header + glass blur + label) ── */
+function showBannerFallback(){
+  document.getElementById('dc-sm-banner-loading').style.display  = 'none';
+  document.getElementById('dc-sm-banner-real').style.display     = 'none';
+  document.getElementById('dc-sm-banner-fallback').style.display = 'flex';
+}
+
+/* ── Load avatars into staff grid cards ─────────────────────────
+   Works for ALL visitors — Worker is public (read-only).
+   Staggered to stay well within rate limits.
+────────────────────────────────────────────────────────────────*/
+let _staffAvatarsLoaded = false;
 async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
-  _staffAvatarsLoaded=true;
-  for(const[id,d] of Object.entries(STAFF_DATA)){
-    const wrap=document.getElementById(`sc-av-${id}`);
+  _staffAvatarsLoaded = true;
+  const entries = Object.entries(STAFF_DATA);
+  for(let i = 0; i < entries.length; i++){
+    const [id, d] = entries[i];
+    if(i > 0) await new Promise(res => setTimeout(res, 180));
+    const wrap = document.getElementById('sc-av-'+id);
     if(!wrap) continue;
-    fetchDcProfile(d.uid).then(p=>{
-      if(!p.avatarUrl) return;
-      const img=document.createElement('img');
-      img.alt=d.displayName;
-      img.onload=()=>{ wrap.innerHTML=''; wrap.appendChild(img); };
-      img.onerror=()=>{}; // keep initials on error
-      img.src=p.avatarUrl;
+    fetchStaffProfile(d.uid).then(data => {
+      if(!data?.avatarUrl) return;
+      const img = document.createElement('img');
+      img.alt    = d.displayName;
+      img.onload = () => { wrap.innerHTML = ''; wrap.appendChild(img); };
+      img.src    = data.avatarUrl;
     });
   }
 }
 
-/* ── Open staff modal ───────────────────────────────────────*/
-async function openModal(id,pushHash=true){
-  const d=STAFF_DATA[id];
+/* ── Open staff modal ────────────────────────────────────────── */
+async function openModal(id, pushHash=true){
+  const d = STAFF_DATA[id];
   if(!d) return;
 
-  // Show modal immediately with static data + loading state for live parts
-  document.getElementById('dc-sm-name').textContent=d.displayName;
-  document.getElementById('dc-sm-handle').textContent=`@${d.username}`;
-  document.getElementById('dc-sm-uid').textContent=d.uid;
-  document.getElementById('dc-sm-age').textContent=d.age;
-  document.getElementById('dc-sm-tz').textContent=d.timezone;
-  document.getElementById('dc-sm-bday').textContent=d.birthday;
-  document.getElementById('dc-sm-about').textContent=d.about;
+  const uid = d.uid;
 
-  // Roles
-  const rolesEl=document.getElementById('dc-sm-roles');
-  rolesEl.innerHTML=d.roles.map((r,i)=>{
-    const tag=d.roleTags[i]||d.roleTags[0];
-    return `<span class="dc-sm-role ${ROLE_CLASS_MAP[tag]||'dc-sm-role-member'}">${escHtml(r)}</span>`;
-  }).join('');
+  /* Populate static fields immediately so modal feels instant */
+  document.getElementById('dc-sm-name').textContent   = d.displayName;
+  document.getElementById('dc-sm-handle').textContent = '@'+d.username;
+  document.getElementById('dc-sm-uid').textContent    = uid;
+  document.getElementById('dc-sm-about').textContent  = d.about;
 
-  // Badges
-  const badgesEl=document.getElementById('dc-sm-badges');
-  badgesEl.innerHTML=d.roles.map((r,i)=>{
-    const tag=d.roleTags[i]||d.roleTags[0];
-    return `<span class="dc-sm-badge">${escHtml(r)}</span>`;
-  }).join('');
+  /* Account created: derived from Discord snowflake — no API call */
+  const created = snowflakeToDate(uid);
+  document.getElementById('dc-sm-created').textContent = fmtDate(created);
 
-  // Avatar: show initials while loading
-  const avEl=document.getElementById('dc-sm-avatar');
-  avEl.innerHTML=`<span style="font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:var(--accent);">${escHtml(d.displayName[0])}</span>`;
+  /* Live fields: show loading placeholders */
+  document.getElementById('dc-sm-joined').textContent   = '…';
+  document.getElementById('dc-sm-position').textContent = '…';
+  document.getElementById('dc-sm-roles').innerHTML      = '<span class="dc-sm-roles-loading">Loading…</span>';
 
-  // Banner: show loading state
-  document.getElementById('dc-sm-banner-loading').style.display='flex';
-  document.getElementById('dc-sm-banner-real').style.display='none';
-  document.getElementById('dc-sm-banner-fallback').style.display='none';
+  /* Top-right badges from STAFF_DATA (always visible) */
+  document.getElementById('dc-sm-badges').innerHTML = d.roles
+    .map(r => `<span class="dc-sm-badge">${escHtml(r)}</span>`).join('');
 
-  // Status dot default
-  const dot=document.getElementById('dc-sm-status-dot');
-  dot.className='dc-sm-status-dot';
+  /* Avatar: show initial while loading */
+  const avEl = document.getElementById('dc-sm-avatar');
+  avEl.innerHTML = `<span style="font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:var(--accent);">${escHtml(d.displayName[0])}</span>`;
 
+  /* Banner: show spinner */
+  document.getElementById('dc-sm-banner-loading').style.display  = 'flex';
+  document.getElementById('dc-sm-banner-real').style.display     = 'none';
+  document.getElementById('dc-sm-banner-fallback').style.display = 'none';
+
+  /* Status dot: reset */
+  document.getElementById('dc-sm-status-dot').className = 'dc-sm-status-dot';
+
+  /* Open the modal */
   document.getElementById('dc-modal-ov').classList.add('open');
-  document.body.style.overflow='hidden';
-  setTimeout(()=>document.getElementById('dc-staff-modal').scrollTop=0,10);
-  if(pushHash&&!_skipHashPush) history.pushState({tab:'staff',modal:id},null,buildHash('staff',id,null,null));
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('dc-staff-modal').scrollTop = 0, 10);
+  if(pushHash && !_skipHashPush)
+    history.pushState({tab:'staff',modal:id}, null, buildHash('staff',id,null,null));
 
-  // Fetch live Discord data
-  const p=await fetchDcProfile(d.uid);
+  /* Fetch live data from Worker */
+  const data = await fetchStaffProfile(uid);
 
-  // Avatar
-  if(p.avatarUrl){
-    const img=new Image();
-    img.crossOrigin='anonymous';
-    img.onload=()=>{ avEl.innerHTML=''; avEl.appendChild(img); img.style.cssText='width:100%;height:100%;object-fit:cover;'; };
-    img.src=p.avatarUrl;
+  /* ── Worker unavailable / not configured ── */
+  if(!data){
+    showBannerFallback();
+    document.getElementById('dc-sm-joined').textContent   = '—';
+    document.getElementById('dc-sm-position').textContent = d.roles[0] || '—';
+    const ROLE_CLASS_MAP={founder:'dc-sm-role-founder',admin:'dc-sm-role-admin',mod:'dc-sm-role-mod',trialmod:'dc-sm-role-trialmod',member:'dc-sm-role-member'};
+    document.getElementById('dc-sm-roles').innerHTML = d.roles.map((r,i) => {
+      const tag = d.roleTags[i] || d.roleTags[0];
+      return `<span class="dc-sm-role ${ROLE_CLASS_MAP[tag]||'dc-sm-role-member'}">${escHtml(r)}</span>`;
+    }).join('');
+    return;
   }
 
-  // Status
-  if(p.status&&p.status!=='offline'){
-    dot.classList.add(p.status==='dnd'?'dnd':p.status==='idle'?'idle':'online');
-  }
-
-  // Banner
-  document.getElementById('dc-sm-banner-loading').style.display='none';
-  if(p.bannerUrl){
-    const bannerImg=document.getElementById('dc-sm-banner-real');
-    bannerImg.onload=()=>{ bannerImg.style.display='block'; };
-    bannerImg.onerror=()=>{ bannerImg.style.display='none'; document.getElementById('dc-sm-banner-fallback').style.display='flex'; };
-    bannerImg.src=p.bannerUrl;
+  /* ── Banner ── */
+  if(data.bannerUrl){
+    const bannerImg = document.getElementById('dc-sm-banner-real');
+    bannerImg.onload  = () => {
+      document.getElementById('dc-sm-banner-loading').style.display = 'none';
+      bannerImg.style.display = 'block';
+    };
+    bannerImg.onerror = () => showBannerFallback();
+    bannerImg.src = data.bannerUrl;
   } else {
-    document.getElementById('dc-sm-banner-fallback').style.display='flex';
+    showBannerFallback();
+  }
+
+  /* ── Avatar ── */
+  if(data.avatarUrl){
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      avEl.innerHTML = '';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+      avEl.appendChild(img);
+    };
+    img.src = data.avatarUrl;
+  }
+
+  /* ── Member data ── */
+  if(data.member){
+    document.getElementById('dc-sm-joined').textContent =
+      data.member.joined_at ? fmtDate(new Date(data.member.joined_at)) : '—';
+    document.getElementById('dc-sm-position').textContent = data.position || 'Member';
+    document.getElementById('dc-sm-roles').innerHTML =
+      buildRolePillsHtml(data.member.roles, data.rolesMap);
+  } else {
+    document.getElementById('dc-sm-joined').textContent   = 'Not a member of the server.';
+    document.getElementById('dc-sm-position').textContent = 'Not a member of the server.';
+    document.getElementById('dc-sm-roles').innerHTML =
+      '<span class="dc-sm-roles-loading">Not a member of the server.</span>';
   }
 }
+
 function closeModal(pushHash=true){ document.getElementById('dc-modal-ov').classList.remove('open'); document.body.style.overflow=''; if(pushHash&&!_skipHashPush)history.pushState({tab:'staff'},null,buildHash('staff',null,null,null)); }
 function closeModalOutside(e){ if(e.target===document.getElementById('dc-modal-ov'))closeModal(); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeLightbox(); closeArtModal(); } });
