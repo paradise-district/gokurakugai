@@ -284,8 +284,15 @@ p{line-height:1.8;}
 .pm-banner{height:180px;background:linear-gradient(135deg,var(--crimson-deep) 0%,var(--crimson) 55%,#1a0303 100%);position:relative;overflow:hidden;}
 [data-theme="light"] .pm-banner{background:linear-gradient(135deg,#7a0e0e 0%,var(--crimson) 55%,#4a0808 100%);}
 .pm-banner-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:none;}
+.pm-banner-loading{width:100%;height:100%;background:var(--surface2);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.pm-banner-loading::after{content:'';width:22px;height:22px;border:2px solid var(--hr);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+.pm-banner-fallback{width:100%;height:100%;position:absolute;inset:0;background:var(--header-bg) center/cover no-repeat;display:none;align-items:center;justify-content:center;}
+.pm-banner-fallback::before{content:'';position:absolute;inset:0;backdrop-filter:blur(10px) saturate(1.3);-webkit-backdrop-filter:blur(10px) saturate(1.3);background:rgba(0,0,0,.48);}
+[data-theme="light"] .pm-banner-fallback::before{background:rgba(255,240,220,.55);}
+.pm-banner-nobanner{position:relative;z-index:1;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.26em;color:rgba(255,255,255,.38);text-transform:uppercase;border:1px solid rgba(255,255,255,.14);padding:.3rem .85rem;border-radius:3px;}
+[data-theme="light"] .pm-banner-nobanner{color:rgba(0,0,0,.3);border-color:rgba(0,0,0,.15);}
 .pm-close{
-  position:absolute;top:.65rem;right:.7rem;z-index:2;
+  position:absolute;top:.65rem;right:.7rem;z-index:10;
   background:rgba(0,0,0,.5);border:none;color:#fff;
   cursor:pointer;border-radius:50%;width:28px;height:28px;
   display:flex;align-items:center;justify-content:center;
@@ -1296,7 +1303,11 @@ p{line-height:1.8;}
   <div id="prof-modal">
     <!-- Banner -->
     <div class="pm-banner" id="pm-banner">
-      <img class="pm-banner-img" id="pm-banner-img" src="" alt="">
+      <div class="pm-banner-loading" id="pm-banner-loading"></div>
+      <img class="pm-banner-img" id="pm-banner-img" src="" alt="" style="display:none;" crossorigin="anonymous">
+      <div class="pm-banner-fallback" id="pm-banner-fallback" style="display:none;">
+        <span class="pm-banner-nobanner">No Banner Detected</span>
+      </div>
       <button class="pm-close" onclick="closeProfile()" title="Close">✕</button>
     </div>
     <!-- Avatar + member badge row -->
@@ -1319,6 +1330,12 @@ p{line-height:1.8;}
       <!-- Info rows -->
       <div class="pm-info-grid">
         <div class="pm-info-row">
+          <div class="pm-info-label">Roles</div>
+          <div class="pm-roles-wrap" id="pm-roles">
+            <span class="pm-info-val">—</span>
+          </div>
+        </div>
+        <div class="pm-info-row">
           <div class="pm-info-label">Account Created</div>
           <div class="pm-info-val" id="pm-created">—</div>
         </div>
@@ -1329,12 +1346,6 @@ p{line-height:1.8;}
         <div class="pm-info-row">
           <div class="pm-info-label">Position</div>
           <div class="pm-info-val" id="pm-position">—</div>
-        </div>
-        <div class="pm-info-row">
-          <div class="pm-info-label">Roles</div>
-          <div class="pm-roles-wrap" id="pm-roles">
-            <span class="pm-info-val">—</span>
-          </div>
         </div>
       </div>
     </div>
@@ -2136,7 +2147,7 @@ const CFG = {
   WIDGET_API: 'https://discord.com/api/guilds/995737046725443686/widget.json',
   WEBHOOK_URL: 'YOUR_WEBHOOK_URL_HERE',
   // Cloudflare Worker proxy — replace after deploying worker.js
-  PROXY_URL: 'https://gkg-discord.gokurakugai.workers.dev',
+  PROXY_URL: 'YOUR_WORKER_URL_HERE',
 };
 
 /* ════ THEME ════ */
@@ -2449,15 +2460,15 @@ function getCurrentTab(){
 }
 
 /* ── Login redirect ──────────────────────────────────────────
-   SCOPE: only 'identify guilds' — guilds.members.read is a
-   privileged scope requiring Discord app verification and
-   breaks the implicit flow for unverified apps.
-   The guilds list is sufficient to check server membership.
+   SCOPE: identify + guilds + guilds.members.read
+   guilds.members.read allows /users/@me/guilds/:id/member
+   which returns the user's full member object (roles, joined_at)
+   without needing a bot token.
 ─────────────────────────────────────────────────────────────*/
 function dcLogin(){
   localStorage.setItem('gkg-pretab', getCurrentTab());
   const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
-  const scope       = encodeURIComponent('identify guilds');
+  const scope       = encodeURIComponent('identify guilds guilds.members.read');
   window.location.href =
     'https://discord.com/api/oauth2/authorize?client_id=' + CFG.DISCORD_CLIENT_ID +
     '&redirect_uri=' + redirectUri + '&response_type=token&scope=' + scope;
@@ -2494,13 +2505,29 @@ async function fetchDiscordUser(token){
 /* Always resolves — never throws. Returns { isMember, memberObj }. */
 async function fetchMemberData(token){
   try {
+    // First check guild membership via guilds list
     const r = await _timedFetch('https://discord.com/api/users/@me/guilds',
                 { headers: { Authorization: 'Bearer ' + token } }, 10000);
     if(r.ok){
       const guilds = await r.json();
       if(Array.isArray(guilds)){
         const inGuild = guilds.some(g => String(g.id) === String(CFG.GUILD_ID));
-        return { isMember: inGuild, memberObj: null };
+        if(!inGuild) return { isMember: false, memberObj: null };
+
+        // Member confirmed — now fetch full member object (roles, joined_at, nick, avatar)
+        // Requires guilds.members.read scope
+        try {
+          const mr = await _timedFetch(
+            'https://discord.com/api/users/@me/guilds/' + CFG.GUILD_ID + '/member',
+            { headers: { Authorization: 'Bearer ' + token } }, 10000
+          );
+          if(mr.ok){
+            const memberObj = await mr.json();
+            return { isMember: true, memberObj };
+          }
+        } catch(me){ console.warn('[GKG] fetchMemberObj (non-fatal):', me.message); }
+
+        return { isMember: true, memberObj: null };
       }
     }
   } catch(e){ console.warn('[GKG] fetchMemberData (non-fatal):', e.message); }
@@ -2775,12 +2802,6 @@ document.getElementById('dc-profile-btn')?.addEventListener('click', e => {
   openProfile();
 });
 
-function openProfile(){
-  if(!dcUser) return;
-  populateProfileModal(dcUser, isMember, memberData);
-  document.getElementById('prof-ov').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
 function closeProfile(){
   document.getElementById('prof-ov').classList.remove('open');
   document.body.style.overflow = '';
@@ -2799,189 +2820,250 @@ function roleColor(hexColor){
   return hex;
 }
 
-function getPosition(roles){
-  // roles = array of role objects from the member endpoint
-  if(!roles || !roles.length) return 'Member';
-  const names = roles.map(r => (r.name||'').toLowerCase());
-  if(names.some(n => n.includes('owner') || n.includes('founder'))) return 'Owner / Founder';
+/* ── Show the profile banner fallback ── */
+function showPmBannerFallback(){
+  const loading  = document.getElementById('pm-banner-loading');
+  const real     = document.getElementById('pm-banner-img');
+  const fallback = document.getElementById('pm-banner-fallback');
+  if(loading)  loading.style.display  = 'none';
+  if(real)     real.style.display     = 'none';
+  if(fallback) fallback.style.display = 'flex';
+}
+
+/* ── Determine position from role names ── */
+function getPositionFromRoles(roleNames){
+  const names = roleNames.map(n => n.toLowerCase());
+  if(names.some(n => n.includes('owner') || n.includes('founder'))) return 'Owner';
   if(names.some(n => n.includes('admin'))) return 'Administrator';
-  if(names.some(n => n.includes('senior mod') || n.includes('senior'))) return 'Senior Moderator';
+  if(names.some(n => n.includes('senior mod') || n.includes('seniormoder'))) return 'Senior Moderator';
   if(names.some(n => n.includes('mod'))) return 'Moderator';
   if(names.some(n => n.includes('staff') || n.includes('team'))) return 'Staff';
   if(names.some(n => n.includes('content') || n.includes('creator'))) return 'Content Creator';
   return 'Member';
 }
 
-function populateProfileModal(user, member, mData){
-  if(!user) return;
+/* ── Determine position from permissions integer ── */
+function getPositionFromPerms(permsStr, roleNames){
+  try {
+    const p = BigInt(permsStr || '0');
+    const ADMINISTRATOR  = 8n;
+    const MANAGE_GUILD   = 32n;
+    const MANAGE_MESSAGES = 8192n;
+    if((p & ADMINISTRATOR) === ADMINISTRATOR) return 'Administrator';
+    if((p & MANAGE_GUILD)  === MANAGE_GUILD)  return 'Moderator';
+    if((p & MANAGE_MESSAGES) === MANAGE_MESSAGES) return 'Moderator';
+  } catch(e){}
+  return getPositionFromRoles(roleNames);
+}
 
-  /* ── Banner ──────────────────────────────────────────── */
-  const bannerImg = document.getElementById('pm-banner-img');
-  const bannerEl  = document.getElementById('pm-banner');
-  if(bannerImg && bannerEl){
-    if(user.banner){
-      const ext = user.banner.startsWith('a_') ? 'gif' : 'png';
-      bannerImg.src = 'https://cdn.discordapp.com/banners/'+user.id+'/'+user.banner+'.'+ext+'?size=960';
-      bannerImg.style.display = 'block';
-      bannerEl.style.background = 'transparent';
-    } else {
-      bannerImg.style.display = 'none';
-      bannerEl.style.background = user.banner_color
-        ? user.banner_color
-        : '';  // falls back to CSS gradient
-    }
-  }
+function openProfile(){
+  if(!dcUser) return;
 
-  /* ── Avatar ──────────────────────────────────────────── */
+  /* ── Set up immediate static content ── */
+  const modal = document.getElementById('prof-modal');
+
+  // Banner: show spinner while we fetch
+  const pmBannerLoading  = document.getElementById('pm-banner-loading');
+  const pmBannerImg      = document.getElementById('pm-banner-img');
+  const pmBannerFallback = document.getElementById('pm-banner-fallback');
+  if(pmBannerLoading)  pmBannerLoading.style.display  = 'flex';
+  if(pmBannerImg)      pmBannerImg.style.display      = 'none';
+  if(pmBannerFallback) pmBannerFallback.style.display = 'none';
+
+  // Avatar: show initial while loading
   const pmAv = document.getElementById('pm-av');
-  if(pmAv){
-    if(user.avatar){
-      pmAv.innerHTML = '<img src="https://cdn.discordapp.com/avatars/'+user.id+'/'+user.avatar
-        +(user.avatar.startsWith('a_') ? '.gif' : '.png')+'?size=256" alt="" loading="lazy">';
-    } else {
-      pmAv.innerHTML = '';
-      pmAv.textContent = (user.global_name || user.username || '?')[0].toUpperCase();
-    }
+  if(pmAv) pmAv.innerHTML = `<span style="font-family:'Cinzel',serif;font-size:2rem;color:var(--accent);">${(dcUser.global_name||dcUser.username||'?')[0].toUpperCase()}</span>`;
+
+  // Static name fields
+  const pmDn  = document.getElementById('pm-displayname');
+  const pmUn  = document.getElementById('pm-username');
+  const pmUid = document.getElementById('pm-uid');
+  if(pmDn)  pmDn.textContent  = dcUser.global_name || dcUser.username || '—';
+  if(pmUn)  pmUn.textContent  = '@' + (dcUser.username || '—');
+  if(pmUid) pmUid.textContent = dcUser.id || '—';
+
+  // Account created from snowflake (no API needed)
+  const pmCreated = document.getElementById('pm-created');
+  if(pmCreated && dcUser.id){
+    const d = snowflakeToDate(dcUser.id);
+    pmCreated.textContent = d ? d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '—';
   }
 
-  /* ── Online dot ──────────────────────────────────────── */
-  const pmDot = document.getElementById('pm-av-dot');
-  if(pmDot) pmDot.style.display = member ? 'block' : 'none';
+  // Loading placeholders for live fields
+  const pmJoined   = document.getElementById('pm-joined');
+  const pmPosition = document.getElementById('pm-position');
+  const pmRoles    = document.getElementById('pm-roles');
+  if(pmJoined)   pmJoined.textContent   = '…';
+  if(pmPosition) pmPosition.textContent = '…';
+  if(pmRoles)    pmRoles.innerHTML      = '<span class="dc-sm-roles-loading">Loading…</span>';
 
-  /* ── Member badge ────────────────────────────────────── */
+  // Member badge
   const badgeWrap = document.getElementById('pm-badge-wrap');
   if(badgeWrap){
-    if(member){
-  badgeWrap.innerHTML = '<span class="pm-member-badge pm-badge-yes">✓&nbsp;Verified Member</span>';
-} else {
-  badgeWrap.innerHTML = '<span class="pm-member-badge pm-badge-no">✕&nbsp;Not a member of the server</span>';
-}
-  }
-
-  /* ── Names ───────────────────────────────────────────── */
-  const pmDn = document.getElementById('pm-displayname');
-  const pmUn = document.getElementById('pm-username');
-  const pmUid= document.getElementById('pm-uid');
-  if(pmDn)  pmDn.textContent  = user.global_name || user.username || '—';
-  if(pmUn)  pmUn.textContent  = '@' + (user.username || '—');
-  if(pmUid) pmUid.textContent = user.id || '—';
-
-  /* ── Account created (from snowflake) ───────────────── */
-  const pmCreated = document.getElementById('pm-created');
-  if(pmCreated){
-    if(user.id){
-      const d = snowflakeToDate(user.id);
-      pmCreated.textContent = d
-        ? d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
-        : '—';
+    if(isMember){
+      badgeWrap.innerHTML = '<span class="pm-member-badge pm-badge-yes">✓&nbsp;Verified Member</span>';
     } else {
-      pmCreated.textContent = '—';
+      badgeWrap.innerHTML = '<span class="pm-member-badge pm-badge-no">✕&nbsp;Not a member of the server</span>';
     }
   }
 
-  /* ── Joined server ───────────────────────────────────── */
-  /* pmPos/pmRoles declared here so the early non-member return can use them (fixes TDZ) */
-  const pmPos    = document.getElementById('pm-position');
-  const pmRoles  = document.getElementById('pm-roles');
-  const pmJoined = document.getElementById('pm-joined');
-  if(pmJoined){
-    if(!member){
-      if(pmPos)    pmPos.textContent    = 'Not a member of the server';
-      if(pmRoles)  pmRoles.innerHTML    = '<span style="font-size:.85rem;color:var(--text-muted);">Not a member of the server</span>';
-      if(pmJoined) pmJoined.textContent = 'N/A';
-      return;
-    } else if(mData && mData.joined_at){
-      const jd = new Date(mData.joined_at);
-      pmJoined.textContent = jd.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    } else {
-      pmJoined.textContent = 'Server member';
-    }
-  }
+  // Status dot
+  const pmDot = document.getElementById('pm-av-dot');
+  if(pmDot) pmDot.style.display = isMember ? 'block' : 'none';
 
-  /* ── Position + Roles ────────────────────────────────────
-     Discord's implicit flow (response_type=token) returns role IDs
-     via the /users/@me/guilds/:id/member endpoint when guilds.members.read
-     scope is granted.
+  // Open the modal
+  document.getElementById('prof-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => { if(modal) modal.scrollTop = 0; }, 10);
 
-     Since we only have role IDs — not names/colors — we match them
-     against SERVER_ROLE_MAP below. The site owner should populate this
-     map with real role IDs from their server (Server Settings → Roles,
-     copy the ID by right-clicking a role with Developer Mode on).
-  ────────────────────────────────────────────────────────── */
-
-  // ╔══════════════════════════════════════════════════╗
-  // ║  CONFIGURE: paste your real Discord role IDs     ║
-  // ║  Server Settings → Roles → right-click → Copy ID ║
-  // ╚══════════════════════════════════════════════════╝
-  const SERVER_ROLE_MAP = {
-    // 'ROLE_ID_HERE': { name: 'Role Name', color: '#HEX', order: 1 },
-    // Examples (replace with real IDs from your server):
-    // '995737046725443686': { name: 'Owner', color: '#e85d5d', order: 1 },
-  };
-
-  // Fallback position inference when role IDs aren't mapped
-  const POSITION_COLORS = {
-    'Owner':             '#e85d5d',
-    'Founder':           '#e85d5d',
-    'Owner / Founder':   '#e85d5d',
-    'Administrator':     '#C9A84C',
-    'Admin':             '#C9A84C',
-    'Senior Moderator':  '#a855f7',
-    'Moderator':         '#5865F2',
-    'Staff':             '#C9A84C',
-    'Content Creator':   '#2ecc71',
-    'Member':            '#818cf8',
-  };
-
-  if(!member){
-    if(pmPos)   pmPos.textContent   = 'Not a member of this server';
-    if(pmRoles) pmRoles.innerHTML   =
-      '<span style="font-size:.85rem;color:var(--text-muted);">Not a member of this server</span>';
+  /* ── Non-member fast path ── */
+  if(!isMember){
+    showPmBannerFallback();
+    // Still try to load their Discord avatar/banner via Worker
+    _loadProfileFromWorker(dcUser.id, pmAv, false);
+    if(pmJoined)   pmJoined.textContent   = 'Not a member of the server.';
+    if(pmPosition) pmPosition.textContent = 'Not a member of the server.';
+    if(pmRoles)    pmRoles.innerHTML      = '<span style="font-size:.85rem;color:var(--text-muted);">Not a member of the server.</span>';
     return;
   }
 
-  const roleIds = (mData && Array.isArray(mData.roles)) ? mData.roles : [];
+  /* ── Member: load full data from Worker ── */
+  _loadProfileFromWorker(dcUser.id, pmAv, true);
+}
 
-  // Try to match role IDs to our map first
-  const mappedRoles = roleIds
-    .map(id => SERVER_ROLE_MAP[id])
-    .filter(Boolean)
-    .sort((a,b) => (a.order||99) - (b.order||99));
+/* ── Load profile banner + avatar + roles from Worker ── */
+async function _loadProfileFromWorker(uid, avEl, isMem){
+  const pmBannerLoading  = document.getElementById('pm-banner-loading');
+  const pmBannerImg      = document.getElementById('pm-banner-img');
+  const pmJoined         = document.getElementById('pm-joined');
+  const pmPosition       = document.getElementById('pm-position');
+  const pmRoles          = document.getElementById('pm-roles');
 
-  if(mappedRoles.length > 0){
-    // We have named roles — show them
-    const top = mappedRoles[0];
-    if(pmPos) pmPos.textContent = top.name;
-    if(pmRoles){
-      pmRoles.innerHTML = mappedRoles.map(r => {
-        const c = r.color || '#818cf8';
-        return `<span class="pm-role-pill" style="color:${c};background:${c}1a;border:1px solid ${c}44">${r.name}</span>`;
-      }).join('') +
-      // Always add base Member pill
-      '<span class="pm-role-pill" style="color:#818cf8;background:#818cf81a;border:1px solid #818cf844">Member</span>';
+  const data = await fetchStaffProfile(uid);
+
+  /* ── Banner ── */
+  if(data && data.bannerUrl){
+    if(pmBannerImg){
+      pmBannerImg.onload  = () => {
+        if(pmBannerLoading) pmBannerLoading.style.display = 'none';
+        pmBannerImg.style.display = 'block';
+      };
+      pmBannerImg.onerror = () => showPmBannerFallback();
+      pmBannerImg.src = data.bannerUrl;
     }
   } else {
-    // No mapped IDs — infer position from role count
-    // More roles = higher rank in most Discord servers
-    let position = 'Member';
-    if(roleIds.length >= 5)      position = 'Administrator';
-    else if(roleIds.length >= 4) position = 'Senior Moderator';
-    else if(roleIds.length >= 3) position = 'Moderator';
-    else if(roleIds.length >= 2) position = 'Member';
-    else                         position = 'Member';
-
-    if(pmPos) pmPos.textContent = position;
-
-    const c = POSITION_COLORS[position] || '#818cf8';
-    if(pmRoles){
-      let pills = '';
-      if(position !== 'Member'){
-        pills += `<span class="pm-role-pill" style="color:${c};background:${c}1a;border:1px solid ${c}44">${position}</span>`;
-      }
-      pills += '<span class="pm-role-pill" style="color:#818cf8;background:#818cf81a;border:1px solid #818cf844">Member</span>';
-      pmRoles.innerHTML = pills;
-    }
+    showPmBannerFallback();
   }
+
+  /* ── Avatar ── */
+  if(data && data.avatarUrl && avEl){
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      avEl.innerHTML = '';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+      avEl.appendChild(img);
+    };
+    img.src = data.avatarUrl;
+  }
+
+  if(!isMem){
+    // Non-members: only banner/avatar from Worker, fields already set
+    return;
+  }
+
+  /* ── Member fields ── */
+  if(!data){
+    // Worker unavailable — use cached memberData
+    _applyMemberDataFallback();
+    return;
+  }
+
+  if(data.member){
+    // Joined server
+    if(pmJoined){
+      pmJoined.textContent = data.member.joined_at
+        ? new Date(data.member.joined_at).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
+        : '—';
+    }
+
+    // Position (from permissions if available, else from role names)
+    if(pmPosition){
+      if(data.position){
+        pmPosition.textContent = data.position;
+      } else if(data.member.roles && data.rolesMap){
+        const roleNames = data.member.roles.map(id => (data.rolesMap[id]||{}).name||'').filter(Boolean);
+        pmPosition.textContent = getPositionFromRoles(roleNames);
+      } else {
+        pmPosition.textContent = 'Member';
+      }
+    }
+
+    // Roles — full list with live Discord colors
+    if(pmRoles){
+      pmRoles.innerHTML = buildRolePillsHtml(data.member.roles, data.rolesMap);
+    }
+  } else {
+    // Worker returned data but no member object
+    if(pmJoined)   pmJoined.textContent   = '—';
+    if(pmPosition) pmPosition.textContent = 'Member';
+    if(pmRoles)    pmRoles.innerHTML      = '<span class="dc-sm-role dc-sm-role-member">Member</span>';
+  }
+}
+
+/* ── Fallback when Worker is unavailable: use cached memberData ── */
+function _applyMemberDataFallback(){
+  const pmJoined   = document.getElementById('pm-joined');
+  const pmPosition = document.getElementById('pm-position');
+  const pmRoles    = document.getElementById('pm-roles');
+
+  // Use cached banner/avatar from user object
+  const bannerLoading  = document.getElementById('pm-banner-loading');
+  const bannerImg      = document.getElementById('pm-banner-img');
+  const user = dcUser;
+  if(user && user.banner){
+    const ext = user.banner.startsWith('a_') ? 'gif' : 'png';
+    if(bannerImg){
+      bannerImg.onload  = () => { if(bannerLoading) bannerLoading.style.display='none'; bannerImg.style.display='block'; };
+      bannerImg.onerror = () => showPmBannerFallback();
+      bannerImg.src = 'https://cdn.discordapp.com/banners/'+user.id+'/'+user.banner+'.'+ext+'?size=960';
+    }
+  } else {
+    showPmBannerFallback();
+  }
+
+  // Avatar from user object
+  const pmAv = document.getElementById('pm-av');
+  if(pmAv && user && user.avatar){
+    const img = new Image();
+    img.onload = () => {
+      pmAv.innerHTML = '';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+      pmAv.appendChild(img);
+    };
+    img.src = 'https://cdn.discordapp.com/avatars/'+user.id+'/'+user.avatar
+      +(user.avatar.startsWith('a_') ? '.gif' : '.png')+'?size=256';
+  }
+
+  if(memberData && memberData.joined_at){
+    if(pmJoined) pmJoined.textContent = new Date(memberData.joined_at)
+      .toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  } else {
+    if(pmJoined) pmJoined.textContent = 'Server member';
+  }
+
+  // Position + roles from cached role IDs (no colors available without Worker)
+  const roleIds = (memberData && Array.isArray(memberData.roles)) ? memberData.roles : [];
+  if(pmPosition) pmPosition.textContent = 'Member';
+  if(pmRoles) pmRoles.innerHTML = roleIds.length
+    ? roleIds.map(() => `<span class="pm-role-pill" style="color:#818cf8;background:#818cf81a;border:1px solid #818cf844">Member</span>`).join('')
+    : '<span class="pm-role-pill" style="color:#818cf8;background:#818cf81a;border:1px solid #818cf844">Member</span>';
+}
+
+function populateProfileModal(user, member, mData){
+  // Legacy wrapper — openProfile() now handles everything
+  // This remains for any external callers
+  openProfile();
 }
 
 /* ── Logout ──────────────────────────────────────────────── */
@@ -3430,8 +3512,17 @@ async function openModal(id, pushHash=true){
   document.getElementById('dc-sm-banner-real').style.display     = 'none';
   document.getElementById('dc-sm-banner-fallback').style.display = 'none';
 
-  /* Status dot: reset */
-  document.getElementById('dc-sm-status-dot').className = 'dc-sm-status-dot';
+  /* Status dot: copy from card dot so modal matches card instantly */
+  const modalDot = document.getElementById('dc-sm-status-dot');
+  if(modalDot){
+    modalDot.className = 'dc-sm-status-dot';
+    const cardDot = document.getElementById('sc-dot-' + id);
+    if(cardDot){
+      if(cardDot.classList.contains('online')) modalDot.classList.add('online');
+      else if(cardDot.classList.contains('idle')) modalDot.classList.add('idle');
+      else if(cardDot.classList.contains('dnd'))  modalDot.classList.add('dnd');
+    }
+  }
 
   /* Open the modal */
   document.getElementById('dc-modal-ov').classList.add('open');
