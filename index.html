@@ -2565,6 +2565,7 @@ async function doLogin(token){
     localStorage.setItem('gkg-dc-token', token);
     setDcUser(user, mem, memberObj);
     showToast('Welcome, ' + (user.global_name || user.username || 'there') + '! ✦');
+    setTimeout(() => location.reload(), 1400);
   } catch(err){
     clearTimeout(safety);
     console.error('[GKG] doLogin error:', err.message);
@@ -2933,6 +2934,7 @@ function doLogout(){
   closeProfile();
   updateGateUI();
   showToast('Logged out successfully.');
+  setTimeout(() => location.reload(), 1400);
 }
 document.getElementById('dc-logout')?.addEventListener('click', doLogout);
 
@@ -3385,8 +3387,10 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
       });
       document.addEventListener('click',()=>{ cloneDcDd.classList.remove('open'); });
     }
+    const cloneProfileBtn=drawerCtrl.querySelector('#dc-profile-btn');
+    if(cloneProfileBtn){ cloneProfileBtn.addEventListener('click', e=>{ e.stopPropagation(); cloneDcDd&&cloneDcDd.classList.remove('open'); closeMobDrawer(); openProfile(); }); }
     const cloneLogout=drawerCtrl.querySelector('#dc-logout');
-    if(cloneLogout){ cloneLogout.addEventListener('click', doLogout); }
+    if(cloneLogout){ cloneLogout.addEventListener('click', ()=>{ closeMobDrawer(); doLogout(); }); }
   }
   function syncMobActive(tab){ document.querySelectorAll('.mob-nav-item').forEach(i=>i.classList.toggle('active',i.dataset.tab===tab)); }
   document.querySelectorAll('.mob-nav-item:not(.has-sub)').forEach(item=>{
