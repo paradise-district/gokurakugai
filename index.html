@@ -213,13 +213,7 @@ p{line-height:1.8;}
 
 /* ── Mini glass popout dropdown ───────────────────────── */
 .dc-dd{
-  position:fixed;
-  right:0;
-  left:0;
-  width:160px;
-  z-index:400;
-  display:none;
-
+  position:absolute;top:calc(100% + 8px);right:0;width:160px;z-index:400;display:none;
   background:var(--dd-bg, rgba(14,7,7,.86));
   backdrop-filter:blur(24px) saturate(1.6);
   -webkit-backdrop-filter:blur(24px) saturate(1.6);
@@ -227,18 +221,6 @@ p{line-height:1.8;}
   border-radius:7px;
   box-shadow:0 16px 48px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04) inset;
   overflow:hidden;
-}
-
-/* Default drop DOWN */
-.dc-dd.drop-down{
-  top:calc(100% + 8px);
-  bottom:auto;
-}
-
-/* Drop UP when needed */
-.dc-dd.drop-up{
-  bottom:calc(100% + 8px);
-  top:auto;
 }
 [data-theme="light"] .dc-dd{background:rgba(255,245,232,.92);box-shadow:0 12px 40px rgba(80,10,10,.18);}
 .dc-dd.open{display:block;animation:fadeUp .16s ease;}
@@ -3399,49 +3381,6 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
 
 // Initial gate UI
 updateGateUI();
-</script>
-<script>
-const dcBtn = document.querySelector(".dc-btn");
-const dcDropdown = document.querySelector(".dc-dd");
-
-if (dcBtn && dcDropdown) {
-
-  function openDropdown() {
-    const rect = dcBtn.getBoundingClientRect();
-    const dropdownHeight = dcDropdown.offsetHeight;
-
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const spaceAbove = rect.top;
-
-    dcDropdown.classList.add("open");
-
-    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
-      // open upward
-      dcDropdown.style.top = (rect.top - dropdownHeight - 8) + "px";
-    } else {
-      // open downward
-      dcDropdown.style.top = (rect.bottom + 8) + "px";
-    }
-
-    dcDropdown.style.left = (rect.right - dcDropdown.offsetWidth) + "px";
-  }
-
-  function closeDropdown() {
-    dcDropdown.classList.remove("open");
-  }
-
-  dcBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (dcDropdown.classList.contains("open")) {
-      closeDropdown();
-    } else {
-      openDropdown();
-    }
-  });
-
-  document.addEventListener("click", closeDropdown);
-  window.addEventListener("resize", closeDropdown);
-}
 </script>
 </body>
 </html>
