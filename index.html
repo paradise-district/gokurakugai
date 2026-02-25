@@ -818,6 +818,10 @@ p{line-height:1.8;}
 .sc:hover .sc-av-wrap img{filter:saturate(1.1);transform:scale(1.06);}
 .sc-av-initials{font-family:'Cinzel',serif;font-size:2.5rem;font-weight:700;color:var(--accent);opacity:.7;transition:transform .5s;}
 .sc:hover .sc-av-initials{transform:scale(1.06);}
+.sc-status-dot{position:absolute;bottom:7px;right:7px;width:13px;height:13px;border-radius:50%;border:3px solid var(--surface);background:#747f8d;z-index:2;transition:background .3s;}
+.sc-status-dot.online{background:#57F287;}
+.sc-status-dot.idle{background:#FEE75C;}
+.sc-status-dot.dnd{background:#ED4245;}
 @media(max-width:768px){.sc-av-wrap{height:140px;}}
 
 .th-img-drop{border:2px dashed var(--in-border);background:var(--in-bg);padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:border-color .2s;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
@@ -1855,18 +1859,18 @@ p{line-height:1.8;}
   <div class="sdiv"><span>✦</span></div>
   <div class="orn">❧ Administration ❧</div>
   <div class="staff-grid">
-    <div class="sc" onclick="openModal('m1')"><div class="sc-av-wrap" id="sc-av-m1"><span class="sc-av-initials">R</span></div><div class="sc-body"><div class="sc-role">Founder · Administrator</div><div class="sc-name">RION</div><div class="sc-handle">@jetnoire</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m2')"><div class="sc-av-wrap" id="sc-av-m2"><span class="sc-av-initials">A</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">ANDY</div><div class="sc-handle">@resoluteroyalty</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m3')"><div class="sc-av-wrap" id="sc-av-m3"><span class="sc-av-initials">T</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">TORTOL</div><div class="sc-handle">@tortilinni</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m4')"><div class="sc-av-wrap" id="sc-av-m4"><span class="sc-av-initials">R</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">rwottenhrts</div><div class="sc-handle">@rwottenhrts</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m5')"><div class="sc-av-wrap" id="sc-av-m5"><span class="sc-av-initials">N</span></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">NAZARETH</div><div class="sc-handle">@thenazar3th</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m1')"><div class="sc-av-wrap" id="sc-av-m1"><span class="sc-av-initials">R</span><div class="sc-status-dot" id="sc-dot-m1"></div></div><div class="sc-body"><div class="sc-role">Founder · Administrator</div><div class="sc-name">RION</div><div class="sc-handle">@jetnoire</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m2')"><div class="sc-av-wrap" id="sc-av-m2"><span class="sc-av-initials">A</span><div class="sc-status-dot" id="sc-dot-m2"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">ANDY</div><div class="sc-handle">@resoluteroyalty</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m3')"><div class="sc-av-wrap" id="sc-av-m3"><span class="sc-av-initials">T</span><div class="sc-status-dot" id="sc-dot-m3"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">TORTOL</div><div class="sc-handle">@tortilinni</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m4')"><div class="sc-av-wrap" id="sc-av-m4"><span class="sc-av-initials">R</span><div class="sc-status-dot" id="sc-dot-m4"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">rwottenhrts</div><div class="sc-handle">@rwottenhrts</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m5')"><div class="sc-av-wrap" id="sc-av-m5"><span class="sc-av-initials">N</span><div class="sc-status-dot" id="sc-dot-m5"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">NAZARETH</div><div class="sc-handle">@thenazar3th</div></div><button class="sc-view">View Profile</button></div>
   </div>
   <div class="orn">❧ Moderation Team ❧</div>
   <div class="staff-grid">
-    <div class="sc" onclick="openModal('m6')"><div class="sc-av-wrap" id="sc-av-m6"><span class="sc-av-initials">A</span></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">AKKI</div><div class="sc-handle">@siakki</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m7')"><div class="sc-av-wrap" id="sc-av-m7"><span class="sc-av-initials">M</span></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">MOON</div><div class="sc-handle">@vyrmoon</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m8')"><div class="sc-av-wrap" id="sc-av-m8"><span class="sc-av-initials">S</span></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">SPRING</div><div class="sc-handle">@userspring</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m9')"><div class="sc-av-wrap" id="sc-av-m9"><span class="sc-av-initials">A</span></div><div class="sc-body"><div class="sc-role">Trial Moderator</div><div class="sc-name">ARABELLA</div><div class="sc-handle">@ara679</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m6')"><div class="sc-av-wrap" id="sc-av-m6"><span class="sc-av-initials">A</span><div class="sc-status-dot" id="sc-dot-m6"></div></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">AKKI</div><div class="sc-handle">@siakki</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m7')"><div class="sc-av-wrap" id="sc-av-m7"><span class="sc-av-initials">M</span><div class="sc-status-dot" id="sc-dot-m7"></div></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">MOON</div><div class="sc-handle">@vyrmoon</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m8')"><div class="sc-av-wrap" id="sc-av-m8"><span class="sc-av-initials">S</span><div class="sc-status-dot" id="sc-dot-m8"></div></div><div class="sc-body"><div class="sc-role">Moderator</div><div class="sc-name">SPRING</div><div class="sc-handle">@userspring</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m9')"><div class="sc-av-wrap" id="sc-av-m9"><span class="sc-av-initials">A</span><div class="sc-status-dot" id="sc-dot-m9"></div></div><div class="sc-body"><div class="sc-role">Trial Moderator</div><div class="sc-name">ARABELLA</div><div class="sc-handle">@ara679</div></div><button class="sc-view">View Profile</button></div>
   </div>
 
   <!-- Join Staff -->
@@ -2132,7 +2136,7 @@ const CFG = {
   WIDGET_API: 'https://discord.com/api/guilds/995737046725443686/widget.json',
   WEBHOOK_URL: 'YOUR_WEBHOOK_URL_HERE',
   // Cloudflare Worker proxy — replace after deploying worker.js
-  PROXY_URL: 'https://gkg-discord.gokurakugai.workers.dev',
+  PROXY_URL: 'YOUR_WORKER_URL_HERE',
 };
 
 /* ════ THEME ════ */
@@ -2204,6 +2208,9 @@ function buildHash(tab,sub,detail,extra){
   if(extra!==undefined&&extra!==null)h+='/'+extra;
   return h;
 }
+
+/* ════ DISCORD WIDGET — TOTAL MEMBERS ════ */
+let widgetLoaded=false;
 
 /* Activate a tab without touching subnav or hash */
 function _activateTabOnly(tabId,scroll){
@@ -3009,7 +3016,6 @@ document.addEventListener('keydown', e => {
 });
 
 /* ════ DISCORD WIDGET — TOTAL MEMBERS ════ */
-let widgetLoaded=false;
 function loadDiscordWidget(){
   if(widgetLoaded)return;
   widgetLoaded=true;
@@ -3327,27 +3333,69 @@ function showBannerFallback(){
   document.getElementById('dc-sm-banner-fallback').style.display = 'flex';
 }
 
-/* ── Load avatars into staff grid cards ─────────────────────────
-   Works for ALL visitors — Worker is public (read-only).
+/* ── Load avatars + status dots into staff grid cards ────────────
+   Avatars: fetched via Worker proxy (real Discord CDN URLs).
+   Status:  fetched from the public Discord Widget API, which
+            returns presence (online/idle/dnd) for members who
+            have opted into widget visibility. Staff not visible
+            in the widget keep the default grey dot (unknown).
    Staggered to stay well within rate limits.
 ────────────────────────────────────────────────────────────────*/
 let _staffAvatarsLoaded = false;
 async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
   _staffAvatarsLoaded = true;
+
+  /* ── Fetch widget presence in parallel with avatars ── */
+  const widgetPromise = fetch(CFG.WIDGET_API)
+    .then(r => r.json())
+    .then(data => {
+      /* Build a map of username (lowercase) → status */
+      const presenceMap = {};
+      if(Array.isArray(data.members)){
+        for(const m of data.members){
+          if(m.username && m.status){
+            presenceMap[m.username.toLowerCase()] = m.status; // 'online'|'idle'|'dnd'
+          }
+        }
+      }
+      return presenceMap;
+    })
+    .catch(() => ({})); // widget unavailable → empty map, dots stay grey
+
   const entries = Object.entries(STAFF_DATA);
   for(let i = 0; i < entries.length; i++){
     const [id, d] = entries[i];
     if(i > 0) await new Promise(res => setTimeout(res, 180));
     const wrap = document.getElementById('sc-av-'+id);
     if(!wrap) continue;
+
+    /* Load avatar */
     fetchStaffProfile(d.uid).then(data => {
       if(!data?.avatarUrl) return;
       const img = document.createElement('img');
       img.alt    = d.displayName;
-      img.onload = () => { wrap.innerHTML = ''; wrap.appendChild(img); };
-      img.src    = data.avatarUrl;
+      img.onload = () => {
+        /* Keep the status dot when replacing innerHTML */
+        const dot = wrap.querySelector('.sc-status-dot');
+        wrap.innerHTML = '';
+        wrap.appendChild(img);
+        if(dot) wrap.appendChild(dot);
+      };
+      img.src = data.avatarUrl;
     });
+  }
+
+  /* ── Apply status dots once widget resolves ── */
+  const presenceMap = await widgetPromise;
+  for(const [id, d] of Object.entries(STAFF_DATA)){
+    const dot = document.getElementById('sc-dot-'+id);
+    if(!dot) continue;
+    const status = presenceMap[d.username.toLowerCase()];
+    if(status === 'online' || status === 'idle' || status === 'dnd'){
+      dot.classList.add(status);
+    }
+    /* else: grey dot stays — member is offline or not visible in widget */
   }
 }
 
