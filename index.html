@@ -3346,23 +3346,31 @@ async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
   _staffAvatarsLoaded = true;
 
-  /* ── Fetch widget presence in parallel with avatars ── */
-  const widgetPromise = fetch(CFG.WIDGET_API)
+  /* ── Fetch widget presence independently (fire-and-forget) ── */
+  fetch(CFG.WIDGET_API)
     .then(r => r.json())
     .then(data => {
-      /* Build a map of username (lowercase) → status */
       const presenceMap = {};
       if(Array.isArray(data.members)){
         for(const m of data.members){
           if(m.username && m.status){
-            presenceMap[m.username.toLowerCase()] = m.status; // 'online'|'idle'|'dnd'
+            presenceMap[m.username.toLowerCase()] = m.status;
           }
         }
       }
-      return presenceMap;
+      /* Apply status dots after widget resolves */
+      for(const [id, d] of Object.entries(STAFF_DATA)){
+        const dot = document.getElementById('sc-dot-'+id);
+        if(!dot) continue;
+        const status = presenceMap[d.username.toLowerCase()];
+        if(status === 'online' || status === 'idle' || status === 'dnd'){
+          dot.classList.add(status);
+        }
+      }
     })
-    .catch(() => ({})); // widget unavailable → empty map, dots stay grey
+    .catch(() => {}); // widget unavailable → dots stay grey
 
+  /* ── Load avatars staggered to stay within rate limits ── */
   const entries = Object.entries(STAFF_DATA);
   for(let i = 0; i < entries.length; i++){
     const [id, d] = entries[i];
@@ -3370,32 +3378,20 @@ async function loadStaffAvatars(){
     const wrap = document.getElementById('sc-av-'+id);
     if(!wrap) continue;
 
-    /* Load avatar */
     fetchStaffProfile(d.uid).then(data => {
       if(!data?.avatarUrl) return;
       const img = document.createElement('img');
       img.alt    = d.displayName;
       img.onload = () => {
-        /* Keep the status dot when replacing innerHTML */
+        /* Preserve the status dot element when swapping in the avatar */
         const dot = wrap.querySelector('.sc-status-dot');
         wrap.innerHTML = '';
         wrap.appendChild(img);
         if(dot) wrap.appendChild(dot);
       };
+      img.onerror = () => {}; // keep initials on failure
       img.src = data.avatarUrl;
     });
-  }
-
-  /* ── Apply status dots once widget resolves ── */
-  const presenceMap = await widgetPromise;
-  for(const [id, d] of Object.entries(STAFF_DATA)){
-    const dot = document.getElementById('sc-dot-'+id);
-    if(!dot) continue;
-    const status = presenceMap[d.username.toLowerCase()];
-    if(status === 'online' || status === 'idle' || status === 'dnd'){
-      dot.classList.add(status);
-    }
-    /* else: grey dot stays — member is offline or not visible in widget */
   }
 }
 
