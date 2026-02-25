@@ -1983,56 +1983,7 @@ p{line-height:1.8;}
 
 </main>
 
-<!-- ════ DISCORD-STYLE STAFF MODAL ════ -->
-<div class="dc-modal-ov" id="dc-modal-ov" onclick="closeModalOutside(event)">
-  <div class="dc-staff-modal" id="dc-staff-modal">
-    
-    <div class="dc-sm-banner" id="dc-sm-banner">
-      <img id="dc-sm-banner-img" src="" alt="" class="dc-sm-banner-img" style="display:none;">
-      <div class="dc-sm-banner-gradient" id="dc-sm-banner-gradient"></div>
-    </div>
 
-    <button class="dc-sm-close" onclick="closeModal()">
-      <svg class="icon" style="width:14px;height:14px;">
-        <use href="#i-x"/>
-      </svg>
-    </button>
-
-    <div class="dc-sm-avatar-row">
-      <div class="dc-sm-avatar-wrap">
-        <div class="dc-sm-avatar" id="dc-sm-avatar"></div>
-      </div>
-      <div class="dc-sm-badges" id="dc-sm-badges"></div>
-    </div>
-
-    <div class="dc-sm-body">
-
-      <div class="dc-sm-name" id="dc-sm-name"></div>
-      <div class="dc-sm-handle" id="dc-sm-handle"></div>
-
-      <div class="dc-sm-divider"></div>
-
-      <div class="dc-sm-field" id="dc-sm-role-field">
-        <div class="dc-sm-label">COMMUNITY ROLE</div>
-        <div class="dc-sm-val" id="dc-sm-role-val"></div>
-      </div>
-
-      <div class="dc-sm-field">
-        <div class="dc-sm-label">ROLES</div>
-        <div class="dc-sm-roles" id="dc-sm-roles"></div>
-      </div>
-
-      <div class="dc-sm-divider"></div>
-
-      <div class="dc-sm-field">
-        <div class="dc-sm-label">ABOUT</div>
-        <div class="dc-sm-val" id="dc-sm-about"></div>
-      </div>
-
-    </div>
-
-  </div>
-</div>
 
 <!-- ════ GALLERY LIGHTBOX ════ -->
 <div class="gal-lightbox-ov" id="gal-lightbox-ov">
@@ -3149,7 +3100,9 @@ async function submitApplication(e){
 }
 
 /* ════ DISCORD-STYLE STAFF MODALS ════ */
-const STAFF_DATA={
+<script>
+const STAFF_DATA = {
+
   m1:{
     img:'assets/images/staff1.png',
     role:'Founder · Admin',
@@ -3165,10 +3118,7 @@ After my first major project, I expanded into handling and managing other series
 
 As I gained more experience (I’d say somewhere around that “I know what I’m doing but still learning” stage 😅), I started connecting with more editors and communities. That’s when things became less of a solo project and more of a collaborative space for growth.
 
-There was also a brief “let me just try my luck” phase when I applied for the star program. The first attempt didn’t go through, which honestly discouraged me a bit. But after some time (and a little push from someone who believed in me), I reapplied, and this time, it worked out. And yeah, that’s me.`,
-    resp:'',
-    fav:'',
-    tags:[]
+There was also a brief “let me just try my luck” phase when I applied for the star program. The first attempt didn’t go through, which honestly discouraged me a bit. But after some time (and a little push from someone who believed in me), I reapplied, and this time, it worked out. And yeah, that’s me.`
   },
 
   m2:{
@@ -3202,14 +3152,11 @@ Likes:
 Success, recognition, wealth, personal freedom, roles in leadership, profound and intellectual discussions, politics, psychology, futurism, utopian concepts, and helping others achieve their potential.
 
 Dislikes:
-Dishonesty, disrespect, disloyalty, low self-worth, betrayal or backstabbing, ingratitude, morally reprehensible behavior, harm to others, apathy toward important topics, and inauthenticity.`,
-    resp:'',
-    fav:'',
-    tags:[]
+Dishonesty, disrespect, disloyalty, low self-worth, betrayal or backstabbing, ingratitude, morally reprehensible behavior, harm to others, apathy toward important topics, and inauthenticity.`
   },
 
   m3:{
-    img:'assets/images/staff8.png',
+    img:'assets/images/staff3.png',
     role:'Admin',
     name:'TORTOL',
     handle:'@tortilinni',
@@ -3223,23 +3170,17 @@ Some of my favorite anime include: Gachiakuta, Welcome to Demon School Iruma-Kun
 
 What I love about Gokurakugai so far are the characters, art, concepts and world building. I'm also a big fan of the official arts and bonus panels that are blessed to us from time to time. 
 
-Other: I like turtles`,
-    resp:'',
-    fav:'',
-    tags:[]
+Other: I like turtles`
   },
 
   m4:{
-    img:'assets/images/staff3.png',
+    img:'assets/images/staff8.png',
     role:'Admin',
     name:'rwottenhrts',
     handle:'@rwottenhrts',
     roleTag:'admin',
     badges:['Admin'],
-    about:`Mostly a behind-the-scenes staff member. I’ve been a big fan of Gokurakugai since the very first simul-pubbed chapter and have followed up with it to this day. I enjoy volunteering, and I spend my free time playing the piano and guitar.`,
-    resp:'',
-    fav:'',
-    tags:[]
+    about:`Mostly a behind-the-scenes staff member. I’ve been a big fan of Gokurakugai since the very first simul-pubbed chapter and have followed up with it to this day. I enjoy volunteering, and I spend my free time playing the piano and guitar.`
   },
 
   m5:{
@@ -3255,10 +3196,7 @@ I love animals, and I try to live by strong ethical and moral values in how I tr
 
 I’m currently studying Dentistry, so I might be a bit busy or slow to respond sometimes,but I’m still around!
 
-I also love reading manga, manhua, manhwa, and novels, so feel free to talk to me about recommendations anytime :)`,
-    resp:'',
-    fav:'',
-    tags:[]
+I also love reading manga, manhua, manhwa, and novels, so feel free to talk to me about recommendations anytime :)`
   },
 
   m6:{
@@ -3269,10 +3207,7 @@ I also love reading manga, manhua, manhwa, and novels, so feel free to talk to m
     roleTag:'mod',
     badges:['Moderator'],
     about:`Full time project manager and content editor, self taught traditional artist, spending free time at the gym, playing video games or watching anime. Love travelling, writing, collecting manga and all the cats of the world.
-Gokurakugai: I think the story is interesting so far, love the attention to character designs and the overall clean and pretty manga style.`,
-    resp:'',
-    fav:'',
-    tags:[]
+Gokurakugai: I think the story is interesting so far, love the attention to character designs and the overall clean and pretty manga style.`
   },
 
   m7:{
@@ -3283,10 +3218,7 @@ Gokurakugai: I think the story is interesting so far, love the attention to char
     roleTag:'mod',
     badges:['Moderator'],
     about:`I like video editing, and designing, I'm a big fan of reading manhwa/manga.
-Gokurakugai: I got drawn into it mainly because of the art and covers, but I enjoy the overall theme and story too.`,
-    resp:'',
-    fav:'',
-    tags:[]
+Gokurakugai: I got drawn into it mainly because of the art and covers, but I enjoy the overall theme and story too.`
   },
 
   m8:{
@@ -3296,10 +3228,7 @@ Gokurakugai: I got drawn into it mainly because of the art and covers, but I enj
     handle:'@userspring',
     roleTag:'mod',
     badges:['Moderator'],
-    about:`To be added...`,
-    resp:'',
-    fav:'',
-    tags:[]
+    about:`To be added...`
   },
 
   m9:{
@@ -3309,57 +3238,41 @@ Gokurakugai: I got drawn into it mainly because of the art and covers, but I enj
     handle:'@ara679',
     roleTag:'mod',
     badges:['Trial Moderator'],
-    about:`My brother recommended I read Gokurakugai over a year ago, and I quickly fell in love with the series. I’ve gotten busy with school and work in the past few months but in my free time I enjoy going for walks, taking care of my many houseplants, and playing games, typically the Sims 4 or One Piece Bounty Rush.`,
-    resp:'',
-    fav:'',
-    tags:[]
+    about:`My brother recommended I read Gokurakugai over a year ago, and I quickly fell in love with the series. I’ve gotten busy with school and work in the past few months but in my free time I enjoy going for walks, taking care of my many houseplants, and playing games, typically the Sims 4 or One Piece Bounty Rush.`
   }
+
 };
 
-const ROLE_CLASS_MAP={founder:'dc-sm-role-founder',admin:'dc-sm-role-admin',senior:'dc-sm-role-senior',mod:'dc-sm-role-mod',creator:'dc-sm-role-creator'};
+function openModal(id){
+  const data = STAFF_DATA[id];
+  if(!data) return;
 
-function openModal(id,pushHash=true){
-  const d=STAFF_DATA[id];
-  if(!d)return;
-  
-  // Banner: use staff image as blurred banner
-  const bannerImg=document.getElementById('dc-sm-banner-img');
-  bannerImg.src=d.img;
-  bannerImg.style.display='block';
-  // Gradient overlay based on role
-  const gradMap={founder:'linear-gradient(135deg,rgba(192,39,45,.7),rgba(92,15,15,.85))',admin:'linear-gradient(135deg,rgba(201,168,76,.55),rgba(10,3,3,.8))',senior:'linear-gradient(135deg,rgba(123,45,139,.6),rgba(10,3,3,.8))',mod:'linear-gradient(135deg,rgba(88,101,242,.5),rgba(10,3,3,.8))',creator:'linear-gradient(135deg,rgba(46,204,113,.45),rgba(10,3,3,.8))'};
-  document.getElementById('dc-sm-banner-gradient').style.background=gradMap[d.roleTag]||gradMap.mod;
+  document.getElementById('dc-sm-name').textContent = data.name;
+  document.getElementById('dc-sm-handle').textContent = data.handle;
+  document.getElementById('dc-sm-role-val').textContent = data.role;
+  document.getElementById('dc-sm-about').textContent = data.about;
 
-  // Avatar
-  const avEl=document.getElementById('dc-sm-avatar');
-  avEl.innerHTML=`<img src="${d.img}" alt="${d.name}" style="width:100%;height:100%;object-fit:cover;object-position:top;">`;
+  const badgesWrap = document.getElementById('dc-sm-badges');
+  badgesWrap.innerHTML = '';
+  data.badges.forEach(b=>{
+    const span = document.createElement('span');
+    span.textContent = b;
+    span.className = 'dc-badge';
+    badgesWrap.appendChild(span);
+  });
 
-  // Badges
-  const badgesEl=document.getElementById('dc-sm-badges');
-  badgesEl.innerHTML=d.badges.map(b=>`<span class="dc-sm-badge">${escHtml(b)}</span>`).join('');
-
-  document.getElementById('dc-sm-name').textContent=d.name;
-  document.getElementById('dc-sm-handle').textContent=d.handle;
-  document.getElementById('dc-sm-role-val').textContent=d.role;
-
-  // Roles
-  const rolesEl=document.getElementById('dc-sm-roles');
-  rolesEl.innerHTML=d.badges.map(b=>`<span class="dc-sm-role ${ROLE_CLASS_MAP[d.roleTag]||'dc-sm-role-mod'}">${escHtml(b)}</span>`).join('');
-
-  document.getElementById('dc-sm-about').textContent=d.about;
-  document.getElementById('dc-sm-resp').textContent=d.resp;
-  document.getElementById('dc-sm-fav').textContent=d.fav;
-
-  const tagsEl=document.getElementById('dc-sm-tags');
-  tagsEl.innerHTML=d.tags.map(t=>`<span class="dc-sm-tag">${escHtml(t)}</span>`).join('');
-
-  document.getElementById('dc-modal-ov').classList.add('open');
-  document.body.style.overflow='hidden';
-  setTimeout(()=>document.getElementById('dc-staff-modal').scrollTop=0,10);
-  if(pushHash&&!_skipHashPush) history.pushState({tab:'staff',modal:id},null,buildHash('staff',id,null,null));
+  document.getElementById('dc-modal-ov').style.display = 'flex';
 }
-function closeModal(pushHash=true){ document.getElementById('dc-modal-ov').classList.remove('open'); document.body.style.overflow=''; if(pushHash&&!_skipHashPush)history.pushState({tab:'staff'},null,buildHash('staff',null,null,null)); }
-function closeModalOutside(e){ if(e.target===document.getElementById('dc-modal-ov'))closeModal(); }
+
+function closeModal(){
+  document.getElementById('dc-modal-ov').style.display = 'none';
+}
+
+function closeModalOutside(e){
+  if(e.target.id === 'dc-modal-ov'){
+    closeModal();
+  }
+}
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeLightbox(); closeArtModal(); } });
 
 /* ════ TOAST ════ */
