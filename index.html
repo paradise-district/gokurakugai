@@ -825,6 +825,17 @@ p{line-height:1.8;}
 .sc:hover .sc-av-wrap img{filter:saturate(1.1);transform:scale(1.06);}
 .sc-av-initials{font-family:'Cinzel',serif;font-size:2.5rem;font-weight:700;color:var(--accent);opacity:.7;transition:transform .5s;}
 .sc:hover .sc-av-initials{transform:scale(1.06);}
+/* Live avatar image — layered over initials, fades in once decoded */
+.sc-av-live{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  filter:saturate(.82);
+  opacity:0;
+  transition:opacity .45s ease,filter .3s,transform .5s;
+  will-change:opacity;
+}
+.sc-av-live.loaded{opacity:1;}
+.sc:hover .sc-av-live{filter:saturate(1.1);}
 .sc-status-dot{position:absolute;bottom:7px;right:7px;width:13px;height:13px;border-radius:50%;border:3px solid var(--surface);background:#747f8d;z-index:2;transition:background .3s;}
 .sc-status-dot.online{background:#57F287;}
 .sc-status-dot.idle{background:#FEE75C;}
@@ -3417,42 +3428,68 @@ function showBannerFallback(){
 
 /* ── Load avatars + status dots into staff grid cards ────────────
    Avatars: fetched via Worker proxy (real Discord CDN URLs).
-   Status:  fetched from the public Discord Widget API, which
-            returns presence (online/idle/dnd) for members who
-            have opted into widget visibility. Staff not visible
-            in the widget keep the default grey dot (unknown).
-   Staggered to stay well within rate limits.
+            The image is inserted into the DOM immediately (so the
+            browser decodes it in-place) then cross-faded in once
+            loaded — no flash of blank content.
+   Status:  fetched from the public Discord Widget API.
+            IMPORTANT: the widget's `username` field is the display
+            name, NOT the handle. We match by `m.id` (user ID)
+            against STAFF_DATA[x].uid to correctly identify members.
+            Status is refreshed automatically every 60 seconds.
 ────────────────────────────────────────────────────────────────*/
 let _staffAvatarsLoaded = false;
+let _staffPresenceMap   = {}; // uid → 'online'|'idle'|'dnd'
+let _openModalStaffId   = null; // track which modal is currently open
+
+/* ── Apply widget status to all card dots (and open modal dot) ── */
+function _applyPresence(presenceMap){
+  _staffPresenceMap = presenceMap;
+  for(const [id, d] of Object.entries(STAFF_DATA)){
+    const dot = document.getElementById('sc-dot-'+id);
+    if(dot){
+      dot.className = 'sc-status-dot';                 // reset to grey
+      const s = presenceMap[d.uid];
+      if(s === 'online' || s === 'idle' || s === 'dnd') dot.classList.add(s);
+    }
+  }
+  /* Keep the open modal's status dot in sync */
+  if(_openModalStaffId){
+    const modalDot = document.getElementById('dc-sm-status-dot');
+    const d = STAFF_DATA[_openModalStaffId];
+    if(modalDot && d){
+      modalDot.className = 'dc-sm-status-dot';
+      const s = presenceMap[d.uid];
+      if(s === 'online' || s === 'idle' || s === 'dnd') modalDot.classList.add(s);
+    }
+  }
+}
+
+/* ── Single widget fetch — always resolves ── */
+function _fetchPresence(){
+  fetch(CFG.WIDGET_API)
+    .then(r => r.json())
+    .then(data => {
+      const map = {};
+      if(Array.isArray(data.members)){
+        for(const m of data.members){
+          /* Match by user ID (m.id), NOT m.username which is the display name */
+          if(m.id && m.status) map[m.id] = m.status;
+        }
+      }
+      _applyPresence(map);
+    })
+    .catch(() => {}); // widget unavailable → dots stay grey (no change)
+}
+
 async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
   _staffAvatarsLoaded = true;
 
-  /* ── Fetch widget presence independently (fire-and-forget) ── */
-  fetch(CFG.WIDGET_API)
-    .then(r => r.json())
-    .then(data => {
-      const presenceMap = {};
-      if(Array.isArray(data.members)){
-        for(const m of data.members){
-          if(m.username && m.status){
-            presenceMap[m.username.toLowerCase()] = m.status;
-          }
-        }
-      }
-      /* Apply status dots after widget resolves */
-      for(const [id, d] of Object.entries(STAFF_DATA)){
-        const dot = document.getElementById('sc-dot-'+id);
-        if(!dot) continue;
-        const status = presenceMap[d.username.toLowerCase()];
-        if(status === 'online' || status === 'idle' || status === 'dnd'){
-          dot.classList.add(status);
-        }
-      }
-    })
-    .catch(() => {}); // widget unavailable → dots stay grey
+  /* Initial status fetch + auto-refresh every 60 s */
+  _fetchPresence();
+  setInterval(_fetchPresence, 60000);
 
-  /* ── Load avatars staggered to stay within rate limits ── */
+  /* ── Load avatars — insert into DOM first, then fade in ── */
   const entries = Object.entries(STAFF_DATA);
   for(let i = 0; i < entries.length; i++){
     const [id, d] = entries[i];
@@ -3462,17 +3499,22 @@ async function loadStaffAvatars(){
 
     fetchStaffProfile(d.uid).then(data => {
       if(!data?.avatarUrl) return;
+
+      /* Create and INSERT the image before setting src so the browser
+         decodes it in-place — no innerHTML swap, no flash */
       const img = document.createElement('img');
-      img.alt    = d.displayName;
-      img.onload = () => {
-        /* Preserve the status dot element when swapping in the avatar */
-        const dot = wrap.querySelector('.sc-status-dot');
-        wrap.innerHTML = '';
-        wrap.appendChild(img);
-        if(dot) wrap.appendChild(dot);
-      };
-      img.onerror = () => {}; // keep initials on failure
-      img.src = data.avatarUrl;
+      img.className = 'sc-av-live';
+      img.alt       = d.displayName;
+      img.decoding  = 'async';
+
+      /* Place after the initials span, before the status dot */
+      const dot = wrap.querySelector('.sc-status-dot');
+      if(dot) wrap.insertBefore(img, dot);
+      else    wrap.appendChild(img);
+
+      img.onload  = () => img.classList.add('loaded'); // smooth cross-fade
+      img.onerror = () => img.remove();                // keep initials on failure
+      img.src     = data.avatarUrl;
     });
   }
 }
@@ -3512,17 +3554,26 @@ async function openModal(id, pushHash=true){
   document.getElementById('dc-sm-banner-real').style.display     = 'none';
   document.getElementById('dc-sm-banner-fallback').style.display = 'none';
 
-  /* Status dot: copy from card dot so modal matches card instantly */
+  /* Status dot: use live presence map first; fall back to copying card dot */
   const modalDot = document.getElementById('dc-sm-status-dot');
   if(modalDot){
     modalDot.className = 'dc-sm-status-dot';
-    const cardDot = document.getElementById('sc-dot-' + id);
-    if(cardDot){
-      if(cardDot.classList.contains('online')) modalDot.classList.add('online');
-      else if(cardDot.classList.contains('idle')) modalDot.classList.add('idle');
-      else if(cardDot.classList.contains('dnd'))  modalDot.classList.add('dnd');
+    const liveStatus = _staffPresenceMap[d.uid];
+    if(liveStatus === 'online' || liveStatus === 'idle' || liveStatus === 'dnd'){
+      modalDot.classList.add(liveStatus);
+    } else {
+      /* Fallback: mirror the card dot while presence map is still loading */
+      const cardDot = document.getElementById('sc-dot-' + id);
+      if(cardDot){
+        if(cardDot.classList.contains('online')) modalDot.classList.add('online');
+        else if(cardDot.classList.contains('idle')) modalDot.classList.add('idle');
+        else if(cardDot.classList.contains('dnd'))  modalDot.classList.add('dnd');
+      }
     }
   }
+
+  /* Track which staff card's modal is open (for live status refresh) */
+  _openModalStaffId = id;
 
   /* Open the modal */
   document.getElementById('dc-modal-ov').classList.add('open');
@@ -3587,7 +3638,7 @@ async function openModal(id, pushHash=true){
   }
 }
 
-function closeModal(pushHash=true){ document.getElementById('dc-modal-ov').classList.remove('open'); document.body.style.overflow=''; if(pushHash&&!_skipHashPush)history.pushState({tab:'staff'},null,buildHash('staff',null,null,null)); }
+function closeModal(pushHash=true){ _openModalStaffId = null; document.getElementById('dc-modal-ov').classList.remove('open'); document.body.style.overflow=''; if(pushHash&&!_skipHashPush)history.pushState({tab:'staff'},null,buildHash('staff',null,null,null)); }
 function closeModalOutside(e){ if(e.target===document.getElementById('dc-modal-ov'))closeModal(); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeLightbox(); closeArtModal(); } });
 
