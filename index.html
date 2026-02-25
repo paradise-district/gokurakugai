@@ -213,8 +213,9 @@ p{line-height:1.8;}
 
 /* ── Mini glass popout dropdown ───────────────────────── */
 .dc-dd{
-  position:absolute;
+  position:fixed;
   right:0;
+  left:0;
   width:160px;
   z-index:400;
   display:none;
@@ -3399,51 +3400,47 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
 // Initial gate UI
 updateGateUI();
 </script>
-
-  <script>
+<script>
 const dcBtn = document.querySelector(".dc-btn");
 const dcDropdown = document.querySelector(".dc-dd");
 
 if (dcBtn && dcDropdown) {
 
-  function positionDropdown(dropdown, trigger) {
-    dropdown.classList.remove("drop-up", "drop-down");
+  function openDropdown() {
+    const rect = dcBtn.getBoundingClientRect();
+    const dropdownHeight = dcDropdown.offsetHeight;
 
-    dropdown.style.visibility = "hidden";
-    dropdown.classList.add("open");
-
-    const rect = trigger.getBoundingClientRect();
-    const dropdownHeight = dropdown.offsetHeight;
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
 
-    dropdown.classList.remove("open");
-    dropdown.style.visibility = "";
+    dcDropdown.classList.add("open");
 
     if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
-      dropdown.classList.add("drop-up");
+      // open upward
+      dcDropdown.style.top = (rect.top - dropdownHeight - 8) + "px";
     } else {
-      dropdown.classList.add("drop-down");
+      // open downward
+      dcDropdown.style.top = (rect.bottom + 8) + "px";
     }
+
+    dcDropdown.style.left = (rect.right - dcDropdown.offsetWidth) + "px";
+  }
+
+  function closeDropdown() {
+    dcDropdown.classList.remove("open");
   }
 
   dcBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-
-    const isOpen = dcDropdown.classList.contains("open");
-
-    if (isOpen) {
-      dcDropdown.classList.remove("open");
-      return;
+    if (dcDropdown.classList.contains("open")) {
+      closeDropdown();
+    } else {
+      openDropdown();
     }
-
-    positionDropdown(dcDropdown, dcBtn);
-    dcDropdown.classList.add("open");
   });
 
-  document.addEventListener("click", () => {
-    dcDropdown.classList.remove("open");
-  });
+  document.addEventListener("click", closeDropdown);
+  window.addEventListener("resize", closeDropdown);
 }
 </script>
 </body>
