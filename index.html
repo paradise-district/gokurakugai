@@ -224,7 +224,10 @@ p{line-height:1.8;}
 }
 [data-theme="light"] .dc-dd{background:rgba(255,245,232,.92);box-shadow:0 12px 40px rgba(80,10,10,.18);}
 .dc-dd.open{display:block;animation:fadeUp .16s ease;}
+.dc-dd.drop-up{top:auto;bottom:calc(100% + 8px);}
+.dc-dd.drop-up.open{animation:fadeDown .16s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
 .dc-dd-item{
   display:flex;align-items:center;gap:.6rem;width:100%;padding:.7rem 1rem;
   background:none;border:none;text-align:left;cursor:pointer;
@@ -988,12 +991,12 @@ p{line-height:1.8;}
 .mob-bar,.mob-drawer,.mob-drawer-ov{display:none;}
 .mob-drawer-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:998;}
 .mob-drawer-ov.open{display:block;}
-.mob-drawer{position:fixed;top:0;left:0;width:82%;max-width:360px;height:100%;background:var(--bg);border-right:2px solid var(--accent);transform:translateX(-100%);transition:transform .3s ease;z-index:999;display:flex;flex-direction:column;}
+.mob-drawer{position:fixed;top:0;left:0;width:82%;max-width:360px;height:100%;background:var(--bg);border-right:2px solid var(--accent);transform:translateX(-100%);transition:transform .3s ease;z-index:999;display:flex;flex-direction:column;overflow:visible;}
 .mob-drawer.open{transform:translateX(0);}
 .mob-drawer-hdr{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.4rem;border-bottom:1px solid var(--accent);}
 .mob-drawer-title{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.4em;color:var(--accent);}
 .mob-drawer-close{background:none;border:none;color:var(--accent);font-size:1.2rem;cursor:pointer;line-height:1;display:flex;align-items:center;}
-.mob-nav-list{list-style:none;padding:0;margin:0;flex:1;overflow-y:auto;}
+.mob-nav-list{list-style:none;padding:0;margin:0;flex:1;overflow-y:auto;overflow-x:visible;}
 .mob-nav-item{border-bottom:1px solid rgba(201,168,76,.22);cursor:pointer;}
 .mob-nav-label,.mob-nav-row{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.4rem;font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text-dim);cursor:pointer;}
 .mob-nav-item.active{background:rgba(201,168,76,.08);}
@@ -1003,7 +1006,7 @@ p{line-height:1.8;}
 .mob-sub-list{display:none;background:var(--bg);}
 .mob-sub-item{padding:1rem 2rem;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.18em;border-top:1px solid rgba(201,168,76,.15);color:var(--text-muted);cursor:pointer;}
 .mob-sub-item:hover{color:var(--accent);}
-.mob-drawer-ctrl{border-top:1px solid var(--accent);padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.mob-drawer-ctrl{border-top:1px solid var(--accent);padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;overflow:visible;position:relative;}
 @media(max-width:768px){
   #nav{display:none!important;}
   .mob-bar{display:flex!important;position:sticky;top:0;z-index:500;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;background:var(--nav-bg);border-top:2px solid var(--accent);border-bottom:1px solid var(--accent);}
@@ -2670,7 +2673,22 @@ let _oauthHandled = false;
 /* ── Dropdown toggle ─────────────────────────────────────── */
 document.getElementById('dc-btn')?.addEventListener('click', e => {
   e.stopPropagation();
-  document.getElementById('dc-dd')?.classList.toggle('open');
+  const btn = e.currentTarget;
+  const dd = document.getElementById('dc-dd');
+  if(!dd) return;
+  const isOpen = dd.classList.contains('open');
+  if(!isOpen){
+    const rect = btn.getBoundingClientRect();
+    const ddHeight = dd.offsetHeight || 120;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    if(spaceBelow < ddHeight + 16 && spaceAbove > spaceBelow){
+      dd.classList.add('drop-up');
+    } else {
+      dd.classList.remove('drop-up');
+    }
+  }
+  dd.classList.toggle('open');
 });
 document.addEventListener('click', () => {
   document.getElementById('dc-dd')?.classList.remove('open');
@@ -3358,7 +3376,15 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
     if(cloneLoginBtn)cloneLoginBtn.addEventListener('click',dcLogin);
     const cloneDcBtn=drawerCtrl.querySelector('#dc-btn');
     const cloneDcDd=drawerCtrl.querySelector('#dc-dd');
-    if(cloneDcBtn&&cloneDcDd){ cloneDcBtn.addEventListener('click',e=>{ e.stopPropagation(); cloneDcDd.classList.toggle('open'); }); document.addEventListener('click',()=>cloneDcDd.classList.remove('open')); }
+    if(cloneDcBtn&&cloneDcDd){
+      // Always open upward — the ctrl strip is always at the drawer's bottom
+      cloneDcDd.classList.add('drop-up');
+      cloneDcBtn.addEventListener('click',e=>{
+        e.stopPropagation();
+        cloneDcDd.classList.toggle('open');
+      });
+      document.addEventListener('click',()=>{ cloneDcDd.classList.remove('open'); });
+    }
     const cloneLogout=drawerCtrl.querySelector('#dc-logout');
     if(cloneLogout){ cloneLogout.addEventListener('click', doLogout); }
   }
