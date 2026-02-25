@@ -2156,8 +2156,6 @@ const CFG = {
   DISCORD_CLIENT_ID: '1472093876369100820',
   GUILD_ID: '995737046725443686',
   WIDGET_API: 'https://discord.com/api/guilds/995737046725443686/widget.json',
-  WEBHOOK_URL: 'YOUR_WEBHOOK_URL_HERE',
-  // Cloudflare Worker proxy — replace after deploying worker.js
   PROXY_URL: 'https://gkg-discord.gokurakugai.workers.dev',
 };
 
@@ -3391,11 +3389,16 @@ async function fetchStaffProfile(uid){
     const r = await _timedFetch(`${url}/profile/${uid}`, {}, 12000);
     if(!r.ok) throw new Error('proxy:'+r.status);
     const data = await r.json();
-    _staffProfileCache[uid] = data;
+    _staffProfileCache[uid] = data;   // cache successful responses only
     return data;
   }catch(e){
     console.warn('[GKG] fetchStaffProfile '+uid+':', e.message);
-    _staffProfileCache[uid] = null;
+    // Do NOT permanently cache null for network/timeout errors so the
+    // next navigation to the staff tab can retry after transient failures.
+    // Only cache null for explicit auth/404 errors from the proxy.
+    if(e.message && (e.message.includes('proxy:4') || e.message.includes('proxy:5'))){
+      _staffProfileCache[uid] = null;
+    }
     return null;
   }
 }
@@ -3426,33 +3429,78 @@ function showBannerFallback(){
   document.getElementById('dc-sm-banner-fallback').style.display = 'flex';
 }
 
-/* ── Load avatars + status dots into staff grid cards ────────────
-   Avatars: fetched via Worker proxy (real Discord CDN URLs).
-            The image is inserted into the DOM immediately (so the
-            browser decodes it in-place) then cross-faded in once
-            loaded — no flash of blank content.
-   Status:  fetched from the public Discord Widget API.
-            IMPORTANT: the widget's `username` field is the display
-            name, NOT the handle. We match by `m.id` (user ID)
-            against STAFF_DATA[x].uid to correctly identify members.
-            Status is refreshed automatically every 60 seconds.
-────────────────────────────────────────────────────────────────*/
-let _staffAvatarsLoaded = false;
-let _staffPresenceMap   = {}; // uid → 'online'|'idle'|'dnd'
-let _openModalStaffId   = null; // track which modal is currently open
+/* ════ STAFF AVATAR + STATUS ENGINE ════════════════════════════
 
-/* ── Apply widget status to all card dots (and open modal dot) ── */
+  Two independent data sources work together:
+
+  A) Discord Widget API  — public, no auth, fires immediately.
+     Returns online/idle/dnd members who have widget visibility ON.
+     Each member record includes `avatar_url` (real CDN URL) and `id`.
+     We use THREE matching strategies in priority order:
+       1. Extract real user ID from `m.avatar_url` CDN path (most reliable)
+       2. `m.id === d.uid`  (real snowflake when widget exposes it)
+       3. `m.username` case-insensitive match against handle OR display name
+
+  B) Cloudflare Worker proxy — authenticated bot token, fetches full
+     profile (avatarUrl, bannerUrl, member data, roles) for every
+     staff member including offline/invisible ones.
+
+  Avatar strategy: Widget avatar_url used first (instant, no proxy).
+  Worker used for members not visible in widget (offline/invisible).
+
+  crossOrigin is intentionally NOT set — Discord CDN handles img tags
+  natively; setting crossOrigin triggers a CORS preflight that fails
+  for card-context image loads.
+
+  Status dots refresh every 60 s. All dots start grey and update
+  once the Widget response arrives.
+═══════════════════════════════════════════════════════════════*/
+
+let _staffAvatarsLoaded = false;
+let _staffPresenceMap   = {};   // uid → 'online' | 'idle' | 'dnd'
+let _openModalStaffId   = null; // which staff modal is currently open
+let _widgetMembersCache = [];   // last successful widget members array
+
+/* ── Extract Discord user ID from a Discord CDN avatar URL ──────
+   URL pattern: .../avatars/{snowflake}/{hash}.png
+   Returns the snowflake string, or null if not found.
+──────────────────────────────────────────────────────────────*/
+function _uidFromAvatarUrl(url){
+  if(!url) return null;
+  const m = url.match(/\/avatars\/(\d{15,20})\//);
+  return m ? m[1] : null;
+}
+
+/* ── Match a widget member object to a STAFF_DATA entry ─────────
+   Tries three strategies; returns the widget member or null.
+──────────────────────────────────────────────────────────────*/
+function _matchWidgetMember(d, wMembers){
+  for(const m of wMembers){
+    // Strategy 1 — extract real UID from the CDN avatar_url path
+    const urlUid = _uidFromAvatarUrl(m.avatar_url);
+    if(urlUid && urlUid === d.uid) return m;
+    // Strategy 2 — direct ID field match (widget exposes real IDs)
+    if(m.id && String(m.id) === String(d.uid)) return m;
+    // Strategy 3 — name match (widget's `username` is server display name)
+    if(m.username){
+      const wn = m.username.toLowerCase();
+      if(wn === d.username.toLowerCase() || wn === d.displayName.toLowerCase()) return m;
+    }
+  }
+  return null;
+}
+
+/* ── Push a presence map to all card dots + open modal dot ──────*/
 function _applyPresence(presenceMap){
   _staffPresenceMap = presenceMap;
   for(const [id, d] of Object.entries(STAFF_DATA)){
     const dot = document.getElementById('sc-dot-'+id);
-    if(dot){
-      dot.className = 'sc-status-dot';                 // reset to grey
-      const s = presenceMap[d.uid];
-      if(s === 'online' || s === 'idle' || s === 'dnd') dot.classList.add(s);
-    }
+    if(!dot) continue;
+    dot.className = 'sc-status-dot';           // reset to grey (offline/unknown)
+    const s = presenceMap[d.uid];
+    if(s === 'online' || s === 'idle' || s === 'dnd') dot.classList.add(s);
   }
-  /* Keep the open modal's status dot in sync */
+  // Keep open modal in sync
   if(_openModalStaffId){
     const modalDot = document.getElementById('dc-sm-status-dot');
     const d = STAFF_DATA[_openModalStaffId];
@@ -3464,57 +3512,81 @@ function _applyPresence(presenceMap){
   }
 }
 
-/* ── Single widget fetch — always resolves ── */
+/* ── Fetch widget, rebuild presence map, return members array ───
+   Always resolves. Caches last successful member list so avatar
+   loading can use it even if a later refresh fails.
+──────────────────────────────────────────────────────────────*/
 function _fetchPresence(){
-  fetch(CFG.WIDGET_API)
-    .then(r => r.json())
+  return fetch(CFG.WIDGET_API)
+    .then(r => { if(!r.ok) throw new Error('widget:'+r.status); return r.json(); })
     .then(data => {
+      const wMembers = Array.isArray(data.members) ? data.members : [];
+      if(wMembers.length) _widgetMembersCache = wMembers;  // only replace on success
       const map = {};
-      if(Array.isArray(data.members)){
-        for(const m of data.members){
-          /* Match by user ID (m.id), NOT m.username which is the display name */
-          if(m.id && m.status) map[m.id] = m.status;
-        }
+      for(const [, d] of Object.entries(STAFF_DATA)){
+        const wm = _matchWidgetMember(d, wMembers);
+        if(wm && wm.status) map[d.uid] = wm.status;
       }
       _applyPresence(map);
+      return wMembers;
     })
-    .catch(() => {}); // widget unavailable → dots stay grey (no change)
+    .catch(() => _widgetMembersCache); // on error return last known list
+}
+
+/* ── Insert an avatar image into a card wrap in-place ───────────
+   Image is appended BEFORE the status dot so z-order stays right.
+   Fades in via .loaded class — initials are always visible beneath.
+   crossOrigin intentionally omitted (no canvas needed; avoids CORS
+   preflights that can reject Discord CDN card-context loads).
+──────────────────────────────────────────────────────────────*/
+function _insertCardAvatar(wrap, url, name){
+  if(!url) return;
+  if(wrap.querySelector('.sc-av-live')) return; // already set
+  const img = document.createElement('img');
+  img.className = 'sc-av-live';
+  img.alt       = name;
+  img.decoding  = 'async';
+  const dot = wrap.querySelector('.sc-status-dot');
+  if(dot) wrap.insertBefore(img, dot);
+  else    wrap.appendChild(img);
+  img.onload  = () => img.classList.add('loaded');
+  img.onerror = () => img.remove();   // keep initials on any failure
+  img.src     = url;
+}
+
+/* ── Resolve the best available avatar URL from Worker response ─*/
+function _workerAvatarUrl(data){
+  if(!data) return null;
+  // Handle both camelCase and snake_case field names
+  return data.avatarUrl || data.avatar_url || data.avatar || null;
 }
 
 async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
   _staffAvatarsLoaded = true;
 
-  /* Initial status fetch + auto-refresh every 60 s */
-  _fetchPresence();
-  setInterval(_fetchPresence, 60000);
+  /* ── Phase 1: Widget — status + avatars for visible online members ── */
+  const wMembers = await _fetchPresence();   // resolves quickly, sets status dots
+  setInterval(_fetchPresence, 60000);        // auto-refresh every 60 s
 
-  /* ── Load avatars — insert into DOM first, then fade in ── */
+  /* ── Phase 2: Card avatars ── staggered to stay within rate limits ── */
   const entries = Object.entries(STAFF_DATA);
   for(let i = 0; i < entries.length; i++){
     const [id, d] = entries[i];
-    if(i > 0) await new Promise(res => setTimeout(res, 180));
+    if(i > 0) await new Promise(res => setTimeout(res, 160));
     const wrap = document.getElementById('sc-av-'+id);
     if(!wrap) continue;
 
+    /* First try the widget's avatar_url — free, instant, no proxy needed */
+    const wm = _matchWidgetMember(d, wMembers);
+    if(wm?.avatar_url){
+      _insertCardAvatar(wrap, wm.avatar_url, d.displayName);
+      continue;           // done for this member — skip Worker call
+    }
+
+    /* Offline / invisible / no widget visibility → fall back to Worker */
     fetchStaffProfile(d.uid).then(data => {
-      if(!data?.avatarUrl) return;
-
-      /* Create and INSERT the image before setting src so the browser
-         decodes it in-place — no innerHTML swap, no flash */
-      const img = document.createElement('img');
-      img.className = 'sc-av-live';
-      img.alt       = d.displayName;
-      img.decoding  = 'async';
-
-      /* Place after the initials span, before the status dot */
-      const dot = wrap.querySelector('.sc-status-dot');
-      if(dot) wrap.insertBefore(img, dot);
-      else    wrap.appendChild(img);
-
-      img.onload  = () => img.classList.add('loaded'); // smooth cross-fade
-      img.onerror = () => img.remove();                // keep initials on failure
-      img.src     = data.avatarUrl;
+      _insertCardAvatar(wrap, _workerAvatarUrl(data), d.displayName);
     });
   }
 }
@@ -3545,16 +3617,30 @@ async function openModal(id, pushHash=true){
   document.getElementById('dc-sm-badges').innerHTML = d.roles
     .map(r => `<span class="dc-sm-badge">${escHtml(r)}</span>`).join('');
 
-  /* Avatar: show initial while loading */
+  /* Avatar: show initial letter; also try widget avatar_url immediately
+     so something useful appears before the Worker responds */
   const avEl = document.getElementById('dc-sm-avatar');
   avEl.innerHTML = `<span style="font-family:'Cinzel',serif;font-size:2rem;font-weight:700;color:var(--accent);">${escHtml(d.displayName[0])}</span>`;
+  const _earlyWm = _matchWidgetMember(d, _widgetMembersCache);
+  if(_earlyWm?.avatar_url){
+    const _earlyImg = new Image();
+    _earlyImg.onload = () => {
+      // Only apply if a better image hasn't already replaced us
+      if(avEl.querySelector('span')) {
+        avEl.innerHTML = '';
+        _earlyImg.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        avEl.appendChild(_earlyImg);
+      }
+    };
+    _earlyImg.src = _earlyWm.avatar_url;
+  }
 
   /* Banner: show spinner */
   document.getElementById('dc-sm-banner-loading').style.display  = 'flex';
   document.getElementById('dc-sm-banner-real').style.display     = 'none';
   document.getElementById('dc-sm-banner-fallback').style.display = 'none';
 
-  /* Status dot: use live presence map first; fall back to copying card dot */
+  /* Status dot: use live presence map; fall back to card dot while widget loads */
   const modalDot = document.getElementById('dc-sm-status-dot');
   if(modalDot){
     modalDot.className = 'dc-sm-status-dot';
@@ -3562,7 +3648,6 @@ async function openModal(id, pushHash=true){
     if(liveStatus === 'online' || liveStatus === 'idle' || liveStatus === 'dnd'){
       modalDot.classList.add(liveStatus);
     } else {
-      /* Fallback: mirror the card dot while presence map is still loading */
       const cardDot = document.getElementById('sc-dot-' + id);
       if(cardDot){
         if(cardDot.classList.contains('online')) modalDot.classList.add('online');
@@ -3612,15 +3697,29 @@ async function openModal(id, pushHash=true){
   }
 
   /* ── Avatar ── */
-  if(data.avatarUrl){
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      avEl.innerHTML = '';
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-      avEl.appendChild(img);
-    };
-    img.src = data.avatarUrl;
+  if(data){
+    const avUrl = _workerAvatarUrl(data);
+    if(avUrl){
+      const img = new Image();
+      img.onload = () => {
+        avEl.innerHTML = '';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        avEl.appendChild(img);
+      };
+      img.src = avUrl;
+    }
+  } else {
+    /* Worker unavailable — try widget avatar_url for a quick fallback */
+    const wm = _matchWidgetMember(d, _widgetMembersCache);
+    if(wm?.avatar_url){
+      const img = new Image();
+      img.onload = () => {
+        avEl.innerHTML = '';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        avEl.appendChild(img);
+      };
+      img.src = wm.avatar_url;
+    }
   }
 
   /* ── Member data ── */
