@@ -2172,7 +2172,7 @@ setTheme(localStorage.getItem('gkg-theme')||'dark');
 (function(){
   const bar=document.getElementById('cd-bar');
   document.getElementById('cd-x').addEventListener('click',()=>bar.classList.add('hidden'));
-  const BASE_CHAPTER=34, BASE_DATE_JST=new Date('2024-03-04T00:00:00+09:00');
+  const BASE_CHAPTER=34, BASE_DATE_JST=new Date('2026-03-04T00:00:00+09:00');
   function getNextTarget(){
     const nowUTC=Date.now();
     const nowJST=new Date(nowUTC+9*3600*1000);
@@ -3779,7 +3779,7 @@ function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
 
   (function(){
     const BASE_CHAPTER=34;
-    const BASE_DATE=new Date('2024-03-04T00:00:00+09:00');
+    const BASE_DATE=new Date('2026-03-04T00:00:00+09:00');
     const now=new Date();
     const y=now.getUTCFullYear(), mo=now.getUTCMonth();
     const by=BASE_DATE.getUTCFullYear(), bmo=BASE_DATE.getUTCMonth();
