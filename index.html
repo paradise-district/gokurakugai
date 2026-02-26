@@ -32,6 +32,26 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
 
+<!-- ════ Firebase SDK ════ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0wvSd9pj00r8LHMVi-nN889JGzyMEOls",
+    authDomain: "gokurakugai-community.firebaseapp.com",
+    projectId: "gokurakugai-community",
+    storageBucket: "gokurakugai-community.firebasestorage.app",
+    messagingSenderId: "856861492305",
+    appId: "1:856861492305:web:1adfe1e8e8f2a4a148e470"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.db = db;
+</script>
+
 <!-- ════ STRUCTURED DATA ════ -->
 <script type="application/ld+json">
 {
@@ -1135,10 +1155,10 @@ p{line-height:1.8;}
 .form-gate-banner a{ color:var(--accent); text-decoration:underline; }
 
 </style>
-<!-- Firebase SDK (compat version) 
+<!-- Firebase SDK (compat version) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>-->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 </head>
 <body>
 
@@ -1278,6 +1298,11 @@ p{line-height:1.8;}
       <li><a href="#rules" class="tab" data-tab="rules">Rules</a></li>
       <li><a href="#info" class="tab" data-tab="info">Info</a></li>
       <li><a href="#staff" class="tab" data-tab="staff">Staff</a></li>
+      <li id="nav-admin-tab" style="display:none;">
+        <a href="#" class="tab" data-tab="admin">
+    <svg class="icon icon-sm"><use href="#i-shield"/></svg> Admin
+  </a>
+</li>
     </ul>
     <div class="nav-ctrl">
       <div class="tt" title="Toggle theme">
@@ -1310,6 +1335,12 @@ p{line-height:1.8;}
       </div>
     </div>
   </div>
+  <div class="mob-nav-item" id="mob-admin-item" data-tab="admin" style="display:none;">
+  <div class="mob-nav-row">
+    <svg class="icon icon-sm"><use href="#i-shield"/></svg>
+    <span>Admin</span>
+  </div>
+</div>
 </nav>
 
 <!-- ════ PROFILE MODAL — lives at body level so position:fixed works correctly
@@ -2208,7 +2239,7 @@ setTheme(localStorage.getItem('gkg-theme')||'dark');
 /* ════ DEEP-LINK ROUTING ════
    Hash format: #tab | #tab/sub | #staff/m1 | #manga/gallery/folder | #manga/gallery/folder/imgIdx
 ════════════════════════════════════════════════════════ */
-const VALID_TABS=['about','manga','news','theories','rules','info','staff'];
+const VALID_TABS=['about','manga','news','theories','rules','info','staff','admin'];
 const activeSubs={manga:'gallery',news:'nfeed'};
 let _skipHashPush=false; // prevent recursive pushState loops
 
@@ -4106,9 +4137,6 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
   });
   document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]').forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
 })();
-
-// Initial gate UI
-updateGateUI();
   document.addEventListener('DOMContentLoaded', () => {
   updateGateUI();
   loadStaffAvatars();
