@@ -1922,6 +1922,12 @@ p{line-height:1.8;}
     <span class="sub">We're always looking for passionate fans to help manage and grow the Gokurakugai community. <strong style="color:var(--accent)">You must be a Discord server member to apply.</strong></span>
   </div>
   <div class="apply-wrap">
+    <div id="apply-closed-notice" class="gate" style="display:none;">
+      <div class="gate-ico"><svg class="icon-xl"><use href="#i-lock"/></svg></div>
+      <h3>Applications Closed</h3>
+      <p>Staff applications are not currently open. Follow our Discord server for announcements when the next application period begins.</p>
+      <a href="https://discord.gg/gokurakugai" target="_blank" class="btn btn-p">Join Discord</a>
+    </div>
     <div id="apply-gate" class="gate">
       <div class="gate-ico"><svg class="icon-xl"><use href="#i-lock"/></svg></div>
       <h3>Discord Login Required</h3>
@@ -2708,16 +2714,28 @@ function updateGateUI(){
   const thBtn = document.querySelector('.th-submit-btn');
   if(thBtn){ thBtn.disabled = loggedIn && !isMem; thBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
 
-  // Staff form
+  // Staff form — gated by BOTH login state AND applicationsOpen Firestore flag
   const applyGate = document.getElementById('apply-gate');
   const applyForm = document.getElementById('apply-form');
   const applyNote = document.getElementById('apply-member-note');
   const afFormFields = document.getElementById('af-form-fields');
+  const appsClosedNotice = document.getElementById('apply-closed-notice');
 
-  // Gate: show if not logged in
-  if(applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
-  // Form: only show if logged in
-  if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
+  // Determine applications open state — set by admin-script.js from Firestore
+  const appsOpen = (window._appsOpen !== false); // default true until Firestore responds
+
+  // Closed notice: visible only when closed, regardless of login state
+  if(appsClosedNotice) appsClosedNotice.style.display = appsOpen ? 'none' : 'block';
+
+  if(!appsOpen){
+    // Applications CLOSED — hide gate and form completely
+    if(applyGate) applyGate.style.display = 'none';
+    if(applyForm) applyForm.style.display = 'none';
+  } else {
+    // Applications OPEN — gate by login state only
+    if(applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
+    if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
+  }
   // Member warning banner: visible when logged in but not a member
   if(applyNote) applyNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
 
@@ -4200,6 +4218,7 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
   document.addEventListener('DOMContentLoaded', () => {
   updateGateUI();
   loadStaffAvatars();
+  updateRoleQuestions(''); // ensure all role-specific sections hidden + required removed on load
   // Also warm Worker profiles on DOM ready (second wave, 60 ms stagger)
   // so mobile users whose page settled late still get pre-cached data.
   Object.values(STAFF_DATA).forEach((d, i) => {
