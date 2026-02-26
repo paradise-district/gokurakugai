@@ -1138,7 +1138,7 @@ p{line-height:1.8;}
 <!-- Firebase SDK (compat version) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 </head>
 <body>
 
@@ -2245,7 +2245,6 @@ function _activateTabOnly(tabId,scroll){
   document.querySelectorAll('.tab').forEach(l=>{if(l.dataset.tab===tabId)l.classList.add('active');});
   if(scroll){const nav=document.getElementById('nav')||document.getElementById('mob-bar');if(nav)window.scrollTo({top:nav.offsetTop-2,behavior:'smooth'});}
   if(tabId==='theories')loadDiscordWidget();
-  if(tabId==='staff')loadStaffAvatars();
 }
 
 /* Activate a subsection without touching hash */
@@ -4105,13 +4104,14 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
       closeMobDrawer();
     });
   });
-  document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]').forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
-})();
-  document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]')
+  .forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
+
+document.addEventListener('DOMContentLoaded', () => {
   updateGateUI();
   loadStaffAvatars();
 });
 </script>
-  <script src="admin-script.js"></script>
+<script src="admin-script.js"></script>
 </body>
 </html>
