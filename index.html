@@ -32,6 +32,26 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
 
+<!-- ════ Firebase SDK ════ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0wvSd9pj00r8LHMVi-nN889JGzyMEOls",
+    authDomain: "gokurakugai-community.firebaseapp.com",
+    projectId: "gokurakugai-community",
+    storageBucket: "gokurakugai-community.firebasestorage.app",
+    messagingSenderId: "856861492305",
+    appId: "1:856861492305:web:1adfe1e8e8f2a4a148e470"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.db = db;
+</script>
+
 <!-- ════ STRUCTURED DATA ════ -->
 <script type="application/ld+json">
 {
@@ -1134,433 +1154,11 @@ p{line-height:1.8;}
 .form-gate-banner span{ font-family:'Crimson Pro',serif; font-size:.95rem; color:var(--text); }
 .form-gate-banner a{ color:var(--accent); text-decoration:underline; }
 
-
-/* ════════════════════════════════════════
-   ADMIN DASHBOARD STYLES
-════════════════════════════════════════ */
-/* ── Admin header ──────────────────────────────────────────────────────── */
-.adm-header {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 1rem;
-  padding: 1.4rem 1.8rem 1rem;
-  background: var(--surface);
-  border: 1px solid var(--accent);
-  margin-bottom: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-.adm-header::before {
-  content: '極楽街';
-  position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%);
-  font-family: 'Ma Shan Zheng', serif; font-size: 5rem;
-  color: var(--accent); opacity: .04; pointer-events: none;
-}
-.adm-header-left {}
-.adm-title {
-  font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700;
-  color: var(--accent); letter-spacing: .1em;
-  display: flex; align-items: center;
-}
-.adm-subtitle {
-  font-size: .82rem; color: var(--text-muted); margin-top: .2rem;
-  letter-spacing: .04em;
-}
-.adm-staff-badge {
-  font-family: 'Cinzel', serif; font-size: .6rem; letter-spacing: .18em;
-  color: var(--bg); background: var(--accent);
-  padding: .28rem .85rem; text-transform: uppercase;
-  display: flex; align-items: center; gap: .45rem;
-}
-
-/* ── Admin tab strip ───────────────────────────────────────────────────── */
-.adm-tabs {
-  display: flex; gap: 0;
-  border: 1px solid var(--hr); border-bottom: none;
-  overflow-x: auto; scrollbar-width: none;
-  background: var(--surface);
-}
-.adm-tabs::-webkit-scrollbar { display: none; }
-.adm-tab {
-  display: flex; align-items: center; gap: .38rem;
-  padding: .72rem 1.2rem;
-  font-family: 'Cinzel', serif; font-size: .63rem; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--text-dim);
-  background: none; border: none; border-bottom: 3px solid transparent;
-  cursor: pointer; white-space: nowrap; transition: all .2s;
-}
-.adm-tab:hover { color: var(--accent); background: var(--surface2); }
-.adm-tab.active {
-  color: var(--accent2); border-bottom-color: var(--accent2);
-  background: var(--surface2);
-}
-.adm-badge {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 18px; height: 18px; padding: 0 5px;
-  background: var(--accent); color: var(--bg);
-  font-size: .58rem; border-radius: 9px;
-}
-
-/* ── Panel areas ───────────────────────────────────────────────────────── */
-.adm-panel {
-  display: none;
-  border: 1px solid var(--hr); border-top: none;
-  background: var(--surface); padding: 1.5rem;
-  min-height: 300px;
-}
-.adm-panel.active { display: block; }
-
-.adm-panel-header {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: .8rem;
-  margin-bottom: 1.4rem; padding-bottom: .9rem;
-  border-bottom: 1px solid var(--hr);
-}
-.adm-panel-header h3 {
-  font-family: 'Cinzel', serif; font-size: .88rem; letter-spacing: .12em;
-  color: var(--accent); text-transform: uppercase;
-}
-.adm-panel-loading {
-  display: flex; align-items: center; justify-content: center; padding: 3rem;
-}
-
-/* ── Filters ───────────────────────────────────────────────────────────── */
-.adm-filters {
-  display: flex; gap: .4rem; flex-wrap: wrap;
-}
-.adm-filter-btn {
-  padding: .3rem .75rem;
-  font-family: 'Cinzel', serif; font-size: .58rem; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--text-muted);
-  background: var(--surface2); border: 1px solid var(--hr);
-  cursor: pointer; transition: all .18s;
-}
-.adm-filter-btn:hover { color: var(--accent); border-color: var(--accent); }
-.adm-filter-btn.active {
-  background: var(--accent); color: var(--bg); border-color: var(--accent);
-}
-
-/* ── Spinners ──────────────────────────────────────────────────────────── */
-.adm-spinner {
-  width: 32px; height: 32px;
-  border: 3px solid var(--hr); border-top-color: var(--accent);
-  border-radius: 50%; animation: adm-spin .7s linear infinite;
-}
-.adm-spinner-sm {
-  width: 18px; height: 18px;
-  border: 2px solid var(--hr); border-top-color: var(--accent);
-  border-radius: 50%; animation: adm-spin .7s linear infinite;
-}
-@keyframes adm-spin { to { transform: rotate(360deg); } }
-
-/* ── Empty states ──────────────────────────────────────────────────────── */
-.adm-empty {
-  display: flex; flex-direction: column; align-items: center;
-  gap: .8rem; padding: 3.5rem;
-  font-family: 'Cinzel', serif; font-size: .82rem;
-  letter-spacing: .1em; color: var(--text-muted);
-  text-align: center;
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   THEORY CARDS
-════════════════════════════════════════════════════════════════════════ */
-.adm-theory-list { display: flex; flex-direction: column; gap: .75rem; }
-
-.adm-theory-card {
-  background: var(--surface2); border: 1px solid var(--hr);
-  padding: 1rem 1.2rem;
-  transition: border-color .2s;
-  position: relative;
-}
-.adm-theory-card:hover { border-color: var(--accent); }
-
-.adm-theory-top {
-  display: flex; align-items: flex-start;
-  justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-}
-.adm-theory-meta { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
-
-.adm-theory-avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--hr); flex-shrink: 0;
-}
-.adm-theory-avatar-ph {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--surface3); border: 2px solid var(--hr);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cinzel', serif; font-size: .85rem; color: var(--accent);
-  flex-shrink: 0;
-}
-.adm-theory-user {
-  font-family: 'Cinzel', serif; font-size: .72rem; color: var(--accent);
-  letter-spacing: .06em;
-}
-.adm-theory-date { font-size: .75rem; color: var(--text-muted); }
-
-.adm-status-pill {
-  font-family: 'Cinzel', serif; font-size: .56rem; letter-spacing: .14em;
-  padding: .22rem .65rem; text-transform: uppercase;
-  border-radius: 2px; flex-shrink: 0;
-}
-.adm-status-pending  { background: rgba(245,166,35,.15);  color: #F5A623; border: 1px solid rgba(245,166,35,.4); }
-.adm-status-approved { background: rgba(87,242,135,.12); color: #57F287; border: 1px solid rgba(87,242,135,.35); }
-.adm-status-rejected { background: rgba(237,66,69,.12);  color: #ED4245; border: 1px solid rgba(237,66,69,.35); }
-
-.adm-theory-title {
-  font-family: 'Cinzel', serif; font-size: .9rem; font-weight: 600;
-  color: var(--text); margin: .55rem 0 .3rem;
-}
-.adm-theory-tag {
-  display: inline-block; font-size: .72rem;
-  background: var(--tag-bg); color: var(--accent);
-  border: 1px solid var(--hr); padding: .12rem .55rem;
-  margin-bottom: .5rem;
-}
-.adm-theory-body {
-  font-size: .9rem; color: var(--text-dim);
-  line-height: 1.65; margin-bottom: .75rem;
-  max-height: 5.5em; overflow: hidden;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-}
-.adm-theory-expand { cursor: pointer; }
-.adm-theory-expand.expanded { max-height: none; display: block; }
-
-.adm-theory-actions {
-  display: flex; gap: .5rem; flex-wrap: wrap;
-  padding-top: .75rem; border-top: 1px solid var(--hr);
-}
-
-.adm-btn {
-  display: inline-flex; align-items: center; gap: .32rem;
-  padding: .35rem .85rem;
-  font-family: 'Cinzel', serif; font-size: .6rem; letter-spacing: .1em;
-  text-transform: uppercase; cursor: pointer; border: 1px solid;
-  transition: all .18s;
-}
-.adm-btn-approve {
-  background: rgba(87,242,135,.12); color: #57F287;
-  border-color: rgba(87,242,135,.4);
-}
-.adm-btn-approve:hover { background: rgba(87,242,135,.25); }
-.adm-btn-reject {
-  background: rgba(237,66,69,.1); color: #ED4245;
-  border-color: rgba(237,66,69,.4);
-}
-.adm-btn-reject:hover { background: rgba(237,66,69,.2); }
-.adm-btn-delete {
-  background: var(--surface3); color: var(--text-muted);
-  border-color: var(--hr);
-}
-.adm-btn-delete:hover { color: #ED4245; border-color: rgba(237,66,69,.4); }
-.adm-btn-neutral {
-  background: var(--surface3); color: var(--text-dim);
-  border-color: var(--hr);
-}
-.adm-btn-neutral:hover { border-color: var(--accent); color: var(--accent); }
-
-.adm-rejection-reason {
-  margin-top: .5rem; padding: .6rem .9rem;
-  background: rgba(237,66,69,.07); border: 1px solid rgba(237,66,69,.25);
-  font-size: .85rem; color: var(--text-muted);
-  font-style: italic;
-}
-
-/* Reject modal overlay */
-#adm-reject-modal-ov {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,.86); z-index: 2000;
-  align-items: center; justify-content: center; padding: 1rem;
-  backdrop-filter: blur(6px);
-}
-#adm-reject-modal-ov.open { display: flex; }
-.adm-reject-modal {
-  background: var(--surface); border: 1px solid var(--accent);
-  padding: 1.8rem; max-width: 500px; width: 100%;
-}
-.adm-reject-modal h4 {
-  font-family: 'Cinzel', serif; color: var(--accent);
-  font-size: .9rem; letter-spacing: .1em; margin-bottom: 1rem;
-}
-.adm-reject-modal label {
-  display: block; font-family: 'Cinzel', serif;
-  font-size: .62rem; letter-spacing: .14em; color: var(--accent);
-  text-transform: uppercase; margin-bottom: .4rem;
-}
-.adm-reject-modal textarea {
-  width: 100%; background: var(--in-bg); border: 1px solid var(--in-border);
-  color: var(--text); font-family: 'Crimson Pro', serif; font-size: 1rem;
-  padding: .7rem .95rem; min-height: 90px; resize: vertical;
-}
-.adm-reject-modal textarea:focus { outline: none; border-color: var(--accent); }
-.adm-reject-modal-actions {
-  display: flex; gap: .6rem; justify-content: flex-end; margin-top: 1rem;
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   GALLERY MANAGEMENT
-════════════════════════════════════════════════════════════════════════ */
-.adm-gal-folders { display: flex; flex-direction: column; gap: 1.8rem; }
-
-.adm-gal-folder {
-  border: 1px solid var(--hr);
-  background: var(--surface2);
-}
-.adm-gal-folder-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: .75rem 1rem; border-bottom: 1px solid var(--hr);
-  background: var(--surface);
-}
-.adm-gal-folder-name {
-  font-family: 'Cinzel', serif; font-size: .72rem;
-  letter-spacing: .1em; color: var(--accent);
-  display: flex; align-items: center; gap: .5rem;
-}
-
-.adm-upload-btn {
-  display: inline-flex; align-items: center; gap: .35rem;
-  padding: .32rem .85rem;
-  font-family: 'Cinzel', serif; font-size: .6rem; letter-spacing: .1em;
-  text-transform: uppercase; cursor: pointer;
-  background: var(--tag-bg); border: 1px solid var(--hr);
-  color: var(--accent); transition: all .18s;
-}
-.adm-upload-btn:hover { border-color: var(--accent); background: rgba(201,168,76,.18); }
-
-.adm-gal-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: .6rem; padding: .9rem;
-  min-height: 80px;
-}
-.adm-gal-loading {
-  display: flex; align-items: center; justify-content: center;
-  grid-column: 1 / -1; padding: 1.5rem;
-}
-.adm-gal-img-wrap {
-  position: relative; aspect-ratio: 1;
-  overflow: hidden; background: var(--surface3);
-}
-.adm-gal-img-wrap img {
-  width: 100%; height: 100%; object-fit: cover;
-  display: block; transition: transform .3s;
-}
-.adm-gal-img-wrap:hover img { transform: scale(1.06); }
-.adm-gal-del-btn {
-  position: absolute; top: 4px; right: 4px;
-  background: rgba(237,66,69,.88); color: #fff;
-  border: none; cursor: pointer; width: 22px; height: 22px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; opacity: 0; transition: opacity .2s;
-  border-radius: 2px;
-}
-.adm-gal-img-wrap:hover .adm-gal-del-btn { opacity: 1; }
-.adm-gal-empty {
-  grid-column: 1 / -1; text-align: center;
-  font-size: .82rem; color: var(--text-muted);
-  padding: 1.5rem; font-style: italic;
-}
-.adm-gal-uploading {
-  position: absolute; inset: 0; background: rgba(0,0,0,.65);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: .5rem;
-}
-.adm-gal-uploading-bar {
-  width: 70%; height: 3px; background: var(--hr); border-radius: 2px; overflow: hidden;
-}
-.adm-gal-uploading-fill {
-  height: 100%; background: var(--accent);
-  transition: width .3s;
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   APPLICATIONS
-════════════════════════════════════════════════════════════════════════ */
-.adm-apps-list { display: flex; flex-direction: column; gap: .85rem; }
-
-.adm-app-card {
-  background: var(--surface2); border: 1px solid var(--hr); padding: 1.2rem;
-  transition: border-color .2s;
-}
-.adm-app-card:hover { border-color: var(--accent); }
-
-.adm-app-top {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: .7rem; margin-bottom: .9rem;
-}
-.adm-app-who {
-  display: flex; align-items: center; gap: .65rem;
-}
-.adm-app-name {
-  font-family: 'Cinzel', serif; font-size: .85rem; color: var(--accent);
-}
-.adm-app-handle { font-size: .78rem; color: var(--text-muted); }
-.adm-app-pos {
-  font-family: 'Cinzel', serif; font-size: .62rem; letter-spacing: .1em;
-  color: var(--text-dim); text-transform: uppercase;
-}
-
-.adm-app-fields {
-  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .6rem;
-  margin-bottom: .9rem;
-}
-@media (max-width: 600px) { .adm-app-fields { grid-template-columns: 1fr 1fr; } }
-
-.adm-app-field { }
-.adm-app-field-label {
-  font-family: 'Cinzel', serif; font-size: .52rem; letter-spacing: .15em;
-  color: var(--text-muted); text-transform: uppercase; margin-bottom: .18rem;
-}
-.adm-app-field-val { font-size: .85rem; color: var(--text-dim); }
-
-.adm-app-essay {
-  background: var(--surface); border: 1px solid var(--hr);
-  padding: .75rem .95rem; margin-bottom: .9rem;
-}
-.adm-app-essay-label {
-  font-family: 'Cinzel', serif; font-size: .55rem; letter-spacing: .15em;
-  color: var(--accent); text-transform: uppercase; margin-bottom: .35rem;
-}
-.adm-app-essay-text {
-  font-size: .88rem; color: var(--text-dim); line-height: 1.7;
-  max-height: 4.5em; overflow: hidden;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-}
-.adm-app-essay-text.expanded { max-height: none; display: block; }
-
-/* ════════════════════════════════════════════════════════════════════════
-   SETTINGS
-════════════════════════════════════════════════════════════════════════ */
-.adm-settings-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.2rem;
-}
-.adm-setting-card {
-  display: flex; gap: 1rem; align-items: flex-start;
-  background: var(--surface2); border: 1px solid var(--hr); padding: 1.3rem;
-}
-.adm-setting-icon { flex-shrink: 0; padding-top: .1rem; }
-.adm-setting-body { flex: 1; }
-.adm-setting-title {
-  font-family: 'Cinzel', serif; font-size: .82rem; color: var(--text);
-  letter-spacing: .06em; margin-bottom: .3rem;
-}
-.adm-setting-desc { font-size: .86rem; color: var(--text-muted); margin-bottom: .8rem; line-height: 1.6; }
-.adm-setting-row { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
-
-.adm-setting-status {
-  font-family: 'Cinzel', serif; font-size: .65rem; letter-spacing: .14em;
-  text-transform: uppercase; padding: .25rem .7rem;
-  border: 1px solid; border-radius: 2px;
-}
-.adm-setting-status.loading { color: var(--text-muted); border-color: var(--hr); }
-.adm-setting-status.open    { color: #57F287; border-color: rgba(87,242,135,.4); background: rgba(87,242,135,.1); }
-.adm-setting-status.closed  { color: #ED4245; border-color: rgba(237,66,69,.4);  background: rgba(237,66,69,.1); }
-
-/* ── Nav tab (hidden by default, shown to staff via JS) ─────────────────── */
-/* Add this to the nav-tabs ul — it will be hidden until staff is verified  */
-#nav-admin-tab { display: none; }
-#mob-admin-item { display: none; }
-
 </style>
+<!-- Firebase SDK (compat version) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 </head>
 <body>
 
@@ -1637,8 +1235,6 @@ p{line-height:1.8;}
     <symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 15l.75 2.25L22 18l-2.25.75L19 21l-.75-2.25L16 18l2.25-.75z"/><path d="M4 3l.75 2.25L7 6l-2.25.75L4 9l-.75-2.25L1 6l2.25-.75z"/></symbol>
     <!-- archive -->
     <symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></symbol>
-    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.6"/></symbol>
-    <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
     <!-- twitter/X -->
     <symbol id="i-x-brand" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.26 5.625zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></symbol>
     <!-- instagram -->
@@ -1702,7 +1298,11 @@ p{line-height:1.8;}
       <li><a href="#rules" class="tab" data-tab="rules">Rules</a></li>
       <li><a href="#info" class="tab" data-tab="info">Info</a></li>
       <li><a href="#staff" class="tab" data-tab="staff">Staff</a></li>
-      <li id="nav-admin-tab" style="display:none;"><a href="#admin" class="tab" data-tab="admin"><svg class="icon icon-sm"><use href="#i-shield"/></svg> Admin</a></li>
+      <li id="nav-admin-tab" style="display:none;">
+        <a href="#" class="tab" data-tab="admin">
+    <svg class="icon icon-sm"><use href="#i-shield"/></svg> Admin
+  </a>
+</li>
     </ul>
     <div class="nav-ctrl">
       <div class="tt" title="Toggle theme">
@@ -1735,6 +1335,12 @@ p{line-height:1.8;}
       </div>
     </div>
   </div>
+  <div class="mob-nav-item" id="mob-admin-item" data-tab="admin" style="display:none;">
+  <div class="mob-nav-row">
+    <svg class="icon icon-sm"><use href="#i-shield"/></svg>
+    <span>Admin</span>
+  </div>
+</div>
 </nav>
 
 <!-- ════ PROFILE MODAL — lives at body level so position:fixed works correctly
@@ -1822,7 +1428,6 @@ p{line-height:1.8;}
     <li class="mob-nav-item" data-tab="news"><span class="mob-nav-label">NEWS</span></li>
     <li class="mob-nav-item" data-tab="theories"><span class="mob-nav-label">THEORIES</span></li>
     <li class="mob-nav-item" data-tab="staff"><span class="mob-nav-label">STAFF</span></li>
-    <li class="mob-nav-item" id="mob-admin-item" data-tab="admin" style="display:none;"><span class="mob-nav-label">ADMIN</span></li>
   </ul>
   <div class="mob-drawer-ctrl" id="mob-drawer-ctrl"></div>
 </div>
@@ -2403,257 +2008,6 @@ p{line-height:1.8;}
   </div>
 </section>
 
-
-<!-- ══ ADMIN DASHBOARD ══ -->
-<section id="admin" class="sec">
-
-  <!-- Access denied state (shown until staff check passes) -->
-  <div id="admin-access-denied" style="display:none;">
-    <div class="gate">
-      <div class="gate-ico"><svg class="icon-xl"><use href="#i-lock"/></svg></div>
-      <h3>Staff Access Only</h3>
-      <p>This dashboard is restricted to members of the Support Team with the Manage Messages permission. Please ensure you are logged in with the correct Discord account.</p>
-    </div>
-  </div>
-
-  <!-- Loading state -->
-  <div id="admin-loading" style="display:none;text-align:center;padding:4rem 2rem;">
-    <div class="adm-spinner"></div>
-    <p style="font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.2em;color:var(--accent);margin-top:1rem;">VERIFYING ACCESS…</p>
-  </div>
-
-  <!-- Dashboard (revealed once staff confirmed) -->
-  <div id="admin-dash" style="display:none;">
-
-    <div class="adm-header">
-      <div class="adm-header-left">
-        <div class="adm-title">
-          <svg class="icon-md icon-accent" style="margin-right:.5rem;"><use href="#i-shield"/></svg>
-          Staff Dashboard
-        </div>
-        <div class="adm-subtitle">Gokurakugai Community Management Panel</div>
-      </div>
-      <div id="adm-staff-badge" class="adm-staff-badge"></div>
-    </div>
-
-    <!-- Dashboard tab strip -->
-    <div class="adm-tabs">
-      <button class="adm-tab active" data-adm="adm-theories">
-        <svg class="icon icon-sm"><use href="#i-sparkle"/></svg> Theories
-        <span class="adm-badge" id="adm-badge-theories">0</span>
-      </button>
-      <button class="adm-tab" data-adm="adm-gallery">
-        <svg class="icon icon-sm"><use href="#i-image"/></svg> Gallery
-      </button>
-      <button class="adm-tab" data-adm="adm-applications">
-        <svg class="icon icon-sm"><use href="#i-users"/></svg> Applications
-        <span class="adm-badge" id="adm-badge-apps">0</span>
-      </button>
-      <button class="adm-tab" data-adm="adm-settings">
-        <svg class="icon icon-sm"><use href="#i-settings"/></svg> Settings
-      </button>
-    </div>
-
-    <!-- ═══ THEORIES TAB ═══════════════════════════════════════════════ -->
-    <div id="adm-theories" class="adm-panel active">
-      <div class="adm-panel-header">
-        <h3>Theory Submissions</h3>
-        <div class="adm-filters">
-          <button class="adm-filter-btn active" data-filter="all">All</button>
-          <button class="adm-filter-btn" data-filter="pending">Pending</button>
-          <button class="adm-filter-btn" data-filter="approved">Approved</button>
-          <button class="adm-filter-btn" data-filter="rejected">Rejected</button>
-        </div>
-      </div>
-
-      <div id="adm-theories-empty" class="adm-empty" style="display:none;">
-        <svg class="icon-xl icon-accent" style="opacity:.35;"><use href="#i-sparkle"/></svg>
-        <p>No theories found.</p>
-      </div>
-      <div id="adm-theories-loading" class="adm-panel-loading">
-        <div class="adm-spinner"></div>
-      </div>
-      <div id="adm-theories-list" class="adm-theory-list"></div>
-    </div>
-
-    <!-- ═══ GALLERY TAB ════════════════════════════════════════════════ -->
-    <div id="adm-gallery" class="adm-panel">
-      <div class="adm-panel-header">
-        <h3>Gallery Management</h3>
-        <div style="font-size:.85rem;color:var(--text-muted);">Upload images to each folder. They appear on the site immediately.</div>
-      </div>
-
-      <div class="adm-gal-folders">
-
-        <!-- Repeat for each folder -->
-        <div class="adm-gal-folder" data-folder="chapter-covers">
-          <div class="adm-gal-folder-head">
-            <span class="adm-gal-folder-name">
-              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
-              Chapter Colored Covers
-            </span>
-            <label class="adm-upload-btn">
-              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
-              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="chapter-covers" style="display:none;">
-            </label>
-          </div>
-          <div class="adm-gal-grid" id="adm-gal-grid-chapter-covers">
-            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
-          </div>
-        </div>
-
-        <div class="adm-gal-folder" data-folder="volume-covers">
-          <div class="adm-gal-folder-head">
-            <span class="adm-gal-folder-name">
-              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
-              Volume Covers
-            </span>
-            <label class="adm-upload-btn">
-              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
-              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="volume-covers" style="display:none;">
-            </label>
-          </div>
-          <div class="adm-gal-grid" id="adm-gal-grid-volume-covers">
-            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
-          </div>
-        </div>
-
-        <div class="adm-gal-folder" data-folder="magazines">
-          <div class="adm-gal-folder-head">
-            <span class="adm-gal-folder-name">
-              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
-              Magazines
-            </span>
-            <label class="adm-upload-btn">
-              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
-              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="magazines" style="display:none;">
-            </label>
-          </div>
-          <div class="adm-gal-grid" id="adm-gal-grid-magazines">
-            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
-          </div>
-        </div>
-
-        <div class="adm-gal-folder" data-folder="official-illustrations">
-          <div class="adm-gal-folder-head">
-            <span class="adm-gal-folder-name">
-              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
-              Official Illustrations
-            </span>
-            <label class="adm-upload-btn">
-              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
-              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="official-illustrations" style="display:none;">
-            </label>
-          </div>
-          <div class="adm-gal-grid" id="adm-gal-grid-official-illustrations">
-            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
-          </div>
-        </div>
-
-        <div class="adm-gal-folder" data-folder="extra-illustrations">
-          <div class="adm-gal-folder-head">
-            <span class="adm-gal-folder-name">
-              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
-              Extra Illustrations
-            </span>
-            <label class="adm-upload-btn">
-              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
-              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="extra-illustrations" style="display:none;">
-            </label>
-          </div>
-          <div class="adm-gal-grid" id="adm-gal-grid-extra-illustrations">
-            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
-          </div>
-        </div>
-
-        <div class="adm-gal-folder" data-folder="archived-illustrations">
-          <div class="adm-gal-folder-head">
-            <span class="adm-gal-folder-name">
-              <svg class="icon icon-sm icon-accent"><use href="#i-archive"/></svg>
-              Archived Illustrations
-            </span>
-            <label class="adm-upload-btn">
-              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
-              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="archived-illustrations" style="display:none;">
-            </label>
-          </div>
-          <div class="adm-gal-grid" id="adm-gal-grid-archived-illustrations">
-            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
-          </div>
-        </div>
-
-      </div><!-- /adm-gal-folders -->
-    </div>
-
-    <!-- ═══ APPLICATIONS TAB ════════════════════════════════════════════ -->
-    <div id="adm-applications" class="adm-panel">
-      <div class="adm-panel-header">
-        <h3>Staff Applications</h3>
-        <div class="adm-filters">
-          <button class="adm-filter-btn active" data-appfilter="all">All</button>
-          <button class="adm-filter-btn" data-appfilter="pending">Pending</button>
-          <button class="adm-filter-btn" data-appfilter="reviewed">Reviewed</button>
-          <button class="adm-filter-btn" data-appfilter="accepted">Accepted</button>
-          <button class="adm-filter-btn" data-appfilter="rejected">Rejected</button>
-        </div>
-      </div>
-
-      <div id="adm-apps-empty" class="adm-empty" style="display:none;">
-        <svg class="icon-xl icon-accent" style="opacity:.35;"><use href="#i-users"/></svg>
-        <p>No applications found.</p>
-      </div>
-      <div id="adm-apps-loading" class="adm-panel-loading">
-        <div class="adm-spinner"></div>
-      </div>
-      <div id="adm-apps-list" class="adm-apps-list"></div>
-    </div>
-
-    <!-- ═══ SETTINGS TAB ════════════════════════════════════════════════ -->
-    <div id="adm-settings" class="adm-panel">
-      <div class="adm-panel-header">
-        <h3>Dashboard Settings</h3>
-      </div>
-
-      <div class="adm-settings-grid">
-
-        <div class="adm-setting-card">
-          <div class="adm-setting-icon">
-            <svg class="icon-md icon-accent"><use href="#i-users"/></svg>
-          </div>
-          <div class="adm-setting-body">
-            <div class="adm-setting-title">Staff Applications</div>
-            <div class="adm-setting-desc">Control whether the application form on the website accepts new submissions.</div>
-            <div class="adm-setting-row">
-              <div id="adm-apps-status-label" class="adm-setting-status loading">Checking…</div>
-              <button id="adm-toggle-apps-btn" class="btn btn-sm btn-p" onclick="adminToggleApplications()" disabled>
-                Toggle
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="adm-setting-card">
-          <div class="adm-setting-icon">
-            <svg class="icon-md icon-accent"><use href="#i-refresh"/></svg>
-          </div>
-          <div class="adm-setting-body">
-            <div class="adm-setting-title">Reload Dashboard Data</div>
-            <div class="adm-setting-desc">Force a refresh of all dashboard panels from Firestore.</div>
-            <div class="adm-setting-row">
-              <button class="btn btn-sm" onclick="adminReloadAll()">
-                <svg class="icon icon-sm"><use href="#i-refresh"/></svg> Reload All
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </div><!-- /admin-dash -->
-
-</section>
-
 </main>
 
 <!-- ════ DISCORD-STYLE STAFF MODAL ════ -->
@@ -2922,9 +2276,6 @@ function _activateTabOnly(tabId,scroll){
   document.querySelectorAll('.tab').forEach(l=>{if(l.dataset.tab===tabId)l.classList.add('active');});
   if(scroll){const nav=document.getElementById('nav')||document.getElementById('mob-bar');if(nav)window.scrollTo({top:nav.offsetTop-2,behavior:'smooth'});}
   if(tabId==='theories')loadDiscordWidget();
-  if(tabId==='staff')loadStaffAvatars();
-  if(tabId==='admin' && typeof verifyAdminAccess === 'function')verifyAdminAccess();
-  if(tabId==='theories' && typeof loadApprovedTheoriesPublic === 'function')loadApprovedTheoriesPublic();
 }
 
 /* Activate a subsection without touching hash */
@@ -4786,10 +4137,11 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
   });
   document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]').forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
 })();
-
-// Initial gate UI
-updateGateUI();
+  document.addEventListener('DOMContentLoaded', () => {
+  updateGateUI();
+  loadStaffAvatars();
+});
 </script>
-<script src="admin-script.js"></script>
+  <script src="admin-script.js"></script>
 </body>
 </html>
