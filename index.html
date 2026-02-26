@@ -4107,9 +4107,10 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
   });
   document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]').forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
 })();
-
-// Initial gate UI
-updateGateUI();
+  document.addEventListener('DOMContentLoaded', () => {
+  updateGateUI();
+  loadStaffAvatars();
+});
 </script>
   <script src="admin-script.js"></script>
 </body>
