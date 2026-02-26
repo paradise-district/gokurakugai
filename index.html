@@ -33,10 +33,11 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
 
 <!-- ════ Firebase SDK ════ -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
+<script>
   const firebaseConfig = {
     apiKey: "AIzaSyD0wvSd9pj00r8LHMVi-nN889JGzyMEOls",
     authDomain: "gokurakugai-community.firebaseapp.com",
@@ -44,12 +45,15 @@
     storageBucket: "gokurakugai-community.firebasestorage.app",
     messagingSenderId: "856861492305",
     appId: "1:856861492305:web:1adfe1e8e8f2a4a148e470"
-  };
+ };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  firebase.initializeApp(firebaseConfig);
+
+  const db = firebase.firestore();
+  const storage = firebase.storage();
 
   window.db = db;
+  window.storage = storage;
 </script>
 
 <!-- ════ STRUCTURED DATA ════ -->
