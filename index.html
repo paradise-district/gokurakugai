@@ -1931,7 +1931,7 @@ p{line-height:1.8;}
         <a href="https://discord.gg/gokurakugai" target="_blank" class="btn">Join Server First</a>
       </div>
     </div>
-    <form id="apply-form" class="af" onsubmit="submitApplication(event)">
+    <form id="apply-form" class="af" onsubmit="submitApplication(event)" style="display:none;">
       <div class="fbox" style="margin-bottom:1.8rem;padding:1.2rem 1.5rem;">
         <p style="font-size:.9rem;color:var(--text-dim);line-height:1.72;">Your application will be submitted to our private staff channel on Discord. Please answer all questions thoroughly — we value depth over brevity. Review time is typically 1–2 weeks.</p>
       </div>
@@ -1979,10 +1979,10 @@ p{line-height:1.8;}
       <div class="fr"><label>How would you handle two members arguing aggressively in a public channel? *</label><textarea id="af-scenario" placeholder="Walk us through your step-by-step approach..." required></textarea></div>
       <div class="fr"><label>Anything else you'd like us to know?</label><textarea id="af-extra" placeholder="Optional — additional information or context..."></textarea></div>
       <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;">
-      </div><!-- /af-form-fields -->
         <button type="submit" id="af-submit-btn" class="btn btn-p">Submit Application</button>
         <span style="font-size:.82rem;color:var(--text-muted);font-style:italic;">Sent directly to our Discord staff channel.</span>
       </div>
+      </div><!-- /af-form-fields -->
     </form>
     <div class="apply-ok" id="apply-ok">
       <div class="ao-ico"><svg class="icon-xl"><use href="#i-check"/></svg></div>
@@ -2649,17 +2649,37 @@ function updateGateUI(){
   const applyGate = document.getElementById('apply-gate');
   const applyForm = document.getElementById('apply-form');
   const applyNote = document.getElementById('apply-member-note');
-  if(applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
-  if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
-  if(applyNote) applyNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
-  ['af-disc','af-age','af-tz','af-pos','af-tenure','af-hours','af-exp','af-why','af-scenario','af-extra'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.disabled = loggedIn && !isMem;
-  });
-  const applyBtn = document.querySelector('.af button[type="submit"]');
-  if(applyBtn){ applyBtn.disabled = loggedIn && !isMem; applyBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
-}
+  const afFormFields = document.getElementById('af-form-fields');
 
+  // Gate: show if not logged in
+  if(applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
+  // Form: only show if logged in
+  if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
+  // Member warning banner: visible when logged in but not a member
+  if(applyNote) applyNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
+
+  // Lock/unlock fillable fields based on membership
+  const afLockable = ['af-disc','af-age','af-tz','af-pos','af-tenure','af-hours','af-exp','af-why','af-scenario','af-extra'];
+  afLockable.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.disabled = loggedIn && !isMem;
+    el.style.opacity = (loggedIn && !isMem) ? '.35' : '';
+    el.style.pointerEvents = (loggedIn && !isMem) ? 'none' : '';
+    el.style.cursor = (loggedIn && !isMem) ? 'not-allowed' : '';
+  });
+
+  // Lock the form fields wrapper visually (same pattern as theory form)
+  if(afFormFields) afFormFields.classList.toggle('form-member-locked', loggedIn && !isMem);
+
+  // Submit button
+  const applyBtn = document.getElementById('af-submit-btn');
+  if(applyBtn){
+    applyBtn.disabled = loggedIn && !isMem;
+    applyBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1';
+    applyBtn.style.pointerEvents = (loggedIn && !isMem) ? 'none' : '';
+  }
+} // ← this closing brace for updateGateUI() is missing
 /* ── Full login sequence ─────────────────────────────────── */
 async function doLogin(token){
   const loginBtn = document.getElementById('dc-login-btn');
