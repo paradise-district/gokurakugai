@@ -26,12 +26,12 @@
    Get it from: Firebase Console → Project Settings → Your apps → Web app
 ───────────────────────────────────────────────────────────────────────── */
 const FIREBASE_CONFIG = {
-  apiKey:            'YOUR_API_KEY',
-  authDomain:        'YOUR_PROJECT.firebaseapp.com',
-  projectId:         'YOUR_PROJECT_ID',
-  storageBucket:     'YOUR_PROJECT.appspot.com',
-  messagingSenderId: 'YOUR_SENDER_ID',
-  appId:             'YOUR_APP_ID',
+  apiKey:            'AIzaSyD0wvSd9pj00r8LHMVi-nN889JGzyMEOls',
+  authDomain:        'gokurakugai-community.firebaseapp.com',
+  projectId:         'gokurakugai-community',
+  storageBucket:     'gokurakugai-community.firebasestorage.app',
+  messagingSenderId: '856861492305',
+  appId:             '1:856861492305:web:1adfe1e8e8f2a4a148e470',
 };
 
 // Initialize Firebase (guard against double-init)
