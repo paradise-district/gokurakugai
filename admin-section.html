@@ -1,0 +1,261 @@
+<!-- ═══════════════════════════════════════════════════════════════════════
+  ADMIN DASHBOARD SECTION
+  ─────────────────────────────────────────────────────────────────────────
+  WHERE TO INSERT THIS:
+    Inside <main>, AFTER the closing </section> of the "staff" section
+    (around line 1974: after </div><!-- /apply-wrap --> </section> )
+    and BEFORE </main>
+
+  The nav tab entry (below) goes inside <ul class="nav-tabs"> in the
+  desktop nav AND inside the mobile drawer's nav list.
+  ═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ══ ADMIN DASHBOARD ══ -->
+<section id="admin" class="sec">
+
+  <!-- Access denied state (shown until staff check passes) -->
+  <div id="admin-access-denied" style="display:none;">
+    <div class="gate">
+      <div class="gate-ico"><svg class="icon-xl"><use href="#i-lock"/></svg></div>
+      <h3>Staff Access Only</h3>
+      <p>This dashboard is restricted to members of the Support Team with the Manage Messages permission. Please ensure you are logged in with the correct Discord account.</p>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div id="admin-loading" style="display:none;text-align:center;padding:4rem 2rem;">
+    <div class="adm-spinner"></div>
+    <p style="font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.2em;color:var(--accent);margin-top:1rem;">VERIFYING ACCESS…</p>
+  </div>
+
+  <!-- Dashboard (revealed once staff confirmed) -->
+  <div id="admin-dash" style="display:none;">
+
+    <div class="adm-header">
+      <div class="adm-header-left">
+        <div class="adm-title">
+          <svg class="icon-md icon-accent" style="margin-right:.5rem;"><use href="#i-shield"/></svg>
+          Staff Dashboard
+        </div>
+        <div class="adm-subtitle">Gokurakugai Community Management Panel</div>
+      </div>
+      <div id="adm-staff-badge" class="adm-staff-badge"></div>
+    </div>
+
+    <!-- Dashboard tab strip -->
+    <div class="adm-tabs">
+      <button class="adm-tab active" data-adm="adm-theories">
+        <svg class="icon icon-sm"><use href="#i-sparkle"/></svg> Theories
+        <span class="adm-badge" id="adm-badge-theories">0</span>
+      </button>
+      <button class="adm-tab" data-adm="adm-gallery">
+        <svg class="icon icon-sm"><use href="#i-image"/></svg> Gallery
+      </button>
+      <button class="adm-tab" data-adm="adm-applications">
+        <svg class="icon icon-sm"><use href="#i-users"/></svg> Applications
+        <span class="adm-badge" id="adm-badge-apps">0</span>
+      </button>
+      <button class="adm-tab" data-adm="adm-settings">
+        <svg class="icon icon-sm"><use href="#i-settings"/></svg> Settings
+      </button>
+    </div>
+
+    <!-- ═══ THEORIES TAB ═══════════════════════════════════════════════ -->
+    <div id="adm-theories" class="adm-panel active">
+      <div class="adm-panel-header">
+        <h3>Theory Submissions</h3>
+        <div class="adm-filters">
+          <button class="adm-filter-btn active" data-filter="all">All</button>
+          <button class="adm-filter-btn" data-filter="pending">Pending</button>
+          <button class="adm-filter-btn" data-filter="approved">Approved</button>
+          <button class="adm-filter-btn" data-filter="rejected">Rejected</button>
+        </div>
+      </div>
+
+      <div id="adm-theories-empty" class="adm-empty" style="display:none;">
+        <svg class="icon-xl icon-accent" style="opacity:.35;"><use href="#i-sparkle"/></svg>
+        <p>No theories found.</p>
+      </div>
+      <div id="adm-theories-loading" class="adm-panel-loading">
+        <div class="adm-spinner"></div>
+      </div>
+      <div id="adm-theories-list" class="adm-theory-list"></div>
+    </div>
+
+    <!-- ═══ GALLERY TAB ════════════════════════════════════════════════ -->
+    <div id="adm-gallery" class="adm-panel">
+      <div class="adm-panel-header">
+        <h3>Gallery Management</h3>
+        <div style="font-size:.85rem;color:var(--text-muted);">Upload images to each folder. They appear on the site immediately.</div>
+      </div>
+
+      <div class="adm-gal-folders">
+
+        <!-- Repeat for each folder -->
+        <div class="adm-gal-folder" data-folder="chapter-covers">
+          <div class="adm-gal-folder-head">
+            <span class="adm-gal-folder-name">
+              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
+              Chapter Colored Covers
+            </span>
+            <label class="adm-upload-btn">
+              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
+              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="chapter-covers" style="display:none;">
+            </label>
+          </div>
+          <div class="adm-gal-grid" id="adm-gal-grid-chapter-covers">
+            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
+          </div>
+        </div>
+
+        <div class="adm-gal-folder" data-folder="volume-covers">
+          <div class="adm-gal-folder-head">
+            <span class="adm-gal-folder-name">
+              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
+              Volume Covers
+            </span>
+            <label class="adm-upload-btn">
+              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
+              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="volume-covers" style="display:none;">
+            </label>
+          </div>
+          <div class="adm-gal-grid" id="adm-gal-grid-volume-covers">
+            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
+          </div>
+        </div>
+
+        <div class="adm-gal-folder" data-folder="magazines">
+          <div class="adm-gal-folder-head">
+            <span class="adm-gal-folder-name">
+              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
+              Magazines
+            </span>
+            <label class="adm-upload-btn">
+              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
+              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="magazines" style="display:none;">
+            </label>
+          </div>
+          <div class="adm-gal-grid" id="adm-gal-grid-magazines">
+            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
+          </div>
+        </div>
+
+        <div class="adm-gal-folder" data-folder="official-illustrations">
+          <div class="adm-gal-folder-head">
+            <span class="adm-gal-folder-name">
+              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
+              Official Illustrations
+            </span>
+            <label class="adm-upload-btn">
+              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
+              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="official-illustrations" style="display:none;">
+            </label>
+          </div>
+          <div class="adm-gal-grid" id="adm-gal-grid-official-illustrations">
+            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
+          </div>
+        </div>
+
+        <div class="adm-gal-folder" data-folder="extra-illustrations">
+          <div class="adm-gal-folder-head">
+            <span class="adm-gal-folder-name">
+              <svg class="icon icon-sm icon-accent"><use href="#i-folder"/></svg>
+              Extra Illustrations
+            </span>
+            <label class="adm-upload-btn">
+              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
+              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="extra-illustrations" style="display:none;">
+            </label>
+          </div>
+          <div class="adm-gal-grid" id="adm-gal-grid-extra-illustrations">
+            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
+          </div>
+        </div>
+
+        <div class="adm-gal-folder" data-folder="archived-illustrations">
+          <div class="adm-gal-folder-head">
+            <span class="adm-gal-folder-name">
+              <svg class="icon icon-sm icon-accent"><use href="#i-archive"/></svg>
+              Archived Illustrations
+            </span>
+            <label class="adm-upload-btn">
+              <svg class="icon icon-sm"><use href="#i-palette"/></svg> Upload
+              <input type="file" multiple accept="image/*" class="adm-file-input" data-folder="archived-illustrations" style="display:none;">
+            </label>
+          </div>
+          <div class="adm-gal-grid" id="adm-gal-grid-archived-illustrations">
+            <div class="adm-gal-loading"><div class="adm-spinner-sm"></div></div>
+          </div>
+        </div>
+
+      </div><!-- /adm-gal-folders -->
+    </div>
+
+    <!-- ═══ APPLICATIONS TAB ════════════════════════════════════════════ -->
+    <div id="adm-applications" class="adm-panel">
+      <div class="adm-panel-header">
+        <h3>Staff Applications</h3>
+        <div class="adm-filters">
+          <button class="adm-filter-btn active" data-appfilter="all">All</button>
+          <button class="adm-filter-btn" data-appfilter="pending">Pending</button>
+          <button class="adm-filter-btn" data-appfilter="reviewed">Reviewed</button>
+          <button class="adm-filter-btn" data-appfilter="accepted">Accepted</button>
+          <button class="adm-filter-btn" data-appfilter="rejected">Rejected</button>
+        </div>
+      </div>
+
+      <div id="adm-apps-empty" class="adm-empty" style="display:none;">
+        <svg class="icon-xl icon-accent" style="opacity:.35;"><use href="#i-users"/></svg>
+        <p>No applications found.</p>
+      </div>
+      <div id="adm-apps-loading" class="adm-panel-loading">
+        <div class="adm-spinner"></div>
+      </div>
+      <div id="adm-apps-list" class="adm-apps-list"></div>
+    </div>
+
+    <!-- ═══ SETTINGS TAB ════════════════════════════════════════════════ -->
+    <div id="adm-settings" class="adm-panel">
+      <div class="adm-panel-header">
+        <h3>Dashboard Settings</h3>
+      </div>
+
+      <div class="adm-settings-grid">
+
+        <div class="adm-setting-card">
+          <div class="adm-setting-icon">
+            <svg class="icon-md icon-accent"><use href="#i-users"/></svg>
+          </div>
+          <div class="adm-setting-body">
+            <div class="adm-setting-title">Staff Applications</div>
+            <div class="adm-setting-desc">Control whether the application form on the website accepts new submissions.</div>
+            <div class="adm-setting-row">
+              <div id="adm-apps-status-label" class="adm-setting-status loading">Checking…</div>
+              <button id="adm-toggle-apps-btn" class="btn btn-sm btn-p" onclick="adminToggleApplications()" disabled>
+                Toggle
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="adm-setting-card">
+          <div class="adm-setting-icon">
+            <svg class="icon-md icon-accent"><use href="#i-refresh"/></svg>
+          </div>
+          <div class="adm-setting-body">
+            <div class="adm-setting-title">Reload Dashboard Data</div>
+            <div class="adm-setting-desc">Force a refresh of all dashboard panels from Firestore.</div>
+            <div class="adm-setting-row">
+              <button class="btn btn-sm" onclick="adminReloadAll()">
+                <svg class="icon icon-sm"><use href="#i-refresh"/></svg> Reload All
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /admin-dash -->
+
+</section>
