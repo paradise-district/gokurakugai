@@ -1922,7 +1922,7 @@ p{line-height:1.8;}
     <span class="sub">We're always looking for passionate fans to help manage and grow the Gokurakugai community. <strong style="color:var(--accent)">You must be a Discord server member to apply.</strong></span>
   </div>
   <div class="apply-wrap">
-    <div id="apply-gate" class="gate" style="display:none">
+    <div id="apply-gate" class="gate">
       <div class="gate-ico"><svg class="icon-xl"><use href="#i-lock"/></svg></div>
       <h3>Discord Login Required</h3>
       <p>To submit a staff application, you must be logged in with Discord and be a member of our server.</p>
@@ -1932,7 +1932,7 @@ p{line-height:1.8;}
       </div>
     </div>
     <form id="apply-form" class="af" onsubmit="submitApplication(event)" style="display:none;">
-      <div class="fbox" style="margin-bottom:1.8rem;padding:1.2rem 1.5rem;">
+<div class="fbox" style="margin-bottom:1.8rem;padding:1.2rem 1.5rem;">
         <p style="font-size:.9rem;color:var(--text-dim);line-height:1.72;">Your application will be submitted to our private staff channel on Discord. Please answer all questions thoroughly — we value depth over brevity. Review time is typically 1–2 weeks.</p>
       </div>
       <div id="apply-member-note" class="form-gate-banner">
@@ -1954,35 +1954,98 @@ p{line-height:1.8;}
       <div class="fg">
         <div class="fr"><label>Timezone *</label><input type="text" id="af-tz" placeholder="e.g. UTC+8 / JST" required></div>
         <div class="fr"><label>Position Applying For *</label>
-          <select id="af-pos" required>
+          <select id="af-pos" required onchange="updateRoleQuestions(this.value)">
             <option value="">— Select a role —</option>
-            <option>Moderator</option><option>Senior Moderator</option><option>Content Creator</option>
-            <option>Social Media Manager</option><option>Event Coordinator</option><option>Translator</option>
+            <option>Discord Moderator</option>
+            <option>Social Media Manager</option>
+            <option>Event Coordinator</option>
+            <option>Translator / Letterer</option>
           </select>
         </div>
       </div>
-      <div class="fr"><label>How long have you been a member? *</label>
+      <div class="fr"><label>How long have you been a member of the Gokurakugai Discord server? *</label>
         <select id="af-tenure" required>
           <option value="">— Select —</option>
           <option>Less than 1 month</option><option>1–3 months</option><option>3–6 months</option>
           <option>6–12 months</option><option>Over 1 year</option>
         </select>
       </div>
-      <div class="fr"><label>Hours per week available? *</label>
+      <div class="fr"><label>How active are you currently in the Gokurakugai server? *</label>
+        <select id="af-activity" required>
+          <option value="">— Select —</option>
+          <option>Very active — I post daily</option>
+          <option>Active — I post a few times a week</option>
+          <option>Occasionally — I check in weekly</option>
+          <option>Mostly a lurker but I read everything</option>
+        </select>
+      </div>
+      <div class="fr"><label>Hours per week available for staff duties? *</label>
         <select id="af-hours" required>
           <option value="">— Select —</option>
           <option>1–3 hours</option><option>4–7 hours</option><option>8–14 hours</option><option>15+ hours</option>
         </select>
       </div>
-      <div class="fr"><label>Prior moderation or community experience? *</label><textarea id="af-exp" placeholder="Describe any previous experience. If none, say so — it won't disqualify you." required></textarea></div>
-      <div class="fr"><label>Why do you want to join the staff team? *</label><textarea id="af-why" placeholder="Tell us why you're passionate about this community..." required></textarea></div>
+      <div class="fr"><label>Which channels or areas of the server do you frequent most? *</label><textarea id="af-channels" placeholder="e.g. chapter discussion, general, art channels..." required></textarea></div>
+      <div class="fr"><label>How familiar are you with Gokurakugai's manga content? *</label>
+        <select id="af-familiarity" required>
+          <option value="">— Select —</option>
+          <option>Up to date with all chapters</option>
+          <option>Read most of it, catching up</option>
+          <option>Familiar with the story but not every chapter</option>
+          <option>Still early in the series</option>
+        </select>
+      </div>
+      <div class="fr"><label>Prior moderation or community management experience? *</label><textarea id="af-exp" placeholder="Describe any previous experience managing Discord servers, forums, or communities. If none, say so — it won't disqualify you." required></textarea></div>
+      <div class="fr"><label>Why do you want to join the Gokurakugai staff team? *</label><textarea id="af-why" placeholder="Tell us what draws you to this community specifically, and what you hope to contribute..." required></textarea></div>
       <div class="fr"><label>How would you handle two members arguing aggressively in a public channel? *</label><textarea id="af-scenario" placeholder="Walk us through your step-by-step approach..." required></textarea></div>
-      <div class="fr"><label>Anything else you'd like us to know?</label><textarea id="af-extra" placeholder="Optional — additional information or context..."></textarea></div>
+      <div class="fr"><label>A member sends you a DM complaining that a moderator was rude to them. How do you respond? *</label><textarea id="af-scenario2" placeholder="Describe how you'd handle this situation..." required></textarea></div>
+
+      <!-- Role-specific questions — shown/hidden by JS -->
+      <div id="af-role-mod" style="display:none;">
+        <div style="border-top:1px solid var(--hr);margin:1.2rem 0;"></div>
+        <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1.1rem;">Discord Moderator — Additional Questions</div>
+        <div class="fr"><label>What does healthy moderation look like to you? *</label><textarea id="af-mod-philosophy" placeholder="Describe your moderation philosophy..." required></textarea></div>
+        <div class="fr"><label>How would you handle a spoiler posted without tags in a spoiler-free channel? *</label><textarea id="af-mod-spoiler" placeholder="What steps would you take?" required></textarea></div>
+        <div class="fr"><label>What time zone are you most active in, and what hours can you reliably cover? *</label><input type="text" id="af-mod-coverage" placeholder="e.g. UTC+8, active 6pm–midnight" required></div>
+      </div>
+
+      <div id="af-role-smm" style="display:none;">
+        <div style="border-top:1px solid var(--hr);margin:1.2rem 0;"></div>
+        <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1.1rem;">Social Media Manager — Additional Questions</div>
+        <div class="fr"><label>Which social media platforms are you most comfortable managing? *</label><textarea id="af-smm-platforms" placeholder="e.g. Twitter/X, Instagram, Bluesky, TikTok..." required></textarea></div>
+        <div class="fr"><label>How do you stay on top of Gokurakugai chapter releases and official news to post timely updates? *</label><textarea id="af-smm-workflow" placeholder="Describe your process for tracking and posting manga updates..." required></textarea></div>
+        <div class="fr"><label>Describe your experience creating or managing social media content. Include any accounts or pages you've run. *</label><textarea id="af-smm-experience" placeholder="Links to previous work are welcome..." required></textarea></div>
+        <div class="fr"><label>How would you handle posting about a new chapter release — what would your post include and how would you avoid spoilers in previews? *</label><textarea id="af-smm-chapter-post" placeholder="Walk us through how you'd draft and schedule this post..." required></textarea></div>
+        <div class="fr"><label>Do you have any graphic design or image editing experience for creating post visuals? *</label><textarea id="af-smm-design" placeholder="Tools used, examples welcome..." required></textarea></div>
+      </div>
+
+      <div id="af-role-ec" style="display:none;">
+        <div style="border-top:1px solid var(--hr);margin:1.2rem 0;"></div>
+        <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1.1rem;">Event Coordinator — Additional Questions</div>
+        <div class="fr"><label>Describe an event you've organized or helped run, in any context. *</label><textarea id="af-ec-past" placeholder="Community events, school events, online events — anything counts..." required></textarea></div>
+        <div class="fr"><label>What kinds of events do you think would work well for the Gokurakugai community? *</label><textarea id="af-ec-ideas" placeholder="Suggest 2–3 event ideas and briefly explain each..." required></textarea></div>
+        <div class="fr"><label>How would you plan and announce a Discord event from start to finish? *</label><textarea id="af-ec-process" placeholder="Walk us through your process — planning, promotion, execution, wrap-up..." required></textarea></div>
+        <div class="fr"><label>How do you handle low turnout or an event that doesn't go as planned? *</label><textarea id="af-ec-lowturno" placeholder="What would you do differently next time?" required></textarea></div>
+        <div class="fr"><label>How comfortable are you coordinating with other staff members and asking for help when needed? *</label><textarea id="af-ec-collab" placeholder="Describe your collaborative style..." required></textarea></div>
+      </div>
+
+      <div id="af-role-tl" style="display:none;">
+        <div style="border-top:1px solid var(--hr);margin:1.2rem 0;"></div>
+        <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1.1rem;">Translator / Letterer — Additional Questions</div>
+        <div class="fr"><label>What languages do you translate from and to? Please indicate your proficiency level for each. *</label><input type="text" id="af-tl-languages" placeholder="e.g. Japanese → English (N2), Spanish → English (native)" required></div>
+        <div class="fr"><label>Describe your translation or lettering experience. How long have you been doing this? *</label><textarea id="af-tl-experience" placeholder="Include any manga, fan translations, doujinshi, or professional work..." required></textarea></div>
+        <div class="fr"><label>Please provide links to or samples of previous translation or lettering work. *</label><textarea id="af-tl-samples" placeholder="Paste links, describe past projects, or attach samples in Discord after submitting..." required></textarea></div>
+        <div class="fr"><label>What tools do you use for translation or lettering? *</label><textarea id="af-tl-tools" placeholder="e.g. Photoshop, Clip Studio, Aegisub, custom fonts, OCR tools..." required></textarea></div>
+        <div class="fr"><label>How do you approach translating culturally specific terms, honorifics, or untranslatable expressions in Gokurakugai? *</label><textarea id="af-tl-nuance" placeholder="Give an example if possible..." required></textarea></div>
+      </div>
+
+      <div class="fr" style="margin-top:1.2rem;"><label>Anything else you'd like us to know?</label><textarea id="af-extra" placeholder="Optional — additional information or context..."></textarea></div>
       <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;">
         <button type="submit" id="af-submit-btn" class="btn btn-p">Submit Application</button>
         <span style="font-size:.82rem;color:var(--text-muted);font-style:italic;">Sent directly to our Discord staff channel.</span>
       </div>
       </div><!-- /af-form-fields -->
+    </form>
     </form>
     <div class="apply-ok" id="apply-ok">
       <div class="ao-ico"><svg class="icon-xl"><use href="#i-check"/></svg></div>
@@ -2659,7 +2722,7 @@ function updateGateUI(){
   if(applyNote) applyNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
 
   // Lock/unlock fillable fields based on membership
-  const afLockable = ['af-disc','af-age','af-tz','af-pos','af-tenure','af-hours','af-exp','af-why','af-scenario','af-extra'];
+  const afLockable = ['af-disc','af-age','af-tz','af-pos','af-tenure','af-activity','af-hours','af-channels','af-familiarity','af-exp','af-why','af-scenario','af-scenario2','af-extra','af-mod-philosophy','af-mod-spoiler','af-mod-coverage','af-smm-platforms','af-smm-workflow','af-smm-experience','af-smm-chapter-post','af-smm-design','af-ec-past','af-ec-ideas','af-ec-process','af-ec-lowturno','af-ec-collab','af-tl-languages','af-tl-experience','af-tl-samples','af-tl-tools','af-tl-nuance'];
   afLockable.forEach(id => {
     const el = document.getElementById(id);
     if(!el) return;
@@ -3264,8 +3327,15 @@ async function submitApplication(e){
   e.preventDefault();
   if(!dcUser){showToast('Please log in with Discord first.','err');return;}
   if(!isMember){showToast('Server members only. Please join our Discord.','err');return;}
-  const data={discord:document.getElementById('af-disc').value,age:document.getElementById('af-age').value,timezone:document.getElementById('af-tz').value,position:document.getElementById('af-pos').value,tenure:document.getElementById('af-tenure').value,hours:document.getElementById('af-hours').value,experience:document.getElementById('af-exp').value,why:document.getElementById('af-why').value,scenario:document.getElementById('af-scenario').value,extra:document.getElementById('af-extra').value||'None'};
-  const embed={title:'📋 New Staff Application',color:0xC9A84C,fields:[{name:'Discord',value:data.discord,inline:true},{name:'Age',value:data.age,inline:true},{name:'Timezone',value:data.timezone,inline:true},{name:'Position',value:data.position,inline:true},{name:'Tenure',value:data.tenure,inline:true},{name:'Hours/Week',value:data.hours,inline:true},{name:'Experience',value:data.experience||'None',inline:false},{name:'Why They Want to Join',value:data.why,inline:false},{name:'Conflict Scenario',value:data.scenario,inline:false},{name:'Additional Notes',value:data.extra,inline:false}],footer:{text:'Submitted via Gokurakugai Fan Site'},timestamp:new Date().toISOString()};
+const pos=document.getElementById('af-pos').value;
+  const g=id=>{const el=document.getElementById(id);return el?el.value||'N/A':'N/A';};
+  const data={discord:g('af-disc'),age:g('af-age'),timezone:g('af-tz'),position:pos,tenure:g('af-tenure'),activity:g('af-activity'),hours:g('af-hours'),channels:g('af-channels'),familiarity:g('af-familiarity'),experience:g('af-exp'),why:g('af-why'),scenario:g('af-scenario'),scenario2:g('af-scenario2'),extra:g('af-extra')||'None'};
+  const roleFields=[];
+  if(pos==='Discord Moderator'){roleFields.push({name:'Mod Philosophy',value:g('af-mod-philosophy'),inline:false},{name:'Spoiler Handling',value:g('af-mod-spoiler'),inline:false},{name:'Coverage Hours',value:g('af-mod-coverage'),inline:true});}
+  else if(pos==='Social Media Manager'){roleFields.push({name:'Platforms',value:g('af-smm-platforms'),inline:false},{name:'Update Workflow',value:g('af-smm-workflow'),inline:false},{name:'SMM Experience',value:g('af-smm-experience'),inline:false},{name:'Chapter Post Approach',value:g('af-smm-chapter-post'),inline:false},{name:'Design Experience',value:g('af-smm-design'),inline:false});}
+  else if(pos==='Event Coordinator'){roleFields.push({name:'Past Events',value:g('af-ec-past'),inline:false},{name:'Event Ideas',value:g('af-ec-ideas'),inline:false},{name:'Event Process',value:g('af-ec-process'),inline:false},{name:'Low Turnout Handling',value:g('af-ec-lowturno'),inline:false},{name:'Collaboration Style',value:g('af-ec-collab'),inline:false});}
+  else if(pos==='Translator / Letterer'){roleFields.push({name:'Languages',value:g('af-tl-languages'),inline:true},{name:'TL/LT Experience',value:g('af-tl-experience'),inline:false},{name:'Work Samples',value:g('af-tl-samples'),inline:false},{name:'Tools Used',value:g('af-tl-tools'),inline:false},{name:'Cultural Nuance Approach',value:g('af-tl-nuance'),inline:false});}
+  const embed={title:'📋 New Staff Application',color:0xC9A84C,fields:[{name:'Discord',value:data.discord,inline:true},{name:'Age',value:data.age,inline:true},{name:'Timezone',value:data.timezone,inline:true},{name:'Position',value:data.position,inline:true},{name:'Server Tenure',value:data.tenure,inline:true},{name:'Activity Level',value:data.activity,inline:true},{name:'Hours/Week',value:data.hours,inline:true},{name:'Frequent Channels',value:data.channels,inline:false},{name:'Manga Familiarity',value:data.familiarity,inline:true},{name:'Prior Experience',value:data.experience,inline:false},{name:'Why They Want to Join',value:data.why,inline:false},{name:'Conflict Scenario',value:data.scenario,inline:false},{name:'DM Complaint Scenario',value:data.scenario2,inline:false},...roleFields,{name:'Additional Notes',value:data.extra,inline:false}],footer:{text:'Submitted via Gokurakugai Fan Site'},timestamp:new Date().toISOString()};
   if(CFG.WEBHOOK_URL&&CFG.WEBHOOK_URL!=='YOUR_WEBHOOK_URL_HERE'){
     try{ await fetch(CFG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({embeds:[embed]})}); }
     catch(err){ showToast('Submission failed. Please try again.','err'); return; }
@@ -3273,6 +3343,32 @@ async function submitApplication(e){
   document.getElementById('apply-form').style.display='none';
   document.getElementById('apply-ok').style.display='block';
   showToast('Application submitted! ✦');
+}
+
+/* ════ ROLE-SPECIFIC FORM QUESTIONS ════ */
+function updateRoleQuestions(role){
+  const sections={
+    'Discord Moderator':'af-role-mod',
+    'Social Media Manager':'af-role-smm',
+    'Event Coordinator':'af-role-ec',
+    'Translator / Letterer':'af-role-tl'
+  };
+  // Hide all role sections first
+  Object.values(sections).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display='none';
+    // Remove required from all inputs/textareas inside hidden sections
+    el && el.querySelectorAll('input,textarea,select').forEach(f=>f.removeAttribute('required'));
+  });
+  // Show + re-require the selected role's section
+  const activeId=sections[role];
+  if(activeId){
+    const el=document.getElementById(activeId);
+    if(el){
+      el.style.display='block';
+      el.querySelectorAll('input,textarea,select').forEach(f=>f.setAttribute('required',''));
+    }
+  }
 }
 
 /* ════ DISCORD-STYLE STAFF MODALS ════ */
