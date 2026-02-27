@@ -1955,15 +1955,21 @@ p{line-height:1.8;}
       </div>
       <div class="th-autofill-notice" style="margin-bottom:1.2rem;"><span>✦</span> Your identity is auto-filled from your Discord account</div>
       <div id="af-form-fields">
-      <div class="fg" style="margin-bottom:1rem;">
-        <div class="fr"><label>Display Name</label><input type="text" id="af-displayname" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
-        <div class="fr"><label>Username</label><input type="text" id="af-username" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+      <!-- ── Identity display (auto-filled; always shown for SMM/EC/TL, hidden for Mod) ── -->
+      <div id="af-identity-display">
+        <div class="fg" style="margin-bottom:1rem;">
+          <div class="fr"><label>Display Name</label><input type="text" id="af-displayname" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+          <div class="fr"><label>Username</label><input type="text" id="af-username" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+        </div>
+        <div class="fr" style="margin-bottom:1.4rem;"><label>User ID</label><input type="text" id="af-userid" class="th-readonly" readonly placeholder="Auto-filled from Discord" style="font-family:monospace;font-size:.9rem;"></div>
+        <div style="border-top:1px solid var(--hr);margin-bottom:1.4rem;"></div>
       </div>
-      <div class="fr" style="margin-bottom:1.4rem;"><label>User ID</label><input type="text" id="af-userid" class="th-readonly" readonly placeholder="Auto-filled from Discord" style="font-family:monospace;font-size:.9rem;"></div>
-      <div style="border-top:1px solid var(--hr);margin-bottom:1.4rem;"></div>
-      <div class="fg">
-        <div class="fr"><label>Discord Username *</label><input type="text" id="af-disc" placeholder="e.g. username#0000" required></div>
-        <div class="fr"><label>Age *</label><input type="number" id="af-age" placeholder="Must be 15+" min="15" required></div>
+      <!-- ── Basic info row (hidden when any role is selected) ── -->
+      <div id="af-basic-info-row">
+        <div class="fg">
+          <div class="fr"><label>Discord Username *</label><input type="text" id="af-disc" placeholder="e.g. username#0000" required></div>
+          <div class="fr"><label>Age *</label><input type="number" id="af-age" placeholder="Must be 15+" min="15" required></div>
+        </div>
       </div>
       <div class="fg">
         <div class="fr"><label>Timezone *</label><input type="text" id="af-tz" placeholder="e.g. UTC+8 / JST" required></div>
@@ -1977,7 +1983,9 @@ p{line-height:1.8;}
           </select>
         </div>
       </div>
-      <div class="fr"><label>How long have you been a member of the Gokurakugai Discord server? *</label>
+      <!-- ── Common questions (hidden when any role is selected) ── -->
+      <div id="af-common-qs">
+        <div class="fr"><label>How long have you been a member of the Gokurakugai Discord server? *</label>
         <select id="af-tenure" required>
           <option value="">— Select —</option>
           <option>Less than 1 month</option><option>1–3 months</option><option>3–6 months</option>
@@ -2013,8 +2021,8 @@ p{line-height:1.8;}
       <div class="fr"><label>Why do you want to join the Gokurakugai staff team? *</label><textarea id="af-why" placeholder="Tell us what draws you to this community specifically, and what you hope to contribute..." required></textarea></div>
       <div class="fr"><label>How would you handle two members arguing aggressively in a public channel? *</label><textarea id="af-scenario" placeholder="Walk us through your step-by-step approach..." required></textarea></div>
       <div class="fr"><label>A member sends you a DM complaining that a moderator was rude to them. How do you respond? *</label><textarea id="af-scenario2" placeholder="Describe how you'd handle this situation..." required></textarea></div>
-
-      <!-- Role-specific questions — shown/hidden by JS -->
+      <div class="fr" style="margin-top:1.2rem;"><label>Anything else you'd like us to know?</label><textarea id="af-extra" placeholder="Optional — additional information or context..."></textarea></div>
+      </div><!-- /af-common-qs -->
       <div id="af-role-mod" style="display:none;">
         <div style="border-top:1px solid var(--hr);margin:1.2rem 0;"></div>
         <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1.1rem;">Discord Moderator — Additional Questions</div>
@@ -2053,7 +2061,6 @@ p{line-height:1.8;}
         <div class="fr"><label>How do you approach translating culturally specific terms, honorifics, or untranslatable expressions in Gokurakugai? *</label><textarea id="af-tl-nuance" placeholder="Give an example if possible..." required></textarea></div>
       </div>
 
-      <div class="fr" style="margin-top:1.2rem;"><label>Anything else you'd like us to know?</label><textarea id="af-extra" placeholder="Optional — additional information or context..."></textarea></div>
       <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;">
         <button type="submit" id="af-submit-btn" class="btn btn-p">Submit Application</button>
         <span style="font-size:.82rem;color:var(--text-muted);font-style:italic;">Sent directly to our Discord staff channel.</span>
@@ -3369,33 +3376,67 @@ const pos=document.getElementById('af-pos').value;
   showToast('Application submitted! ✦');
 }
 
-/* ════ ROLE-SPECIFIC FORM QUESTIONS ════ */
+/* ════ ROLE-SPECIFIC FORM QUESTIONS ════
+   Visibility rules per role selection:
+   • No role selected  → show everything (default state)
+   • Discord Moderator → show ONLY the Moderator section
+   • SMM / EC / TL     → show identity display + that role's section only
+   Common questions (af-common-qs) and basic info row (af-basic-info-row)
+   are hidden whenever any specific role is selected.
+═══════════════════════════════════════════════════════════════════════ */
 function updateRoleQuestions(role){
-  const sections={
+  const ROLE_SECTIONS={
     'Discord Moderator':'af-role-mod',
     'Social Media Manager':'af-role-smm',
     'Event Coordinator':'af-role-ec',
     'Translator / Letterer':'af-role-tl'
   };
-  // Always hide ALL role sections and strip required first
-  Object.values(sections).forEach(id=>{
+
+  // Helper: toggle a container's visibility and manage required attrs
+  function setGroup(id, visible){
     const el=document.getElementById(id);
     if(!el) return;
-    el.style.display='none';
-    // Remove required AND disabled so hidden fields never block submission
+    el.style.display=visible?'block':'none';
     el.querySelectorAll('input,textarea,select').forEach(f=>{
-      f.removeAttribute('required');
-      f.removeAttribute('disabled');
+      if(visible){
+        // Only restore required on fields that had it originally
+        // (readonly auto-fill fields never need required)
+        if(!f.readOnly && !f.classList.contains('th-readonly') && f.dataset.wasRequired){
+          f.setAttribute('required','');
+        }
+      } else {
+        if(f.hasAttribute('required')){
+          f.dataset.wasRequired='1';
+          f.removeAttribute('required');
+        }
+        f.removeAttribute('disabled');
+      }
     });
-  });
-  // Show only the section matching the selected role and re-add required
-  const activeId=sections[role];
-  if(activeId){
-    const el=document.getElementById(activeId);
-    if(el){
-      el.style.display='block';
-      el.querySelectorAll('input,textarea,select').forEach(f=>f.setAttribute('required',''));
-    }
+  }
+
+  // Hide ALL role sections first, strip their required attrs
+  Object.values(ROLE_SECTIONS).forEach(id=>setGroup(id, false));
+
+  if(!role){
+    // ── No role selected: show everything ──────────────────────────
+    setGroup('af-identity-display', true);
+    setGroup('af-basic-info-row',   true);
+    setGroup('af-common-qs',        true);
+    return;
+  }
+
+  // ── A role is selected: always hide basic info + common questions ──
+  setGroup('af-basic-info-row', false);
+  setGroup('af-common-qs',      false);
+
+  if(role === 'Discord Moderator'){
+    // Show ONLY the Moderator section — no identity display
+    setGroup('af-identity-display', false);
+    setGroup('af-role-mod', true);
+  } else {
+    // SMM / EC / TL: show identity display + their section only
+    setGroup('af-identity-display', true);
+    setGroup(ROLE_SECTIONS[role],   true);
   }
 }
 
@@ -4235,6 +4276,11 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
 Object.values(STAFF_DATA).forEach(d => fetchStaffProfile(d.uid));
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Pre-seed wasRequired on every required form field inside the apply form
+  // so the show/hide cycle in updateRoleQuestions can restore them correctly.
+  document.querySelectorAll('#af-form-fields [required]').forEach(f=>{
+    f.dataset.wasRequired='1';
+  });
   updateRoleQuestions('');
   updateGateUI();
   loadStaffAvatars();
