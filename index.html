@@ -3582,7 +3582,7 @@ function getPositionFromRoleIds(roleIds, rolesMap){
    Returns the cached Promise for concurrent callers so only one network
    request is ever made per uid per session.
 ─────────────────────────────────────────────────────────────────────────*/
-function fetchStaffProfile(uid){
+function fetchStaffProfile(uid, _retried = false){
   if(uid in _staffProfileCache) return _staffProfileCache[uid];
 
   const promise = (async () => {
@@ -3596,13 +3596,14 @@ function fetchStaffProfile(uid){
       if(!r.ok) throw new Error('proxy:'+r.status);
       const data = await r.json();
 
-      // For known members that came back without member data, do one
-      // automatic 400 ms retry — enough to survive a transient Discord blip
-      // without adding perceptible latency in the happy path.
-if(!data.member && KNOWN_MEMBER_UIDS.has(uid)){
-        console.warn('[GKG] fetchStaffProfile '+uid+': member null for known member, retrying immediately');
+      // For known members that came back without member data, do ONE
+      // automatic retry — enough to survive a transient Discord blip.
+      // The _retried guard prevents this from looping infinitely when
+      // Discord consistently returns null member data for a user.
+      if(!data.member && KNOWN_MEMBER_UIDS.has(uid) && !_retried){
+        console.warn('[GKG] fetchStaffProfile '+uid+': member null for known member, retrying once');
         delete _staffProfileCache[uid];
-        return fetchStaffProfile(uid);             // one immediate retry
+        return fetchStaffProfile(uid, true);       // exactly one retry
       }
 
       return data;
@@ -3785,32 +3786,36 @@ async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
   _staffAvatarsLoaded = true;
 
-  /* ── Phase 1+2: Widget and Worker fire in PARALLEL — don't await Widget
-     before starting Worker. Widget updates presence/avatars as it resolves;
-     Worker fills in the rest. Both race; fastest one wins for each card.  ── */
+  /* ── Fire widget fetch AND all Worker profile fetches simultaneously.
+     Promise.allSettled waits for every fetch to settle (resolve or reject)
+     before applying any card avatar, so all cards update at the same moment
+     rather than trickling in one-by-one as each fetch resolves.           ── */
   setInterval(_fetchPresence, 60000);   // auto-refresh status dots every 60s
 
-  const [wMembers] = await Promise.all([
-    _fetchPresence(),   // widget — presence + online avatars
-    Promise.resolve()   // placeholder so Promise.all structure is clear
+  const entries = Object.entries(STAFF_DATA);
+
+  // allSettled: index 0 = widget, indices 1..N = Worker profiles (same order as entries)
+  const results = await Promise.allSettled([
+    _fetchPresence(),
+    ...entries.map(([, d]) => fetchStaffProfile(d.uid))
   ]);
 
-  /* Apply widget avatars for any members that appeared online */
-  const entries = Object.entries(STAFF_DATA);
-  for(const [id, d] of entries){
+  const wMembers = results[0].status === 'fulfilled' ? (results[0].value || []) : [];
+
+  // Apply all card avatars at once — widget avatar takes priority over Worker
+  entries.forEach(([id, d], i) => {
     const wrap = document.getElementById('sc-av-'+id);
-    if(!wrap) continue;
+    if(!wrap) return;
+
     const wm = _matchWidgetMember(d, wMembers);
     if(wm?.avatar_url){
       const hiResUrl = wm.avatar_url.replace(/\?size=\d+/, '?size=128');
       _insertCardAvatar(wrap, hiResUrl, d.displayName);
     } else {
-      /* For all non-widget members, use Worker avatar (already pre-fetched above DOMContentLoaded) */
-      fetchStaffProfile(d.uid).then(data => {
-        _insertCardAvatar(wrap, _workerAvatarUrl(data), d.displayName);
-      });
+      const data = results[i + 1].status === 'fulfilled' ? results[i + 1].value : null;
+      _insertCardAvatar(wrap, _workerAvatarUrl(data), d.displayName);
     }
-  }
+  });
 }
 
 /* ── Open staff modal ────────────────────────────────────────── */
