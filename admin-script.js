@@ -645,10 +645,7 @@ function buildAppCard(id, a) {
       </div>
     </div>
 
-    ${buildEssayBlock(id, 'Prior Experience', a.experience, 'exp')}
-    ${buildEssayBlock(id, 'Why Join the Team?', a.why, 'why')}
-    ${buildEssayBlock(id, 'Conflict Scenario', a.scenario, 'scen')}
-    ${a.extra ? buildEssayBlock(id, 'Additional Info', a.extra, 'extra') : ''}
+    ${buildRoleEssays(id, a)}
 
     <div class="adm-theory-actions">
       ${status !== 'accepted' ? `<button class="adm-btn adm-btn-approve" onclick="adminUpdateApp('${id}','accepted')">✅ Accept</button>` : ''}
@@ -661,7 +658,55 @@ function buildAppCard(id, a) {
   return card;
 }
 
-function buildEssayBlock(id, label, text, key) {
+function buildRoleEssays(id, a) {
+  const pos = a.position || '';
+  const out = [];
+
+  if (pos === 'Discord Moderator') {
+    // Common fields (captured for Mod only)
+    if (a.experience)  out.push(buildEssayBlock(id, 'Prior Experience',       a.experience,  'exp'));
+    if (a.why)         out.push(buildEssayBlock(id, 'Why Join the Team?',      a.why,         'why'));
+    if (a.scenario)    out.push(buildEssayBlock(id, 'Conflict Scenario',       a.scenario,    'scen'));
+    if (a.scenario2)   out.push(buildEssayBlock(id, 'Rude Mod Complaint',      a.scenario2,   'scen2'));
+    // Role-specific
+    if (a.mod_philosophy) out.push(buildEssayBlock(id, 'Moderation Philosophy', a.mod_philosophy, 'modphi'));
+    if (a.mod_spoiler)    out.push(buildEssayBlock(id, 'Spoiler Handling',       a.mod_spoiler,    'modsp'));
+    if (a.mod_coverage)   out.push(buildEssayBlock(id, 'Coverage Hours',         a.mod_coverage,   'modcov'));
+    if (a.extra)       out.push(buildEssayBlock(id, 'Additional Info', a.extra, 'extra'));
+
+  } else if (pos === 'Social Media Manager') {
+    if (a.smm_platforms)   out.push(buildEssayBlock(id, 'Platforms',            a.smm_platforms,   'smmplat'));
+    if (a.smm_workflow)    out.push(buildEssayBlock(id, 'Update Workflow',       a.smm_workflow,    'smmwf'));
+    if (a.smm_experience)  out.push(buildEssayBlock(id, 'SMM Experience',        a.smm_experience,  'smmexp'));
+    if (a.smm_chapterPost) out.push(buildEssayBlock(id, 'Chapter Post Strategy', a.smm_chapterPost, 'smmch'));
+    if (a.smm_design)      out.push(buildEssayBlock(id, 'Design Experience',     a.smm_design,      'smmdes'));
+
+  } else if (pos === 'Event Coordinator') {
+    if (a.ec_past)       out.push(buildEssayBlock(id, 'Past Events',         a.ec_past,       'ecpast'));
+    if (a.ec_ideas)      out.push(buildEssayBlock(id, 'Event Ideas',         a.ec_ideas,      'ecid'));
+    if (a.ec_process)    out.push(buildEssayBlock(id, 'Planning Process',    a.ec_process,    'ecproc'));
+    if (a.ec_lowTurnout) out.push(buildEssayBlock(id, 'Low Turnout Response',a.ec_lowTurnout, 'eclow'));
+    if (a.ec_collab)     out.push(buildEssayBlock(id, 'Collaboration Style', a.ec_collab,     'eccol'));
+
+  } else if (pos === 'Translator / Letterer') {
+    if (a.tl_languages)  out.push(buildEssayBlock(id, 'Languages',          a.tl_languages,  'tllan'));
+    if (a.tl_experience) out.push(buildEssayBlock(id, 'TL/Lettering Exp.',  a.tl_experience, 'tlexp'));
+    if (a.tl_samples)    out.push(buildEssayBlock(id, 'Work Samples',       a.tl_samples,    'tlsam'));
+    if (a.tl_tools)      out.push(buildEssayBlock(id, 'Tools Used',         a.tl_tools,      'tltool'));
+    if (a.tl_nuance)     out.push(buildEssayBlock(id, 'Cultural Nuance',    a.tl_nuance,     'tlnuan'));
+
+  } else {
+    // Legacy / unknown position — fall back to the original common fields
+    if (a.experience) out.push(buildEssayBlock(id, 'Prior Experience',  a.experience, 'exp'));
+    if (a.why)        out.push(buildEssayBlock(id, 'Why Join the Team?',a.why,        'why'));
+    if (a.scenario)   out.push(buildEssayBlock(id, 'Conflict Scenario', a.scenario,   'scen'));
+    if (a.extra)      out.push(buildEssayBlock(id, 'Additional Info',   a.extra,      'extra'));
+  }
+
+  return out.join('');
+}
+
+
   if (!text) return '';
   return `
     <div class="adm-app-essay">
@@ -905,21 +950,65 @@ async function submitApplication(e) {
 
   const getVal = id => document.getElementById(id)?.value?.trim() || '';
 
+  // Determine which role was selected — drives which fields are captured
+  const position = getVal('af-pos');
+
+  // ── Role-specific answers ──────────────────────────────────────────
+  // Build a flat object of only the fields relevant to the chosen role.
+  // Fields from hidden sections return '' but are excluded via the role
+  // guard so they don't pollute the submission document.
+  const roleAnswers = {};
+  if (position === 'Discord Moderator') {
+    roleAnswers.mod_philosophy = getVal('af-mod-philosophy');
+    roleAnswers.mod_spoiler    = getVal('af-mod-spoiler');
+    roleAnswers.mod_coverage   = getVal('af-mod-coverage');
+  } else if (position === 'Social Media Manager') {
+    roleAnswers.smm_platforms    = getVal('af-smm-platforms');
+    roleAnswers.smm_workflow     = getVal('af-smm-workflow');
+    roleAnswers.smm_experience   = getVal('af-smm-experience');
+    roleAnswers.smm_chapterPost  = getVal('af-smm-chapter-post');
+    roleAnswers.smm_design       = getVal('af-smm-design');
+  } else if (position === 'Event Coordinator') {
+    roleAnswers.ec_past      = getVal('af-ec-past');
+    roleAnswers.ec_ideas     = getVal('af-ec-ideas');
+    roleAnswers.ec_process   = getVal('af-ec-process');
+    roleAnswers.ec_lowTurnout = getVal('af-ec-lowturno');
+    roleAnswers.ec_collab    = getVal('af-ec-collab');
+  } else if (position === 'Translator / Letterer') {
+    roleAnswers.tl_languages  = getVal('af-tl-languages');
+    roleAnswers.tl_experience = getVal('af-tl-experience');
+    roleAnswers.tl_samples    = getVal('af-tl-samples');
+    roleAnswers.tl_tools      = getVal('af-tl-tools');
+    roleAnswers.tl_nuance     = getVal('af-tl-nuance');
+  }
+
+  // ── Common answers (only captured for Discord Moderator via general form) ──
+  // For SMM/EC/TL the common question fields are hidden, so these will be ''
+  // but are harmless — the admin dashboard shows roleAnswers fields instead.
+  const commonAnswers = position !== 'Discord Moderator' ? {} : {
+    discord:      getVal('af-disc'),
+    age:          getVal('af-age'),
+    timezone:     getVal('af-tz'),
+    tenure:       getVal('af-tenure'),
+    activity:     getVal('af-activity'),
+    hoursPerWeek: getVal('af-hours'),
+    channels:     getVal('af-channels'),
+    familiarity:  getVal('af-familiarity'),
+    experience:   getVal('af-exp'),
+    why:          getVal('af-why'),
+    scenario:     getVal('af-scenario'),
+    scenario2:    getVal('af-scenario2'),
+    extra:        getVal('af-extra') || 'None',
+  };
+
   try {
     await ADMIN_COLS.applications().add({
       userId:      dcUser.id,
       username:    dcUser.username || '',
       displayName: dcUser.global_name || dcUser.username || '',
-      discord:     getVal('af-disc'),
-      age:         getVal('af-age'),
-      timezone:    getVal('af-tz'),
-      position:    getVal('af-pos'),
-      tenure:      getVal('af-tenure'),
-      hoursPerWeek: getVal('af-hours'),
-      experience:  getVal('af-exp'),
-      why:         getVal('af-why'),
-      scenario:    getVal('af-scenario'),
-      extra:       getVal('af-extra'),
+      position,
+      ...commonAnswers,
+      ...roleAnswers,
       status:      'pending',
       timestamp:   firebase.firestore.FieldValue.serverTimestamp(),
     });
