@@ -2722,41 +2722,51 @@ function updateGateUI(){
   const thBtn = document.querySelector('.th-submit-btn');
   if(thBtn){ thBtn.disabled = loggedIn && !isMem; thBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
 
-// Staff form — three-state gate: closed / not logged in / not a member / member
-  const applyGate         = document.getElementById('apply-gate');
-  const applyMemberNotice = document.getElementById('apply-member-notice');
-  const applyForm         = document.getElementById('apply-form');
-  const applyNote         = document.getElementById('apply-member-note');
-  const afFormFields      = document.getElementById('af-form-fields');
-  const appsClosedNotice  = document.getElementById('apply-closed-notice');
+// Staff form — 4-state gate: closed / not-logged-in / not-a-member / member-can-apply
+  const applyGate          = document.getElementById('apply-gate');
+  const applyMemberNotice  = document.getElementById('apply-member-notice');
+  const applyForm          = document.getElementById('apply-form');
+  const appsClosedNotice   = document.getElementById('apply-closed-notice');
+  const applyNote          = document.getElementById('apply-member-note');
+  const afFormFields       = document.getElementById('af-form-fields');
 
-  // Determine applications open state — set by admin-script.js from Firestore
-  const appsOpen = (window._appsOpen !== false); // default true until Firestore responds
+  const appsOpen = (window._appsOpen !== false);
 
-  // Reset all gate elements first
-  [appsClosedNotice, applyGate, applyMemberNotice].forEach(el => { if(el) el.style.display = 'none'; });
-  if(applyForm) applyForm.style.display = 'none';
+  // 1. Force-hide every gate/form element first — no exceptions
+  [appsClosedNotice, applyGate, applyMemberNotice, applyForm].forEach(el => {
+    if(el) el.style.display = 'none';
+  });
 
+  // 2. Show exactly ONE thing depending on state
   if(!appsOpen){
-    // CLOSED — show closed notice only, everything else hidden
+    // CLOSED — only the closed notice
     if(appsClosedNotice) appsClosedNotice.style.display = 'block';
+
   } else if(!loggedIn){
-    // OPEN but not logged in — prompt login
+    // OPEN, not logged in — prompt login
     if(applyGate) applyGate.style.display = 'block';
+
   } else if(!isMem){
-    // OPEN, logged in, but not a server member — prompt join
+    // OPEN, logged in, not a server member — prompt to join
     if(applyMemberNotice) applyMemberNotice.style.display = 'block';
+
   } else {
-    // OPEN, logged in, server member — show the actual form
+    // OPEN, logged in, server member — show the form
     if(applyForm) applyForm.style.display = 'block';
   }
 
-  // Since only members ever see the form, all fields are always unlocked
-  if(applyNote) applyNote.style.display = 'none';
-  if(afFormFields) afFormFields.classList.remove('form-member-locked');
+  // Members always see an unlocked form — no locking needed
+  if(applyNote)       applyNote.style.display = 'none';
+  if(afFormFields)    afFormFields.classList.remove('form-member-locked');
   const applyBtn = document.getElementById('af-submit-btn');
-  if(applyBtn){ applyBtn.disabled = false; applyBtn.style.opacity = '1'; applyBtn.style.pointerEvents = ''; }
+  if(applyBtn){
+    applyBtn.disabled = false;
+    applyBtn.style.opacity = '1';
+    applyBtn.style.pointerEvents = '';
+  }
+
 } // ← closing brace for updateGateUI()
+  
 /* ── Full login sequence ─────────────────────────────────── */
 async function doLogin(token){
   const loginBtn = document.getElementById('dc-login-btn');
