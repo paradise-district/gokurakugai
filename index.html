@@ -2591,8 +2591,8 @@ function _timedFetch(url, opts, ms){
 async function fetchDiscordUser(token){
   let r;
   try {
-    r = await _timedFetch('https://discord.com/api/users/@me',
-          { headers: { Authorization: 'Bearer ' + token } }, 12000);
+r = await _timedFetch('https://discord.com/api/users/@me',
+      { headers: { Authorization: 'Bearer ' + token } }, 8000);
   } catch(e){
     if(e.name === 'AbortError'){ const t = new Error('Timed out'); t.isTimeout = true; throw t; }
     throw e;
@@ -3592,18 +3592,17 @@ function fetchStaffProfile(uid){
       return null;
     }
     try{
-      const r = await _timedFetch(`${url}/profile/${uid}`, {}, 12000);
+      const r = await _timedFetch(`${url}/profile/${uid}`, {}, 5000);
       if(!r.ok) throw new Error('proxy:'+r.status);
       const data = await r.json();
 
       // For known members that came back without member data, do one
       // automatic 400 ms retry — enough to survive a transient Discord blip
       // without adding perceptible latency in the happy path.
-      if(!data.member && KNOWN_MEMBER_UIDS.has(uid)){
-        console.warn('[GKG] fetchStaffProfile '+uid+': member null for known member, retrying in 400 ms');
-        delete _staffProfileCache[uid];            // bust cache so retry hits network
-        await new Promise(res => setTimeout(res, 400));
-        return fetchStaffProfile(uid);             // one retry only (cache will hold next result)
+if(!data.member && KNOWN_MEMBER_UIDS.has(uid)){
+        console.warn('[GKG] fetchStaffProfile '+uid+': member null for known member, retrying immediately');
+        delete _staffProfileCache[uid];
+        return fetchStaffProfile(uid);             // one immediate retry
       }
 
       return data;
@@ -3786,37 +3785,32 @@ async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
   _staffAvatarsLoaded = true;
 
-  /* ── Phase 1: Widget — status + avatars for visible online members ── */
-  const wMembers = await _fetchPresence();   // resolves quickly, sets status dots
-  setInterval(_fetchPresence, 60000);        // auto-refresh every 60 s
+  /* ── Phase 1+2: Widget and Worker fire in PARALLEL — don't await Widget
+     before starting Worker. Widget updates presence/avatars as it resolves;
+     Worker fills in the rest. Both race; fastest one wins for each card.  ── */
+  setInterval(_fetchPresence, 60000);   // auto-refresh status dots every 60s
 
-  /* ── Phase 2: Card avatars ── parallel loading (no stagger needed; Worker
-     has its own internal rate limiting and we batch by firing all at once) ── */
+  const [wMembers] = await Promise.all([
+    _fetchPresence(),   // widget — presence + online avatars
+    Promise.resolve()   // placeholder so Promise.all structure is clear
+  ]);
+
+  /* Apply widget avatars for any members that appeared online */
   const entries = Object.entries(STAFF_DATA);
-  for(let i = 0; i < entries.length; i++){
-    const [id, d] = entries[i];
+  for(const [id, d] of entries){
     const wrap = document.getElementById('sc-av-'+id);
     if(!wrap) continue;
-
-    /* First try the widget's avatar_url — free, instant, no proxy needed */
     const wm = _matchWidgetMember(d, wMembers);
     if(wm?.avatar_url){
-      // Upgrade widget URL to size=128 for sharper cards
       const hiResUrl = wm.avatar_url.replace(/\?size=\d+/, '?size=128');
       _insertCardAvatar(wrap, hiResUrl, d.displayName);
-      continue;           // done for this member — skip Worker call
+    } else {
+      /* For all non-widget members, use Worker avatar (already pre-fetched above DOMContentLoaded) */
+      fetchStaffProfile(d.uid).then(data => {
+        _insertCardAvatar(wrap, _workerAvatarUrl(data), d.displayName);
+      });
     }
-
-    /* Offline / invisible / no widget visibility → fall back to Worker */
-    fetchStaffProfile(d.uid).then(data => {
-      _insertCardAvatar(wrap, _workerAvatarUrl(data), d.displayName);
-    });
   }
-
-/* ── Phase 3: Pre-fetch all Worker profiles simultaneously ──
-     All requests fire at once so every card's modal data is cached
-     in the same round-trip — no stagger means no slow cards.      */
-  Object.values(STAFF_DATA).forEach(d => fetchStaffProfile(d.uid));
 }
 
 /* ── Open staff modal ────────────────────────────────────────── */
@@ -3895,8 +3889,18 @@ async function openModal(id, pushHash=true){
   if(pushHash && !_skipHashPush)
     history.pushState({tab:'staff',modal:id}, null, buildHash('staff',id,null,null));
 
-  /* Fetch live data from Worker */
+/* Fetch live data from Worker — with 5s UI fallback so modal never hangs */
+  const _modalTimeoutId = setTimeout(() => {
+    // If roles are still showing "Loading…" after 5s, show static data now
+    const rolesEl = document.getElementById('dc-sm-roles');
+    if(rolesEl && rolesEl.querySelector('.dc-sm-roles-loading')){
+      _applyStaticRoles();
+      showBannerFallback();
+    }
+  }, 5000);
+
   const data = await fetchStaffProfile(uid);
+  clearTimeout(_modalTimeoutId);
 
   /* ── Worker unavailable / not configured ── */
   if(!data){
@@ -4221,10 +4225,14 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
   });
   document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]').forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
 })();
+// Pre-fetch all Worker profiles immediately — fires before DOMContentLoaded
+// so data is already cached by the time the user can click a card.
+Object.values(STAFF_DATA).forEach(d => fetchStaffProfile(d.uid));
+
 document.addEventListener('DOMContentLoaded', () => {
-  updateRoleQuestions(''); // strip required from all hidden role sections before form appears
+  updateRoleQuestions('');
   updateGateUI();
-  loadStaffAvatars(); // fires all Worker fetches simultaneously; no stagger
+  loadStaffAvatars();
 });
 </script>
   <script src="admin-script.js"></script>
