@@ -2060,13 +2060,81 @@ p{line-height:1.8;}
       <div class="fr" style="margin-top:1.2rem;"><label>Anything else you'd like us to know?</label><textarea id="af-extra" placeholder="Optional — additional information or context..."></textarea></div>
       </div><!-- /af-common-qs -->
       <div id="af-role-mod" style="display:none;">
+        
         <div style="border-top:1px solid var(--hr);margin:1.2rem 0;"></div>
         <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--accent);letter-spacing:.1em;margin-bottom:1.1rem;">Additional Questions</div>
         <div class="fr"><label>What does healthy moderation look like to you? *</label><textarea id="af-mod-philosophy" placeholder="Describe your moderation philosophy..." required></textarea></div>
         <div class="fr"><label>How would you handle a spoiler posted without tags in a spoiler-free channel? *</label><textarea id="af-mod-spoiler" placeholder="What steps would you take?" required></textarea></div>
         <div class="fr"><label>What time zone are you most active in, and what hours can you reliably cover? *</label><input type="text" id="af-mod-coverage" placeholder="e.g. UTC+8, active 6pm–midnight" required></div>
       </div>
-
+      <!-- ── Identity display (auto-filled; always shown for SMM/EC/TL, hidden for Mod) ── -->
+      <div id="af-identity-display">
+        <div class="fg" style="margin-bottom:1rem;">
+          <div class="fr"><label>Display Name</label><input type="text" id="af-displayname" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+          <div class="fr"><label>Username</label><input type="text" id="af-username" class="th-readonly" readonly placeholder="Auto-filled from Discord"></div>
+        </div>
+        <div class="fr" style="margin-bottom:1.4rem;"><label>User ID</label><input type="text" id="af-userid" class="th-readonly" readonly placeholder="Auto-filled from Discord" style="font-family:monospace;font-size:.9rem;"></div>
+        <div style="border-top:1px solid var(--hr);margin-bottom:1.4rem;"></div>
+      </div>
+      <!-- ── Basic info row (hidden when any role is selected) ── -->
+      <div id="af-basic-info-row">
+        <div class="fg">
+          <div class="fr"><label>Discord Username *</label><input type="text" id="af-disc" placeholder="e.g. username#0000" required></div>
+          <div class="fr"><label>Age *</label><input type="number" id="af-age" placeholder="Must be 15+" min="15" required></div>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="fr"><label>Timezone *</label><input type="text" id="af-tz" placeholder="e.g. UTC+8 / JST" required></div>
+        <div class="fr"><label>Position Applying For *</label>
+          <select id="af-pos" required onchange="updateRoleQuestions(this.value)">
+            <option value="">— Select a role —</option>
+            <option>Discord Moderator</option>
+            <option>Social Media Manager</option>
+            <option>Event Coordinator</option>
+            <option>Translator / Letterer</option>
+          </select>
+        </div>
+      </div>
+      <!-- ── Common questions (hidden when any role is selected) ── -->
+      <div id="af-common-qs">
+        <div class="fr"><label>How long have you been a member of the Gokurakugai Discord server? *</label>
+        <select id="af-tenure" required>
+          <option value="">— Select —</option>
+          <option>Less than 1 month</option><option>1–3 months</option><option>3–6 months</option>
+          <option>6–12 months</option><option>Over 1 year</option>
+        </select>
+      </div>
+      <div class="fr"><label>How active are you currently in the Gokurakugai server? *</label>
+        <select id="af-activity" required>
+          <option value="">— Select —</option>
+          <option>Very active — I post daily</option>
+          <option>Active — I post a few times a week</option>
+          <option>Occasionally — I check in weekly</option>
+          <option>Mostly a lurker but I read everything</option>
+        </select>
+      </div>
+      <div class="fr"><label>Hours per week available for staff duties? *</label>
+        <select id="af-hours" required>
+          <option value="">— Select —</option>
+          <option>1–3 hours</option><option>4–7 hours</option><option>8–14 hours</option><option>15+ hours</option>
+        </select>
+      </div>
+      <div class="fr"><label>Which channels or areas of the server do you frequent most? *</label><textarea id="af-channels" placeholder="e.g. chapter discussion, general, art channels..." required></textarea></div>
+      <div class="fr"><label>How familiar are you with Gokurakugai's manga content? *</label>
+        <select id="af-familiarity" required>
+          <option value="">— Select —</option>
+          <option>Up to date with all chapters</option>
+          <option>Read most of it, catching up</option>
+          <option>Familiar with the story but not every chapter</option>
+          <option>Still early in the series</option>
+        </select>
+      </div>
+      <div class="fr"><label>Prior moderation or community management experience? *</label><textarea id="af-exp" placeholder="Describe any previous experience managing Discord servers, forums, or communities. If none, say so — it won't disqualify you." required></textarea></div>
+      <div class="fr"><label>Why do you want to join the Gokurakugai staff team? *</label><textarea id="af-why" placeholder="Tell us what draws you to this community specifically, and what you hope to contribute..." required></textarea></div>
+      <div class="fr"><label>How would you handle two members arguing aggressively in a public channel? *</label><textarea id="af-scenario" placeholder="Walk us through your step-by-step approach..." required></textarea></div>
+      <div class="fr"><label>A member sends you a DM complaining that a moderator was rude to them. How do you respond? *</label><textarea id="af-scenario2" placeholder="Describe how you'd handle this situation..." required></textarea></div>
+      <div class="fr" style="margin-top:1.2rem;"><label>Anything else you'd like us to know?</label><textarea id="af-extra" placeholder="Optional — additional information or context..."></textarea></div>
+      </div>
       <div id="af-role-smm" style="display:none;">
         <div style="border-top:1px solid var(--hr);margin:1.2rem 0;"></div>
         <div class="fr"><label>Which social media platforms are you most comfortable managing? *</label><textarea id="af-smm-platforms" placeholder="e.g. Twitter/X, Instagram, Bluesky, TikTok..." required></textarea></div>
