@@ -733,10 +733,12 @@ async function adminToggleApplications() {
   try {
     const snap = await ADMIN_COLS.settings().get();
     const current = snap.exists ? (snap.data().applicationsOpen ?? true) : true;
-    await ADMIN_COLS.settings().set({ applicationsOpen: !current }, { merge: true });
-    updateAppStatusUI(!current);
-    updateApplyFormVisibility(!current);
-    showToast(`Applications ${!current ? 'opened ✅' : 'closed ⛔'}`);
+    const next = !current;
+    await ADMIN_COLS.settings().set({ applicationsOpen: next }, { merge: true });
+    updateAppStatusUI(next);
+    window._appsOpen = next;
+    if (typeof updateGateUI === 'function') updateGateUI();
+    showToast(`Applications ${next ? 'opened ✅' : 'closed ⛔'}`);
   } catch (err) {
     console.error('[ADMIN] Toggle error:', err);
     showToast('❌ Error toggling applications.', 'err');
@@ -806,42 +808,24 @@ async function checkApplicationsOpen() {
   try {
     const snap = await ADMIN_COLS.settings().get();
     const isOpen = snap.exists ? (snap.data().applicationsOpen ?? true) : true;
-    updateApplyFormVisibility(isOpen);
+    window._appsOpen = isOpen;
+    // updateGateUI() already exists in index.html and handles all 4 states
+    // (closed / not-logged-in / not-a-member / member-can-apply) correctly.
+    if (typeof updateGateUI === 'function') updateGateUI();
   } catch (_) {
-    // Firestore may not be available — show form by default
-    updateApplyFormVisibility(true);
+    // Firestore may not be available — default to open so the gate UI
+    // falls through to the login/member checks correctly.
+    window._appsOpen = true;
+    if (typeof updateGateUI === 'function') updateGateUI();
   }
 }
 
+// updateApplyFormVisibility — kept for back-compat with any external callers,
+// but now delegates all visibility logic to updateGateUI() which correctly
+// handles all four states (closed / logged-out / non-member / member).
 function updateApplyFormVisibility(isOpen) {
-  const form = document.getElementById('apply-form');
-  const ok   = document.getElementById('apply-ok');
-
-  if (!form) return;
-
-  if (!isOpen) {
-    // Replace form with a closed notice
-    let closed = document.getElementById('apply-closed-notice');
-    if (!closed) {
-      closed = document.createElement('div');
-      closed.id = 'apply-closed-notice';
-      closed.className = 'apply-ok';
-      closed.style.display = 'block';
-      closed.innerHTML = `
-        <div class="ao-ico"><svg class="icon-xl" style="color:var(--text-muted);"><use href="#i-lock"/></svg></div>
-        <h3>Applications Closed</h3>
-        <p>Staff applications are not currently open. Follow our Discord server for announcements when the next application period begins.</p>
-        <a href="https://discord.gg/gokurakugai" target="_blank" class="btn btn-dc" style="margin-top:.8rem;">Join Discord</a>
-      `;
-      form.parentNode.insertBefore(closed, form);
-    }
-    form.style.display   = 'none';
-    closed.style.display = 'block';
-  } else {
-    const closed = document.getElementById('apply-closed-notice');
-    if (closed) closed.style.display = 'none';
-    form.style.display = 'block';
-  }
+  window._appsOpen = isOpen;
+  if (typeof updateGateUI === 'function') updateGateUI();
 }
 
 // ════════════════════════════════════════════════════════════════════════
