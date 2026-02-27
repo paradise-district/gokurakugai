@@ -1928,13 +1928,21 @@ p{line-height:1.8;}
       <p>Staff applications are not currently open. Follow our Discord server for announcements when the next application period begins.</p>
       <a href="https://discord.gg/gokurakugai" target="_blank" class="btn btn-p">Join Discord</a>
     </div>
-    <div id="apply-gate" class="gate">
+<div id="apply-gate" class="gate" style="display:none;">
       <div class="gate-ico"><svg class="icon-xl"><use href="#i-lock"/></svg></div>
-      <h3>Discord Login Required</h3>
-      <p>To submit a staff application, you must be logged in with Discord and be a member of our server.</p>
+      <h3>Login to View Application</h3>
+      <p>Staff applications are currently open! Log in with Discord to view the form. You must also be a member of our server to apply.</p>
       <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;">
         <button class="btn btn-dc" onclick="dcLogin()">Login with Discord</button>
         <a href="https://discord.gg/gokurakugai" target="_blank" class="btn">Join Server First</a>
+      </div>
+    </div>
+    <div id="apply-member-notice" class="gate" style="display:none;">
+      <div class="gate-ico"><svg class="icon-xl"><use href="#i-users"/></svg></div>
+      <h3>Server Membership Required</h3>
+      <p>Applications are open! You're logged in but you need to join the Gokurakugai Discord server before you can submit a staff application.</p>
+      <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;">
+        <a href="https://discord.gg/gokurakugai" target="_blank" class="btn btn-p">Join the Server</a>
       </div>
     </div>
     <form id="apply-form" class="af" onsubmit="submitApplication(event)" style="display:none;">
@@ -2714,53 +2722,41 @@ function updateGateUI(){
   const thBtn = document.querySelector('.th-submit-btn');
   if(thBtn){ thBtn.disabled = loggedIn && !isMem; thBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1'; }
 
-  // Staff form — gated by BOTH login state AND applicationsOpen Firestore flag
-  const applyGate = document.getElementById('apply-gate');
-  const applyForm = document.getElementById('apply-form');
-  const applyNote = document.getElementById('apply-member-note');
-  const afFormFields = document.getElementById('af-form-fields');
-  const appsClosedNotice = document.getElementById('apply-closed-notice');
+// Staff form — three-state gate: closed / not logged in / not a member / member
+  const applyGate         = document.getElementById('apply-gate');
+  const applyMemberNotice = document.getElementById('apply-member-notice');
+  const applyForm         = document.getElementById('apply-form');
+  const applyNote         = document.getElementById('apply-member-note');
+  const afFormFields      = document.getElementById('af-form-fields');
+  const appsClosedNotice  = document.getElementById('apply-closed-notice');
 
   // Determine applications open state — set by admin-script.js from Firestore
   const appsOpen = (window._appsOpen !== false); // default true until Firestore responds
 
-  // Closed notice: visible only when closed, regardless of login state
-  if(appsClosedNotice) appsClosedNotice.style.display = appsOpen ? 'none' : 'block';
+  // Reset all gate elements first
+  [appsClosedNotice, applyGate, applyMemberNotice].forEach(el => { if(el) el.style.display = 'none'; });
+  if(applyForm) applyForm.style.display = 'none';
 
   if(!appsOpen){
-    // Applications CLOSED — hide gate and form completely
-    if(applyGate) applyGate.style.display = 'none';
-    if(applyForm) applyForm.style.display = 'none';
+    // CLOSED — show closed notice only, everything else hidden
+    if(appsClosedNotice) appsClosedNotice.style.display = 'block';
+  } else if(!loggedIn){
+    // OPEN but not logged in — prompt login
+    if(applyGate) applyGate.style.display = 'block';
+  } else if(!isMem){
+    // OPEN, logged in, but not a server member — prompt join
+    if(applyMemberNotice) applyMemberNotice.style.display = 'block';
   } else {
-    // Applications OPEN — gate by login state only
-    if(applyGate) applyGate.style.display = loggedIn ? 'none' : 'block';
-    if(applyForm) applyForm.style.display = loggedIn ? 'block' : 'none';
+    // OPEN, logged in, server member — show the actual form
+    if(applyForm) applyForm.style.display = 'block';
   }
-  // Member warning banner: visible when logged in but not a member
-  if(applyNote) applyNote.style.display = (loggedIn && !isMem) ? 'flex' : 'none';
 
-  // Lock/unlock fillable fields based on membership
-  const afLockable = ['af-disc','af-age','af-tz','af-pos','af-tenure','af-activity','af-hours','af-channels','af-familiarity','af-exp','af-why','af-scenario','af-scenario2','af-extra','af-mod-philosophy','af-mod-spoiler','af-mod-coverage','af-smm-platforms','af-smm-workflow','af-smm-experience','af-smm-chapter-post','af-smm-design','af-ec-past','af-ec-ideas','af-ec-process','af-ec-lowturno','af-ec-collab','af-tl-languages','af-tl-experience','af-tl-samples','af-tl-tools','af-tl-nuance'];
-  afLockable.forEach(id => {
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.disabled = loggedIn && !isMem;
-    el.style.opacity = (loggedIn && !isMem) ? '.35' : '';
-    el.style.pointerEvents = (loggedIn && !isMem) ? 'none' : '';
-    el.style.cursor = (loggedIn && !isMem) ? 'not-allowed' : '';
-  });
-
-  // Lock the form fields wrapper visually (same pattern as theory form)
-  if(afFormFields) afFormFields.classList.toggle('form-member-locked', loggedIn && !isMem);
-
-  // Submit button
+  // Since only members ever see the form, all fields are always unlocked
+  if(applyNote) applyNote.style.display = 'none';
+  if(afFormFields) afFormFields.classList.remove('form-member-locked');
   const applyBtn = document.getElementById('af-submit-btn');
-  if(applyBtn){
-    applyBtn.disabled = loggedIn && !isMem;
-    applyBtn.style.opacity = (loggedIn && !isMem) ? '.42' : '1';
-    applyBtn.style.pointerEvents = (loggedIn && !isMem) ? 'none' : '';
-  }
-} // ← this closing brace for updateGateUI() is missing
+  if(applyBtn){ applyBtn.disabled = false; applyBtn.style.opacity = '1'; applyBtn.style.pointerEvents = ''; }
+} // ← closing brace for updateGateUI()
 /* ── Full login sequence ─────────────────────────────────── */
 async function doLogin(token){
   const loginBtn = document.getElementById('dc-login-btn');
@@ -3371,14 +3367,18 @@ function updateRoleQuestions(role){
     'Event Coordinator':'af-role-ec',
     'Translator / Letterer':'af-role-tl'
   };
-  // Hide all role sections first
+  // Always hide ALL role sections and strip required first
   Object.values(sections).forEach(id=>{
     const el=document.getElementById(id);
-    if(el) el.style.display='none';
-    // Remove required from all inputs/textareas inside hidden sections
-    el && el.querySelectorAll('input,textarea,select').forEach(f=>f.removeAttribute('required'));
+    if(!el) return;
+    el.style.display='none';
+    // Remove required AND disabled so hidden fields never block submission
+    el.querySelectorAll('input,textarea,select').forEach(f=>{
+      f.removeAttribute('required');
+      f.removeAttribute('disabled');
+    });
   });
-  // Show + re-require the selected role's section
+  // Show only the section matching the selected role and re-add required
   const activeId=sections[role];
   if(activeId){
     const el=document.getElementById(activeId);
@@ -3803,14 +3803,10 @@ async function loadStaffAvatars(){
     });
   }
 
-  /* ── Phase 3: Warm-prefetch all Worker profiles immediately ──
-     Fires right after the widget call with a 60 ms stagger between requests.
-     All 9 profiles are in-flight within ~540 ms of page load, so by the time
-     a user can move their mouse to click a card the data is already cached.  */
-  const allEntries = Object.entries(STAFF_DATA);
-  allEntries.forEach(([, d], i) => {
-    setTimeout(() => fetchStaffProfile(d.uid), i * 60);
-  });
+/* ── Phase 3: Pre-fetch all Worker profiles simultaneously ──
+     All requests fire at once so every card's modal data is cached
+     in the same round-trip — no stagger means no slow cards.      */
+  Object.values(STAFF_DATA).forEach(d => fetchStaffProfile(d.uid));
 }
 
 /* ── Open staff modal ────────────────────────────────────────── */
@@ -4215,15 +4211,10 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
   });
   document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]').forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
 })();
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+  updateRoleQuestions(''); // strip required from all hidden role sections before form appears
   updateGateUI();
-  loadStaffAvatars();
-  updateRoleQuestions(''); // ensure all role-specific sections hidden + required removed on load
-  // Also warm Worker profiles on DOM ready (second wave, 60 ms stagger)
-  // so mobile users whose page settled late still get pre-cached data.
-  Object.values(STAFF_DATA).forEach((d, i) => {
-    setTimeout(() => fetchStaffProfile(d.uid), i * 60);
-  });
+  loadStaffAvatars(); // fires all Worker fetches simultaneously; no stagger
 });
 </script>
   <script src="admin-script.js"></script>
