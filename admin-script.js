@@ -1,7 +1,36 @@
 /* ════════════════════════════════════════════════════════════════════════
    ADMIN DASHBOARD JAVASCRIPT
+   ─────────────────────────────────────────────────────────────────────
+   WHERE TO INSERT: Inside the <script> block at the bottom of index.html,
+   just before the final updateGateUI() call (very last line of the script).
+
+   PREREQUISITES: Firebase JS SDK v9 compat must be loaded in <head>:
+   Add these TWO scripts before the existing closing </head> tag:
+     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+   Also add the Admin nav tab to the desktop nav (in <ul class="nav-tabs">):
+     <li id="nav-admin-tab">
+       <a href="#" class="tab" data-tab="admin">
+         <svg class="icon icon-sm"><use href="#i-shield"/></svg> Admin
+       </a>
+     </li>
+
+   And to VALID_TABS array in the existing JS:
+     const VALID_TABS=['about','manga','news','theories','rules','info','staff','admin'];
 ════════════════════════════════════════════════════════════════════════ */
 
+/* ── Firebase Client Config ──────────────────────────────────────────────
+   Replace these values with your Firebase project's config.
+   Get it from: Firebase Console → Project Settings → Your apps → Web app
+───────────────────────────────────────────────────────────────────────── */
+/* ── Firebase is already initialized by the compat SDK scripts in index.html.
+   We reuse the existing app instance here instead of re-initializing.
+   The compat SDK registers the app globally as firebase.app(), so we
+   just call firebase.firestore() and firebase.storage() directly.
+   If for any reason the app hasn't been initialized yet (e.g. script order
+   change), we initialize it here with the real project config as a fallback. */
 const FIREBASE_CONFIG = {
   apiKey:            'AIzaSyD0wvSd9pj00r8LHMVi-nN889JGzyMEOls',
   authDomain:        'gokurakugai-community.firebaseapp.com',
