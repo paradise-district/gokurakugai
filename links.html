@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Gokurakugai · Community Links</title>
+<meta name="description" content="All official Gokurakugai community social media links — Discord, Twitter, Instagram, Threads, Facebook, Bluesky, and more.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gokurakugai.wiki/links">
+<meta property="og:title" content="Gokurakugai · Community Links">
+<meta property="og:description" content="All official social links for the Gokurakugai fan community.">
+<meta property="og:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --crimson: #8B1A1A;
+  --crimson-deep: #5C0F0F;
+  --crimson-bright: #C0272D;
+  --gold: #C9A84C;
+  --gold-light: #E8C96A;
+  --gold-dim: #8A6D25;
+  --bg: #0A0303;
+  --bg2: #130808;
+  --surface: #1A0808;
+  --surface2: #220D0D;
+  --surface3: #2C1010;
+  --text: #F0DFC0;
+  --text-dim: #A08060;
+  --text-muted: #6B4A30;
+  --border: rgba(201,168,76,0.18);
+  --border-hover: rgba(201,168,76,0.45);
+  --glow: 0 0 20px rgba(201,168,76,0.25);
+  --glow-strong: 0 0 40px rgba(201,168,76,0.35), 0 0 80px rgba(139,26,26,0.2);
+  --glow-crimson: 0 0 20px rgba(192,39,45,0.3);
+}
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════
+   ATMOSPHERIC BACKGROUND
+═══════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(139,26,26,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(92,15,15,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 90% 80%, rgba(92,15,15,0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Animated grain texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%  { transform: translate(0,0) }
+  10% { transform: translate(-5%,-10%) }
+  20% { transform: translate(-15%, 5%) }
+  30% { transform: translate( 7%,-25%) }
+  40% { transform: translate(-5%, 25%) }
+  50% { transform: translate(-15%, 10%) }
+  60% { transform: translate(15%, 0%) }
+  70% { transform: translate(0%, 15%) }
+  80% { transform: translate(3%,-35%) }
+  90% { transform: translate(-10%, 10%) }
+ 100% { transform: translate(0,0) }
+}
+
+/* ═══════════════════════════════════════
+   LAYOUT WRAPPER
+═══════════════════════════════════════ */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1.25rem 4rem;
+}
+
+/* ═══════════════════════════════════════
+   TOP NAV
+═══════════════════════════════════════ */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .6rem 1.5rem;
+  background: rgba(10,3,3,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-home {
+  font-family: 'Cinzel', serif;
+  font-size: .7rem;
+  letter-spacing: .25em;
+  color: var(--text-dim);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  transition: color .2s;
+}
+.topbar-home:hover { color: var(--gold); }
+.topbar-sep {
+  color: var(--text-muted);
+  margin: 0 .75rem;
+  font-size: .6rem;
+}
+.topbar-current {
+  font-family: 'Cinzel', serif;
+  font-size: .7rem;
+  letter-spacing: .25em;
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  margin-top: 5rem;
+  text-align: center;
+  margin-bottom: 2.8rem;
+  position: relative;
+}
+
+/* Decorative horizontal rule lines */
+.hero::before, .hero::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 1.2rem auto;
+  width: min(420px, 90vw);
+}
+
+.hero-kanji {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  color: var(--text-muted);
+  letter-spacing: .15em;
+  line-height: 1;
+  margin-bottom: .25rem;
+  opacity: .7;
+}
+
+.hero-logo {
+  max-width: min(240px, 55vw);
+  height: auto;
+  display: block;
+  margin: 0 auto .6rem;
+  filter: drop-shadow(0 0 12px rgba(201,168,76,0.3));
+  animation: logoFloat 6s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+/* Fallback title if logo doesn't load */
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(1.6rem, 5.5vw, 2.6rem);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: .35rem;
+}
+
+.hero-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: clamp(.9rem, 2.5vw, 1.05rem);
+  color: var(--text-dim);
+  letter-spacing: .05em;
+  margin-bottom: .5rem;
+}
+
+.hero-tagline {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .3em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   DIVIDER ORNAMENT
+═══════════════════════════════════════ */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin: .5rem auto 2.2rem;
+  width: min(380px, 88vw);
+  color: var(--gold-dim);
+}
+.ornament-line { flex: 1; height: 1px; background: var(--border); }
+.ornament-diamond {
+  width: 6px; height: 6px;
+  background: var(--gold-dim);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════
+   LINK CARDS CONTAINER
+═══════════════════════════════════════ */
+.links-wrap {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+}
+
+/* ═══════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════ */
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: .62rem;
+  letter-spacing: .3em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  text-align: center;
+  padding: .6rem 0 .2rem;
+  position: relative;
+}
+.section-label::before, .section-label::after {
+  content: '·';
+  margin: 0 .5rem;
+  color: var(--gold-dim);
+}
+
+/* ═══════════════════════════════════════
+   LINK CARD
+═══════════════════════════════════════ */
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .9rem 1.2rem;
+  background: linear-gradient(135deg, var(--surface), var(--surface2));
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  text-decoration: none;
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color .25s,
+    box-shadow .25s,
+    transform .2s;
+  cursor: pointer;
+}
+
+/* Inner shimmer sweep on hover */
+.link-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg,
+    transparent 30%,
+    rgba(201,168,76,0.07) 50%,
+    transparent 70%);
+  transform: translateX(-100%);
+  transition: transform .5s;
+  pointer-events: none;
+}
+.link-card:hover::before { transform: translateX(100%); }
+
+/* Left accent bar */
+.link-card::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity .25s;
+}
+.link-card:hover::after, .link-card:focus-visible::after { opacity: 1; }
+
+.link-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--glow);
+  transform: translateX(3px);
+}
+
+.link-card:focus-visible {
+  outline: 2px solid var(--gold-dim);
+  outline-offset: 2px;
+}
+
+/* Featured / primary card */
+.link-card.featured {
+  background: linear-gradient(135deg, #1e0a0a, #2a0f0f);
+  border-color: rgba(201,168,76,0.28);
+  padding: 1.1rem 1.2rem;
+}
+.link-card.featured:hover {
+  box-shadow: var(--glow-strong);
+  border-color: rgba(201,168,76,0.6);
+}
+
+/* Icon container */
+.link-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  transition: background .25s, border-color .25s, box-shadow .25s;
+}
+.link-card:hover .link-icon {
+  background: rgba(201,168,76,0.15);
+  border-color: var(--border-hover);
+  box-shadow: 0 0 10px rgba(201,168,76,0.15);
+}
+.link-card.featured .link-icon {
+  width: 44px; height: 44px;
+  background: rgba(201,168,76,0.12);
+  border-color: rgba(201,168,76,0.25);
+}
+
+.link-icon svg {
+  width: 18px; height: 18px;
+  color: var(--gold);
+  fill: currentColor;
+}
+.link-card.featured .link-icon svg { width: 22px; height: 22px; }
+
+/* Custom per-platform icon colors on hover */
+.link-card[data-platform="discord"]:hover .link-icon { background: rgba(88,101,242,0.15); border-color: rgba(88,101,242,0.4); }
+.link-card[data-platform="discord"]:hover .link-icon svg { color: #7289DA; }
+.link-card[data-platform="twitter"]:hover .link-icon svg { color: #f0f0f0; }
+.link-card[data-platform="instagram"]:hover .link-icon { background: rgba(225,48,108,0.15); border-color: rgba(225,48,108,0.4); }
+.link-card[data-platform="instagram"]:hover .link-icon svg { color: #E1306C; }
+.link-card[data-platform="threads"]:hover .link-icon svg { color: #e0e0e0; }
+.link-card[data-platform="facebook"]:hover .link-icon { background: rgba(24,119,242,0.15); border-color: rgba(24,119,242,0.4); }
+.link-card[data-platform="facebook"]:hover .link-icon svg { color: #1877F2; }
+.link-card[data-platform="fbgroup"]:hover .link-icon { background: rgba(24,119,242,0.15); border-color: rgba(24,119,242,0.4); }
+.link-card[data-platform="fbgroup"]:hover .link-icon svg { color: #1877F2; }
+.link-card[data-platform="bluesky"]:hover .link-icon { background: rgba(0,133,255,0.15); border-color: rgba(0,133,255,0.4); }
+.link-card[data-platform="bluesky"]:hover .link-icon svg { color: #0085FF; }
+
+/* Text block */
+.link-text { flex: 1; min-width: 0; }
+.link-name {
+  font-family: 'Cinzel', serif;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--text);
+  line-height: 1.2;
+  transition: color .2s;
+}
+.link-card:hover .link-name { color: var(--gold-light); }
+.link-card.featured .link-name { font-size: .9rem; }
+
+.link-handle {
+  font-family: 'Crimson Pro', serif;
+  font-size: .82rem;
+  color: var(--text-muted);
+  margin-top: .1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color .2s;
+}
+.link-card:hover .link-handle { color: var(--text-dim); }
+
+/* Arrow */
+.link-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color .25s, transform .25s;
+}
+.link-card:hover .link-arrow {
+  color: var(--gold);
+  transform: translateX(3px);
+}
+.link-arrow svg { width: 14px; height: 14px; display: block; }
+
+/* ═══════════════════════════════════════
+   STAGGER ENTRANCE
+═══════════════════════════════════════ */
+.link-card {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: cardIn .5s ease forwards;
+}
+.link-card:nth-child(1)  { animation-delay: .05s; }
+.link-card:nth-child(2)  { animation-delay: .10s; }
+.link-card:nth-child(3)  { animation-delay: .15s; }
+.link-card:nth-child(4)  { animation-delay: .20s; }
+.link-card:nth-child(5)  { animation-delay: .25s; }
+.link-card:nth-child(6)  { animation-delay: .30s; }
+.link-card:nth-child(7)  { animation-delay: .35s; }
+.link-card:nth-child(8)  { animation-delay: .40s; }
+.links-wrap .section-label { opacity: 0; animation: cardIn .4s ease forwards; }
+.links-wrap .section-label:nth-child(1) { animation-delay: .0s; }
+
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.page-footer {
+  margin-top: 3.5rem;
+  text-align: center;
+  opacity: 0;
+  animation: cardIn .5s ease .55s forwards;
+}
+.page-footer-logo {
+  font-family: 'Cinzel', serif;
+  font-size: .65rem;
+  letter-spacing: .35em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.page-footer-disclaimer {
+  font-family: 'Crimson Pro', serif;
+  font-size: .78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 340px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.page-footer a { color: var(--gold-dim); text-decoration: none; }
+.page-footer a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .page { padding: 2.5rem 1rem 3.5rem; }
+  .hero { margin-top: 4.5rem; }
+  .hero-logo { max-width: 180px; }
+  .link-card { padding: .8rem 1rem; }
+  .link-card.featured { padding: 1rem; }
+  .link-icon { width: 34px; height: 34px; }
+  .link-card.featured .link-icon { width: 40px; height: 40px; }
+  .link-name { font-size: .76rem; }
+}
+
+/* ═══════════════════════════════════════
+   SCROLL HINT (desktop only)
+═══════════════════════════════════════ */
+@media (max-width: 600px) {
+  .scroll-hint { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top navigation bar -->
+<nav class="topbar" role="navigation" aria-label="Breadcrumb">
+  <a href="/" class="topbar-home" aria-label="Return to Gokurakugai homepage">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    GOKURAKUGAI.WIKI
+  </a>
+  <span class="topbar-sep" aria-hidden="true">◆</span>
+  <span class="topbar-current">COMMUNITY LINKS</span>
+</nav>
+
+<div class="page">
+
+  <!-- ── Hero ── -->
+  <header class="hero" role="banner">
+    <p class="hero-kanji" aria-label="Gokurakugai in Japanese">極楽街</p>
+
+    <!-- Try to load site logo; falls back to text title -->
+    <img
+      src="assets/images/logo-en.png"
+      alt="Gokurakugai"
+      class="hero-logo"
+      onerror="this.style.display='none';document.getElementById('hero-title-fallback').style.display='block';"
+    >
+    <h1 id="hero-title-fallback" class="hero-title" style="display:none;">Gokurakugai</h1>
+
+    <p class="hero-subtitle">Fan Community &amp; Discord Hub</p>
+    <p class="hero-tagline">Official Social Links</p>
+  </header>
+
+  <!-- ── Ornament ── -->
+  <div class="ornament" aria-hidden="true">
+    <span class="ornament-line"></span>
+    <span class="ornament-diamond"></span>
+    <span class="ornament-line"></span>
+    <span class="ornament-diamond"></span>
+    <span class="ornament-line"></span>
+  </div>
+
+  <!-- ── Link Cards ── -->
+  <main class="links-wrap" role="main">
+
+    <!-- Community -->
+    <p class="section-label" role="heading" aria-level="2">Community</p>
+
+    <a href="/discord" class="link-card featured" data-platform="discord" rel="noopener" aria-label="Join our Discord server">
+      <div class="link-icon">
+        <!-- Discord logo -->
+        <svg viewBox="0 0 71 55" fill="currentColor"><path d="M60.1 4.9A58.5 58.5 0 0 0 45.4.6a.2.2 0 0 0-.2.1c-.6 1.1-1.3 2.5-1.8 3.7a54.1 54.1 0 0 0-16.2 0 38 38 0 0 0-1.8-3.7.22.22 0 0 0-.2-.1A58.4 58.4 0 0 0 10.5 4.9a.2.2 0 0 0-.1.1C1.6 18.1-.9 31 .3 43.6a.2.2 0 0 0 .1.2 58.8 58.8 0 0 0 17.7 8.9.22.22 0 0 0 .2-.1 42 42 0 0 0 3.6-5.9.2.2 0 0 0-.1-.3 38.7 38.7 0 0 1-5.5-2.6.2.2 0 0 1 0-.3l1.1-.9a.2.2 0 0 1 .2 0c11.5 5.3 24 5.3 35.4 0a.2.2 0 0 1 .2 0l1.1.9a.2.2 0 0 1 0 .3 36.1 36.1 0 0 1-5.5 2.6.2.2 0 0 0-.1.3 47.1 47.1 0 0 0 3.6 5.9.2.2 0 0 0 .2.1 58.6 58.6 0 0 0 17.7-8.9.2.2 0 0 0 .1-.2c1.5-14.8-2.5-27.7-10.4-39.1a.2.2 0 0 0-.1-.1zM23.7 36.2c-3.5 0-6.4-3.2-6.4-7.1s2.9-7.1 6.4-7.1 6.4 3.2 6.4 7.1c-.1 3.9-2.9 7.1-6.4 7.1zm23.6 0c-3.5 0-6.4-3.2-6.4-7.1s2.9-7.1 6.4-7.1 6.4 3.2 6.4 7.1c0 3.9-2.9 7.1-6.4 7.1z"/></svg>
+      </div>
+      <div class="link-text">
+        <div class="link-name">Discord Server</div>
+        <div class="link-handle">discord.gg/gokurakugai</div>
+      </div>
+      <span class="link-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <!-- Social Media -->
+    <p class="section-label" role="heading" aria-level="2">Social Media</p>
+
+    <a href="/twitter" class="link-card" data-platform="twitter" rel="noopener" aria-label="Follow on Twitter / X">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.26 5.625zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </div>
+      <div class="link-text">
+        <div class="link-name">Twitter / X</div>
+        <div class="link-handle">@gokurakugainews</div>
+      </div>
+      <span class="link-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <a href="/instagram" class="link-card" data-platform="instagram" rel="noopener" aria-label="Follow on Instagram">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+      <div class="link-text">
+        <div class="link-name">Instagram</div>
+        <div class="link-handle">@gokurakugaiwiki</div>
+      </div>
+      <span class="link-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <a href="/threads" class="link-card" data-platform="threads" rel="noopener" aria-label="Follow on Threads">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.365-.89h-.029c-.78 0-1.896.218-2.584 1.231l-1.64-1.239c.85-1.261 2.282-1.978 4.244-1.978h.044c3.057.019 4.877 1.883 5.002 5.07.509.179.991.42 1.44.724 1.448.998 2.287 2.434 2.408 4.041.201 2.682-.779 5.248-2.961 7.24-1.865 1.717-4.309 2.597-7.382 2.618z"/></svg>
+      </div>
+      <div class="link-text">
+        <div class="link-name">Threads</div>
+        <div class="link-handle">@gokurakugaiwiki</div>
+      </div>
+      <span class="link-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <a href="/bluesky" class="link-card" data-platform="bluesky" rel="noopener" aria-label="Follow on Bluesky">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
+      </div>
+      <div class="link-text">
+        <div class="link-name">Bluesky</div>
+        <div class="link-handle">gokurakugai.bsky.social</div>
+      </div>
+      <span class="link-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <!-- Facebook -->
+    <p class="section-label" role="heading" aria-level="2">Facebook</p>
+
+    <a href="/facebook" class="link-card" data-platform="facebook" rel="noopener" aria-label="Like our Facebook page">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </div>
+      <div class="link-text">
+        <div class="link-name">Facebook Page</div>
+        <div class="link-handle">facebook.com/gokurakugai</div>
+      </div>
+      <span class="link-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <a href="/fbgroup" class="link-card" data-platform="fbgroup" rel="noopener" aria-label="Join our Facebook group">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="link-text">
+        <div class="link-name">Facebook Group</div>
+        <div class="link-handle">facebook.com/groups/gokurakugai</div>
+      </div>
+      <span class="link-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="page-footer" role="contentinfo">
+    <p class="page-footer-logo">GOKURAKUGAI COMMUNITY</p>
+    <p class="page-footer-disclaimer">
+      An unofficial fan community. All rights to the manga belong to
+      <a href="https://twitter.com/Yuto___Sano" rel="noopener">Yuto Sano</a>
+      and Shueisha.
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
