@@ -10,14 +10,14 @@
 <meta name="keywords" content="Gokurakugai, 極楽街, manga, Yuto Sano, Jump SQ, Gokurakugai community, Gokurakugai Discord, Gokurakugai server, Gokurakugai Discord Server, Gokurakugai anime, Gokurakugai manga, Gokurakugai anime manga fans">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Gokurakugai Fan Community">
-<link rel="canonical" href="https://paradise-district.github.io/gokurakugai/">
+<link rel="canonical" href="https://gokurakugai.wiki/">
 
 <!-- ════ OPEN GRAPH ════ -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://paradise-district.github.io/gokurakugai/">
+<meta property="og:url" content="https://gokurakugai.wiki/">
 <meta property="og:title" content="Gokurakugai Community · Discord Hub &amp; Fan Site">
 <meta property="og:description" content="A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.">
-<meta property="og:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
+<meta property="og:image" content="https://gokurakugai.wiki/assets/images/og-image.jpg">
 <meta property="og:site_name" content="Gokurakugai Community">
 <meta property="og:locale" content="en_US">
 
@@ -25,7 +25,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gokurakugai Community · Discord Hub &amp; Fan Site">
 <meta name="twitter:description" content="Fan-run Gokurakugai community and Discord hub. News, releases, countdowns, and resources">
-<meta name="twitter:image" content="https://paradise-district.github.io/gokurakugai/assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://gokurakugai.wiki/assets/images/og-image.jpg">
 
 <!-- ════ FAVICONS ════ -->
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
@@ -42,11 +42,11 @@
   "@context":"https://schema.org",
   "@type":"WebSite",
   "name":"Gokurakugai Community",
-  "url":"https://paradise-district.github.io/gokurakugai/",
+  "url":"https://gokurakugai.wiki/",
   "description":"A fan-run wiki and Discord community dedicated to Gokurakugai — the action-supernatural manga by Yuto Sano.",
   "potentialAction":{
     "@type":"SearchAction",
-    "target":"https://paradise-district.github.io/gokurakugai/?q={search_term_string}",
+    "target":"https://gokurakugai.wiki/?q={search_term_string}",
     "query-input":"required name=search_term_string"
   }
 }
@@ -2635,7 +2635,7 @@ function getCurrentTab(){
 ─────────────────────────────────────────────────────────────*/
 function dcLogin(){
   localStorage.setItem('gkg-pretab', getCurrentTab());
-  const redirectUri = encodeURIComponent('https://paradise-district.github.io/gokurakugai/');
+  const redirectUri = encodeURIComponent('https://gokurakugai.wiki/');
   const scope       = encodeURIComponent('identify guilds guilds.members.read');
   window.location.href =
     'https://discord.com/api/oauth2/authorize?client_id=' + CFG.DISCORD_CLIENT_ID +
