@@ -706,7 +706,7 @@ function buildRoleEssays(id, a) {
   return out.join('');
 }
 
-
+function buildEssayBlock(id, label, text, key) {
   if (!text) return '';
   return `
     <div class="adm-app-essay">
