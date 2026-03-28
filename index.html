@@ -777,6 +777,48 @@ p{line-height:1.8;}
 .dc-sm-status-dot.online{background:#57F287;}
 .dc-sm-status-dot.idle{background:#FEE75C;}
 .dc-sm-status-dot.dnd{background:#ED4245;}
+/* ── Custom status bar (below username) ── */
+.dc-sm-status-bar{
+  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+  margin:.3rem 0 .7rem;padding:.35rem .6rem;
+  background:var(--surface2);border:1px solid var(--hr);border-radius:6px;
+  font-size:.78rem;color:var(--text-dim);
+}
+.dc-sm-status-indicator{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.08em;
+  font-weight:600;text-transform:uppercase;white-space:nowrap;
+}
+.dc-sm-status-indicator::before{
+  content:'';display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--si-color,#747f8d);flex-shrink:0;
+}
+.dc-sm-status-indicator.online{--si-color:#57F287;color:#57F287;}
+.dc-sm-status-indicator.idle{--si-color:#FEE75C;color:#FEE75C;}
+.dc-sm-status-indicator.dnd{--si-color:#ED4245;color:#ED4245;}
+.dc-sm-status-indicator.offline{--si-color:#747f8d;color:var(--text-muted);}
+.dc-sm-custom-text{font-size:.8rem;color:var(--text-dim);opacity:.9;font-style:italic;}
+/* ── Same for personal profile modal ── */
+.pm-status-bar{
+  display:none;align-items:center;gap:.5rem;flex-wrap:wrap;
+  margin:.15rem 0 .8rem;padding:.35rem .6rem;
+  background:var(--surface2);border:1px solid var(--hr);border-radius:6px;
+  font-size:.78rem;color:var(--text-dim);
+}
+.pm-status-bar.visible{display:flex;}
+.pm-status-indicator{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.08em;
+  font-weight:600;text-transform:uppercase;white-space:nowrap;
+}
+.pm-status-indicator::before{
+  content:'';display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--psi-color,#747f8d);flex-shrink:0;
+}
+.pm-status-indicator.online{--psi-color:#57F287;color:#57F287;}
+.pm-status-indicator.idle{--psi-color:#FEE75C;color:#FEE75C;}
+.pm-status-indicator.dnd{--psi-color:#ED4245;color:#ED4245;}
+.pm-custom-text{font-size:.8rem;color:var(--text-dim);opacity:.9;font-style:italic;}
 
 /* ── Badges strip ── */
 .dc-sm-badges{display:flex;gap:.35rem;flex-wrap:wrap;align-items:flex-end;padding-bottom:.55rem;}
@@ -1392,6 +1434,11 @@ p{line-height:1.8;}
         <span class="pm-pipe">|</span>
         <span class="pm-uid" id="pm-uid">—</span>
       </div>
+      <!-- Status bar -->
+      <div class="pm-status-bar" id="pm-status-bar">
+        <span class="pm-status-indicator" id="pm-status-label"></span>
+        <span class="pm-custom-text" id="pm-custom-text"></span>
+      </div>
       <div class="pm-divider"></div>
       <!-- Info rows -->
       <div class="pm-info-grid">
@@ -1938,7 +1985,7 @@ p{line-height:1.8;}
   <div class="staff-grid">
     <div class="sc" onclick="openModal('m1')"><div class="sc-av-wrap" id="sc-av-m1"><span class="sc-av-initials">R</span><div class="sc-status-dot" id="sc-dot-m1"></div></div><div class="sc-body"><div class="sc-role">Founder · Administrator</div><div class="sc-name">RION</div><div class="sc-handle">@jetnoire</div></div><button class="sc-view">View Profile</button></div>
     <div class="sc" onclick="openModal('m2')"><div class="sc-av-wrap" id="sc-av-m2"><span class="sc-av-initials">A</span><div class="sc-status-dot" id="sc-dot-m2"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">ANDY</div><div class="sc-handle">@resoluteroyalty</div></div><button class="sc-view">View Profile</button></div>
-    <div class="sc" onclick="openModal('m3')"><div class="sc-av-wrap" id="sc-av-m3"><span class="sc-av-initials">T</span><div class="sc-status-dot" id="sc-dot-m3"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">TORTOL</div><div class="sc-handle">@tortilinni</div></div><button class="sc-view">View Profile</button></div>
+    <div class="sc" onclick="openModal('m3')"><div class="sc-av-wrap" id="sc-av-m3"><span class="sc-av-initials">T</span><div class="sc-status-dot" id="sc-dot-m3"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">TORTOL</div><div class="sc-handle">@tortolinni</div></div><button class="sc-view">View Profile</button></div>
     <div class="sc" onclick="openModal('m4')"><div class="sc-av-wrap" id="sc-av-m4"><span class="sc-av-initials">R</span><div class="sc-status-dot" id="sc-dot-m4"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">rwottenhrts</div><div class="sc-handle">@rwottenhrts</div></div><button class="sc-view">View Profile</button></div>
     <div class="sc" onclick="openModal('m5')"><div class="sc-av-wrap" id="sc-av-m5"><span class="sc-av-initials">N</span><div class="sc-status-dot" id="sc-dot-m5"></div></div><div class="sc-body"><div class="sc-role">Administrator</div><div class="sc-name">NAZARETH</div><div class="sc-handle">@thenazar3th</div></div><button class="sc-view">View Profile</button></div>
   </div>
@@ -2147,6 +2194,11 @@ p{line-height:1.8;}
       <div class="dc-sm-handle-row">
         <span class="dc-sm-handle" id="dc-sm-handle"></span>
         <span class="dc-sm-uid" id="dc-sm-uid"></span>
+      </div>
+      <!-- Status bar: online/idle/dnd + custom status text -->
+      <div class="dc-sm-status-bar" id="dc-sm-status-bar" style="display:none;">
+        <span class="dc-sm-status-indicator offline" id="dc-sm-status-label">Offline</span>
+        <span class="dc-sm-custom-text" id="dc-sm-custom-text"></span>
       </div>
       <div class="dc-sm-divider"></div>
       <!-- Roles -->
@@ -3105,9 +3157,42 @@ function openProfile(){
     }
   }
 
-  // Status dot
+  // Status dot (always green when member — widget can't give our own status)
   const pmDot = document.getElementById('pm-av-dot');
   if(pmDot) pmDot.style.display = isMember ? 'block' : 'none';
+
+  // Personal status bar — fetch from Firestore presence doc for the logged-in user
+  const pmStatusBar   = document.getElementById('pm-status-bar');
+  const pmStatusLabel = document.getElementById('pm-status-label');
+  const pmCustomText  = document.getElementById('pm-custom-text');
+  if(pmStatusBar) pmStatusBar.className = 'pm-status-bar'; // hide until loaded
+
+  if(isMember && dcUser?.id){
+    try{
+      const db = firebase.firestore();
+      db.collection('presence').doc(dcUser.id).get().then(snap => {
+        const p = snap.exists ? snap.data() : null;
+        if(p && p.status){
+          if(pmStatusBar)  pmStatusBar.className = 'pm-status-bar visible';
+          if(pmStatusLabel){
+            pmStatusLabel.className = `pm-status-indicator ${p.status}`;
+            const labels = { online:'Online', idle:'Idle', dnd:'Do Not Disturb', offline:'Offline' };
+            pmStatusLabel.textContent = labels[p.status] || p.status;
+          }
+          if(pmCustomText){
+            const txt = p.customStatus || p.custom_status || p.game || '';
+            pmCustomText.textContent = p.emoji ? `${p.emoji} ${txt}`.trim() : txt;
+          }
+          // Also update the dot to correct color
+          if(pmDot){
+            const COLORS = { online:'#57F287', idle:'#FEE75C', dnd:'#ED4245' };
+            pmDot.style.background = COLORS[p.status] || '#747f8d';
+            pmDot.style.display = 'block';
+          }
+        }
+      }).catch(() => {});
+    } catch(_) {}
+  }
 
   // Open the modal
   document.getElementById('prof-ov').classList.add('open');
@@ -3538,8 +3623,8 @@ Likes: Success, recognition, wealth, personal freedom, roles in leadership, prof
 Dislikes: Dishonesty, disrespect, disloyalty, low self-worth, betrayal or backstabbing, ingratitude, morally reprehensible behavior, harm to others, apathy toward important topics, and inauthenticity.`
   },
   m3:{
-    uid:'932931370894884924',
-    displayName:'TORTOL',username:'tortilinni',
+    uid:'1461665800262910167',
+    displayName:'TORTOL',username:'tortolinni',
     roles:['Admin'],roleTags:['admin'],
     about:`I am a heavy music lover, video game lover, and anime lover with the recent addiction to Gokurakugai. I also play bass.
 
@@ -3629,7 +3714,7 @@ Gokurakugai: I got drawn into it mainly because of the art and covers, but I enj
    displayed instead of the misleading "Not a member" message.    */
 const KNOWN_MEMBER_UIDS = new Set([
   '861651187949633547',  // RION (Founder)
-  '932931370894884924',  // TORTOL
+  '1461665800262910167',  // TORTOL
   '1114585051515080704', // rwottenhrts
   '1324486337650360380', // NAZARETH
   '448594891568709652',  // AKKI
@@ -3837,47 +3922,132 @@ function _matchWidgetMember(d, wMembers){
   return null;
 }
 
-/* ── Push a presence map to all card dots + open modal dot ──────*/
+/* ── Push a presence map to all card dots + open modal dot + status bars ──
+   presenceMap: uid → { status: 'online'|'idle'|'dnd'|'offline', customStatus?, emoji?, game? }
+   Also accepts legacy format uid → 'online'|'idle'|'dnd' from Widget API               ──── */
 function _applyPresence(presenceMap){
-  _staffPresenceMap = presenceMap;
+  // Normalize: Widget gives string values, Firestore gives objects
+  const normalized = {};
+  for(const [uid, val] of Object.entries(presenceMap)){
+    if(typeof val === 'string') normalized[uid] = { status: val };
+    else normalized[uid] = val || {};
+  }
+  _staffPresenceMap = normalized;
+
+  const STATUS_LABELS = { online:'Online', idle:'Idle', dnd:'Do Not Disturb', offline:'Offline' };
+
   for(const [id, d] of Object.entries(STAFF_DATA)){
     const dot = document.getElementById('sc-dot-'+id);
     if(!dot) continue;
-    dot.className = 'sc-status-dot';           // reset to grey (offline/unknown)
-    const s = presenceMap[d.uid];
+    dot.className = 'sc-status-dot';
+    const p = normalized[d.uid];
+    const s = p?.status;
     if(s === 'online' || s === 'idle' || s === 'dnd') dot.classList.add(s);
   }
+
   // Keep open modal in sync
   if(_openModalStaffId){
-    const modalDot = document.getElementById('dc-sm-status-dot');
+    const modalDot   = document.getElementById('dc-sm-status-dot');
+    const statusBar  = document.getElementById('dc-sm-status-bar');
+    const statusLbl  = document.getElementById('dc-sm-status-label');
+    const customText = document.getElementById('dc-sm-custom-text');
     const d = STAFF_DATA[_openModalStaffId];
-    if(modalDot && d){
-      modalDot.className = 'dc-sm-status-dot';
-      const s = presenceMap[d.uid];
-      if(s === 'online' || s === 'idle' || s === 'dnd') modalDot.classList.add(s);
+    if(d){
+      const p = normalized[d.uid] || {};
+      const s = p.status;
+      if(modalDot){
+        modalDot.className = 'dc-sm-status-dot';
+        if(s === 'online' || s === 'idle' || s === 'dnd') modalDot.classList.add(s);
+      }
+      _renderStatusBar(statusBar, statusLbl, customText, p, STATUS_LABELS);
     }
   }
 }
 
-/* ── Fetch widget, rebuild presence map, return members array ───
-   Always resolves. Caches last successful member list so avatar
-   loading can use it even if a later refresh fails.
-──────────────────────────────────────────────────────────────*/
+/* ── Helper: render a status bar element (works for both dc-sm and pm modals) ── */
+function _renderStatusBar(bar, labelEl, textEl, presence, labels){
+  if(!bar || !labelEl) return;
+  const s     = presence?.status;
+  const text  = presence?.customStatus || presence?.game || '';
+  const emoji = presence?.emoji || '';
+  const STATUS_LABELS = labels || { online:'Online', idle:'Idle', dnd:'Do Not Disturb', offline:'Offline' };
+  const indicatorClass = (bar.id||'').startsWith('pm-') ? 'pm-status-indicator' : 'dc-sm-status-indicator';
+
+  if(s && s !== 'offline'){
+    bar.style.display = 'flex';
+    labelEl.className = `${indicatorClass} ${s}`;
+    labelEl.textContent = STATUS_LABELS[s] || s;
+    if(textEl) textEl.textContent = emoji ? `${emoji} ${text}`.trim() : text;
+  } else if(s === 'offline'){
+    bar.style.display = 'flex';
+    labelEl.className = `${indicatorClass} offline`;
+    labelEl.textContent = 'Offline';
+    if(textEl) textEl.textContent = '';
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+/* ── Firestore-based real-time presence (set by Discord bot) ────
+   Doc: presence/{uid}  →  { status, customStatus, emoji, game, updatedAt }
+   Falls back gracefully if Firestore not available.               ──── */
+let _presenceUnsubs = [];
+
+function _subscribeFirestorePresence(){
+  if(typeof firebase === 'undefined') return;
+  let db;
+  try { db = firebase.firestore(); } catch(_){ return; }
+
+  // Unsubscribe any existing listeners
+  _presenceUnsubs.forEach(fn => fn());
+  _presenceUnsubs = [];
+
+  for(const [, d] of Object.entries(STAFF_DATA)){
+    const uid = d.uid;
+    const unsub = db.collection('presence').doc(uid).onSnapshot(snap => {
+      const raw = snap.exists ? snap.data() : null;
+      const newMap = Object.assign({}, _staffPresenceMap);
+      if(raw && raw.status){
+        newMap[uid] = {
+          status:       raw.status,
+          customStatus: raw.customStatus || raw.custom_status || '',
+          emoji:        raw.emoji || '',
+          game:         raw.game || '',
+        };
+      } else {
+        // No Firestore data — keep Widget-sourced status if present,
+        // otherwise mark offline
+        if(typeof newMap[uid] !== 'object' || !newMap[uid]?.status){
+          newMap[uid] = { status: 'offline' };
+        }
+      }
+      _applyPresence(newMap);
+    }, () => {}); // silent error — just skip if no permission
+    _presenceUnsubs.push(unsub);
+  }
+}
+
+/* ── Fetch widget for online avatars; keep Firestore statuses authoritative ──*/
 function _fetchPresence(){
   return fetch(CFG.WIDGET_API)
     .then(r => { if(!r.ok) throw new Error('widget:'+r.status); return r.json(); })
     .then(data => {
       const wMembers = Array.isArray(data.members) ? data.members : [];
-      if(wMembers.length) _widgetMembersCache = wMembers;  // only replace on success
-      const map = {};
+      if(wMembers.length) _widgetMembersCache = wMembers;
+
+      // Only fill in statuses for UIDs that Firestore hasn't covered
+      const map = Object.assign({}, _staffPresenceMap);
       for(const [, d] of Object.entries(STAFF_DATA)){
         const wm = _matchWidgetMember(d, wMembers);
-        if(wm && wm.status) map[d.uid] = wm.status;
+        // Widget status: only use it if Firestore hasn't set an object-form entry
+        if(wm && wm.status && typeof map[d.uid] !== 'object'){
+          map[d.uid] = { status: wm.status };
+        }
       }
       _applyPresence(map);
       return wMembers;
     })
-    .catch(() => _widgetMembersCache); // on error return last known list
+    .catch(() => _widgetMembersCache);
 }
 
 /* ── Insert an avatar image into a card wrap in-place ───────────
@@ -3912,19 +4082,22 @@ async function loadStaffAvatars(){
   if(_staffAvatarsLoaded) return;
   _staffAvatarsLoaded = true;
 
-  /* ── Fire widget fetch AND all Worker profile fetches simultaneously.
-     Promise.allSettled waits for every fetch to settle (resolve or reject)
-     before applying any card avatar, so all cards update at the same moment
-     rather than trickling in one-by-one as each fetch resolves.           ── */
   setInterval(_fetchPresence, 60000);   // auto-refresh status dots every 60s
+
+  // Start Firestore real-time presence (authoritative status + custom status)
+  _subscribeFirestorePresence();
 
   const entries = Object.entries(STAFF_DATA);
 
-  // allSettled: index 0 = widget, indices 1..N = Worker profiles (same order as entries)
-  const results = await Promise.allSettled([
-    _fetchPresence(),
-    ...entries.map(([, d]) => fetchStaffProfile(d.uid))
-  ]);
+  // Stagger Worker profile requests by 350ms each to avoid Discord rate-limits.
+  // We fire the widget fetch immediately; profile fetches follow in order.
+  const widgetPromise = _fetchPresence();
+
+  const profilePromises = entries.map(([, d], i) =>
+    new Promise(resolve => setTimeout(() => resolve(fetchStaffProfile(d.uid)), i * 350))
+  );
+
+  const results = await Promise.allSettled([widgetPromise, ...profilePromises]);
 
   const wMembers = results[0].status === 'fulfilled' ? (results[0].value || []) : [];
 
@@ -4015,22 +4188,35 @@ async function openModal(id, pushHash=true, slideDir=null){
   document.getElementById('dc-sm-banner-real').style.display     = 'none';
   document.getElementById('dc-sm-banner-fallback').style.display = 'none';
 
-  /* ── Status dot ── */
-  const modalDot = document.getElementById('dc-sm-status-dot');
+  /* ── Status dot + status bar ── */
+  const modalDot   = document.getElementById('dc-sm-status-dot');
+  const statusBar  = document.getElementById('dc-sm-status-bar');
+  const statusLbl  = document.getElementById('dc-sm-status-label');
+  const customText = document.getElementById('dc-sm-custom-text');
+
+  const livePresence = _staffPresenceMap[d.uid];
+  const liveStatus   = (typeof livePresence === 'object') ? livePresence?.status : livePresence;
+
   if(modalDot){
     modalDot.className = 'dc-sm-status-dot';
-    const liveStatus = _staffPresenceMap[d.uid];
-    if(liveStatus === 'online' || liveStatus === 'idle' || liveStatus === 'dnd'){
-      modalDot.classList.add(liveStatus);
-    } else {
+    let s = liveStatus;
+    if(!s){
       const cardDot = document.getElementById('sc-dot-' + id);
       if(cardDot){
-        if(cardDot.classList.contains('online'))      modalDot.classList.add('online');
-        else if(cardDot.classList.contains('idle'))   modalDot.classList.add('idle');
-        else if(cardDot.classList.contains('dnd'))    modalDot.classList.add('dnd');
+        if(cardDot.classList.contains('online'))     s = 'online';
+        else if(cardDot.classList.contains('idle'))  s = 'idle';
+        else if(cardDot.classList.contains('dnd'))   s = 'dnd';
       }
     }
+    if(s === 'online' || s === 'idle' || s === 'dnd') modalDot.classList.add(s);
   }
+
+  // Render status bar immediately from cached presence
+  _renderStatusBar(
+    statusBar, statusLbl, customText,
+    (typeof livePresence === 'object' ? livePresence : { status: liveStatus }),
+    { online:'Online', idle:'Idle', dnd:'Do Not Disturb', offline:'Offline' }
+  );
 
   /* ── Track open modal ── */
   _openModalStaffId = id;
@@ -4058,7 +4244,7 @@ async function openModal(id, pushHash=true, slideDir=null){
     if(tags.includes('founder') || tags.includes('admin')) position = 'District Head';
     else if(tags.includes('mod'))                          position = 'District Manager';
     else if(tags.includes('trialmod'))                     position = 'Junior Agent';
-    document.getElementById('dc-sm-joined').textContent   = '—';
+    document.getElementById('dc-sm-joined').textContent   = 'Server member';
     document.getElementById('dc-sm-position').textContent = position;
     document.getElementById('dc-sm-roles').innerHTML = entry.roles.map((r,i) => {
       const tag = entry.roleTags[i] || entry.roleTags[0];
@@ -4125,9 +4311,11 @@ async function openModal(id, pushHash=true, slideDir=null){
     document.getElementById('dc-sm-roles').innerHTML =
       buildRolePillsHtml(data.member.roles, data.rolesMap);
   } else {
-    // data.member null — transient Discord API failure
+    // data.member null — Discord Bot API failure (token stale, intent missing, etc.)
     if(KNOWN_MEMBER_UIDS.has(uid)){
       applyStaticRoles(d);
+      // Joined date is live-only — show a graceful fallback instead of a bare dash
+      document.getElementById('dc-sm-joined').textContent = 'Server member ✓';
     } else {
       document.getElementById('dc-sm-joined').textContent   = 'Not a member of the server.';
       document.getElementById('dc-sm-position').textContent = 'Not a member of the server.';
@@ -4380,9 +4568,10 @@ function closeArtModalOutside(e){ if(e.target===document.getElementById('art-mod
   });
   document.querySelectorAll('a.tab[data-tab],button.tab[data-tab]').forEach(el=>el.addEventListener('click',()=>syncMobActive(el.dataset.tab)));
 })();
-// Pre-fetch all Worker profiles immediately — fires before DOMContentLoaded
-// so data is already cached by the time the user can click a card.
-Object.values(STAFF_DATA).forEach(d => fetchStaffProfile(d.uid));
+// Pre-fetch all Worker profiles with 350ms stagger to avoid Discord rate-limits
+Object.values(STAFF_DATA).forEach((d, i) =>
+  setTimeout(() => fetchStaffProfile(d.uid), i * 350)
+);
 
 document.addEventListener('DOMContentLoaded', () => {
   // Pre-seed wasRequired on every required form field inside the apply form
